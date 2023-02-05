@@ -1,0 +1,2334 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<alignment xmlns="http://www.esdi-humboldt.eu/hale/alignment">
+    <cell relation="eu.esdihumboldt.hale.align.retype" id="C21ddd9af-1350-4916-914a-9f5576facda8" priority="normal">
+        <source>
+            <class>
+                <type name="Deformation_Structures_PT" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">KIND = 'tektonische Diskordanz'</condition>
+                </type>
+            </class>
+        </source>
+        <target>
+            <class>
+                <type name="ContactType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+            </class>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.string.regexanalysisfunction" id="C39d82fa4-158c-4c08-89a1-d21c6d9a5ce7" priority="normal">
+        <source>
+            <property>
+                <type name="Deformation_Structures_PT" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">KIND = 'tektonische Diskordanz'</condition>
+                </type>
+                <child name="UUID"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="ContactType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="id" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="Contact_{1}" name="outputFormat"/>
+        <parameter value="\{(.*?)\}" name="regexPattern"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.retype" id="C8acc649d-8c47-4cc1-9c17-a6189d2a6ea7" priority="normal">
+        <source>
+            <class>
+                <type name="Deformation_Structures_L" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">KIND = "Faltenscharnier"</condition>
+                </type>
+            </class>
+        </source>
+        <target>
+            <class>
+                <type name="FoldType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+            </class>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.retype" id="Cb99a3360-5694-4dcb-b902-36ca4778b832" priority="normal">
+        <source>
+            <class>
+                <type name="Deformation_Structures_PT" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">KIND not IN('tektonische Diskordanz', 'ausgeprägte Klüftung', 'punktuell beobachtete Brekzie')</condition>
+                </type>
+            </class>
+        </source>
+        <target>
+            <class>
+                <type name="FoldType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+            </class>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.string.regexanalysisfunction" id="C12614758-3c95-4e34-ba02-c11035c806a8" priority="normal">
+        <source>
+            <property>
+                <type name="Deformation_Structures_L" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="UUID"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="FoldType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="id" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="Fold_{1}" name="outputFormat"/>
+        <parameter value="{(.*?)\}" name="regexPattern"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.string.regexanalysisfunction" id="C2421f42e-309f-497f-832f-f0fbe2cd75c9" priority="normal">
+        <source>
+            <property>
+                <type name="Deformation_Structures_PT" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">KIND not IN('tektonische Diskordanz', 'ausgeprägte Klüftung', 'punktuell beobachtete Brekzie')</condition>
+                </type>
+                <child name="UUID"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="FoldType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="id" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="Fold_{1}" name="outputFormat"/>
+        <parameter value="\{(.*?)\}" name="regexPattern"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.classification" id="Ca17ed9e6-bf2a-47bd-a140-a10e5766d6ac" priority="normal">
+        <source>
+            <property>
+                <type name="Deformation_Structures_PT" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">KIND not IN('tektonische Diskordanz', 'ausgeprägte Klüftung', 'punktuell beobachtete Brekzie')</condition>
+                </type>
+                <child name="FOLD_TYP"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="FoldType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="profileType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="href" ns="http://www.w3.org/1999/xlink"/>
+            </property>
+        </target>
+        <complexParameter name="lookupTable">
+            <lookup-table xmlns:ns2="http://www.esdi-humboldt.eu/hale/alignment" xmlns=""/>
+        </complexParameter>
+        <parameter value="source" name="notClassifiedAction"/>
+        <documentation>TODO: Clarify value mapping</documentation>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="C4055c9fa-be59-4b8b-aea9-f5400b35c541" priority="normal">
+        <source>
+            <property>
+                <type name="Deformation_Structures_PT" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">KIND not IN('tektonische Diskordanz', 'ausgeprägte Klüftung', 'punktuell beobachtete Brekzie')</condition>
+                </type>
+                <child name="AZIMUTH"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="FoldType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="stFoldDescription" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="FoldDescription" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Extension"/>
+                <child name="interLimbAngle" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Extension"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+        <documentation>TODO: clarify actual mapping</documentation>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.retype" id="Ce3a7bac9-c4e3-4cc4-bee6-0b9ae178e904" priority="normal">
+        <source>
+            <class>
+                <type name="Deformation_Structures_PT" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">Kind = 'ausgeprägte Klüftung'</condition>
+                </type>
+            </class>
+        </source>
+        <target>
+            <class>
+                <type name="FoliationType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+            </class>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.string.regexanalysisfunction" id="C243ec040-b283-41e3-becb-27a90831cd25" priority="normal">
+        <source>
+            <property>
+                <type name="Deformation_Structures_PT" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">Kind = 'ausgeprägte Klüftung'</condition>
+                </type>
+                <child name="UUID"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="FoliationType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="id" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="Foliation_{1}" name="outputFormat"/>
+        <parameter value="\{(.*?)\}" name="regexPattern"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.merge" id="Ceffa8dbd-d62a-4986-af97-4e96ab0d5c7d" priority="normal">
+        <source>
+            <class>
+                <type name="Bedrock_PLG" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">LITHO_D is not null AND LITHO_D &lt;&gt; ''</condition>
+                </type>
+            </class>
+        </source>
+        <target>
+            <class>
+                <type name="GeologicUnitType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+            </class>
+        </target>
+        <parameter value="LITSTRAT_LINK" name="additional_property"/>
+        <parameter value="CHRONO_B" name="additional_property"/>
+        <parameter value="CHRONO_T" name="additional_property"/>
+        <parameter value="LITHO_F" name="additional_property"/>
+        <parameter value="false" name="auto_detect"/>
+        <parameter value="LITSTRAT" name="property"/>
+        <parameter value="LITHO_D" name="property"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.merge" id="C1dea7839-68b8-4fe1-9cd3-875ec4832f3a" priority="normal">
+        <source>
+            <class>
+                <type name="Bedrock_PLG" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">LITSTRAT is not null AND LITSTRAT &lt;&gt; ''</condition>
+                </type>
+            </class>
+        </source>
+        <target>
+            <class>
+                <type name="GeologicUnitType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+            </class>
+        </target>
+        <parameter value="CHRONO_B" name="additional_property"/>
+        <parameter value="CHRONO_T" name="additional_property"/>
+        <parameter value="LITSTRAT_LINK" name="additional_property"/>
+        <parameter value="LITHO_D" name="additional_property"/>
+        <parameter value="false" name="auto_detect"/>
+        <parameter value="LITSTRAT" name="property"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.merge" id="C257ef63e-9c99-477d-8220-b3abc92ddde5" priority="normal">
+        <source>
+            <class>
+                <type name="Unconsolidated_Deposits_PLG" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+            </class>
+        </source>
+        <target>
+            <class>
+                <type name="GeologicUnitType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+            </class>
+        </target>
+        <parameter value="CHRONO_B" name="additional_property"/>
+        <parameter value="CHRONO_T" name="additional_property"/>
+        <parameter value="false" name="auto_detect"/>
+        <parameter value="LITHO" name="property"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.groovy.greedy" id="C67982f12-ebaa-431c-8cf0-445a26f52e91" priority="normal">
+        <source name="var">
+            <property>
+                <type name="Bedrock_PLG" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">LITHO_D is not null AND LITHO_D &lt;&gt; ''</condition>
+                </type>
+                <child name="LITHO_D"/>
+            </property>
+        </source>
+        <target name="result">
+            <property>
+                <type name="GeologicUnitType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="composition" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+            </property>
+        </target>
+        <complexParameter name="script">
+            <core:text xmlns:core="http://www.esdi-humboldt.eu/hale/core" xml:space="preserve">
+def lithoMap = [&#xD;
+"Lockergestein":"http://inspire.ec.europa.eu/codelist/LithologyValue/sediment",&#xD;
+"gravitative Sedimente und Verwitterungsbildungen, undifferenziert":"http://inspire.ec.europa.eu/codelist/LithologyValue/sediment",&#xD;
+"Sturzablagerung, undifferenziert":"http://inspire.ec.europa.eu/codelist/LithologyValue/sediment",&#xD;
+"Bergsturzablagerung":"http://inspire.ec.europa.eu/codelist/LithologyValue/sediment",&#xD;
+"Felssturzablagerung":"http://inspire.ec.europa.eu/codelist/LithologyValue/sediment",&#xD;
+"Lawinenschutt":"http://inspire.ec.europa.eu/codelist/LithologyValue/sediment",&#xD;
+"Hangschutt":"http://inspire.ec.europa.eu/codelist/LithologyValue/sediment",&#xD;
+"Blockschutt":"http://inspire.ec.europa.eu/codelist/LithologyValue/sediment",&#xD;
+"Verwitterungslehm":"http://inspire.ec.europa.eu/codelist/LithologyValue/sediment",&#xD;
+"Verwitterungslehm, undifferenziert":"http://inspire.ec.europa.eu/codelist/LithologyValue/sediment",&#xD;
+"In-situ-Verwitterungsschutt":"http://inspire.ec.europa.eu/codelist/LithologyValue/sediment",&#xD;
+"Plateaulehm":"http://inspire.ec.europa.eu/codelist/LithologyValue/sediment",&#xD;
+"Hanglehm, Schwemmlehm":"http://inspire.ec.europa.eu/codelist/LithologyValue/sediment",&#xD;
+"Blockgletscher":"http://inspire.ec.europa.eu/codelist/LithologyValue/sediment",&#xD;
+"zerrüttete Sackungsmasse":"http://inspire.ec.europa.eu/codelist/LithologyValue/materialFormedInSurficialEnvironment",&#xD;
+"Rutschmasse":"http://inspire.ec.europa.eu/codelist/LithologyValue/sediment",&#xD;
+"glazigenes Sediment, undifferenziert":"http://inspire.ec.europa.eu/codelist/LithologyValue/peat",&#xD;
+"Moräne (Till), undifferenziert":"http://inspire.ec.europa.eu/codelist/LithologyValue/lignite",&#xD;
+"Grundmoräne":"http://inspire.ec.europa.eu/codelist/LithologyValue/lignite",&#xD;
+"Ablationsmoräne":"http://inspire.ec.europa.eu/codelist/LithologyValue/calcareousCarbonateSedimentaryMaterial",&#xD;
+"Moräne auf Gletscher oder Toteis (Glacier or Dead Ice covered by Till)":"http://inspire.ec.europa.eu/codelist/LithologyValue/calcareousCarbonateSedimentaryMaterial",&#xD;
+"fluviatiles Sediment, undifferenziert":"http://inspire.ec.europa.eu/codelist/LithologyValue/travertine",&#xD;
+"glazifluviatiles Sediment, undifferenziert":"http://inspire.ec.europa.eu/codelist/LithologyValue/sediment",&#xD;
+"Kameterrassensediment":"http://inspire.ec.europa.eu/codelist/LithologyValue/sandSizeSediment",&#xD;
+"randglazialer Schotter":"http://inspire.ec.europa.eu/codelist/LithologyValue/silt",&#xD;
+"glazifluviatiler Schotter":"http://inspire.ec.europa.eu/codelist/LithologyValue/ashAndLapilli",&#xD;
+"Vorstossschotter":"http://inspire.ec.europa.eu/codelist/LithologyValue/anthropogenicMaterial",&#xD;
+"Rückzugsschotter":"http://inspire.ec.europa.eu/codelist/LithologyValue/anthropogenicMaterial",&#xD;
+"Stauschotter":"http://inspire.ec.europa.eu/codelist/AnthropogenicGeomorphologicFeatureTypeValue/artificialLevee",&#xD;
+"gemischter Schutt, undifferenziert":"http://inspire.ec.europa.eu/codelist/AnthropogenicGeomorphologicFeatureTypeValue/fill",&#xD;
+"Murgangablagerung":"http://inspire.ec.europa.eu/codelist/AnthropogenicGeomorphologicFeatureTypeValue/landfillSite",&#xD;
+"Alluvion, undifferenziert":"http://inspire.ec.europa.eu/codelist/AnthropogenicGeomorphologicFeatureTypeValue/landfillSite",&#xD;
+"fluviatiler Schotter":"http://inspire.ec.europa.eu/codelist/AnthropogenicGeomorphologicFeatureTypeValue/artificialDrainage",&#xD;
+"Bachschutt":"http://inspire.ec.europa.eu/codelist/LithologyValue/unconsolidatedMaterial",&#xD;
+"Überschwemmungssediment":"http://inspire.ec.europa.eu/codelist/LithologyValue/unconsolidatedMaterial",&#xD;
+"lakustrisches Sediment, undifferenziert":"http://inspire.ec.europa.eu/codelist/LithologyValue/unconsolidatedMaterial",&#xD;
+"glazilakustrisches Sediment, undifferenziert":"http://inspire.ec.europa.eu/codelist/LithologyValue/rock",&#xD;
+"glazilakustrisches Deltasediment":"http://inspire.ec.europa.eu/codelist/LithologyValue/sedimentaryRock",&#xD;
+"subaquatisch abgelagerte Moräne (Waterlaid Till)":"http://inspire.ec.europa.eu/codelist/LithologyValue/clasticSedimentaryRock",&#xD;
+"detritische Verlandungsbildung":"http://inspire.ec.europa.eu/codelist/LithologyValue/conglomerate",&#xD;
+"Rückstausediment":"http://inspire.ec.europa.eu/codelist/LithologyValue/breccia",&#xD;
+"Strandablagerungen":"http://inspire.ec.europa.eu/codelist/LithologyValue/breccia",&#xD;
+"lakustrisches Deltasediment":"http://inspire.ec.europa.eu/codelist/LithologyValue/breccia",&#xD;
+"Seebodensediment":"http://inspire.ec.europa.eu/codelist/LithologyValue/conglomerate",&#xD;
+"Seekreide":"http://inspire.ec.europa.eu/codelist/LithologyValue/conglomerate",&#xD;
+"palustrisches Sediment, undifferenziert":"http://inspire.ec.europa.eu/codelist/LithologyValue/conglomerate",&#xD;
+"Gyttja":"http://inspire.ec.europa.eu/codelist/LithologyValue/conglomerate",&#xD;
+"Sumpfablagerung":"http://inspire.ec.europa.eu/codelist/LithologyValue/conglomerate",&#xD;
+"Torfmoor, Torf":"http://inspire.ec.europa.eu/codelist/LithologyValue/conglomerate",&#xD;
+"Lignit":"http://inspire.ec.europa.eu/codelist/LithologyValue/conglomerate",&#xD;
+"Schieferkohle":"http://inspire.ec.europa.eu/codelist/LithologyValue/sandstone",&#xD;
+"hydrochemische Bildungen (Kalksinter), undifferenziert":"http://inspire.ec.europa.eu/codelist/LithologyValue/sandstone",&#xD;
+"Quelltuf":"http://inspire.ec.europa.eu/codelist/LithologyValue/sandstone",&#xD;
+"Travertin":"http://inspire.ec.europa.eu/codelist/LithologyValue/sandstone",&#xD;
+"äolisches Sediment, undifferenziert":"http://inspire.ec.europa.eu/codelist/LithologyValue/sandstone",&#xD;
+"äolischer Sand, Flugsand":"http://inspire.ec.europa.eu/codelist/LithologyValue/sandstone",&#xD;
+"Löss, Lösslehm":"http://inspire.ec.europa.eu/codelist/LithologyValue/sandstone",&#xD;
+"vulkanische Asche":"http://inspire.ec.europa.eu/codelist/LithologyValue/sandstone",&#xD;
+"anthropogene Elemente, undifferenziert":"http://inspire.ec.europa.eu/codelist/LithologyValue/sandstone",&#xD;
+"künstliche Ablagerung, undifferenziert":"http://inspire.ec.europa.eu/codelist/LithologyValue/wacke",&#xD;
+"Aufschüttung, Damm":"http://inspire.ec.europa.eu/codelist/LithologyValue/sandstone",&#xD;
+"Auffüllung":"http://inspire.ec.europa.eu/codelist/LithologyValue/sandstone",&#xD;
+"Deponie":"http://inspire.ec.europa.eu/codelist/LithologyValue/sandstone",&#xD;
+"Halde":"http://inspire.ec.europa.eu/codelist/LithologyValue/sandstone",&#xD;
+"Wässermatte":"http://inspire.ec.europa.eu/codelist/LithologyValue/sandstone",&#xD;
+"dünne Lockermaterialbedeckung, undifferenziert":"http://inspire.ec.europa.eu/codelist/LithologyValue/sandstone",&#xD;
+"geringmächtige Lockergesteinsbedeckung":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"tiefgründige Verwitterungsdecke":"http://inspire.ec.europa.eu/codelist/LithologyValue/siltstone",&#xD;
+"Festgestein":"http://inspire.ec.europa.eu/codelist/LithologyValue/claystone",&#xD;
+"Sedimentgestein":"http://inspire.ec.europa.eu/codelist/LithologyValue/mudstone",&#xD;
+"klastisches Sedimentgestein, undifferenziert":"http://inspire.ec.europa.eu/codelist/LithologyValue/carbonateMudstone",&#xD;
+"Konglomerat und Brekzie, undifferenziert (Psephit: Korngrösse: Kies, Steine und Blöcke)":"http://inspire.ec.europa.eu/codelist/LithologyValue/carbonateMudstone",&#xD;
+"Brekzie":"http://inspire.ec.europa.eu/codelist/LithologyValue/carbonateMudstone",&#xD;
+"Kalkbrekzie":"http://inspire.ec.europa.eu/codelist/LithologyValue/carbonateMudstone",&#xD;
+"Dolomitbrekzie":"http://inspire.ec.europa.eu/codelist/LithologyValue/biogenicSediment",&#xD;
+"Konglomerat (Nagelfluh)":"http://inspire.ec.europa.eu/codelist/LithologyValue/limestone",&#xD;
+"Kalknagelfluh":"http://inspire.ec.europa.eu/codelist/LithologyValue/biogenicSilicaSedimentaryRock",&#xD;
+"Quarznagelfluh":"http://inspire.ec.europa.eu/codelist/LithologyValue/carbonateSedimentaryRock",&#xD;
+"Austernnagelfluh":"http://inspire.ec.europa.eu/codelist/LithologyValue/carbonateSedimentaryRock",&#xD;
+"Ophiolithnagelfluh":"http://inspire.ec.europa.eu/codelist/LithologyValue/carbonateSedimentaryRock",&#xD;
+"Polymikte Nagelfluh (\"Bunte Ngf.\")":"http://inspire.ec.europa.eu/codelist/LithologyValue/carbonateSedimentaryRock",&#xD;
+"\"Flyschsandstein-Nagelfluh / Riesenkonglomerat\"":"http://inspire.ec.europa.eu/codelist/LithologyValue/arenite",&#xD;
+"Sandstein, undifferenziert (Psammit: Sandkorngrösse)":"http://inspire.ec.europa.eu/codelist/LithologyValue/carbonateSedimentaryRock",&#xD;
+"Quarzsandstein":"http://inspire.ec.europa.eu/codelist/LithologyValue/calcareousCarbonateSedimentaryRock",&#xD;
+"Kalksandstein":"http://inspire.ec.europa.eu/codelist/LithologyValue/calcareousCarbonateSedimentaryRock",&#xD;
+"Dolomitsandstein":"http://inspire.ec.europa.eu/codelist/LithologyValue/calcareousCarbonateSedimentaryRock",&#xD;
+"kieseliger Sandstein":"http://inspire.ec.europa.eu/codelist/LithologyValue/calcareousCarbonateSedimentaryRock",&#xD;
+"mergeliger Sandstein":"http://inspire.ec.europa.eu/codelist/LithologyValue/calcareousCarbonateSedimentaryRock",&#xD;
+"toniger Sandstein":"http://inspire.ec.europa.eu/codelist/LithologyValue/calcareousCarbonateSedimentaryRock",&#xD;
+"Arkose":"http://inspire.ec.europa.eu/codelist/LithologyValue/calcareousCarbonateSedimentaryRock",&#xD;
+"granitischer Sandstein":"http://inspire.ec.europa.eu/codelist/LithologyValue/calcareousCarbonateSedimentaryRock",&#xD;
+"Flyschsandstein, Grauwacke":"http://inspire.ec.europa.eu/codelist/LithologyValue/calcareousCarbonateSedimentaryRock",&#xD;
+"Geröll führender Sandstein":"http://inspire.ec.europa.eu/codelist/LithologyValue/calcareousCarbonateSedimentaryRock",&#xD;
+"Glimmersandstein":"http://inspire.ec.europa.eu/codelist/LithologyValue/calcareousCarbonateSedimentaryRock",&#xD;
+"Glaukonitsandstein":"http://inspire.ec.europa.eu/codelist/LithologyValue/calcareousCarbonateSedimentaryRock",&#xD;
+"Nummulitensandstein":"http://inspire.ec.europa.eu/codelist/LithologyValue/calcareousCarbonateSedimentaryRock",&#xD;
+"Muschelsandstein":"http://inspire.ec.europa.eu/codelist/LithologyValue/dolomite",&#xD;
+"Seelaffe":"http://inspire.ec.europa.eu/codelist/LithologyValue/nonClasticSiliceousSedimentaryRock",&#xD;
+"Pelit, undifferenziert (Pelit: Silt- u. Tonkorngrösse)":"http://inspire.ec.europa.eu/codelist/LithologyValue/biogenicSilicaSedimentaryRock",&#xD;
+"Siltstein":"http://inspire.ec.europa.eu/codelist/LithologyValue/biogenicSilicaSedimentaryRock",&#xD;
+"Tonstein":"http://inspire.ec.europa.eu/codelist/LithologyValue/biogenicSilicaSedimentaryRock",&#xD;
+"Schlammstein":"http://inspire.ec.europa.eu/codelist/LithologyValue/coal",&#xD;
+"Mergelstein":"http://inspire.ec.europa.eu/codelist/LithologyValue/lignite",&#xD;
+"glaukonitischer Mergelstein":"http://inspire.ec.europa.eu/codelist/LithologyValue/bituminousCoal",&#xD;
+"Tonmergelstein":"http://inspire.ec.europa.eu/codelist/LithologyValue/anthrazit",&#xD;
+"Kalkmergelstein":"http://inspire.ec.europa.eu/codelist/LithologyValue/ironRichSedimentaryRock",&#xD;
+"biogenes / biochemisches / organisches Sedimentgestein, undifferenziert":"http://inspire.ec.europa.eu/codelist/LithologyValue/ironRichSedimentaryRock",&#xD;
+"Kalkstein, undifferenziert":"http://inspire.ec.europa.eu/codelist/LithologyValue/ironRichSedimentaryRock",&#xD;
+"Kieselkalk":"http://inspire.ec.europa.eu/codelist/LithologyValue/phosphateRichSediment",&#xD;
+"Sparit":"http://inspire.ec.europa.eu/codelist/LithologyValue/phosphateRichSediment",&#xD;
+"Spatkalk":"http://inspire.ec.europa.eu/codelist/LithologyValue/phosphateRichSediment",&#xD;
+"Mikrit":"http://inspire.ec.europa.eu/codelist/LithologyValue/phosphateRichSediment",&#xD;
+"Lutit":"http://inspire.ec.europa.eu/codelist/LithologyValue/chemicalSedimentaryMaterial",&#xD;
+"Arenit":"http://inspire.ec.europa.eu/codelist/LithologyValue/evaporite",&#xD;
+"Rudit":"http://inspire.ec.europa.eu/codelist/LithologyValue/gypsumOrAnhydrite",&#xD;
+"Riffkalk":"http://inspire.ec.europa.eu/codelist/LithologyValue/gypsumOrAnhydrite",&#xD;
+"Kalkoolith":"http://inspire.ec.europa.eu/codelist/LithologyValue/rockSalt",&#xD;
+"Nummulitenkalk":"http://inspire.ec.europa.eu/codelist/LithologyValue/carbonateSedimentaryRock",&#xD;
+"Aptychenkalk":"http://inspire.ec.europa.eu/codelist/LithologyValue/dolomiticOrMagnesianSedimentaryRock",&#xD;
+"biogener Kalkstein, undifferenziert":"http://inspire.ec.europa.eu/codelist/LithologyValue/calcareousCarbonateSedimentaryRock",&#xD;
+"detritischer Kalk":"http://inspire.ec.europa.eu/codelist/LithologyValue/travertine",&#xD;
+"Süsswasserkalk":"http://inspire.ec.europa.eu/codelist/LithologyValue/residualMaterial",&#xD;
+"Stinkkalk":"http://inspire.ec.europa.eu/codelist/LithologyValue/ironRichSedimentaryRock",&#xD;
+"Echinodermenkalk":"http://inspire.ec.europa.eu/codelist/LithologyValue/ironRichSedimentaryMaterial",&#xD;
+"glaukonitischer Kalk":"http://inspire.ec.europa.eu/codelist/LithologyValue/rock",&#xD;
+"kreidiger Kalk":"http://inspire.ec.europa.eu/codelist/LithologyValue/ironRichSedimentaryRock",&#xD;
+"bioklastischer Kalk":"http://inspire.ec.europa.eu/codelist/LithologyValue/ironRichSedimentaryRock",&#xD;
+"Mergelkalk":"http://inspire.ec.europa.eu/codelist/LithologyValue/sand",&#xD;
+"Dolomit":"http://inspire.ec.europa.eu/codelist/LithologyValue/rock",&#xD;
+"kieseliges Gestein, undifferenziert":"http://inspire.ec.europa.eu/codelist/LithologyValue/calcareousCarbonateSedimentaryMaterial",&#xD;
+"Radiolarit":"http://inspire.ec.europa.eu/codelist/LithologyValue/calcareousCarbonateSedimentaryRock",&#xD;
+"Spiculit":"http://inspire.ec.europa.eu/codelist/LithologyValue/calcareousCarbonateSedimentaryRock",&#xD;
+"Hornstein, Chert":"http://inspire.ec.europa.eu/codelist/LithologyValue/calcareousCarbonateSedimentaryRock",&#xD;
+"Kohle, undifferenziert":"http://inspire.ec.europa.eu/codelist/LithologyValue/calcareousCarbonateSedimentaryRock",&#xD;
+"Lignit, organisches Sedimentgestein":"http://inspire.ec.europa.eu/codelist/LithologyValue/rock",&#xD;
+"Steinkohle":"http://inspire.ec.europa.eu/codelist/LithologyValue/igneousRock",&#xD;
+"Anthrazit":"http://inspire.ec.europa.eu/codelist/LithologyValue/igneousRock",&#xD;
+"Eisenoolith":"http://inspire.ec.europa.eu/codelist/LithologyValue/igneousRock",&#xD;
+"Eisensandstein":"http://inspire.ec.europa.eu/codelist/LithologyValue/igneousRock",&#xD;
+"eisenschüssiger Kalk":"http://inspire.ec.europa.eu/codelist/LithologyValue/granitoid",&#xD;
+"phosphoritreiches Gestein, undifferenziert":"http://inspire.ec.europa.eu/codelist/LithologyValue/granitoid",&#xD;
+"phosphoritreicher Sandstein":"http://inspire.ec.europa.eu/codelist/LithologyValue/granite",&#xD;
+"phosphoritreicher Kalkstein":"http://inspire.ec.europa.eu/codelist/LithologyValue/granite",&#xD;
+"phosphoritreicher Mergelstein":"http://inspire.ec.europa.eu/codelist/LithologyValue/alkaliFeldsparGranite",&#xD;
+"chemisches Sedimentgestein, undifferenziert":"http://inspire.ec.europa.eu/codelist/LithologyValue/granite",&#xD;
+"Evaporit, undifferenziert":"http://inspire.ec.europa.eu/codelist/LithologyValue/granite",&#xD;
+"Anhydrit":"http://inspire.ec.europa.eu/codelist/LithologyValue/granite",&#xD;
+"Gips":"http://inspire.ec.europa.eu/codelist/LithologyValue/granite",&#xD;
+"Steinsalz":"http://inspire.ec.europa.eu/codelist/LithologyValue/granodiorite",&#xD;
+"Karbonat, undifferenziert":"http://inspire.ec.europa.eu/codelist/LithologyValue/tonalite",&#xD;
+"Rauwacke, Karbonat":"http://inspire.ec.europa.eu/codelist/LithologyValue/syenitoid",&#xD;
+"Quelltuff (Kalksinter, Sedimentgestein)":"http://inspire.ec.europa.eu/codelist/LithologyValue/syenite",&#xD;
+"Travertin (Kalksinter, Sedimentgestein)":"http://inspire.ec.europa.eu/codelist/LithologyValue/alkaliFeldsparSyenite",&#xD;
+"Residualgestein / pedogen überprägtes Gestein, undifferenziert":"http://inspire.ec.europa.eu/codelist/LithologyValue/syeniticRock",&#xD;
+"Bohnerz":"http://inspire.ec.europa.eu/codelist/LithologyValue/monzonite",&#xD;
+"siderolithische Verwitterungsbildungen":"http://inspire.ec.europa.eu/codelist/LithologyValue/basicIgneousRock",&#xD;
+"silikatreiches Gestein, undifferenziert":"http://inspire.ec.europa.eu/codelist/LithologyValue/dioritoid",&#xD;
+"Boluston":"http://inspire.ec.europa.eu/codelist/LithologyValue/diorite",&#xD;
+"Huppererde":"http://inspire.ec.europa.eu/codelist/LithologyValue/monzodiorite",&#xD;
+"Quarzsand":"http://inspire.ec.europa.eu/codelist/LithologyValue/quartzDiorite",&#xD;
+"Silcrete":"http://inspire.ec.europa.eu/codelist/LithologyValue/gabbro",&#xD;
+"pedogenes Karbonat, undifferenziert":"http://inspire.ec.europa.eu/codelist/LithologyValue/monzogabbro",&#xD;
+"Caliche":"http://inspire.ec.europa.eu/codelist/LithologyValue/gabbroicRock",&#xD;
+"Krustenkalk":"https://inspire.ec.europa.eu/codelist/LithologyValue/quartzGabbro",&#xD;
+"Calcrete":"http://inspire.ec.europa.eu/codelist/LithologyValue/gabbroicRock",&#xD;
+"Wetterkalk":"http://inspire.ec.europa.eu/codelist/LithologyValue/ultramaficIgneousRock",&#xD;
+"Kristallingestein":"http://inspire.ec.europa.eu/codelist/LithologyValue/pyroxenite",&#xD;
+"Magmatit":"http://inspire.ec.europa.eu/codelist/LithologyValue/peridotite",&#xD;
+"Intrusivgestein, undifferenziert":"http://inspire.ec.europa.eu/codelist/LithologyValue/igneousRock",&#xD;
+"Tiefengestein, undifferenziert":"http://inspire.ec.europa.eu/codelist/LithologyValue/acidicIgneousRock",&#xD;
+"saure Plutonite":"http://inspire.ec.europa.eu/codelist/LithologyValue/granite",&#xD;
+"Granophyr":"http://inspire.ec.europa.eu/codelist/LithologyValue/rhyolite",&#xD;
+"Granitoid (felsisch)":"http://inspire.ec.europa.eu/codelist/LithologyValue/pegmatite",&#xD;
+"Granit":"http://inspire.ec.europa.eu/codelist/LithologyValue/aplite",&#xD;
+"kalk-alkalischer Granit":"http://inspire.ec.europa.eu/codelist/LithologyValue/basicIgneousRock",&#xD;
+"Alkalogranit [Alkaligranit?]":"http://inspire.ec.europa.eu/codelist/LithologyValue/dioriticRock",&#xD;
+"tholeiitischer Granit":"http://inspire.ec.europa.eu/codelist/LithologyValue/gabbroicRock",&#xD;
+"Plagiogranit":"http://inspire.ec.europa.eu/codelist/LithologyValue/igneousRock",&#xD;
+"Leukogranit":"http://inspire.ec.europa.eu/codelist/LithologyValue/igneousRock",&#xD;
+"anatektischer Granit":"http://inspire.ec.europa.eu/codelist/LithologyValue/dioriticRock",&#xD;
+"Granodiorit":"http://inspire.ec.europa.eu/codelist/LithologyValue/igneousRock",&#xD;
+"Tonalit":"http://inspire.ec.europa.eu/codelist/LithologyValue/igneousRock",&#xD;
+"Syenitoid (alkalisch)":"http://inspire.ec.europa.eu/codelist/LithologyValue/igneousRock",&#xD;
+"Syenit":"http://inspire.ec.europa.eu/codelist/LithologyValue/igneousRock",&#xD;
+"Alkalisyenit":"http://inspire.ec.europa.eu/codelist/LithologyValue/rhyolite",&#xD;
+"nephelinitischer Syenit":"http://inspire.ec.europa.eu/codelist/LithologyValue/alkaliFeldsparRhyolite",&#xD;
+"Monzonit":"http://inspire.ec.europa.eu/codelist/LithologyValue/dacite",&#xD;
+"basische Plutonite":"http://inspire.ec.europa.eu/codelist/LithologyValue/dacite",&#xD;
+"Dioritoid/Gabbroid (intermediär bis mafisch)":"http://inspire.ec.europa.eu/codelist/LithologyValue/basanite",&#xD;
+"Diorit":"http://inspire.ec.europa.eu/codelist/LithologyValue/andesite",&#xD;
+"Monzodiorit":"http://inspire.ec.europa.eu/codelist/LithologyValue/andesite",&#xD;
+"Quarzdiorit":"http://inspire.ec.europa.eu/codelist/LithologyValue/alkaliFeldsparTrachyte",&#xD;
+"Gabbro":"http://inspire.ec.europa.eu/codelist/LithologyValue/trachyte",&#xD;
+"Monzogabbro":"http://inspire.ec.europa.eu/codelist/LithologyValue/basalt",&#xD;
+"Essexit":"http://inspire.ec.europa.eu/codelist/LithologyValue/igneousRock",&#xD;
+"Quarzgabbro":"http://inspire.ec.europa.eu/codelist/LithologyValue/phonolite",&#xD;
+"Norit":"http://inspire.ec.europa.eu/codelist/LithologyValue/carbonatite",&#xD;
+"ultramafisches Gestein":"http://inspire.ec.europa.eu/codelist/LithologyValue/pyroclasticRock",&#xD;
+"Pyroxenit (Intrusivgestein)":"http://inspire.ec.europa.eu/codelist/LithologyValue/pyroclasticRock",&#xD;
+"Peridotit (Intrusivgestein)":"http://inspire.ec.europa.eu/codelist/LithologyValue/tuffBrecciaAgglomerateOrPyroclasticBreccia",&#xD;
+"Ganggestein, undifferenziert":"http://inspire.ec.europa.eu/codelist/LithologyValue/tuffBrecciaAgglomerateOrPyroclasticBreccia",&#xD;
+"saures Ganggestein":"http://inspire.ec.europa.eu/codelist/LithologyValue/tuffBrecciaAgglomerateOrPyroclasticBreccia",&#xD;
+"Mikrogranit":"http://inspire.ec.europa.eu/codelist/LithologyValue/tuffBrecciaAgglomerateOrPyroclasticBreccia",&#xD;
+"«Rhyolithporphyr»":"http://inspire.ec.europa.eu/codelist/LithologyValue/tuffite",&#xD;
+"Pegmatit":"http://inspire.ec.europa.eu/codelist/LithologyValue/tuffite",&#xD;
+"Aplit":"http://inspire.ec.europa.eu/codelist/LithologyValue/tuffite",&#xD;
+"basisches Ganggestein":"http://inspire.ec.europa.eu/codelist/LithologyValue/tuffite",&#xD;
+"Mikrodiorit":"http://inspire.ec.europa.eu/codelist/LithologyValue/tuffite",&#xD;
+"Mikrogabbro":"http://inspire.ec.europa.eu/codelist/LithologyValue/tuffite",&#xD;
+"Lamprophyr":"http://inspire.ec.europa.eu/codelist/LithologyValue/tuffite",&#xD;
+"Pikrit (Intrusivgestein)":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Dolerit":"http://inspire.ec.europa.eu/codelist/LithologyValue/faultRelatedMaterial",&#xD;
+"Extrusivgestein, undifferenziert":"http://inspire.ec.europa.eu/codelist/LithologyValue/faultRelatedMaterial",&#xD;
+"vulkanisches Gestein, Vulkanit":"http://inspire.ec.europa.eu/codelist/LithologyValue/brecciaGougeSeries",&#xD;
+"Ergussgestein, undifferenziert":"http://inspire.ec.europa.eu/codelist/LithologyValue/faultRelatedMaterial",&#xD;
+"saures Ergussgestein":"http://inspire.ec.europa.eu/codelist/LithologyValue/brecciaGougeSeries",&#xD;
+"Rhyolith":"http://inspire.ec.europa.eu/codelist/LithologyValue/cataclasiteSeries",&#xD;
+"Alkalirhyolith":"http://inspire.ec.europa.eu/codelist/LithologyValue/brecciaGougeSeries",&#xD;
+"Dazit":"http://inspire.ec.europa.eu/codelist/LithologyValue/brecciaGougeSeries",&#xD;
+"Rhyodazit":"http://inspire.ec.europa.eu/codelist/LithologyValue/brecciaGougeSeries",&#xD;
+"(intermed.-) basisches Ergussgestein":"http://inspire.ec.europa.eu/codelist/LithologyValue/dolomiticOrMagnesianSedimentaryRock",&#xD;
+"Andesit":"http://inspire.ec.europa.eu/codelist/LithologyValue/cataclasiteSeries",&#xD;
+"Quarzandesit":"http://inspire.ec.europa.eu/codelist/LithologyValue/cataclasiteSeries",&#xD;
+"Alkalitrachyt":"http://inspire.ec.europa.eu/codelist/LithologyValue/cataclasiteSeries",&#xD;
+"Trachyt":"http://inspire.ec.europa.eu/codelist/LithologyValue/myloniticRock",&#xD;
+"Basalt":"http://inspire.ec.europa.eu/codelist/LithologyValue/myloniticRock",&#xD;
+"Pikrit (Effusiva)":"http://inspire.ec.europa.eu/codelist/LithologyValue/myloniticRock",&#xD;
+"Phonolith":"http://inspire.ec.europa.eu/codelist/LithologyValue/myloniticRock",&#xD;
+"Karbonatit":"http://inspire.ec.europa.eu/codelist/LithologyValue/phyllonite",&#xD;
+"pyroklastisches Gestein, undifferenziert (vulkanischer Tuff; &gt; 75% pyroklast. Komp.)":"http://inspire.ec.europa.eu/codelist/LithologyValue/faultRelatedMaterial",&#xD;
+"Ignimbrit":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"pyroklastische Brekzie":"http://inspire.ec.europa.eu/codelist/LithologyValue/phyllite",&#xD;
+"Lapillituff":"http://inspire.ec.europa.eu/codelist/LithologyValue/schist",&#xD;
+"Kristalltuff":"http://inspire.ec.europa.eu/codelist/LithologyValue/shale",&#xD;
+"Aschentuff":"http://inspire.ec.europa.eu/codelist/LithologyValue/schist",&#xD;
+"Tuffit, undifferenziert (pyroklast. + nicht vulk. Sedimente; 75-25% pyroklast. Komp.)":"http://inspire.ec.europa.eu/codelist/LithologyValue/schist",&#xD;
+"tuffitische Brekzie":"http://inspire.ec.europa.eu/codelist/LithologyValue/schist",&#xD;
+"tuffitisches Konglomerat":"http://inspire.ec.europa.eu/codelist/LithologyValue/schist",&#xD;
+"tuffitischer Sandstein":"http://inspire.ec.europa.eu/codelist/LithologyValue/glaukophanschiefer",&#xD;
+"tuffitischer Siltstein":"http://inspire.ec.europa.eu/codelist/LithologyValue/schist",&#xD;
+"tuffitischer Tonstein":"http://inspire.ec.europa.eu/codelist/LithologyValue/schist",&#xD;
+"Bentonit":"http://inspire.ec.europa.eu/codelist/LithologyValue/schist",&#xD;
+"Metamorphit":"http://inspire.ec.europa.eu/codelist/LithologyValue/schist",&#xD;
+"Gestein der Störungszone, undifferenziert":"http://inspire.ec.europa.eu/codelist/LithologyValue/schist",&#xD;
+"Kakirit, undifferenziert (stark zerrüttet und zerschert, +/- kohäsionslos)":"http://inspire.ec.europa.eu/codelist/LithologyValue/gneiss",&#xD;
+"Gesteinsmehl":"http://inspire.ec.europa.eu/codelist/LithologyValue/gneiss",&#xD;
+"Kluftletten":"http://inspire.ec.europa.eu/codelist/LithologyValue/gneiss",&#xD;
+"tektonische Brekzie (kohäsionslos)":"http://inspire.ec.europa.eu/codelist/LithologyValue/gneiss",&#xD;
+"Kataklasit, undifferenziert (mit grösseren Bruchstücken des Nebengesteins, vorw. Spröd deformiert)":"http://inspire.ec.europa.eu/codelist/LithologyValue/gneiss",&#xD;
+"tektonische Brekzie (kohäsiv)":"http://inspire.ec.europa.eu/codelist/LithologyValue/gneiss",&#xD;
+"tektonische Kalkbrezie":"http://inspire.ec.europa.eu/codelist/LithologyValue/gneiss",&#xD;
+"tektonische Dolomitbrekzie":"http://inspire.ec.europa.eu/codelist/LithologyValue/amphibolite",&#xD;
+"Rauwacke":"http://inspire.ec.europa.eu/codelist/LithologyValue/gneiss",&#xD;
+"Protokataklasit":"http://inspire.ec.europa.eu/codelist/LithologyValue/paragneiss",&#xD;
+"(Meso)Kataklasit":"https://inspire.ec.europa.eu/codelist/LithologyValue/orthogneiss",&#xD;
+"Ultrakataklasit":"http://inspire.ec.europa.eu/codelist/LithologyValue/gneiss",&#xD;
+"Mylonit, undifferenziert (dynamisch rekristallisiert, gebändert, duktil deformiert)":"http://inspire.ec.europa.eu/codelist/LithologyValue/gneiss",&#xD;
+"Protomylonit":"http://inspire.ec.europa.eu/codelist/LithologyValue/rock",&#xD;
+"Mylonit":"http://inspire.ec.europa.eu/codelist/LithologyValue/calcareousCarbonateSedimentaryRock",&#xD;
+"Ultramylonit":"http://inspire.ec.europa.eu/codelist/LithologyValue/marble",&#xD;
+"Phyllonit (duktil deformiert)":"http://inspire.ec.europa.eu/codelist/LithologyValue/rock",&#xD;
+"Pseudotachylit (durch Reibungswärme aufgeschmolzen)":"http://inspire.ec.europa.eu/codelist/LithologyValue/calcareousCarbonateSedimentaryRock",&#xD;
+"Gestein der Regional- und Kontaktmetamorphose, undifferenziert":"http://inspire.ec.europa.eu/codelist/LithologyValue/granulite",&#xD;
+"Phyllit (sehr dünnschiefrig-blättrig)":"http://inspire.ec.europa.eu/codelist/LithologyValue/metasomaticRock",&#xD;
+"Schiefer, undifferenziert (in 0.1 bis 1 cm-dicke Platten spaltend)":"http://inspire.ec.europa.eu/codelist/LithologyValue/amphibolite",&#xD;
+"Tonschiefer":"http://inspire.ec.europa.eu/codelist/LithologyValue/amphibolite",&#xD;
+"Serizitschiefer":"http://inspire.ec.europa.eu/codelist/LithologyValue/eclogite",&#xD;
+"Chloritschiefer":"http://inspire.ec.europa.eu/codelist/LithologyValue/peridotite",&#xD;
+"Glimmerschiefer":"http://inspire.ec.europa.eu/codelist/LithologyValue/hornfels",&#xD;
+"Quarzschiefer":"http://inspire.ec.europa.eu/codelist/LithologyValue/metasomaticRock",&#xD;
+"Glaukophanschiefer":"http://inspire.ec.europa.eu/codelist/LithologyValue/skarn",&#xD;
+"Granat-Glimmerschiefer":"http://inspire.ec.europa.eu/codelist/LithologyValue/skarn",&#xD;
+"Kalkschiefer":"http://inspire.ec.europa.eu/codelist/LithologyValue/gneiss",&#xD;
+"Prasinit":"http://inspire.ec.europa.eu/codelist/LithologyValue/migmatite",&#xD;
+"Grünschiefer":"http://inspire.ec.europa.eu/codelist/LithologyValue/migmatite",&#xD;
+"Talkschiefer":"http://inspire.ec.europa.eu/codelist/LithologyValue/migmatite",&#xD;
+"Gneis, undifferenziert (in cm- bis dm-dicke Platten spaltend)":"http://inspire.ec.europa.eu/codelist/LithologyValue/migmatite",&#xD;
+"Augengneis":"http://inspire.ec.europa.eu/codelist/LithologyValue/migmatite",&#xD;
+"Bändergneis":"http://inspire.ec.europa.eu/codelist/LithologyValue/migmatite",&#xD;
+"Adergneis":"http://inspire.ec.europa.eu/codelist/LithologyValue/migmatite",&#xD;
+"Zweiglimmergneis":"http://inspire.ec.europa.eu/codelist/LithologyValue/migmatite",&#xD;
+"agmatischer Gneis":"http://inspire.ec.europa.eu/codelist/LithologyValue/rock",&#xD;
+"Amphibolitgneis":"http://inspire.ec.europa.eu/codelist/LithologyValue/rock",&#xD;
+"Bänderamphibolit":"http://inspire.ec.europa.eu/codelist/LithologyValue/micaSchist",&#xD;
+"Leptinit":"http://inspire.ec.europa.eu/codelist/LithologyValue/hornblendite",&#xD;
+"Paragneis":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Orthogneis":"http://inspire.ec.europa.eu/codelist/LithologyValue/pyroxenite",&#xD;
+"Stronalit":"http://inspire.ec.europa.eu/codelist/LithologyValue/foliatedMetamorphicRock",&#xD;
+"Kinzigit":"http://inspire.ec.europa.eu/codelist/LithologyValue/serpentinite",&#xD;
+"Fels, undifferenziert (mit granoblastischer Textur)":"http://inspire.ec.europa.eu/codelist/LithologyValue/serpentinite",&#xD;
+"Kalksilikatfels":"http://inspire.ec.europa.eu/codelist/LithologyValue/quartzite",&#xD;
+"Marmor":"",&#xD;
+"Karbonat- und Silikat führendes Gestein":"",&#xD;
+"silikatreicher «Marmor»":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Granulit":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Rodingit":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Amphibolit":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Schollenamphibolit":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Eklogit":"http://inspire.ec.europa.eu/codelist/LithologyValue/quartzite",&#xD;
+"Peridotit":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Hornfels":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Metasomatit, undifferenziert":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Skarn":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Greisen":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Gneis mit Feldspatblasten":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Anatexit, undifferenziert":"http://inspire.ec.europa.eu/codelist/LithologyValue/slate",&#xD;
+"Migmatit":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Metatexit mit Fleckentextur":"http://inspire.ec.europa.eu/codelist/LithologyValue/marble",&#xD;
+"Metatexit mit stromatitischer Textur":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Metatexit mit Netztextur":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Diatexit mit nebulitischer Textur":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Diatexit mit Schlierentextur":"",&#xD;
+"Diatexit mit Schollentextur":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"spezifischer Name":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"monomineralisches Gestein, undifferenziert":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Biotitit":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Hornblendit":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Albitit":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Pyroxenit (monomineralisch)":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Chloritit":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Serpentinit":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Ophikalzit":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Quarzit (monomineralisch)":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Protolith erkennbar":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"sedimentärer Protolith erkennbar":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Metasediment":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Metapsephit":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Metabrekzie":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Metakonglomerat":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Metasandstein":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Quarzit (sedimentärer Protolith) (Metaquarzsandstein)":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Metapsammit":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Metaarkose":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Metagrauwacke":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Geröll führender Metasandstein":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Metapelit":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Metasiltstein":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Tonschiefer (sedimentärer Protolith)":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Metamergel":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Marmor (sedimentärer Protolith)":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"dolomitischer Marmor":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Metaradiolarit":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Metakarbonat":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"magmatischer Protolith erkennbar":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Metamagmatit":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"metamorph überprägtes Intrusivegestein":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Metaplutonit":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Metagranophyr":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Metaalkalogranit":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Metagranit":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Metagranodiorit":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Metaquarzdiorit":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Metatonalit":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Metasyenit":"",&#xD;
+"Metaalkalisyenit":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"nephelinitischer Metasyenit":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Metamonzonit":"http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock",&#xD;
+"Metadiorit":"",&#xD;
+"Metaquarzgabbro":"",&#xD;
+"Metagabbro":"",&#xD;
+"Metanorit":"",&#xD;
+"Metamonzodiorit":"",&#xD;
+"Metamonzogabbro":"",&#xD;
+"Metaessexit":"",&#xD;
+"Metapyroxenit":"",&#xD;
+"Metaperidotit":"",&#xD;
+"Metaganggestein":"",&#xD;
+"Metamikrogranit":"",&#xD;
+"Metapegmatit":"",&#xD;
+"Metaaplit":"",&#xD;
+"Metamikrodiorit":"",&#xD;
+"Metamikrogabbro":"",&#xD;
+"Metalamprophyr":"",&#xD;
+"Metapikrit":"",&#xD;
+"Metadolerit":"",&#xD;
+"Metavulkanit":"",&#xD;
+"Metaalkalirhyolith":"",&#xD;
+"Metarhyolith":"",&#xD;
+"Metarhyodazit":"",&#xD;
+"Metadazit":"",&#xD;
+"Metaquarzandesit":"",&#xD;
+"Metaandesit":"",&#xD;
+"Metaalkalitrachyt":"",&#xD;
+"Metatrachyt":"",&#xD;
+"Metabasalt":"",&#xD;
+"Metapikrit":"",&#xD;
+"Metaphonolit":"",&#xD;
+"metamorph überprägtes pyroklastisches Gestein":"",&#xD;
+"Metaignimbrit":""&#xD;
+]&#xD;
+&#xD;
+&#xD;
+def lithoDsources = null;&#xD;
+if (LITHO_D &amp;&amp; LITHO_D.p) {&#xD;
+	lithoDsources = LITHO_D.p.values()&#xD;
+}&#xD;
+&#xD;
+if (lithoDsources) {&#xD;
+	lithoDsources.each {&#xD;
+		lithoDList -&gt;&#xD;
+			if (lithoDList.contains("; ")) {&#xD;
+				lithoDList = lithoDList.split("; ")&#xD;
+				&#xD;
+				// First list entry becomes major/dominant, other are minor&#xD;
+				def order = 0;&#xD;
+				&#xD;
+				lithoDList.each {&#xD;
+					value -&gt;&#xD;
+						// make sure a valid URL is assigned; &#xD;
+						//def materialUrl = URLEncoder.encode(value, java.nio.charset.StandardCharsets.UTF_8.toString())&#xD;
+						def materialUrl = lithoMap[value];&#xD;
+						_log.warn("main path:" + materialUrl);&#xD;
+						&#xD;
+						def proportionURL = "http://resource.geosciml.org/classifier/cgi/proportionterm/minor";&#xD;
+						if (order == 0) {&#xD;
+							proportionURL = "http://resource.geosciml.org/classifier/cgi/proportionterm/dominant"&#xD;
+						}&#xD;
+						order++;&#xD;
+						&#xD;
+						if (materialUrl) {&#xD;
+							_target {&#xD;
+								CompositionPart {&#xD;
+									material {&#xD;
+										href( materialUrl )&#xD;
+									}&#xD;
+									proportion {&#xD;
+										href( proportionURL )&#xD;
+									}&#xD;
+									role {&#xD;
+										href( "http://inspire.ec.europa.eu/codelist/CompositionPartRoleValue/partOf" )&#xD;
+									}	&#xD;
+								}&#xD;
+					        }&#xD;
+				        }&#xD;
+				}&#xD;
+			}&#xD;
+			else {&#xD;
+				if (lithoDList) {&#xD;
+					//def materialUrl = URLEncoder.encode(lithoDList[0], java.nio.charset.StandardCharsets.UTF_8.toString())&#xD;
+					def materialUrl = lithoMap[lithoDList];&#xD;
+					_log.warn("second path:" + materialUrl);&#xD;
+					if (materialUrl) {&#xD;
+						_target {&#xD;
+							CompositionPart {&#xD;
+								material {&#xD;
+									href( materialUrl)&#xD;
+								}&#xD;
+								proportion {&#xD;
+										href( "http://resource.geosciml.org/classifier/cgi/proportionterm/dominant" )&#xD;
+								}&#xD;
+								role {&#xD;
+										href( "http://inspire.ec.europa.eu/codelist/CompositionPartRoleValue/partOf" )&#xD;
+								}	&#xD;
+							}&#xD;
+				        }&#xD;
+			        }&#xD;
+				}&#xD;
+			}&#xD;
+	}&#xD;
+}&#xD;
+&#xD;
+&#xD;
+
+</core:text>
+        </complexParameter>
+        <parameter value="false" name="variablesAsInstances"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="C54ff92d1-a039-4c62-bbcc-e0072de1c00a" priority="normal">
+        <source>
+            <property>
+                <type name="Bedrock_PLG" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">LITHO_D is not null AND LITHO_D &lt;&gt; ''</condition>
+                </type>
+                <child name="LITHO_D"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="GeologicUnitType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="description" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="C0dc1bff1-8257-497a-aef3-0c10176d24ec" priority="normal">
+        <source>
+            <property>
+                <type name="Bedrock_PLG" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">LITSTRAT is not null AND LITSTRAT &lt;&gt; ''</condition>
+                </type>
+                <child name="LITSTRAT"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="GeologicUnitType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="description" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="C3e8e1141-1044-4870-ae13-494ad65aa962" priority="normal">
+        <source>
+            <property>
+                <type name="Unconsolidated_Deposits_PLG" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="LITHO"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="GeologicUnitType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="description" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.formattedstring" id="Cf914d56b-59c0-4519-bc16-bb0d61eee372" priority="normal">
+        <source name="var">
+            <property>
+                <type name="Bedrock_PLG" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">LITSTRAT is not null AND LITSTRAT &lt;&gt; ''</condition>
+                </type>
+                <child name="LITSTRAT_LINK"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="GeologicUnitType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="descriptionReference" ns="http://www.opengis.net/gml/3.2"/>
+                <child name="href" ns="http://www.w3.org/1999/xlink"/>
+            </property>
+        </target>
+        <parameter value="https://{LITSTRAT_LINK}" name="pattern"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.classification" id="C9e6305e3-8cfb-491f-b030-b9aa2621bf3b" priority="normal">
+        <source>
+            <property>
+                <type name="Bedrock_PLG" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="CHRONO_B"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="GeologicUnitType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="geologicHistory" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="choice" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic/GeologicEvent"/>
+                <child name="GeologicEvent" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="olderNamedAge" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="href" ns="http://www.w3.org/1999/xlink"/>
+            </property>
+        </target>
+        <parameter value="bfd8427a-2000-4aed-8d7d-0f562e7ba75c" name="lookupTableID"/>
+        <parameter value="null" name="notClassifiedAction"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.classification" id="C2b920c4b-50b5-45b3-bc30-b8bf86774bb5" priority="normal">
+        <source>
+            <property>
+                <type name="Unconsolidated_Deposits_PLG" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="CHRONO_B"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="GeologicUnitType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="geologicHistory" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="choice" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic/GeologicEvent"/>
+                <child name="GeologicEvent" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="olderNamedAge" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="href" ns="http://www.w3.org/1999/xlink"/>
+            </property>
+        </target>
+        <parameter value="bfd8427a-2000-4aed-8d7d-0f562e7ba75c" name="lookupTableID"/>
+        <parameter value="null" name="notClassifiedAction"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.classification" id="Cc69a1133-c2ab-46cf-998d-d193ef76917b" priority="normal">
+        <source>
+            <property>
+                <type name="Bedrock_PLG" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="CHRONO_T"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="GeologicUnitType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="geologicHistory" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="choice" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic/GeologicEvent"/>
+                <child name="GeologicEvent" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="youngerNamedAge" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="href" ns="http://www.w3.org/1999/xlink"/>
+            </property>
+        </target>
+        <parameter value="bfd8427a-2000-4aed-8d7d-0f562e7ba75c" name="lookupTableID"/>
+        <parameter value="null" name="notClassifiedAction"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.classification" id="C4c1a5e43-f7ed-4190-932d-dcfd4e2db178" priority="normal">
+        <source>
+            <property>
+                <type name="Unconsolidated_Deposits_PLG" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="CHRONO_T"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="GeologicUnitType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="geologicHistory" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="choice" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic/GeologicEvent"/>
+                <child name="GeologicEvent" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="youngerNamedAge" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="href" ns="http://www.w3.org/1999/xlink"/>
+            </property>
+        </target>
+        <parameter value="bfd8427a-2000-4aed-8d7d-0f562e7ba75c" name="lookupTableID"/>
+        <parameter value="null" name="notClassifiedAction"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign.bound" id="C4450f43c-3688-49dc-b778-3205f8b4f32c" priority="normal">
+        <source name="anchor">
+            <property>
+                <type name="Bedrock_PLG" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">LITHO_D is not null AND LITHO_D &lt;&gt; ''</condition>
+                </type>
+                <child name="LITHO_D"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="GeologicUnitType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="geologicUnitType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="href" ns="http://www.w3.org/1999/xlink"/>
+            </property>
+        </target>
+        <parameter value="http://inspire.ec.europa.eu/codelist/GeologicUnitTypeValue/lithologicUnit" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign.bound" id="C2d579d0e-13eb-471f-9b9d-b4facb3c99b6" priority="normal">
+        <source name="anchor">
+            <property>
+                <type name="Bedrock_PLG" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">LITSTRAT is not null AND LITSTRAT &lt;&gt; ''</condition>
+                </type>
+                <child name="LITSTRAT"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="GeologicUnitType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="geologicUnitType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="href" ns="http://www.w3.org/1999/xlink"/>
+            </property>
+        </target>
+        <parameter value="http://inspire.ec.europa.eu/codelist/GeologicUnitTypeValue/lithostratigraphicUnit" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.classification" id="Cfdcbe5ba-c67d-4e48-b787-ec7f76ba56b4" priority="normal">
+        <source>
+            <property>
+                <type name="Unconsolidated_Deposits_PLG" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="LITHO"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="GeologicUnitType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="geologicUnitType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="href" ns="http://www.w3.org/1999/xlink"/>
+            </property>
+        </target>
+        <complexParameter name="lookupTable">
+            <lookup-table xmlns:ns2="http://www.esdi-humboldt.eu/hale/alignment" xmlns="">
+                <entry>
+                    <key value="Rutschmasse"/>
+                    <value value="http://inspire.ec.europa.eu/codelist/GeologicUnitTypeValue/massMovementUnit"/>
+                </entry>
+                <entry>
+                    <key value="künstliche Ablagerung, undifferenziert"/>
+                    <value value="http://inspire.ec.europa.eu/codelist/GeologicUnitTypeValue/alterationUnit"/>
+                </entry>
+            </lookup-table>
+        </complexParameter>
+        <parameter value="fixed:http://inspire.ec.europa.eu/codelist/GeologicUnitTypeValue/lithogeneticUnit" name="notClassifiedAction"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign.bound" id="Cfb5e25ce-16ac-4b25-beeb-089087488b7c" priority="normal">
+        <source name="anchor">
+            <property>
+                <type name="Bedrock_PLG" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">LITHO_D is not null AND LITHO_D &lt;&gt; ''</condition>
+                </type>
+                <child name="LITHO_D"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="GeologicUnitType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="hierarchyLink" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="GeologicUnitHierarchy" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="role" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="href" ns="http://www.w3.org/1999/xlink"/>
+            </property>
+        </target>
+        <parameter value="http://resource.geosciml.org/classifier/cgi/geologicunitpartrole/stratigraphic_part" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.groovy" id="C3aa0733b-4e7e-4938-bcf2-5b4654c9d799" priority="normal">
+        <source name="var">
+            <property>
+                <type name="Bedrock_PLG" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">LITHO_D is not null AND LITHO_D &lt;&gt; ''</condition>
+                </type>
+                <child name="LITSTRAT"/>
+            </property>
+        </source>
+        <target name="result">
+            <property>
+                <type name="GeologicUnitType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="hierarchyLink" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="GeologicUnitHierarchy" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="targetUnit" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="href" ns="http://www.w3.org/1999/xlink"/>
+            </property>
+        </target>
+        <complexParameter name="script">
+            <core:text xmlns:core="http://www.esdi-humboldt.eu/hale/core" xml:space="preserve">
+def value = LITSTRAT&#xD;
+&#xD;
+return ("#GeologicUnit_LitStrat_" +&#xD;
+  UUID.nameUUIDFromBytes(value.getBytes()).toString());
+</core:text>
+        </complexParameter>
+        <parameter value="false" name="variablesAsInstances"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.groovy" id="Cd2b2c626-547a-497e-ad7a-0c470dcc4a8c" priority="normal">
+        <source name="var">
+            <property>
+                <type name="Bedrock_PLG" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">LITHO_D is not null AND LITHO_D &lt;&gt; ''</condition>
+                </type>
+                <child name="LITHO_D"/>
+            </property>
+        </source>
+        <source name="var">
+            <property>
+                <type name="Bedrock_PLG" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">LITHO_D is not null AND LITHO_D &lt;&gt; ''</condition>
+                </type>
+                <child name="LITSTRAT"/>
+            </property>
+        </source>
+        <target name="result">
+            <property>
+                <type name="GeologicUnitType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="id" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <complexParameter name="script">
+            <core:text xmlns:core="http://www.esdi-humboldt.eu/hale/core" xml:space="preserve">
+def value = LITHO_D + LITSTRAT&#xD;
+&#xD;
+return ("GeologicUnit_Litho_" +&#xD;
+  UUID.nameUUIDFromBytes(value.getBytes()).toString());
+</core:text>
+        </complexParameter>
+        <parameter value="false" name="variablesAsInstances"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.groovy" id="C19d942d2-6e22-4e81-8487-19b64b290e74" priority="normal">
+        <source name="var">
+            <property>
+                <type name="Bedrock_PLG" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">LITSTRAT is not null AND LITSTRAT &lt;&gt; ''</condition>
+                </type>
+                <child name="LITSTRAT"/>
+            </property>
+        </source>
+        <target name="result">
+            <property>
+                <type name="GeologicUnitType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="id" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <complexParameter name="script">
+            <core:text xmlns:core="http://www.esdi-humboldt.eu/hale/core" xml:space="preserve">
+def value = LITSTRAT&#xD;
+&#xD;
+return ("GeologicUnit_LitStrat_" +&#xD;
+  UUID.nameUUIDFromBytes(value.getBytes()).toString());
+</core:text>
+        </complexParameter>
+        <parameter value="false" name="variablesAsInstances"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.retype" id="Cf434f99c-da11-4d9c-9edb-2151b153174f" priority="normal">
+        <source>
+            <class>
+                <type name="Bedrock_PLG" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+            </class>
+        </source>
+        <target>
+            <class>
+                <type name="MappedFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+            </class>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.retype" id="C1434568b-6303-4cdd-9950-ecb3c4e0cee9" priority="normal">
+        <source>
+            <class>
+                <type name="Deformation_Structures_L" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">KIND = "Faltenscharnier"</condition>
+                </type>
+            </class>
+        </source>
+        <target>
+            <class>
+                <type name="MappedFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+            </class>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.retype" id="Cd6c6afbe-3d72-4daa-84d5-82418adeb40c" priority="normal">
+        <source>
+            <class>
+                <type name="Deformation_Structures_PT" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">KIND = 'tektonische Diskordanz'</condition>
+                </type>
+            </class>
+        </source>
+        <target>
+            <class>
+                <type name="MappedFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+            </class>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.retype" id="C39aa14a0-417b-4981-b283-8bd95edad803" priority="normal">
+        <source>
+            <class>
+                <type name="Deformation_Structures_PT" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">KIND not IN('tektonische Diskordanz', 'ausgeprägte Klüftung', 'punktuell beobachtete Brekzie')</condition>
+                </type>
+            </class>
+        </source>
+        <target>
+            <class>
+                <type name="MappedFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+            </class>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.retype" id="C05c0e905-f22a-41b3-9d36-81b97793d666" priority="normal">
+        <source>
+            <class>
+                <type name="Deformation_Structures_PT" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">Kind = 'ausgeprägte Klüftung'</condition>
+                </type>
+            </class>
+        </source>
+        <target>
+            <class>
+                <type name="MappedFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+            </class>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.retype" id="C621c90fe-6535-4f01-b76e-ce04e32e458a" priority="normal">
+        <source>
+            <class>
+                <type name="Glacial_Structures_PLG" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+            </class>
+        </source>
+        <target>
+            <class>
+                <type name="MappedFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+            </class>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.retype" id="Cf03d5654-0f68-4697-bcaf-2b1775e50d58" priority="normal">
+        <source>
+            <class>
+                <type name="Glacial_and_Periglacial_Structures_L" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+            </class>
+        </source>
+        <target>
+            <class>
+                <type name="MappedFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+            </class>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.retype" id="C933ac2ba-0b6a-4961-8a81-675bc18a28a0" priority="normal">
+        <source>
+            <class>
+                <type name="Karstic_Structures_PLG" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">KIND IN('Senke', 'Doline', 'Polje')</condition>
+                </type>
+            </class>
+        </source>
+        <target>
+            <class>
+                <type name="MappedFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+            </class>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.retype" id="Ce6bb1ee6-230c-48a6-96b7-66a6c248a5b6" priority="normal">
+        <source>
+            <class>
+                <type name="Karstic_Structures_PT" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">KIND IN('Ponor', 'Hoehle')</condition>
+                </type>
+            </class>
+        </source>
+        <target>
+            <class>
+                <type name="MappedFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+            </class>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.retype" id="C9a16831d-e8f5-4e4f-8ca2-5a961749f8f5" priority="normal">
+        <source>
+            <class>
+                <type name="Tectonic_Boundaries_L" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="CQL">KIND = 'Bruch'</condition>
+                </type>
+            </class>
+        </source>
+        <target>
+            <class>
+                <type name="MappedFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+            </class>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+        <documentation>TODO: To which GeologicStructure should this be mapped? Contact?</documentation>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.retype" id="C5eaae1d7-77ed-4fcb-a911-d69703b49790" priority="normal">
+        <source>
+            <class>
+                <type name="Unconsolidated_Deposits_PLG" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+            </class>
+        </source>
+        <target>
+            <class>
+                <type name="MappedFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+            </class>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.retype" id="C5a661084-c401-4391-a516-a259d36a4dc2" priority="normal">
+        <source>
+            <class>
+                <type name="Unconsolidated_Deposits_PT" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+            </class>
+        </source>
+        <target>
+            <class>
+                <type name="MappedFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+            </class>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.formattedstring" id="Ca491a501-9bbd-4104-8b90-01688c2f0012" priority="normal">
+        <source name="var">
+            <property>
+                <type name="Bedrock_PLG" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="LITSTRAT"/>
+            </property>
+        </source>
+        <source name="var">
+            <property>
+                <type name="Bedrock_PLG" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="KIND"/>
+            </property>
+        </source>
+        <source name="var">
+            <property>
+                <type name="Bedrock_PLG" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="LITHO_D"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="MappedFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="description" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="{LITSTRAT}: {KIND} ({LITHO_D})" name="pattern"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="C00f98d3d-99d5-4c2c-8e00-6c6232061ad6" priority="normal">
+        <source>
+            <property>
+                <type name="Deformation_Structures_L" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="KIND"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="MappedFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="description" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="C628d1f7d-59e3-4c4f-840e-6777ca8af6a0" priority="normal">
+        <source>
+            <property>
+                <type name="Deformation_Structures_PT" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">KIND = 'tektonische Diskordanz'</condition>
+                </type>
+                <child name="KIND"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="MappedFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="description" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="C26dcfeb9-8ae1-483d-880f-7aa3c93669ae" priority="normal">
+        <source>
+            <property>
+                <type name="Deformation_Structures_PT" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">KIND not IN('tektonische Diskordanz', 'ausgeprägte Klüftung', 'punktuell beobachtete Brekzie')</condition>
+                </type>
+                <child name="KIND"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="MappedFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="description" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="Ce5a58928-41f9-40f0-afcb-d4e866532aab" priority="normal">
+        <source>
+            <property>
+                <type name="Deformation_Structures_PT" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">Kind = 'ausgeprägte Klüftung'</condition>
+                </type>
+                <child name="KIND"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="MappedFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="description" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="C2314a6ed-5823-45fe-8f85-f5ffd9895593" priority="normal">
+        <source>
+            <property>
+                <type name="Karstic_Structures_PLG" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="KIND"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="MappedFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="description" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="C487f65ac-6ad7-45ff-9223-718feb0bad82" priority="normal">
+        <source>
+            <property>
+                <type name="Karstic_Structures_PT" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">KIND IN('Ponor', 'Hoehle')</condition>
+                </type>
+                <child name="KIND"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="MappedFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="description" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="C68d91039-bd99-4c4d-aa35-c2800a8e07bf" priority="normal">
+        <source>
+            <property>
+                <type name="Tectonic_Boundaries_L" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="KIND"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="MappedFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="description" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.string.regexanalysisfunction" id="C7552fbe3-3ba8-45b6-88e6-b0c706ca3270" priority="normal">
+        <source>
+            <property>
+                <type name="Bedrock_PLG" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="UUID"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="MappedFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="id" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="MappedFeature_{1}" name="outputFormat"/>
+        <parameter value="\{(.*?)\}" name="regexPattern"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.string.regexanalysisfunction" id="C45081b75-a9d8-450f-8ad7-7c9d18baa1e9" priority="normal">
+        <source>
+            <property>
+                <type name="Deformation_Structures_L" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="UUID"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="MappedFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="id" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="MappedFeature_{1}" name="outputFormat"/>
+        <parameter value="\{(.*?)\}" name="regexPattern"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.string.regexanalysisfunction" id="C4916d951-89b9-419a-9598-f122a1d1ab2b" priority="normal">
+        <source>
+            <property>
+                <type name="Deformation_Structures_PT" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">KIND = 'tektonische Diskordanz'</condition>
+                </type>
+                <child name="UUID"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="MappedFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="id" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="MappedFeature_{1}" name="outputFormat"/>
+        <parameter value="\{(.*?)\}" name="regexPattern"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.string.regexanalysisfunction" id="Ce56e842d-c05e-4013-8156-6df8c1730fff" priority="normal">
+        <source>
+            <property>
+                <type name="Deformation_Structures_PT" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">KIND not IN('tektonische Diskordanz', 'ausgeprägte Klüftung', 'punktuell beobachtete Brekzie')</condition>
+                </type>
+                <child name="UUID"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="MappedFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="id" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="MappedFeature_{1}" name="outputFormat"/>
+        <parameter value="\{(.*?)\}" name="regexPattern"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.string.regexanalysisfunction" id="Cb722d65e-0867-4ae5-9b11-1a84bafe905d" priority="normal">
+        <source>
+            <property>
+                <type name="Deformation_Structures_PT" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">Kind = 'ausgeprägte Klüftung'</condition>
+                </type>
+                <child name="UUID"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="MappedFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="id" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="MappedFeature_{1}" name="outputFormat"/>
+        <parameter value="\{(.*?)\}" name="regexPattern"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.string.regexanalysisfunction" id="Cbaa592c3-1079-4d5e-9cb1-1ab15fd3d3f2" priority="normal">
+        <source>
+            <property>
+                <type name="Glacial_and_Periglacial_Structures_L" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="UUID"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="MappedFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="id" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="MappedFeature_{1}" name="outputFormat"/>
+        <parameter value="\{(.*?)\}" name="regexPattern"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.string.regexanalysisfunction" id="C6034ea1b-2b48-4e4e-bf37-1b9989d7600c" priority="normal">
+        <source>
+            <property>
+                <type name="Karstic_Structures_PLG" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="UUID"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="MappedFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="id" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="MappedFeature_{1}" name="outputFormat"/>
+        <parameter value="\{(.*?)\}" name="regexPattern"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.string.regexanalysisfunction" id="C101ee856-68f9-43a6-9a57-b10424afee17" priority="normal">
+        <source>
+            <property>
+                <type name="Karstic_Structures_PT" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">KIND IN('Ponor', 'Hoehle')</condition>
+                </type>
+                <child name="UUID"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="MappedFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="id" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="MappedFeature_{1}" name="outputFormat"/>
+        <parameter value="\{(.*?)\}" name="regexPattern"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.string.regexanalysisfunction" id="C7cfc33c8-1b1e-41d0-baa4-0f560b8f6a25" priority="normal">
+        <source>
+            <property>
+                <type name="Tectonic_Boundaries_L" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="UUID"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="MappedFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="id" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="MappedFeature_{1}" name="outputFormat"/>
+        <parameter value="\{(.*?)\}" name="regexPattern"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.string.regexanalysisfunction" id="Cc3ab0805-fb40-4ded-a1f6-2facfec6ddfc" priority="normal">
+        <source>
+            <property>
+                <type name="Unconsolidated_Deposits_PLG" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="UUID"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="MappedFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="id" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="MappedFeature_{1}" name="outputFormat"/>
+        <parameter value="\{(.*?)\}" name="regexPattern"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="Cc4fb6f72-70e6-4128-aaa2-6a361d3d7dd0" priority="normal">
+        <target>
+            <property>
+                <type name="MappedFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="mappingFrame" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="href" ns="http://www.w3.org/1999/xlink"/>
+            </property>
+        </target>
+        <parameter value="http://inspire.ec.europa.eu/codelist/MappingFrameValue/surfaceGeology" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="C779a0ff5-c3f7-414c-b131-d597e2d51ecf" priority="normal">
+        <source>
+            <property>
+                <type name="Deformation_Structures_L" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="geom"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="MappedFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="shape" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="choice" ns="http://www.opengis.net/gml/3.2/AbstractGeometry"/>
+                <child name="LineString" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="Ce12ceedb-5afa-4578-9aec-b93dec0d10c4" priority="normal">
+        <source>
+            <property>
+                <type name="Glacial_and_Periglacial_Structures_L" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="geom"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="MappedFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="shape" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="choice" ns="http://www.opengis.net/gml/3.2/AbstractGeometry"/>
+                <child name="LineString" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="C3ccca098-d43a-4e9f-b7ca-42b6863a6d55" priority="normal">
+        <source>
+            <property>
+                <type name="Tectonic_Boundaries_L" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="geom"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="MappedFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="shape" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="choice" ns="http://www.opengis.net/gml/3.2/AbstractGeometry"/>
+                <child name="LineString" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="C9a48cb69-14e0-44fd-be04-bff692c8e444" priority="normal">
+        <source>
+            <property>
+                <type name="Deformation_Structures_PT" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">KIND = 'tektonische Diskordanz'</condition>
+                </type>
+                <child name="geom"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="MappedFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="shape" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="choice" ns="http://www.opengis.net/gml/3.2/AbstractGeometry"/>
+                <child name="Point" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="Cbd5a4c26-fd83-4e96-b4f3-222a07c15710" priority="normal">
+        <source>
+            <property>
+                <type name="Deformation_Structures_PT" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">KIND not IN('tektonische Diskordanz', 'ausgeprägte Klüftung', 'punktuell beobachtete Brekzie')</condition>
+                </type>
+                <child name="geom"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="MappedFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="shape" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="choice" ns="http://www.opengis.net/gml/3.2/AbstractGeometry"/>
+                <child name="Point" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="C53df9303-3b68-4384-81a6-78d4780aa8da" priority="normal">
+        <source>
+            <property>
+                <type name="Deformation_Structures_PT" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">Kind = 'ausgeprägte Klüftung'</condition>
+                </type>
+                <child name="geom"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="MappedFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="shape" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="choice" ns="http://www.opengis.net/gml/3.2/AbstractGeometry"/>
+                <child name="Point" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="C81eb2b47-5a45-4e69-a63d-92e7d0cd1979" priority="normal">
+        <source>
+            <property>
+                <type name="Karstic_Structures_PT" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">KIND IN('Ponor', 'Hoehle')</condition>
+                </type>
+                <child name="geom"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="MappedFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="shape" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="choice" ns="http://www.opengis.net/gml/3.2/AbstractGeometry"/>
+                <child name="Point" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="C0df2c176-2d29-4793-9a1c-93670149c274" priority="normal">
+        <source>
+            <property>
+                <type name="Bedrock_PLG" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="geom"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="MappedFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="shape" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="choice" ns="http://www.opengis.net/gml/3.2/AbstractGeometry"/>
+                <child name="Polygon" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="C98509ba9-8e26-4413-8be9-28941b66c31e" priority="normal">
+        <source>
+            <property>
+                <type name="Glacial_Structures_PLG" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="geom"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="MappedFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="shape" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="choice" ns="http://www.opengis.net/gml/3.2/AbstractGeometry"/>
+                <child name="Polygon" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="C97921277-95f8-4ce6-8b39-91d85149420e" priority="normal">
+        <source>
+            <property>
+                <type name="Karstic_Structures_PLG" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="geom"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="MappedFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="shape" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="choice" ns="http://www.opengis.net/gml/3.2/AbstractGeometry"/>
+                <child name="Polygon" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="Ca7fb1618-8698-4661-bc0e-e3798102c2a5" priority="normal">
+        <source>
+            <property>
+                <type name="Unconsolidated_Deposits_PLG" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="geom"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="MappedFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="shape" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="choice" ns="http://www.opengis.net/gml/3.2/AbstractGeometry"/>
+                <child name="Polygon" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.groovy" id="C80e02488-2f2a-4307-8bb1-398e93174f1e" priority="normal">
+        <source name="var">
+            <property>
+                <type name="Bedrock_PLG" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="LITHO_D"/>
+            </property>
+        </source>
+        <source name="var">
+            <property>
+                <type name="Bedrock_PLG" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="LITSTRAT"/>
+            </property>
+        </source>
+        <target name="result">
+            <property>
+                <type name="MappedFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="specification" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="href" ns="http://www.w3.org/1999/xlink"/>
+            </property>
+        </target>
+        <complexParameter name="script">
+            <core:text xmlns:core="http://www.esdi-humboldt.eu/hale/core" xml:space="preserve">
+def lithoComposition = LITHO_D&#xD;
+def lithoStrat = LITSTRAT&#xD;
+&#xD;
+if (lithoComposition) {&#xD;
+	def combinedKey = lithoComposition + lithoStrat&#xD;
+	return ("#GeologicUnit_Litho_" +&#xD;
+  		UUID.nameUUIDFromBytes(combinedKey.getBytes()).toString());&#xD;
+}&#xD;
+else {&#xD;
+	return ("#GeologicUnit_LitStrat_" +&#xD;
+  		UUID.nameUUIDFromBytes(lithoStrat.getBytes()).toString());&#xD;
+}&#xD;
+
+</core:text>
+        </complexParameter>
+        <parameter value="false" name="variablesAsInstances"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.string.regexanalysisfunction" id="Cc08d0527-d7d5-42f2-9d09-b57c6458c807" priority="normal">
+        <source>
+            <property>
+                <type name="Deformation_Structures_L" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="UUID"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="MappedFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="specification" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="href" ns="http://www.w3.org/1999/xlink"/>
+            </property>
+        </target>
+        <parameter value="#Fold_{1}" name="outputFormat"/>
+        <parameter value="\{(.*?)\}" name="regexPattern"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.string.regexanalysisfunction" id="C24bdd4d3-a842-4ad7-ae97-e1f3f3df38cf" priority="normal">
+        <source>
+            <property>
+                <type name="Deformation_Structures_PT" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">KIND = 'tektonische Diskordanz'</condition>
+                </type>
+                <child name="UUID"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="MappedFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="specification" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="href" ns="http://www.w3.org/1999/xlink"/>
+            </property>
+        </target>
+        <parameter value="#Contact_{1}" name="outputFormat"/>
+        <parameter value="\{(.*?)\}" name="regexPattern"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.string.regexanalysisfunction" id="Cb9bb842f-2b8c-444f-9129-4ca37d755718" priority="normal">
+        <source>
+            <property>
+                <type name="Deformation_Structures_PT" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">KIND not IN('tektonische Diskordanz', 'ausgeprägte Klüftung', 'punktuell beobachtete Brekzie')</condition>
+                </type>
+                <child name="UUID"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="MappedFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="specification" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="href" ns="http://www.w3.org/1999/xlink"/>
+            </property>
+        </target>
+        <parameter value="#Fold_{1}" name="outputFormat"/>
+        <parameter value="\{(.*?)\}" name="regexPattern"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.formattedstring" id="Ca6e08676-ac23-46ac-950a-ae8340ff26aa" priority="normal">
+        <source name="var">
+            <property>
+                <type name="Karstic_Structures_PLG" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">KIND IN('Senke', 'Doline', 'Polje')</condition>
+                </type>
+                <child name="KIND"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="MappedFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="specification" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="href" ns="http://www.w3.org/1999/xlink"/>
+            </property>
+        </target>
+        <parameter value="#NaturalGeomorphologicFeature_{KIND}" name="pattern"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.formattedstring" id="Cdf7c0290-4470-451b-95ed-b860509e4313" priority="normal">
+        <source name="var">
+            <property>
+                <type name="Karstic_Structures_PT" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">KIND IN('Ponor', 'Hoehle')</condition>
+                </type>
+                <child name="KIND"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="MappedFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="specification" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="href" ns="http://www.w3.org/1999/xlink"/>
+            </property>
+        </target>
+        <parameter value="#NaturalGeomorphologicFeature_{KIND}" name="pattern"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.string.regexanalysisfunction" id="Cb1a1c2ee-3b5d-4844-b68b-faa89b67a73b" priority="normal">
+        <source>
+            <property>
+                <type name="Tectonic_Boundaries_L" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="CQL">KIND = 'Überschiebung'</condition>
+                </type>
+                <child name="UUID"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="MappedFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="specification" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="href" ns="http://www.w3.org/1999/xlink"/>
+            </property>
+        </target>
+        <parameter value="#ShearDisplacementStructure_{1}" name="outputFormat"/>
+        <parameter value="\{(.*?)\}" name="regexPattern"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.retype" id="C7a2da6ea-c4fc-4375-b75d-e031bdcc9e5e" priority="normal">
+        <source>
+            <class>
+                <type name="Glacial_Structures_PLG" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+            </class>
+        </source>
+        <target>
+            <class>
+                <type name="NaturalGeomorphologicFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+            </class>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.retype" id="Ccd1daf65-7945-4d7e-9241-656e4eb8578c" priority="normal">
+        <source>
+            <class>
+                <type name="Glacial_and_Periglacial_Structures_L" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+            </class>
+        </source>
+        <target>
+            <class>
+                <type name="NaturalGeomorphologicFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+            </class>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.merge" id="C0d897ee5-50e9-4baa-8b14-9e41a81b5f06" priority="normal">
+        <source>
+            <class>
+                <type name="Karstic_Structures_PLG" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">KIND IN('Senke', 'Doline', 'Polje')</condition>
+                </type>
+            </class>
+        </source>
+        <target>
+            <class>
+                <type name="NaturalGeomorphologicFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+            </class>
+        </target>
+        <parameter value="false" name="auto_detect"/>
+        <parameter value="KIND" name="property"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.merge" id="Cde42e6d5-41b9-4147-bf4b-de6f754e765b" priority="normal">
+        <source>
+            <class>
+                <type name="Karstic_Structures_PT" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">KIND IN('Ponor', 'Hoehle')</condition>
+                </type>
+            </class>
+        </source>
+        <target>
+            <class>
+                <type name="NaturalGeomorphologicFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+            </class>
+        </target>
+        <parameter value="false" name="auto_detect"/>
+        <parameter value="KIND" name="property"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.retype" id="C5c3905e5-0edc-48fb-a548-9af99266ffd6" priority="normal">
+        <source>
+            <class>
+                <type name="Unconsolidated_Deposits_PT" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="CQL">KIND = 'Schwarm erratischer Blöcke' or KIND = 'Sturzblock' or KIND = 'Verwitterungsrückstände (Gerölle und/oder Konkretionen)' or KIND = 'Wanderblock' or KIND = 'erratischer Block'</condition>
+                </type>
+            </class>
+        </source>
+        <target>
+            <class>
+                <type name="NaturalGeomorphologicFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+            </class>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="C3e2994c6-a751-406e-8078-2b43297d0cfe" priority="normal">
+        <target>
+            <property>
+                <type name="NaturalGeomorphologicFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="activity" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="href" ns="http://www.w3.org/1999/xlink"/>
+            </property>
+        </target>
+        <parameter value="http://inspire.ec.europa.eu/codelist/GeomorphologicActivityValue/inactive" name="value"/>
+        <documentation>TODO: Should be clarified if there are also active geomorphological features.</documentation>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="C7563a220-ff52-4e88-960a-dd8ae73d8855" priority="normal">
+        <target>
+            <property>
+                <type name="NaturalGeomorphologicFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="activity" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="title" ns="http://www.w3.org/1999/xlink"/>
+            </property>
+        </target>
+        <parameter value="inactive" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.formattedstring" id="C32885ede-aaf8-465f-965b-159e628eb616" priority="normal">
+        <source name="var">
+            <property>
+                <type name="Glacial_and_Periglacial_Structures_L" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="GLAC_TYP"/>
+            </property>
+        </source>
+        <source name="var">
+            <property>
+                <type name="Glacial_and_Periglacial_Structures_L" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="ICE_M_P"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="NaturalGeomorphologicFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="gmFeatureDescription" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="GeomorphologicUnitAbstractDescription" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+            </property>
+        </target>
+        <parameter value="{GLAC_TYP} und {ICE_M_P}" name="pattern"/>
+        <documentation>Mögliche Ausbaustufe: Eine konkrete Erweiterung zu GeomorphologicUnitDescription anfertigen</documentation>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.string.regexanalysisfunction" id="C58e0f75c-5630-42f2-b29e-d6dd36402669" priority="normal">
+        <source>
+            <property>
+                <type name="Glacial_Structures_PLG" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="UUID"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="NaturalGeomorphologicFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="id" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="NaturalGeomorphologicFeature_{1}" name="outputFormat"/>
+        <parameter value="\{(.*?)\}" name="regexPattern"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.formattedstring" id="Ca11025c6-1967-4d71-a58c-7f6c9ba96270" priority="normal">
+        <source name="var">
+            <property>
+                <type name="Karstic_Structures_PLG" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">KIND IN('Senke', 'Doline', 'Polje')</condition>
+                </type>
+                <child name="KIND"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="NaturalGeomorphologicFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="id" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="NaturalGeomorphologicFeature_{KIND}" name="pattern"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.formattedstring" id="C7c981f7f-8a0a-4f21-b410-7471f9802c0b" priority="normal">
+        <source name="var">
+            <property>
+                <type name="Karstic_Structures_PT" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">KIND IN('Ponor', 'Hoehle')</condition>
+                </type>
+                <child name="KIND"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="NaturalGeomorphologicFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="id" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="NaturalGeomorphologicFeature_{KIND}" name="pattern"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.string.regexanalysisfunction" id="Cad08c4f8-f2e5-4754-8c9d-f99956ecacf0" priority="normal">
+        <source>
+            <property>
+                <type name="Unconsolidated_Deposits_PT" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="UUID"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="NaturalGeomorphologicFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="id" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="NaturalGeomorphologicFeature_{1}" name="outputFormat"/>
+        <parameter value="\{(.*?)\}" name="regexPattern"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="C980c222f-eabd-49c3-863a-242a5dff95d5" priority="normal">
+        <source>
+            <property>
+                <type name="Karstic_Structures_PT" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">KIND IN('Ponor', 'Hoehle')</condition>
+                </type>
+                <child name="KIND"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="NaturalGeomorphologicFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="name" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="Ca23cc9ff-d165-49d5-b033-c5d70f852b03" priority="normal">
+        <source>
+            <property>
+                <type name="Unconsolidated_Deposits_PT" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="KIND"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="NaturalGeomorphologicFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="name" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.classification" id="Cb991fad2-4f5f-4ce4-b152-abcc2d55bb4e" priority="normal">
+        <source>
+            <property>
+                <type name="Glacial_Structures_PLG" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="KIND"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="NaturalGeomorphologicFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="naturalGeomorphologicFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="href" ns="http://www.w3.org/1999/xlink"/>
+            </property>
+        </target>
+        <complexParameter name="lookupTable">
+            <lookup-table xmlns:ns2="http://www.esdi-humboldt.eu/hale/alignment" xmlns="">
+                <entry>
+                    <key value="Drumlin, drumlinartige Kieskuppe"/>
+                    <value value="http://inspire.ec.europa.eu/codelist/NaturalGeomorphologicFeatureTypeValue/hill"/>
+                </entry>
+                <entry>
+                    <key value="Rundhöcker"/>
+                    <value value="http://inspire.ec.europa.eu/codelist/NaturalGeomorphologicFeatureTypeValue/hill"/>
+                </entry>
+                <entry>
+                    <key value="Toteisloch, Söll"/>
+                    <value value="http://inspire.ec.europa.eu/codelist/NaturalGeomorphologicFeatureTypeValue/glacial"/>
+                </entry>
+            </lookup-table>
+        </complexParameter>
+        <parameter value="null" name="notClassifiedAction"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.classification" id="C9bdf8b62-9fdb-4c19-ad72-1ea96f4553b5" priority="normal">
+        <source>
+            <property>
+                <type name="Karstic_Structures_PLG" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">KIND IN('Senke', 'Doline', 'Polje')</condition>
+                </type>
+                <child name="KIND"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="NaturalGeomorphologicFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="naturalGeomorphologicFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="href" ns="http://www.w3.org/1999/xlink"/>
+            </property>
+        </target>
+        <complexParameter name="lookupTable">
+            <lookup-table xmlns:ns2="http://www.esdi-humboldt.eu/hale/alignment" xmlns="">
+                <entry>
+                    <key value="Senke"/>
+                    <value value="http://inspire.ec.europa.eu/codelist/NaturalGeomorphologicFeatureTypeValue/depression"/>
+                </entry>
+                <entry>
+                    <key value="Doline"/>
+                    <value value="http://inspire.ec.europa.eu/codelist/NaturalGeomorphologicFeatureTypeValue/karstChemicalWeathering"/>
+                </entry>
+                <entry>
+                    <key value="Polje"/>
+                    <value value="http://inspire.ec.europa.eu/codelist/NaturalGeomorphologicFeatureTypeValue/karstChemicalWeathering"/>
+                </entry>
+            </lookup-table>
+        </complexParameter>
+        <parameter value="null" name="notClassifiedAction"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.classification" id="Ce02a1992-b3bd-4de9-af1b-5a7d1c59c0cf" priority="normal">
+        <source>
+            <property>
+                <type name="Karstic_Structures_PT" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">KIND IN('Ponor', 'Hoehle')</condition>
+                </type>
+                <child name="KIND"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="NaturalGeomorphologicFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="naturalGeomorphologicFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="href" ns="http://www.w3.org/1999/xlink"/>
+            </property>
+        </target>
+        <complexParameter name="lookupTable">
+            <lookup-table xmlns:ns2="http://www.esdi-humboldt.eu/hale/alignment" xmlns="">
+                <entry>
+                    <key value="Ponor"/>
+                    <value value="http://inspire.ec.europa.eu/codelist/NaturalGeomorphologicFeatureTypeValue/naturalGeomorphologicFeature"/>
+                </entry>
+                <entry>
+                    <key value="Hoehle"/>
+                    <value value="http://inspire.ec.europa.eu/codelist/NaturalGeomorphologicFeatureTypeValue/naturalGeomorphologicFeature"/>
+                </entry>
+            </lookup-table>
+        </complexParameter>
+        <parameter value="null" name="notClassifiedAction"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign.bound" id="C6a5f77e3-98e1-47e6-821f-937e0e7e197a" priority="lowest">
+        <source name="anchor">
+            <property>
+                <type name="Unconsolidated_Deposits_PT" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="KIND"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="NaturalGeomorphologicFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="naturalGeomorphologicFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="href" ns="http://www.w3.org/1999/xlink"/>
+            </property>
+        </target>
+        <parameter value="https://inspire.ec.europa.eu/codelist/NaturalGeomorphologicFeatureTypeValue/naturalGeomorphologicFeature" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.string.regexanalysisfunction" id="C25e3808b-fff6-45fa-83a0-c5776f051292" priority="normal">
+        <source>
+            <property>
+                <type name="Glacial_and_Periglacial_Structures_L" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="UUID"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="NaturalGeomorphologicFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="occurrence" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="href" ns="http://www.w3.org/1999/xlink"/>
+            </property>
+        </target>
+        <parameter value="#MappedFeature_{1}" name="outputFormat"/>
+        <parameter value="\{(.*?)\}" name="regexPattern"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.string.regexanalysisfunction" id="C10b0ef87-6360-43ac-b9fd-b9f0f3a1a902" priority="normal">
+        <source>
+            <property>
+                <type name="Karstic_Structures_PLG" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">KIND IN('Senke', 'Doline', 'Polje')</condition>
+                </type>
+                <child name="UUID"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="NaturalGeomorphologicFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="occurrence" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="href" ns="http://www.w3.org/1999/xlink"/>
+            </property>
+        </target>
+        <parameter value="#MappedFeature_{1}" name="outputFormat"/>
+        <parameter value="\{(.*?)\}" name="regexPattern"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.string.regexanalysisfunction" id="C61e868fc-be12-466a-8377-77d96cd5a6ac" priority="normal">
+        <source>
+            <property>
+                <type name="Karstic_Structures_PT" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">KIND IN('Ponor', 'Hoehle')</condition>
+                </type>
+                <child name="UUID"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="NaturalGeomorphologicFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="occurrence" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="href" ns="http://www.w3.org/1999/xlink"/>
+            </property>
+        </target>
+        <parameter value="#MappedFeature_{1}" name="outputFormat"/>
+        <parameter value="\{(.*?)\}" name="regexPattern"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.classification" id="C99bc6d41-6f16-4f96-8223-a671a7b58150" priority="normal">
+        <source>
+            <property>
+                <type name="Unconsolidated_Deposits_PT" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="ROCK_SPE">
+                    <condition lang="ECQL">value &lt;&gt; 'Unknown'</condition>
+                </child>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="NaturalGeomorphologicFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="unitDescription" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="GeologicUnit" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="composition" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="CompositionPart" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="material" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="href" ns="http://www.w3.org/1999/xlink"/>
+            </property>
+        </target>
+        <complexParameter name="lookupTable">
+            <lookup-table xmlns:ns2="http://www.esdi-humboldt.eu/hale/alignment" xmlns=""/>
+        </complexParameter>
+        <parameter value="source" name="notClassifiedAction"/>
+        <documentation>TODO: Korrekte Codeliste muss erzeugt und referenziert werden</documentation>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.retype" id="C5fa86913-9e41-4e17-85d2-bc6f88c51556" priority="normal">
+        <source>
+            <class>
+                <type name="Tectonic_Boundaries_L" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="CQL">KIND = 'Überschiebung'</condition>
+                </type>
+            </class>
+        </source>
+        <target>
+            <class>
+                <type name="ShearDisplacementStructureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+            </class>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+</alignment>
