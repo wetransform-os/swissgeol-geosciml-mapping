@@ -34,6 +34,90 @@
         <parameter value="Contact_{1}" name="outputFormat"/>
         <parameter value="\{(.*?)\}" name="regexPattern"/>
     </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="C3802a7c4-4737-4b07-9a8f-ac9490b55606" priority="normal">
+        <target>
+            <property>
+                <type name="ContactType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="stContactDescription" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="ContactDescription" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Extension"/>
+                <child name="orientation" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Extension"/>
+                <child name="GSML_PlanarOrientation" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="azimuth" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="choice" ns="http://www.opengis.net/swe/2.0/QuantityRange"/>
+                <child name="QuantityRange" ns="http://www.opengis.net/swe/2.0"/>
+                <child name="uom" ns="http://www.opengis.net/swe/2.0"/>
+                <child name="href" ns="http://www.w3.org/1999/xlink"/>
+            </property>
+        </target>
+        <parameter value="deg" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="C5bd38b91-00e0-41ed-b974-6a3ed766280f" priority="normal">
+        <source>
+            <property>
+                <type name="Deformation_Structures_PT" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">KIND = 'tektonische Diskordanz'</condition>
+                </type>
+                <child name="AZIMUTH"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="ContactType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="stContactDescription" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="ContactDescription" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Extension"/>
+                <child name="orientation" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Extension"/>
+                <child name="GSML_PlanarOrientation" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="azimuth" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="choice" ns="http://www.opengis.net/swe/2.0/QuantityRange"/>
+                <child name="QuantityRange" ns="http://www.opengis.net/swe/2.0"/>
+                <child name="value" ns="http://www.opengis.net/swe/2.0"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="C7ec91d43-e7d0-4a43-a5a3-c5d28f417fdd" priority="normal">
+        <target>
+            <property>
+                <type name="ContactType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="stContactDescription" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="ContactDescription" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Extension"/>
+                <child name="orientation" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Extension"/>
+                <child name="GSML_PlanarOrientation" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="dip" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="choice" ns="http://www.opengis.net/swe/2.0/QuantityRange"/>
+                <child name="QuantityRange" ns="http://www.opengis.net/swe/2.0"/>
+                <child name="uom" ns="http://www.opengis.net/swe/2.0"/>
+                <child name="href" ns="http://www.w3.org/1999/xlink"/>
+            </property>
+        </target>
+        <parameter value="deg" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="C76977091-921f-4cb5-ac28-20ae5ce69f89" priority="normal">
+        <source>
+            <property>
+                <type name="Deformation_Structures_PT" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="ECQL">KIND = 'tektonische Diskordanz'</condition>
+                </type>
+                <child name="DIP"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="ContactType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="stContactDescription" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="ContactDescription" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Extension"/>
+                <child name="orientation" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Extension"/>
+                <child name="GSML_PlanarOrientation" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="dip" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="choice" ns="http://www.opengis.net/swe/2.0/QuantityRange"/>
+                <child name="QuantityRange" ns="http://www.opengis.net/swe/2.0"/>
+                <child name="value" ns="http://www.opengis.net/swe/2.0"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
     <cell relation="eu.esdihumboldt.hale.align.retype" id="C8acc649d-8c47-4cc1-9c17-a6189d2a6ea7" priority="normal">
         <source>
             <class>

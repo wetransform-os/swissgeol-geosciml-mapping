@@ -3,7 +3,7 @@
     <name>swisstopo GeoCover 3.0 nach GeoSciML 4.1 - Analysis</name>
     <author>Thorsten Reitz (im Auftrag von swisstopo)</author>
     <created>2023-02-05T16:19:39.287+01:00</created>
-    <modified>2023-02-05T16:26:46.498+01:00</modified>
+    <modified>2023-02-06T16:45:37.633+01:00</modified>
     <save-config action-id="project.save" provider-id="eu.esdihumboldt.hale.io.project.hale25.xml.writer">
         <setting name="charset">UTF-8</setting>
         <setting name="projectFiles.separate">false</setting>
@@ -58,6 +58,18 @@
         <setting name="skip">true</setting>
         <setting name="source">file:/C:/wetransform/dev/swissgeol-geosciml-mapping/gecover-geosciml/lookup-tables/swisstopo_Chrono-lookupTable.xlsx</setting>
         <setting name="contentType">eu.esdihumboldt.hale.io.xls.xlsx</setting>
+    </resource>
+    <resource action-id="eu.esdihumboldt.hale.io.instance.read.source" provider-id="eu.esdihumboldt.hale.io.geopackage.instance.reader">
+        <setting name="charset">UTF-8</setting>
+        <setting name="resourceId">48d1e34b-c7eb-4e89-a156-e925f304a759</setting>
+        <setting name="source">file:/C:/wetransform/Box%20Sync/staff/Projects/2022-08%20swisstopo%20INTERLIS%20GeoSciML/Daten/GC-V-V2-020/GPKG/de/020_Zernez.gpkg</setting>
+        <setting name="contentType">eu.esdihumboldt.hale.io.geopackage</setting>
+    </resource>
+    <resource action-id="eu.esdihumboldt.hale.io.instance.read.source" provider-id="eu.esdihumboldt.hale.io.geopackage.instance.reader">
+        <setting name="charset">UTF-8</setting>
+        <setting name="resourceId">ed9f2b20-4ad9-4bed-bab3-de5253825a30</setting>
+        <setting name="source">file:/C:/wetransform/Box%20Sync/staff/Projects/2022-08%20swisstopo%20INTERLIS%20GeoSciML/Daten/GC-V-V3-012/GPKG/de/012_Chancy.gpkg</setting>
+        <setting name="contentType">eu.esdihumboldt.hale.io.geopackage</setting>
     </resource>
     <file name="alignment.xml" location="geocover30-geosciml41.halex.alignment.xml"/>
     <file name="styles.sld" location="geocover30-geosciml41.halex.styles.sld"/>
