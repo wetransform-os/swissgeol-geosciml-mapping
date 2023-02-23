@@ -14,7 +14,7 @@
 		angular.module('hale', ['halejs']).controller('alignmentCtrl', function($scope) {
 			$scope.alignment = {
 	"export": {
-		"timestamp": "2023-02-05T15:27:29.702Z",
+		"timestamp": "2023-02-23T06:49:18.138Z",
 		"haleVersion": "4.2.0.SNAPSHOT"
 	},
 	"project": {
@@ -22,7 +22,7 @@
 		"author": "Thorsten Reitz (im Auftrag von swisstopo)",
 		"haleVersion": "4.2.0.SNAPSHOT",
 		"created": "2023-02-05T15:19:39.287Z",
-		"modified": "2023-02-05T15:26:46.498Z"
+		"modified": "2023-02-23T06:48:05.511Z"
 	},
 	"sourceSchemas": [
 		{
@@ -190,6 +190,594 @@
 				"en": "<p>Populates the target property <em>id</em> with the groups captured from the regular expression analysis on the source property <em>UUID</em>.</p>\n<p>The regular expression analysis is carried out based on the regular expression <code>\\{(.*?)\\}</code>.<br/>If a source value matches the pattern, the transformation result is constructed based on the output format <code>Contact_{1}</code>.<br/>Within the given format, curly braces wrapping group numbers are replaced by the content of the respective regular expression group.</p>"
 			},
 			"cellId": "C39d82fa4-158c-4c08-89a1-d21c6d9a5ce7",
+			"parentCells": [
+				"C21ddd9af-1350-4916-914a-9f5576facda8"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Assign",
+			"functionId": "eu.esdihumboldt.hale.align.assign",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Value",
+					"paramName": "value",
+					"paramValue": "deg",
+					"simple": true
+				}
+			],
+			"sources": [],
+			"targets": [
+				{
+					"propertyPath": [
+						"Contact",
+						"stContactDescription",
+						"ContactDescription",
+						"orientation",
+						"GSML_PlanarOrientation",
+						"azimuth",
+						"QuantityRange",
+						"QuantityRange",
+						"uom",
+						"href"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A contact is a general concept representing any kind of surface separating two geologic units, including primary boundaries such as depositional contacts, all kinds of unconformities, intrusive contacts, and gradational contacts, as well as faults that separate geologic units.</p>"
+						},
+						{
+							"propertyType": "?",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The property stContactDescription:ContactAbstractDescription provides a detailed contact description. This is a stub property in GeoSciML Basic since ContactAbstractDescription is an abstract class with subtypes defined in GeoSciML Extension.</p>"
+						},
+						{
+							"propertyType": "ContactDescription",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>The ContactDescription provides extended descriptive properties of a geologic contact. If the contact type is ChronostratigraphicBoundary, it can be associated with a geochronologic (i.e., time zone) boundary that may correlate with it.</p>"
+						},
+						{
+							"propertyType": "?",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The orientation:GSML_PlanarOrientation property reports the general orientation of the contact surface.</p>"
+						},
+						{
+							"propertyType": "GSML_PlanarOrientation",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>A planar orientation is composed of two values; the azimuth (a compass point) and a dip (the angle from the horizontal). Polarity of the plane indicates whether the planar orientation is associated with a directed feature that is overturned, upright, vertical, etc. There are several conventions to encode a planar orientation and this specification does not impose one but provides a convention property to report it. It must be noted that allowance for different conventions makes manipulation of the data more difficult. Therefore it is recommended that user communities adopt a single measurement convention.</p>"
+						},
+						{
+							"propertyType": "? extends AbstractMemberType",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The azimuth (SWE::QuantityRange) property (compass point, bearing etc.) contains the value of the orientation. The convention property reports how azimuth is interpreted (if it is relative to a quadrant).</p>"
+						},
+						{
+							"propertyCardinality": "0..1"
+						},
+						{
+							"propertyType": "QuantityRange",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>Decimal pair for specifying a quantity range with a unit of measure</p>"
+						},
+						{
+							"propertyType": "UnitReference",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>Unit of measure used to express the value of this data component</p>"
+						},
+						{
+							"propertyType": "hrefType",
+							"propertyCardinality": "0..1"
+						}
+					],
+					"shortName": "href",
+					"entity": {
+						"type": {
+							"localName": "ContactType",
+							"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Basic"
+						},
+						"path": [
+							{
+								"localName": "stContactDescription",
+								"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Basic"
+							},
+							{
+								"localName": "ContactDescription",
+								"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Extension"
+							},
+							{
+								"localName": "orientation",
+								"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Extension"
+							},
+							{
+								"localName": "GSML_PlanarOrientation",
+								"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Basic"
+							},
+							{
+								"localName": "azimuth",
+								"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Basic"
+							},
+							{
+								"localName": "choice",
+								"namespace": "http://www.opengis.net/swe/2.0/QuantityRange"
+							},
+							{
+								"localName": "QuantityRange",
+								"namespace": "http://www.opengis.net/swe/2.0"
+							},
+							{
+								"localName": "uom",
+								"namespace": "http://www.opengis.net/swe/2.0"
+							},
+							{
+								"localName": "href",
+								"namespace": "http://www.w3.org/1999/xlink"
+							}
+						]
+					}
+				}
+			],
+			"explanations": {
+				"de": "<p>Weist dem Attribut <em>href</em> den Wert <code>deg</code> zu.</p>",
+				"en": "<p>Assigns the value <code>deg</code> to the <em>href</em> property.</p>"
+			},
+			"cellId": "C3802a7c4-4737-4b07-9a8f-ac9490b55606",
+			"parentCells": [
+				"C68b9ade0-9f48-472b-b8ed-8763308f0ace",
+				"C21ddd9af-1350-4916-914a-9f5576facda8"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Rename",
+			"functionId": "eu.esdihumboldt.hale.align.rename",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Structural rename",
+					"paramName": "structuralRename",
+					"paramValue": "false",
+					"simple": true
+				},
+				{
+					"paramLabel": "Allow ignore namespace",
+					"paramName": "ignoreNamespaces",
+					"paramValue": "false",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"Deformation_Structures_PT (ECQL:KIND = 'tektonische Diskordanz')",
+						"AZIMUTH"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "TEXT",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "AZIMUTH",
+					"entity": {
+						"type": {
+							"localName": "Deformation_Structures_PT",
+							"namespace": "http://www.esdi-humboldt.eu/hale/gpkg",
+							"condition": {
+								"lang": "ECQL",
+								"expression": "KIND = 'tektonische Diskordanz'"
+							}
+						},
+						"path": [
+							{
+								"localName": "AZIMUTH",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"Contact",
+						"stContactDescription",
+						"ContactDescription",
+						"orientation",
+						"GSML_PlanarOrientation",
+						"azimuth",
+						"QuantityRange",
+						"QuantityRange",
+						"value"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A contact is a general concept representing any kind of surface separating two geologic units, including primary boundaries such as depositional contacts, all kinds of unconformities, intrusive contacts, and gradational contacts, as well as faults that separate geologic units.</p>"
+						},
+						{
+							"propertyType": "?",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The property stContactDescription:ContactAbstractDescription provides a detailed contact description. This is a stub property in GeoSciML Basic since ContactAbstractDescription is an abstract class with subtypes defined in GeoSciML Extension.</p>"
+						},
+						{
+							"propertyType": "ContactDescription",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>The ContactDescription provides extended descriptive properties of a geologic contact. If the contact type is ChronostratigraphicBoundary, it can be associated with a geochronologic (i.e., time zone) boundary that may correlate with it.</p>"
+						},
+						{
+							"propertyType": "?",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The orientation:GSML_PlanarOrientation property reports the general orientation of the contact surface.</p>"
+						},
+						{
+							"propertyType": "GSML_PlanarOrientation",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>A planar orientation is composed of two values; the azimuth (a compass point) and a dip (the angle from the horizontal). Polarity of the plane indicates whether the planar orientation is associated with a directed feature that is overturned, upright, vertical, etc. There are several conventions to encode a planar orientation and this specification does not impose one but provides a convention property to report it. It must be noted that allowance for different conventions makes manipulation of the data more difficult. Therefore it is recommended that user communities adopt a single measurement convention.</p>"
+						},
+						{
+							"propertyType": "? extends AbstractMemberType",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The azimuth (SWE::QuantityRange) property (compass point, bearing etc.) contains the value of the orientation. The convention property reports how azimuth is interpreted (if it is relative to a quadrant).</p>"
+						},
+						{
+							"propertyCardinality": "0..1"
+						},
+						{
+							"propertyType": "QuantityRange",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>Decimal pair for specifying a quantity range with a unit of measure</p>"
+						},
+						{
+							"propertyType": "RealPair",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>Value is a pair of double numbers separated by a space. It is optional, to enable structure to act as a schema for values provided using other encodings</p>"
+						}
+					],
+					"shortName": "value",
+					"entity": {
+						"type": {
+							"localName": "ContactType",
+							"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Basic"
+						},
+						"path": [
+							{
+								"localName": "stContactDescription",
+								"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Basic"
+							},
+							{
+								"localName": "ContactDescription",
+								"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Extension"
+							},
+							{
+								"localName": "orientation",
+								"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Extension"
+							},
+							{
+								"localName": "GSML_PlanarOrientation",
+								"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Basic"
+							},
+							{
+								"localName": "azimuth",
+								"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Basic"
+							},
+							{
+								"localName": "choice",
+								"namespace": "http://www.opengis.net/swe/2.0/QuantityRange"
+							},
+							{
+								"localName": "QuantityRange",
+								"namespace": "http://www.opengis.net/swe/2.0"
+							},
+							{
+								"localName": "value",
+								"namespace": "http://www.opengis.net/swe/2.0"
+							}
+						]
+					}
+				}
+			],
+			"explanations": {
+				"de": "<p>F\u00fcr jeden Wert in <em>AZIMUTH</em> wird dieser im Ziel als Attribut <em>value</em> hinzugef\u00fcgt.<br/>Falls notwendig wird eine Datentyp-Konvertierung angewandt.</p>",
+				"en": "<p>For each value in <em>AZIMUTH</em> adds the same value to the <em>value</em> property. If necessary a conversion is applied.</p>"
+			},
+			"cellId": "C5bd38b91-00e0-41ed-b974-6a3ed766280f",
+			"parentCells": [
+				"C21ddd9af-1350-4916-914a-9f5576facda8"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Assign",
+			"functionId": "eu.esdihumboldt.hale.align.assign",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Value",
+					"paramName": "value",
+					"paramValue": "deg",
+					"simple": true
+				}
+			],
+			"sources": [],
+			"targets": [
+				{
+					"propertyPath": [
+						"Contact",
+						"stContactDescription",
+						"ContactDescription",
+						"orientation",
+						"GSML_PlanarOrientation",
+						"dip",
+						"QuantityRange",
+						"QuantityRange",
+						"uom",
+						"href"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A contact is a general concept representing any kind of surface separating two geologic units, including primary boundaries such as depositional contacts, all kinds of unconformities, intrusive contacts, and gradational contacts, as well as faults that separate geologic units.</p>"
+						},
+						{
+							"propertyType": "?",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The property stContactDescription:ContactAbstractDescription provides a detailed contact description. This is a stub property in GeoSciML Basic since ContactAbstractDescription is an abstract class with subtypes defined in GeoSciML Extension.</p>"
+						},
+						{
+							"propertyType": "ContactDescription",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>The ContactDescription provides extended descriptive properties of a geologic contact. If the contact type is ChronostratigraphicBoundary, it can be associated with a geochronologic (i.e., time zone) boundary that may correlate with it.</p>"
+						},
+						{
+							"propertyType": "?",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The orientation:GSML_PlanarOrientation property reports the general orientation of the contact surface.</p>"
+						},
+						{
+							"propertyType": "GSML_PlanarOrientation",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>A planar orientation is composed of two values; the azimuth (a compass point) and a dip (the angle from the horizontal). Polarity of the plane indicates whether the planar orientation is associated with a directed feature that is overturned, upright, vertical, etc. There are several conventions to encode a planar orientation and this specification does not impose one but provides a convention property to report it. It must be noted that allowance for different conventions makes manipulation of the data more difficult. Therefore it is recommended that user communities adopt a single measurement convention.</p>"
+						},
+						{
+							"propertyType": "? extends AbstractMemberType",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The dip (SWE::QuantityRange) reports the angle that the structural surface (e.g. bedding, fault plane) makes with the horizontal measured perpendicular to the strike of the structure and in the vertical plane as a numeric value or term.</p>"
+						},
+						{
+							"propertyCardinality": "0..1"
+						},
+						{
+							"propertyType": "QuantityRange",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>Decimal pair for specifying a quantity range with a unit of measure</p>"
+						},
+						{
+							"propertyType": "UnitReference",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>Unit of measure used to express the value of this data component</p>"
+						},
+						{
+							"propertyType": "hrefType",
+							"propertyCardinality": "0..1"
+						}
+					],
+					"shortName": "href",
+					"entity": {
+						"type": {
+							"localName": "ContactType",
+							"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Basic"
+						},
+						"path": [
+							{
+								"localName": "stContactDescription",
+								"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Basic"
+							},
+							{
+								"localName": "ContactDescription",
+								"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Extension"
+							},
+							{
+								"localName": "orientation",
+								"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Extension"
+							},
+							{
+								"localName": "GSML_PlanarOrientation",
+								"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Basic"
+							},
+							{
+								"localName": "dip",
+								"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Basic"
+							},
+							{
+								"localName": "choice",
+								"namespace": "http://www.opengis.net/swe/2.0/QuantityRange"
+							},
+							{
+								"localName": "QuantityRange",
+								"namespace": "http://www.opengis.net/swe/2.0"
+							},
+							{
+								"localName": "uom",
+								"namespace": "http://www.opengis.net/swe/2.0"
+							},
+							{
+								"localName": "href",
+								"namespace": "http://www.w3.org/1999/xlink"
+							}
+						]
+					}
+				}
+			],
+			"explanations": {
+				"de": "<p>Weist dem Attribut <em>href</em> den Wert <code>deg</code> zu.</p>",
+				"en": "<p>Assigns the value <code>deg</code> to the <em>href</em> property.</p>"
+			},
+			"cellId": "C7ec91d43-e7d0-4a43-a5a3-c5d28f417fdd",
+			"parentCells": [
+				"C68b9ade0-9f48-472b-b8ed-8763308f0ace",
+				"C21ddd9af-1350-4916-914a-9f5576facda8"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Rename",
+			"functionId": "eu.esdihumboldt.hale.align.rename",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Structural rename",
+					"paramName": "structuralRename",
+					"paramValue": "false",
+					"simple": true
+				},
+				{
+					"paramLabel": "Allow ignore namespace",
+					"paramName": "ignoreNamespaces",
+					"paramValue": "false",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"Deformation_Structures_PT (ECQL:KIND = 'tektonische Diskordanz')",
+						"DIP"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "TEXT",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "DIP",
+					"entity": {
+						"type": {
+							"localName": "Deformation_Structures_PT",
+							"namespace": "http://www.esdi-humboldt.eu/hale/gpkg",
+							"condition": {
+								"lang": "ECQL",
+								"expression": "KIND = 'tektonische Diskordanz'"
+							}
+						},
+						"path": [
+							{
+								"localName": "DIP",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"Contact",
+						"stContactDescription",
+						"ContactDescription",
+						"orientation",
+						"GSML_PlanarOrientation",
+						"dip",
+						"QuantityRange",
+						"QuantityRange",
+						"value"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A contact is a general concept representing any kind of surface separating two geologic units, including primary boundaries such as depositional contacts, all kinds of unconformities, intrusive contacts, and gradational contacts, as well as faults that separate geologic units.</p>"
+						},
+						{
+							"propertyType": "?",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The property stContactDescription:ContactAbstractDescription provides a detailed contact description. This is a stub property in GeoSciML Basic since ContactAbstractDescription is an abstract class with subtypes defined in GeoSciML Extension.</p>"
+						},
+						{
+							"propertyType": "ContactDescription",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>The ContactDescription provides extended descriptive properties of a geologic contact. If the contact type is ChronostratigraphicBoundary, it can be associated with a geochronologic (i.e., time zone) boundary that may correlate with it.</p>"
+						},
+						{
+							"propertyType": "?",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The orientation:GSML_PlanarOrientation property reports the general orientation of the contact surface.</p>"
+						},
+						{
+							"propertyType": "GSML_PlanarOrientation",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>A planar orientation is composed of two values; the azimuth (a compass point) and a dip (the angle from the horizontal). Polarity of the plane indicates whether the planar orientation is associated with a directed feature that is overturned, upright, vertical, etc. There are several conventions to encode a planar orientation and this specification does not impose one but provides a convention property to report it. It must be noted that allowance for different conventions makes manipulation of the data more difficult. Therefore it is recommended that user communities adopt a single measurement convention.</p>"
+						},
+						{
+							"propertyType": "? extends AbstractMemberType",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The dip (SWE::QuantityRange) reports the angle that the structural surface (e.g. bedding, fault plane) makes with the horizontal measured perpendicular to the strike of the structure and in the vertical plane as a numeric value or term.</p>"
+						},
+						{
+							"propertyCardinality": "0..1"
+						},
+						{
+							"propertyType": "QuantityRange",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>Decimal pair for specifying a quantity range with a unit of measure</p>"
+						},
+						{
+							"propertyType": "RealPair",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>Value is a pair of double numbers separated by a space. It is optional, to enable structure to act as a schema for values provided using other encodings</p>"
+						}
+					],
+					"shortName": "value",
+					"entity": {
+						"type": {
+							"localName": "ContactType",
+							"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Basic"
+						},
+						"path": [
+							{
+								"localName": "stContactDescription",
+								"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Basic"
+							},
+							{
+								"localName": "ContactDescription",
+								"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Extension"
+							},
+							{
+								"localName": "orientation",
+								"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Extension"
+							},
+							{
+								"localName": "GSML_PlanarOrientation",
+								"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Basic"
+							},
+							{
+								"localName": "dip",
+								"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Basic"
+							},
+							{
+								"localName": "choice",
+								"namespace": "http://www.opengis.net/swe/2.0/QuantityRange"
+							},
+							{
+								"localName": "QuantityRange",
+								"namespace": "http://www.opengis.net/swe/2.0"
+							},
+							{
+								"localName": "value",
+								"namespace": "http://www.opengis.net/swe/2.0"
+							}
+						]
+					}
+				}
+			],
+			"explanations": {
+				"de": "<p>F\u00fcr jeden Wert in <em>DIP</em> wird dieser im Ziel als Attribut <em>value</em> hinzugef\u00fcgt.<br/>Falls notwendig wird eine Datentyp-Konvertierung angewandt.</p>",
+				"en": "<p>For each value in <em>DIP</em> adds the same value to the <em>value</em> property. If necessary a conversion is applied.</p>"
+			},
+			"cellId": "C76977091-921f-4cb5-ac28-20ae5ce69f89",
 			"parentCells": [
 				"C21ddd9af-1350-4916-914a-9f5576facda8"
 			],
@@ -4427,7 +5015,8 @@
 			},
 			"cellId": "C68d91039-bd99-4c4d-aa35-c2800a8e07bf",
 			"parentCells": [
-				"C9a16831d-e8f5-4e4f-8ca2-5a961749f8f5"
+				"C9a16831d-e8f5-4e4f-8ca2-5a961749f8f5",
+				"C0356af1d-3ca1-428c-97c3-1b233175f3d0"
 			],
 			"priority": "normal",
 			"configurable": true
@@ -5235,7 +5824,8 @@
 			},
 			"cellId": "C7cfc33c8-1b1e-41d0-baa4-0f560b8f6a25",
 			"parentCells": [
-				"C9a16831d-e8f5-4e4f-8ca2-5a961749f8f5"
+				"C9a16831d-e8f5-4e4f-8ca2-5a961749f8f5",
+				"C0356af1d-3ca1-428c-97c3-1b233175f3d0"
 			],
 			"priority": "normal",
 			"configurable": true
@@ -5387,18 +5977,20 @@
 			},
 			"cellId": "Cc4fb6f72-70e6-4128-aaa2-6a361d3d7dd0",
 			"parentCells": [
-				"Cf03d5654-0f68-4697-bcaf-2b1775e50d58",
 				"C39aa14a0-417b-4981-b283-8bd95edad803",
 				"C05c0e905-f22a-41b3-9d36-81b97793d666",
-				"Cf434f99c-da11-4d9c-9edb-2151b153174f",
 				"Cd6c6afbe-3d72-4daa-84d5-82418adeb40c",
+				"C412eb013-c639-471b-ac7f-64f36b68be1b",
+				"Ce6bb1ee6-230c-48a6-96b7-66a6c248a5b6",
+				"C5a661084-c401-4391-a516-a259d36a4dc2",
+				"Cf03d5654-0f68-4697-bcaf-2b1775e50d58",
+				"C0356af1d-3ca1-428c-97c3-1b233175f3d0",
+				"Cf434f99c-da11-4d9c-9edb-2151b153174f",
 				"C933ac2ba-0b6a-4961-8a81-675bc18a28a0",
 				"C1434568b-6303-4cdd-9950-ecb3c4e0cee9",
 				"C9a16831d-e8f5-4e4f-8ca2-5a961749f8f5",
 				"C5eaae1d7-77ed-4fcb-a911-d69703b49790",
-				"C621c90fe-6535-4f01-b76e-ce04e32e458a",
-				"Ce6bb1ee6-230c-48a6-96b7-66a6c248a5b6",
-				"C5a661084-c401-4391-a516-a259d36a4dc2"
+				"C621c90fe-6535-4f01-b76e-ce04e32e458a"
 			],
 			"priority": "normal",
 			"configurable": true
@@ -5719,7 +6311,8 @@
 			},
 			"cellId": "C3ccca098-d43a-4e9f-b7ca-42b6863a6d55",
 			"parentCells": [
-				"C9a16831d-e8f5-4e4f-8ca2-5a961749f8f5"
+				"C9a16831d-e8f5-4e4f-8ca2-5a961749f8f5",
+				"C0356af1d-3ca1-428c-97c3-1b233175f3d0"
 			],
 			"priority": "normal",
 			"configurable": true
@@ -7311,6 +7904,9 @@
 				"en": "<p>Populates the target property <em>href</em> with the groups captured from the regular expression analysis on the source property <em>UUID</em>.</p>\n<p>The regular expression analysis is carried out based on the regular expression <code>\\{(.*?)\\}</code>.<br/>If a source value matches the pattern, the transformation result is constructed based on the output format <code>#ShearDisplacementStructure_{1}</code>.<br/>Within the given format, curly braces wrapping group numbers are replaced by the content of the respective regular expression group.</p>"
 			},
 			"cellId": "Cb1a1c2ee-3b5d-4844-b68b-faa89b67a73b",
+			"parentCells": [
+				"C0356af1d-3ca1-428c-97c3-1b233175f3d0"
+			],
 			"priority": "normal",
 			"configurable": true
 		},
@@ -9350,6 +9946,1703 @@
 			},
 			"cellId": "C5fa86913-9e41-4e17-85d2-bc6f88c51556",
 			"mode": "active",
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Retype",
+			"functionId": "eu.esdihumboldt.hale.align.retype",
+			"typeRelation": true,
+			"functionParameters": [
+				{
+					"paramLabel": "Structural rename",
+					"paramName": "structuralRename",
+					"paramValue": "false",
+					"simple": true
+				},
+				{
+					"paramLabel": "Allow ignore namespace",
+					"paramName": "ignoreNamespaces",
+					"paramValue": "false",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"Planar_Structures_PT (CQL:KIND = 'Orientierung der Schichten')"
+					],
+					"propertyDescriptions": [
+						{
+						}
+					],
+					"shortName": "Planar_Structures_PT",
+					"entity": {
+						"type": {
+							"localName": "Planar_Structures_PT",
+							"namespace": "http://www.esdi-humboldt.eu/hale/gpkg",
+							"condition": {
+								"lang": "CQL",
+								"expression": "KIND = 'Orientierung der Schichten'"
+							}
+						}
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"Foliation"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A foliation is a planar arrangement of textural or structural features in any type of rock. It includes any of a wide variety of penetrative planar geological structures that may be present in a rock. Examples include schistosity, mylonitic foliation, penetrative bedding structure (lamination), and cleavage. Following the proposed definition of gneiss by the NADM Science Language Technical Team, penetrative planar foliation defined by layers &gt; 5 mm thick is considered Layering.</p>"
+						}
+					],
+					"shortName": "Foliation",
+					"entity": {
+						"type": {
+							"localName": "FoliationType",
+							"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Basic"
+						}
+					}
+				}
+			],
+			"explanations": {
+				"de": "<p>Erstellt ein <em>Foliation</em> Objekt f\u00fcr jedes <em>Planar_Structures_PT</em> (erf\u00fcllt <span style=\"font-style: italic;\">KIND = &lsquo;Orientierung der Schichten&rsquo;</span>) Objekt in den Quell-Daten.</p>",
+				"en": "<p>Creates a <em>Foliation</em> instance for each <em>Planar_Structures_PT</em> (matching <span style=\"font-style: italic;\">KIND = &lsquo;Orientierung der Schichten&rsquo;</span>) instance in the source data set.</p>"
+			},
+			"cellId": "C679c650d-0080-46d2-be62-56393adf32f2",
+			"mode": "active",
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Regex Analysis",
+			"functionId": "eu.esdihumboldt.cst.functions.string.regexanalysisfunction",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Regular Expression",
+					"paramName": "regexPattern",
+					"paramValue": "\\{(.*?)\\}",
+					"simple": true
+				},
+				{
+					"paramLabel": "Output Format",
+					"paramName": "outputFormat",
+					"paramValue": "Foliation_{1}",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"Planar_Structures_PT (CQL:KIND = 'Orientierung der Schichten')",
+						"UUID"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "TEXT",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "UUID",
+					"entity": {
+						"type": {
+							"localName": "Planar_Structures_PT",
+							"namespace": "http://www.esdi-humboldt.eu/hale/gpkg",
+							"condition": {
+								"lang": "CQL",
+								"expression": "KIND = 'Orientierung der Schichten'"
+							}
+						},
+						"path": [
+							{
+								"localName": "UUID",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"Foliation",
+						"id"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A foliation is a planar arrangement of textural or structural features in any type of rock. It includes any of a wide variety of penetrative planar geological structures that may be present in a rock. Examples include schistosity, mylonitic foliation, penetrative bedding structure (lamination), and cleavage. Following the proposed definition of gneiss by the NADM Science Language Technical Team, penetrative planar foliation defined by layers &gt; 5 mm thick is considered Layering.</p>"
+						},
+						{
+							"propertyType": "ID",
+							"propertyCardinality": "0..1"
+						}
+					],
+					"shortName": "id",
+					"entity": {
+						"type": {
+							"localName": "FoliationType",
+							"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Basic"
+						},
+						"path": [
+							{
+								"localName": "id",
+								"namespace": "http://www.opengis.net/gml/3.2"
+							}
+						]
+					}
+				}
+			],
+			"explanations": {
+				"de": "<p>Analysiert den Wert des Quell-Attibuts <em>UUID</em> anhand des regul\u00e4ren Ausdrucks <code>\\{(.*?)\\}</code>.<br/>Wird eine \u00dcbereinstimmung gefunden wird diese anhand des Musters <code>Foliation_{1}</code> umformatiert.<br/>In geschwungenen Klammern eingebetette Nummern werden dabei durch den Inhalt der entsprechenden <em>Gruppe</em> des regul\u00e4ren Ausdrucks ersetzt.<br/>Das Ergebnis wird im Ziel-Attribut <em>id</em> abgelegt.</p>",
+				"en": "<p>Populates the target property <em>id</em> with the groups captured from the regular expression analysis on the source property <em>UUID</em>.</p>\n<p>The regular expression analysis is carried out based on the regular expression <code>\\{(.*?)\\}</code>.<br/>If a source value matches the pattern, the transformation result is constructed based on the output format <code>Foliation_{1}</code>.<br/>Within the given format, curly braces wrapping group numbers are replaced by the content of the respective regular expression group.</p>"
+			},
+			"cellId": "C557b1232-2c19-4e79-9c2c-8d7c839bcd55",
+			"parentCells": [
+				"C679c650d-0080-46d2-be62-56393adf32f2"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Rename",
+			"functionId": "eu.esdihumboldt.hale.align.rename",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Structural rename",
+					"paramName": "structuralRename",
+					"paramValue": "false",
+					"simple": true
+				},
+				{
+					"paramLabel": "Allow ignore namespace",
+					"paramName": "ignoreNamespaces",
+					"paramValue": "false",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"Planar_Structures_PT (CQL:KIND = 'Orientierung der Schichten')",
+						"AZIMUTH"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "TEXT",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "AZIMUTH",
+					"entity": {
+						"type": {
+							"localName": "Planar_Structures_PT",
+							"namespace": "http://www.esdi-humboldt.eu/hale/gpkg",
+							"condition": {
+								"lang": "CQL",
+								"expression": "KIND = 'Orientierung der Schichten'"
+							}
+						},
+						"path": [
+							{
+								"localName": "AZIMUTH",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"Foliation",
+						"stFoliationDescription",
+						"FoliationDescription",
+						"orientation",
+						"GSML_PlanarOrientation",
+						"azimuth",
+						"QuantityRange",
+						"QuantityRange",
+						"value"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A foliation is a planar arrangement of textural or structural features in any type of rock. It includes any of a wide variety of penetrative planar geological structures that may be present in a rock. Examples include schistosity, mylonitic foliation, penetrative bedding structure (lamination), and cleavage. Following the proposed definition of gneiss by the NADM Science Language Technical Team, penetrative planar foliation defined by layers &gt; 5 mm thick is considered Layering.</p>"
+						},
+						{
+							"propertyType": "?",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The foliationType:FoliationTypeTerm property specifies the type of foliation from a controlled vocabulary. Examples include crenulation cleavage, slaty cleavage and schistosity.</p>"
+						},
+						{
+							"propertyType": "FoliationDescription",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>FoliationDescription provides extended descriptive properties for a foliation structure.</p>"
+						},
+						{
+							"propertyType": "?",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The orientation:GSML_PlanarOrientation contains an estimate of the planar orientation of the foliation structure.</p>"
+						},
+						{
+							"propertyType": "GSML_PlanarOrientation",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>A planar orientation is composed of two values; the azimuth (a compass point) and a dip (the angle from the horizontal). Polarity of the plane indicates whether the planar orientation is associated with a directed feature that is overturned, upright, vertical, etc. There are several conventions to encode a planar orientation and this specification does not impose one but provides a convention property to report it. It must be noted that allowance for different conventions makes manipulation of the data more difficult. Therefore it is recommended that user communities adopt a single measurement convention.</p>"
+						},
+						{
+							"propertyType": "? extends AbstractMemberType",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The azimuth (SWE::QuantityRange) property (compass point, bearing etc.) contains the value of the orientation. The convention property reports how azimuth is interpreted (if it is relative to a quadrant).</p>"
+						},
+						{
+							"propertyCardinality": "0..1"
+						},
+						{
+							"propertyType": "QuantityRange",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>Decimal pair for specifying a quantity range with a unit of measure</p>"
+						},
+						{
+							"propertyType": "RealPair",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>Value is a pair of double numbers separated by a space. It is optional, to enable structure to act as a schema for values provided using other encodings</p>"
+						}
+					],
+					"shortName": "value",
+					"entity": {
+						"type": {
+							"localName": "FoliationType",
+							"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Basic"
+						},
+						"path": [
+							{
+								"localName": "stFoliationDescription",
+								"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Basic"
+							},
+							{
+								"localName": "FoliationDescription",
+								"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Extension"
+							},
+							{
+								"localName": "orientation",
+								"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Extension"
+							},
+							{
+								"localName": "GSML_PlanarOrientation",
+								"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Basic"
+							},
+							{
+								"localName": "azimuth",
+								"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Basic"
+							},
+							{
+								"localName": "choice",
+								"namespace": "http://www.opengis.net/swe/2.0/QuantityRange"
+							},
+							{
+								"localName": "QuantityRange",
+								"namespace": "http://www.opengis.net/swe/2.0"
+							},
+							{
+								"localName": "value",
+								"namespace": "http://www.opengis.net/swe/2.0"
+							}
+						]
+					}
+				}
+			],
+			"explanations": {
+				"de": "<p>F\u00fcr jeden Wert in <em>AZIMUTH</em> wird dieser im Ziel als Attribut <em>value</em> hinzugef\u00fcgt.<br/>Falls notwendig wird eine Datentyp-Konvertierung angewandt.</p>",
+				"en": "<p>For each value in <em>AZIMUTH</em> adds the same value to the <em>value</em> property. If necessary a conversion is applied.</p>"
+			},
+			"cellId": "C9f0b176e-5797-4b5f-acee-082adce995fe",
+			"parentCells": [
+				"C679c650d-0080-46d2-be62-56393adf32f2"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Assign (Bound)",
+			"functionId": "eu.esdihumboldt.hale.align.assign.bound",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Value",
+					"paramName": "value",
+					"paramValue": "deg",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"Planar_Structures_PT (CQL:KIND = 'Orientierung der Schichten')",
+						"AZIMUTH"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "TEXT",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "AZIMUTH",
+					"entity": {
+						"type": {
+							"localName": "Planar_Structures_PT",
+							"namespace": "http://www.esdi-humboldt.eu/hale/gpkg",
+							"condition": {
+								"lang": "CQL",
+								"expression": "KIND = 'Orientierung der Schichten'"
+							}
+						},
+						"path": [
+							{
+								"localName": "AZIMUTH",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"Foliation",
+						"stFoliationDescription",
+						"FoliationDescription",
+						"orientation",
+						"GSML_PlanarOrientation",
+						"azimuth",
+						"QuantityRange",
+						"QuantityRange",
+						"uom",
+						"href"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A foliation is a planar arrangement of textural or structural features in any type of rock. It includes any of a wide variety of penetrative planar geological structures that may be present in a rock. Examples include schistosity, mylonitic foliation, penetrative bedding structure (lamination), and cleavage. Following the proposed definition of gneiss by the NADM Science Language Technical Team, penetrative planar foliation defined by layers &gt; 5 mm thick is considered Layering.</p>"
+						},
+						{
+							"propertyType": "?",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The foliationType:FoliationTypeTerm property specifies the type of foliation from a controlled vocabulary. Examples include crenulation cleavage, slaty cleavage and schistosity.</p>"
+						},
+						{
+							"propertyType": "FoliationDescription",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>FoliationDescription provides extended descriptive properties for a foliation structure.</p>"
+						},
+						{
+							"propertyType": "?",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The orientation:GSML_PlanarOrientation contains an estimate of the planar orientation of the foliation structure.</p>"
+						},
+						{
+							"propertyType": "GSML_PlanarOrientation",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>A planar orientation is composed of two values; the azimuth (a compass point) and a dip (the angle from the horizontal). Polarity of the plane indicates whether the planar orientation is associated with a directed feature that is overturned, upright, vertical, etc. There are several conventions to encode a planar orientation and this specification does not impose one but provides a convention property to report it. It must be noted that allowance for different conventions makes manipulation of the data more difficult. Therefore it is recommended that user communities adopt a single measurement convention.</p>"
+						},
+						{
+							"propertyType": "? extends AbstractMemberType",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The azimuth (SWE::QuantityRange) property (compass point, bearing etc.) contains the value of the orientation. The convention property reports how azimuth is interpreted (if it is relative to a quadrant).</p>"
+						},
+						{
+							"propertyCardinality": "0..1"
+						},
+						{
+							"propertyType": "QuantityRange",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>Decimal pair for specifying a quantity range with a unit of measure</p>"
+						},
+						{
+							"propertyType": "UnitReference",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>Unit of measure used to express the value of this data component</p>"
+						},
+						{
+							"propertyType": "hrefType",
+							"propertyCardinality": "0..1"
+						}
+					],
+					"shortName": "href",
+					"entity": {
+						"type": {
+							"localName": "FoliationType",
+							"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Basic"
+						},
+						"path": [
+							{
+								"localName": "stFoliationDescription",
+								"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Basic"
+							},
+							{
+								"localName": "FoliationDescription",
+								"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Extension"
+							},
+							{
+								"localName": "orientation",
+								"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Extension"
+							},
+							{
+								"localName": "GSML_PlanarOrientation",
+								"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Basic"
+							},
+							{
+								"localName": "azimuth",
+								"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Basic"
+							},
+							{
+								"localName": "choice",
+								"namespace": "http://www.opengis.net/swe/2.0/QuantityRange"
+							},
+							{
+								"localName": "QuantityRange",
+								"namespace": "http://www.opengis.net/swe/2.0"
+							},
+							{
+								"localName": "uom",
+								"namespace": "http://www.opengis.net/swe/2.0"
+							},
+							{
+								"localName": "href",
+								"namespace": "http://www.w3.org/1999/xlink"
+							}
+						]
+					}
+				}
+			],
+			"explanations": {
+				"de": "<p>Weist dem Attribut <em>href</em> den Wert <code>deg</code> zu, falls in der Quelle das Attribut <em>AZIMUTH</em> existiert.</p>",
+				"en": "<p>Assigns the value <code>deg</code> to the <em>href</em> property.<br/>This is only done if the property <em>AZIMUTH</em> is present in the source.</p>"
+			},
+			"cellId": "Cd005f3db-ff64-4b5a-aa4a-15a3847a021b",
+			"parentCells": [
+				"C679c650d-0080-46d2-be62-56393adf32f2"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Rename",
+			"functionId": "eu.esdihumboldt.hale.align.rename",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Structural rename",
+					"paramName": "structuralRename",
+					"paramValue": "false",
+					"simple": true
+				},
+				{
+					"paramLabel": "Allow ignore namespace",
+					"paramName": "ignoreNamespaces",
+					"paramValue": "false",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"Planar_Structures_PT (CQL:KIND = 'Orientierung der Schichten')",
+						"DIP"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "TEXT",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "DIP",
+					"entity": {
+						"type": {
+							"localName": "Planar_Structures_PT",
+							"namespace": "http://www.esdi-humboldt.eu/hale/gpkg",
+							"condition": {
+								"lang": "CQL",
+								"expression": "KIND = 'Orientierung der Schichten'"
+							}
+						},
+						"path": [
+							{
+								"localName": "DIP",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"Foliation",
+						"stFoliationDescription",
+						"FoliationDescription",
+						"orientation",
+						"GSML_PlanarOrientation",
+						"dip",
+						"QuantityRange",
+						"QuantityRange",
+						"value"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A foliation is a planar arrangement of textural or structural features in any type of rock. It includes any of a wide variety of penetrative planar geological structures that may be present in a rock. Examples include schistosity, mylonitic foliation, penetrative bedding structure (lamination), and cleavage. Following the proposed definition of gneiss by the NADM Science Language Technical Team, penetrative planar foliation defined by layers &gt; 5 mm thick is considered Layering.</p>"
+						},
+						{
+							"propertyType": "?",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The foliationType:FoliationTypeTerm property specifies the type of foliation from a controlled vocabulary. Examples include crenulation cleavage, slaty cleavage and schistosity.</p>"
+						},
+						{
+							"propertyType": "FoliationDescription",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>FoliationDescription provides extended descriptive properties for a foliation structure.</p>"
+						},
+						{
+							"propertyType": "?",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The orientation:GSML_PlanarOrientation contains an estimate of the planar orientation of the foliation structure.</p>"
+						},
+						{
+							"propertyType": "GSML_PlanarOrientation",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>A planar orientation is composed of two values; the azimuth (a compass point) and a dip (the angle from the horizontal). Polarity of the plane indicates whether the planar orientation is associated with a directed feature that is overturned, upright, vertical, etc. There are several conventions to encode a planar orientation and this specification does not impose one but provides a convention property to report it. It must be noted that allowance for different conventions makes manipulation of the data more difficult. Therefore it is recommended that user communities adopt a single measurement convention.</p>"
+						},
+						{
+							"propertyType": "? extends AbstractMemberType",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The dip (SWE::QuantityRange) reports the angle that the structural surface (e.g. bedding, fault plane) makes with the horizontal measured perpendicular to the strike of the structure and in the vertical plane as a numeric value or term.</p>"
+						},
+						{
+							"propertyCardinality": "0..1"
+						},
+						{
+							"propertyType": "QuantityRange",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>Decimal pair for specifying a quantity range with a unit of measure</p>"
+						},
+						{
+							"propertyType": "RealPair",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>Value is a pair of double numbers separated by a space. It is optional, to enable structure to act as a schema for values provided using other encodings</p>"
+						}
+					],
+					"shortName": "value",
+					"entity": {
+						"type": {
+							"localName": "FoliationType",
+							"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Basic"
+						},
+						"path": [
+							{
+								"localName": "stFoliationDescription",
+								"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Basic"
+							},
+							{
+								"localName": "FoliationDescription",
+								"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Extension"
+							},
+							{
+								"localName": "orientation",
+								"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Extension"
+							},
+							{
+								"localName": "GSML_PlanarOrientation",
+								"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Basic"
+							},
+							{
+								"localName": "dip",
+								"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Basic"
+							},
+							{
+								"localName": "choice",
+								"namespace": "http://www.opengis.net/swe/2.0/QuantityRange"
+							},
+							{
+								"localName": "QuantityRange",
+								"namespace": "http://www.opengis.net/swe/2.0"
+							},
+							{
+								"localName": "value",
+								"namespace": "http://www.opengis.net/swe/2.0"
+							}
+						]
+					}
+				}
+			],
+			"explanations": {
+				"de": "<p>F\u00fcr jeden Wert in <em>DIP</em> wird dieser im Ziel als Attribut <em>value</em> hinzugef\u00fcgt.<br/>Falls notwendig wird eine Datentyp-Konvertierung angewandt.</p>",
+				"en": "<p>For each value in <em>DIP</em> adds the same value to the <em>value</em> property. If necessary a conversion is applied.</p>"
+			},
+			"cellId": "C0c183356-f5ae-4e47-a41f-6dc280560f43",
+			"parentCells": [
+				"C679c650d-0080-46d2-be62-56393adf32f2"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Assign (Bound)",
+			"functionId": "eu.esdihumboldt.hale.align.assign.bound",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Value",
+					"paramName": "value",
+					"paramValue": "deg",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"Planar_Structures_PT (CQL:KIND = 'Orientierung der Schichten')",
+						"DIP"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "TEXT",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "DIP",
+					"entity": {
+						"type": {
+							"localName": "Planar_Structures_PT",
+							"namespace": "http://www.esdi-humboldt.eu/hale/gpkg",
+							"condition": {
+								"lang": "CQL",
+								"expression": "KIND = 'Orientierung der Schichten'"
+							}
+						},
+						"path": [
+							{
+								"localName": "DIP",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"Foliation",
+						"stFoliationDescription",
+						"FoliationDescription",
+						"orientation",
+						"GSML_PlanarOrientation",
+						"dip",
+						"QuantityRange",
+						"QuantityRange",
+						"uom",
+						"href"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A foliation is a planar arrangement of textural or structural features in any type of rock. It includes any of a wide variety of penetrative planar geological structures that may be present in a rock. Examples include schistosity, mylonitic foliation, penetrative bedding structure (lamination), and cleavage. Following the proposed definition of gneiss by the NADM Science Language Technical Team, penetrative planar foliation defined by layers &gt; 5 mm thick is considered Layering.</p>"
+						},
+						{
+							"propertyType": "?",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The foliationType:FoliationTypeTerm property specifies the type of foliation from a controlled vocabulary. Examples include crenulation cleavage, slaty cleavage and schistosity.</p>"
+						},
+						{
+							"propertyType": "FoliationDescription",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>FoliationDescription provides extended descriptive properties for a foliation structure.</p>"
+						},
+						{
+							"propertyType": "?",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The orientation:GSML_PlanarOrientation contains an estimate of the planar orientation of the foliation structure.</p>"
+						},
+						{
+							"propertyType": "GSML_PlanarOrientation",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>A planar orientation is composed of two values; the azimuth (a compass point) and a dip (the angle from the horizontal). Polarity of the plane indicates whether the planar orientation is associated with a directed feature that is overturned, upright, vertical, etc. There are several conventions to encode a planar orientation and this specification does not impose one but provides a convention property to report it. It must be noted that allowance for different conventions makes manipulation of the data more difficult. Therefore it is recommended that user communities adopt a single measurement convention.</p>"
+						},
+						{
+							"propertyType": "? extends AbstractMemberType",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The dip (SWE::QuantityRange) reports the angle that the structural surface (e.g. bedding, fault plane) makes with the horizontal measured perpendicular to the strike of the structure and in the vertical plane as a numeric value or term.</p>"
+						},
+						{
+							"propertyCardinality": "0..1"
+						},
+						{
+							"propertyType": "QuantityRange",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>Decimal pair for specifying a quantity range with a unit of measure</p>"
+						},
+						{
+							"propertyType": "UnitReference",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>Unit of measure used to express the value of this data component</p>"
+						},
+						{
+							"propertyType": "hrefType",
+							"propertyCardinality": "0..1"
+						}
+					],
+					"shortName": "href",
+					"entity": {
+						"type": {
+							"localName": "FoliationType",
+							"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Basic"
+						},
+						"path": [
+							{
+								"localName": "stFoliationDescription",
+								"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Basic"
+							},
+							{
+								"localName": "FoliationDescription",
+								"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Extension"
+							},
+							{
+								"localName": "orientation",
+								"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Extension"
+							},
+							{
+								"localName": "GSML_PlanarOrientation",
+								"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Basic"
+							},
+							{
+								"localName": "dip",
+								"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Basic"
+							},
+							{
+								"localName": "choice",
+								"namespace": "http://www.opengis.net/swe/2.0/QuantityRange"
+							},
+							{
+								"localName": "QuantityRange",
+								"namespace": "http://www.opengis.net/swe/2.0"
+							},
+							{
+								"localName": "uom",
+								"namespace": "http://www.opengis.net/swe/2.0"
+							},
+							{
+								"localName": "href",
+								"namespace": "http://www.w3.org/1999/xlink"
+							}
+						]
+					}
+				}
+			],
+			"explanations": {
+				"de": "<p>Weist dem Attribut <em>href</em> den Wert <code>deg</code> zu, falls in der Quelle das Attribut <em>DIP</em> existiert.</p>",
+				"en": "<p>Assigns the value <code>deg</code> to the <em>href</em> property.<br/>This is only done if the property <em>DIP</em> is present in the source.</p>"
+			},
+			"cellId": "C8257c1ed-e54b-4df0-81c2-d0e4863ca39e",
+			"parentCells": [
+				"C679c650d-0080-46d2-be62-56393adf32f2"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Retype",
+			"functionId": "eu.esdihumboldt.hale.align.retype",
+			"typeRelation": true,
+			"functionParameters": [
+				{
+					"paramLabel": "Structural rename",
+					"paramName": "structuralRename",
+					"paramValue": "false",
+					"simple": true
+				},
+				{
+					"paramLabel": "Allow ignore namespace",
+					"paramName": "ignoreNamespaces",
+					"paramValue": "false",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"Planar_Structures_PT (CQL:KIND = 'Orientierung der Schichten')"
+					],
+					"propertyDescriptions": [
+						{
+						}
+					],
+					"shortName": "Planar_Structures_PT",
+					"entity": {
+						"type": {
+							"localName": "Planar_Structures_PT",
+							"namespace": "http://www.esdi-humboldt.eu/hale/gpkg",
+							"condition": {
+								"lang": "CQL",
+								"expression": "KIND = 'Orientierung der Schichten'"
+							}
+						}
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"MappedFeature"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A MappedFeature is part of a geological interpretation. It provides a link between a notional feature (description package) and one spatial representation of it, or part of it (exposures, surface traces and intercepts, etc.). The mapped features are the elements that compose a map, a cross-section, a borehole log, or any other representation. The mappingFrame identifies the domain being mapped by the geometries. For typical geological maps, the mapping frame is the surface of the earth (the 2.5D interface between the surface of the bedrock and whatever sits on it; atmosphere or overburden material for bedrock maps). It can also be abstract frames, such as the arbitrary plane that forms a mine level or a cross-section, the 3D volume enclosing an ore body or the line that approximate the path of a borehole.</p>"
+						}
+					],
+					"shortName": "MappedFeature",
+					"entity": {
+						"type": {
+							"localName": "MappedFeatureType",
+							"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Basic"
+						}
+					}
+				}
+			],
+			"explanations": {
+				"de": "<p>Erstellt ein <em>MappedFeature</em> Objekt f\u00fcr jedes <em>Planar_Structures_PT</em> (erf\u00fcllt <span style=\"font-style: italic;\">KIND = &lsquo;Orientierung der Schichten&rsquo;</span>) Objekt in den Quell-Daten.</p>",
+				"en": "<p>Creates a <em>MappedFeature</em> instance for each <em>Planar_Structures_PT</em> (matching <span style=\"font-style: italic;\">KIND = &lsquo;Orientierung der Schichten&rsquo;</span>) instance in the source data set.</p>"
+			},
+			"cellId": "C412eb013-c639-471b-ac7f-64f36b68be1b",
+			"mode": "active",
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Regex Analysis",
+			"functionId": "eu.esdihumboldt.cst.functions.string.regexanalysisfunction",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Regular Expression",
+					"paramName": "regexPattern",
+					"paramValue": "\\{(.*?)\\}",
+					"simple": true
+				},
+				{
+					"paramLabel": "Output Format",
+					"paramName": "outputFormat",
+					"paramValue": "MappedFeature_{1}",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"Planar_Structures_PT (CQL:KIND = 'Orientierung der Schichten')",
+						"UUID"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "TEXT",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "UUID",
+					"entity": {
+						"type": {
+							"localName": "Planar_Structures_PT",
+							"namespace": "http://www.esdi-humboldt.eu/hale/gpkg",
+							"condition": {
+								"lang": "CQL",
+								"expression": "KIND = 'Orientierung der Schichten'"
+							}
+						},
+						"path": [
+							{
+								"localName": "UUID",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"MappedFeature",
+						"id"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A MappedFeature is part of a geological interpretation. It provides a link between a notional feature (description package) and one spatial representation of it, or part of it (exposures, surface traces and intercepts, etc.). The mapped features are the elements that compose a map, a cross-section, a borehole log, or any other representation. The mappingFrame identifies the domain being mapped by the geometries. For typical geological maps, the mapping frame is the surface of the earth (the 2.5D interface between the surface of the bedrock and whatever sits on it; atmosphere or overburden material for bedrock maps). It can also be abstract frames, such as the arbitrary plane that forms a mine level or a cross-section, the 3D volume enclosing an ore body or the line that approximate the path of a borehole.</p>"
+						},
+						{
+							"propertyType": "ID",
+							"propertyCardinality": "0..1"
+						}
+					],
+					"shortName": "id",
+					"entity": {
+						"type": {
+							"localName": "MappedFeatureType",
+							"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Basic"
+						},
+						"path": [
+							{
+								"localName": "id",
+								"namespace": "http://www.opengis.net/gml/3.2"
+							}
+						]
+					}
+				}
+			],
+			"explanations": {
+				"de": "<p>Analysiert den Wert des Quell-Attibuts <em>UUID</em> anhand des regul\u00e4ren Ausdrucks <code>\\{(.*?)\\}</code>.<br/>Wird eine \u00dcbereinstimmung gefunden wird diese anhand des Musters <code>MappedFeature_{1}</code> umformatiert.<br/>In geschwungenen Klammern eingebetette Nummern werden dabei durch den Inhalt der entsprechenden <em>Gruppe</em> des regul\u00e4ren Ausdrucks ersetzt.<br/>Das Ergebnis wird im Ziel-Attribut <em>id</em> abgelegt.</p>",
+				"en": "<p>Populates the target property <em>id</em> with the groups captured from the regular expression analysis on the source property <em>UUID</em>.</p>\n<p>The regular expression analysis is carried out based on the regular expression <code>\\{(.*?)\\}</code>.<br/>If a source value matches the pattern, the transformation result is constructed based on the output format <code>MappedFeature_{1}</code>.<br/>Within the given format, curly braces wrapping group numbers are replaced by the content of the respective regular expression group.</p>"
+			},
+			"cellId": "Cf8f52efb-048e-40a4-8153-e6b02a06a74e",
+			"parentCells": [
+				"C412eb013-c639-471b-ac7f-64f36b68be1b"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Regex Analysis",
+			"functionId": "eu.esdihumboldt.cst.functions.string.regexanalysisfunction",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Regular Expression",
+					"paramName": "regexPattern",
+					"paramValue": "\\{(.*?)\\}",
+					"simple": true
+				},
+				{
+					"paramLabel": "Output Format",
+					"paramName": "outputFormat",
+					"paramValue": "#MappedFeature_{1}",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"Planar_Structures_PT (CQL:KIND = 'Orientierung der Schichten')",
+						"UUID"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "TEXT",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "UUID",
+					"entity": {
+						"type": {
+							"localName": "Planar_Structures_PT",
+							"namespace": "http://www.esdi-humboldt.eu/hale/gpkg",
+							"condition": {
+								"lang": "CQL",
+								"expression": "KIND = 'Orientierung der Schichten'"
+							}
+						},
+						"path": [
+							{
+								"localName": "UUID",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"Foliation",
+						"occurrence",
+						"href"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A foliation is a planar arrangement of textural or structural features in any type of rock. It includes any of a wide variety of penetrative planar geological structures that may be present in a rock. Examples include schistosity, mylonitic foliation, penetrative bedding structure (lamination), and cleavage. Following the proposed definition of gneiss by the NADM Science Language Technical Team, penetrative planar foliation defined by layers &gt; 5 mm thick is considered Layering.</p>"
+						},
+						{
+							"propertyType": "MappedFeaturePropertyType",
+							"propertyCardinality": "0..110",
+							"propertyDescription": "<p>The occurrence property is an association that links a notional geologic feature with any number of mapped features (MappedFeature). A geologic feature, such as a geologic unit may be linked to mapped features from a number of different maps.</p>"
+						},
+						{
+							"propertyType": "hrefType",
+							"propertyCardinality": "0..1"
+						}
+					],
+					"shortName": "href",
+					"entity": {
+						"type": {
+							"localName": "FoliationType",
+							"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Basic"
+						},
+						"path": [
+							{
+								"localName": "occurrence",
+								"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Basic"
+							},
+							{
+								"localName": "href",
+								"namespace": "http://www.w3.org/1999/xlink"
+							}
+						]
+					}
+				}
+			],
+			"explanations": {
+				"de": "<p>Analysiert den Wert des Quell-Attibuts <em>UUID</em> anhand des regul\u00e4ren Ausdrucks <code>\\{(.*?)\\}</code>.<br/>Wird eine \u00dcbereinstimmung gefunden wird diese anhand des Musters <code>#MappedFeature_{1}</code> umformatiert.<br/>In geschwungenen Klammern eingebetette Nummern werden dabei durch den Inhalt der entsprechenden <em>Gruppe</em> des regul\u00e4ren Ausdrucks ersetzt.<br/>Das Ergebnis wird im Ziel-Attribut <em>href</em> abgelegt.</p>",
+				"en": "<p>Populates the target property <em>href</em> with the groups captured from the regular expression analysis on the source property <em>UUID</em>.</p>\n<p>The regular expression analysis is carried out based on the regular expression <code>\\{(.*?)\\}</code>.<br/>If a source value matches the pattern, the transformation result is constructed based on the output format <code>#MappedFeature_{1}</code>.<br/>Within the given format, curly braces wrapping group numbers are replaced by the content of the respective regular expression group.</p>"
+			},
+			"cellId": "Ce64339a5-2b1c-49b5-ab90-bbbdf8b2ab99",
+			"parentCells": [
+				"C679c650d-0080-46d2-be62-56393adf32f2"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Regex Analysis",
+			"functionId": "eu.esdihumboldt.cst.functions.string.regexanalysisfunction",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Regular Expression",
+					"paramName": "regexPattern",
+					"paramValue": "\\{(.*?)\\}",
+					"simple": true
+				},
+				{
+					"paramLabel": "Output Format",
+					"paramName": "outputFormat",
+					"paramValue": "ShearDisplacementStructure_{1}",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"Tectonic_Boundaries_L (CQL:KIND = '\u00dcberschiebung')",
+						"UUID"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "TEXT",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "UUID",
+					"entity": {
+						"type": {
+							"localName": "Tectonic_Boundaries_L",
+							"namespace": "http://www.esdi-humboldt.eu/hale/gpkg",
+							"condition": {
+								"lang": "CQL",
+								"expression": "KIND = '\u00dcberschiebung'"
+							}
+						},
+						"path": [
+							{
+								"localName": "UUID",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"ShearDisplacementStructure",
+						"id"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A shear displacement structure includes all brittle to ductile style structures along which displacement has occurred, from a simple, single &lsquo;planar&rsquo; brittle or ductile surface to a fault system comprised of tens of strands of both brittle and ductile nature. This structure may have some significant thickness (a deformation zone) and have an associated body of deformed rock that may be considered a deformation unit (which geologicUnitType is &lsquo;DeformationUnit&rsquo;) which can be associated to the ShearDisplacementStructure using GeologicFeatureRelation from the GeoSciML Extension package</p>"
+						},
+						{
+							"propertyType": "ID",
+							"propertyCardinality": "0..1"
+						}
+					],
+					"shortName": "id",
+					"entity": {
+						"type": {
+							"localName": "ShearDisplacementStructureType",
+							"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Basic"
+						},
+						"path": [
+							{
+								"localName": "id",
+								"namespace": "http://www.opengis.net/gml/3.2"
+							}
+						]
+					}
+				}
+			],
+			"explanations": {
+				"de": "<p>Analysiert den Wert des Quell-Attibuts <em>UUID</em> anhand des regul\u00e4ren Ausdrucks <code>\\{(.*?)\\}</code>.<br/>Wird eine \u00dcbereinstimmung gefunden wird diese anhand des Musters <code>ShearDisplacementStructure_{1}</code> umformatiert.<br/>In geschwungenen Klammern eingebetette Nummern werden dabei durch den Inhalt der entsprechenden <em>Gruppe</em> des regul\u00e4ren Ausdrucks ersetzt.<br/>Das Ergebnis wird im Ziel-Attribut <em>id</em> abgelegt.</p>",
+				"en": "<p>Populates the target property <em>id</em> with the groups captured from the regular expression analysis on the source property <em>UUID</em>.</p>\n<p>The regular expression analysis is carried out based on the regular expression <code>\\{(.*?)\\}</code>.<br/>If a source value matches the pattern, the transformation result is constructed based on the output format <code>ShearDisplacementStructure_{1}</code>.<br/>Within the given format, curly braces wrapping group numbers are replaced by the content of the respective regular expression group.</p>"
+			},
+			"cellId": "C30de60de-baa3-4826-9622-84760c4e3a1d",
+			"parentCells": [
+				"C5fa86913-9e41-4e17-85d2-bc6f88c51556"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Retype",
+			"functionId": "eu.esdihumboldt.hale.align.retype",
+			"typeRelation": true,
+			"functionParameters": [
+				{
+					"paramLabel": "Structural rename",
+					"paramName": "structuralRename",
+					"paramValue": "false",
+					"simple": true
+				},
+				{
+					"paramLabel": "Allow ignore namespace",
+					"paramName": "ignoreNamespaces",
+					"paramValue": "false",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"Tectonic_Boundaries_L (CQL:KIND = '\u00dcberschiebung')"
+					],
+					"propertyDescriptions": [
+						{
+						}
+					],
+					"shortName": "Tectonic_Boundaries_L",
+					"entity": {
+						"type": {
+							"localName": "Tectonic_Boundaries_L",
+							"namespace": "http://www.esdi-humboldt.eu/hale/gpkg",
+							"condition": {
+								"lang": "CQL",
+								"expression": "KIND = '\u00dcberschiebung'"
+							}
+						}
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"MappedFeature"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A MappedFeature is part of a geological interpretation. It provides a link between a notional feature (description package) and one spatial representation of it, or part of it (exposures, surface traces and intercepts, etc.). The mapped features are the elements that compose a map, a cross-section, a borehole log, or any other representation. The mappingFrame identifies the domain being mapped by the geometries. For typical geological maps, the mapping frame is the surface of the earth (the 2.5D interface between the surface of the bedrock and whatever sits on it; atmosphere or overburden material for bedrock maps). It can also be abstract frames, such as the arbitrary plane that forms a mine level or a cross-section, the 3D volume enclosing an ore body or the line that approximate the path of a borehole.</p>"
+						}
+					],
+					"shortName": "MappedFeature",
+					"entity": {
+						"type": {
+							"localName": "MappedFeatureType",
+							"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Basic"
+						}
+					}
+				}
+			],
+			"explanations": {
+				"de": "<p>Erstellt ein <em>MappedFeature</em> Objekt f\u00fcr jedes <em>Tectonic_Boundaries_L</em> (erf\u00fcllt <span style=\"font-style: italic;\">KIND = &lsquo;&Uuml;berschiebung&rsquo;</span>) Objekt in den Quell-Daten.</p>",
+				"en": "<p>Creates a <em>MappedFeature</em> instance for each <em>Tectonic_Boundaries_L</em> (matching <span style=\"font-style: italic;\">KIND = &lsquo;&Uuml;berschiebung&rsquo;</span>) instance in the source data set.</p>"
+			},
+			"cellId": "C0356af1d-3ca1-428c-97c3-1b233175f3d0",
+			"mode": "active",
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Regex Analysis",
+			"functionId": "eu.esdihumboldt.cst.functions.string.regexanalysisfunction",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Regular Expression",
+					"paramName": "regexPattern",
+					"paramValue": "\\{(.*?)\\}",
+					"simple": true
+				},
+				{
+					"paramLabel": "Output Format",
+					"paramName": "outputFormat",
+					"paramValue": "#MappedFeature_{1}",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"Tectonic_Boundaries_L (CQL:KIND = '\u00dcberschiebung')",
+						"UUID"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "TEXT",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "UUID",
+					"entity": {
+						"type": {
+							"localName": "Tectonic_Boundaries_L",
+							"namespace": "http://www.esdi-humboldt.eu/hale/gpkg",
+							"condition": {
+								"lang": "CQL",
+								"expression": "KIND = '\u00dcberschiebung'"
+							}
+						},
+						"path": [
+							{
+								"localName": "UUID",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"ShearDisplacementStructure",
+						"occurrence",
+						"href"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A shear displacement structure includes all brittle to ductile style structures along which displacement has occurred, from a simple, single &lsquo;planar&rsquo; brittle or ductile surface to a fault system comprised of tens of strands of both brittle and ductile nature. This structure may have some significant thickness (a deformation zone) and have an associated body of deformed rock that may be considered a deformation unit (which geologicUnitType is &lsquo;DeformationUnit&rsquo;) which can be associated to the ShearDisplacementStructure using GeologicFeatureRelation from the GeoSciML Extension package</p>"
+						},
+						{
+							"propertyType": "MappedFeaturePropertyType",
+							"propertyCardinality": "0..110",
+							"propertyDescription": "<p>The occurrence property is an association that links a notional geologic feature with any number of mapped features (MappedFeature). A geologic feature, such as a geologic unit may be linked to mapped features from a number of different maps.</p>"
+						},
+						{
+							"propertyType": "hrefType",
+							"propertyCardinality": "0..1"
+						}
+					],
+					"shortName": "href",
+					"entity": {
+						"type": {
+							"localName": "ShearDisplacementStructureType",
+							"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Basic"
+						},
+						"path": [
+							{
+								"localName": "occurrence",
+								"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Basic"
+							},
+							{
+								"localName": "href",
+								"namespace": "http://www.w3.org/1999/xlink"
+							}
+						]
+					}
+				}
+			],
+			"explanations": {
+				"de": "<p>Analysiert den Wert des Quell-Attibuts <em>UUID</em> anhand des regul\u00e4ren Ausdrucks <code>\\{(.*?)\\}</code>.<br/>Wird eine \u00dcbereinstimmung gefunden wird diese anhand des Musters <code>#MappedFeature_{1}</code> umformatiert.<br/>In geschwungenen Klammern eingebetette Nummern werden dabei durch den Inhalt der entsprechenden <em>Gruppe</em> des regul\u00e4ren Ausdrucks ersetzt.<br/>Das Ergebnis wird im Ziel-Attribut <em>href</em> abgelegt.</p>",
+				"en": "<p>Populates the target property <em>href</em> with the groups captured from the regular expression analysis on the source property <em>UUID</em>.</p>\n<p>The regular expression analysis is carried out based on the regular expression <code>\\{(.*?)\\}</code>.<br/>If a source value matches the pattern, the transformation result is constructed based on the output format <code>#MappedFeature_{1}</code>.<br/>Within the given format, curly braces wrapping group numbers are replaced by the content of the respective regular expression group.</p>"
+			},
+			"cellId": "C7b7e4f88-d181-4b7e-ad56-603b3919d737",
+			"parentCells": [
+				"C5fa86913-9e41-4e17-85d2-bc6f88c51556"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Assign (Bound)",
+			"functionId": "eu.esdihumboldt.hale.align.assign.bound",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Value",
+					"paramName": "value",
+					"paramValue": "http://inspire.ec.europa.eu/codelist/FaultTypeValue/reverseFault",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"Tectonic_Boundaries_L (CQL:KIND = '\u00dcberschiebung')",
+						"UUID"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "TEXT",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "UUID",
+					"entity": {
+						"type": {
+							"localName": "Tectonic_Boundaries_L",
+							"namespace": "http://www.esdi-humboldt.eu/hale/gpkg",
+							"condition": {
+								"lang": "CQL",
+								"expression": "KIND = '\u00dcberschiebung'"
+							}
+						},
+						"path": [
+							{
+								"localName": "UUID",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"ShearDisplacementStructure",
+						"faultType",
+						"href"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A shear displacement structure includes all brittle to ductile style structures along which displacement has occurred, from a simple, single &lsquo;planar&rsquo; brittle or ductile surface to a fault system comprised of tens of strands of both brittle and ductile nature. This structure may have some significant thickness (a deformation zone) and have an associated body of deformed rock that may be considered a deformation unit (which geologicUnitType is &lsquo;DeformationUnit&rsquo;) which can be associated to the ShearDisplacementStructure using GeologicFeatureRelation from the GeoSciML Extension package</p>"
+						},
+						{
+							"propertyType": "ReferenceType",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The faultType:FaultTypeTerm property contains a term from a controlled vocabulary describing the type of shear displacement structure (e.g., thrust fault, normal fault or wrench fault).</p>"
+						},
+						{
+							"propertyType": "hrefType",
+							"propertyCardinality": "0..1"
+						}
+					],
+					"shortName": "href",
+					"entity": {
+						"type": {
+							"localName": "ShearDisplacementStructureType",
+							"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Basic"
+						},
+						"path": [
+							{
+								"localName": "faultType",
+								"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Basic"
+							},
+							{
+								"localName": "href",
+								"namespace": "http://www.w3.org/1999/xlink"
+							}
+						]
+					}
+				}
+			],
+			"explanations": {
+				"de": "<p>Weist dem Attribut <em>href</em> den Wert <code>http://inspire.ec.europa.eu/codelist/FaultTypeValue/reverseFault</code> zu, falls in der Quelle das Attribut <em>UUID</em> existiert.</p>",
+				"en": "<p>Assigns the value <code>http://inspire.ec.europa.eu/codelist/FaultTypeValue/reverseFault</code> to the <em>href</em> property.<br/>This is only done if the property <em>UUID</em> is present in the source.</p>"
+			},
+			"cellId": "C5cba5613-a866-4391-965b-59aa76415dfb",
+			"parentCells": [
+				"C5fa86913-9e41-4e17-85d2-bc6f88c51556"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Retype",
+			"functionId": "eu.esdihumboldt.hale.align.retype",
+			"typeRelation": true,
+			"functionParameters": [
+				{
+					"paramLabel": "Structural rename",
+					"paramName": "structuralRename",
+					"paramValue": "false",
+					"simple": true
+				},
+				{
+					"paramLabel": "Allow ignore namespace",
+					"paramName": "ignoreNamespaces",
+					"paramValue": "false",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"Tectonic_Boundaries_L (CQL:KIND = 'Bruch')"
+					],
+					"propertyDescriptions": [
+						{
+						}
+					],
+					"shortName": "Tectonic_Boundaries_L",
+					"entity": {
+						"type": {
+							"localName": "Tectonic_Boundaries_L",
+							"namespace": "http://www.esdi-humboldt.eu/hale/gpkg",
+							"condition": {
+								"lang": "CQL",
+								"expression": "KIND = 'Bruch'"
+							}
+						}
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"Contact"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A contact is a general concept representing any kind of surface separating two geologic units, including primary boundaries such as depositional contacts, all kinds of unconformities, intrusive contacts, and gradational contacts, as well as faults that separate geologic units.</p>"
+						}
+					],
+					"shortName": "Contact",
+					"entity": {
+						"type": {
+							"localName": "ContactType",
+							"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Basic"
+						}
+					}
+				}
+			],
+			"explanations": {
+				"de": "<p>Erstellt ein <em>Contact</em> Objekt f\u00fcr jedes <em>Tectonic_Boundaries_L</em> (erf\u00fcllt <span style=\"font-style: italic;\">KIND = &lsquo;Bruch&rsquo;</span>) Objekt in den Quell-Daten.</p>",
+				"en": "<p>Creates a <em>Contact</em> instance for each <em>Tectonic_Boundaries_L</em> (matching <span style=\"font-style: italic;\">KIND = &lsquo;Bruch&rsquo;</span>) instance in the source data set.</p>"
+			},
+			"cellId": "C68b9ade0-9f48-472b-b8ed-8763308f0ace",
+			"mode": "active",
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Regex Analysis",
+			"functionId": "eu.esdihumboldt.cst.functions.string.regexanalysisfunction",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Regular Expression",
+					"paramName": "regexPattern",
+					"paramValue": "\\{(.*?)\\}",
+					"simple": true
+				},
+				{
+					"paramLabel": "Output Format",
+					"paramName": "outputFormat",
+					"paramValue": "MappedFeature_{1}",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"Tectonic_Boundaries_L (CQL:KIND = 'Bruch')",
+						"UUID"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "TEXT",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "UUID",
+					"entity": {
+						"type": {
+							"localName": "Tectonic_Boundaries_L",
+							"namespace": "http://www.esdi-humboldt.eu/hale/gpkg",
+							"condition": {
+								"lang": "CQL",
+								"expression": "KIND = 'Bruch'"
+							}
+						},
+						"path": [
+							{
+								"localName": "UUID",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"Contact",
+						"occurrence",
+						"href"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A contact is a general concept representing any kind of surface separating two geologic units, including primary boundaries such as depositional contacts, all kinds of unconformities, intrusive contacts, and gradational contacts, as well as faults that separate geologic units.</p>"
+						},
+						{
+							"propertyType": "MappedFeaturePropertyType",
+							"propertyCardinality": "0..110",
+							"propertyDescription": "<p>The occurrence property is an association that links a notional geologic feature with any number of mapped features (MappedFeature). A geologic feature, such as a geologic unit may be linked to mapped features from a number of different maps.</p>"
+						},
+						{
+							"propertyType": "hrefType",
+							"propertyCardinality": "0..1"
+						}
+					],
+					"shortName": "href",
+					"entity": {
+						"type": {
+							"localName": "ContactType",
+							"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Basic"
+						},
+						"path": [
+							{
+								"localName": "occurrence",
+								"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Basic"
+							},
+							{
+								"localName": "href",
+								"namespace": "http://www.w3.org/1999/xlink"
+							}
+						]
+					}
+				}
+			],
+			"explanations": {
+				"de": "<p>Analysiert den Wert des Quell-Attibuts <em>UUID</em> anhand des regul\u00e4ren Ausdrucks <code>\\{(.*?)\\}</code>.<br/>Wird eine \u00dcbereinstimmung gefunden wird diese anhand des Musters <code>MappedFeature_{1}</code> umformatiert.<br/>In geschwungenen Klammern eingebetette Nummern werden dabei durch den Inhalt der entsprechenden <em>Gruppe</em> des regul\u00e4ren Ausdrucks ersetzt.<br/>Das Ergebnis wird im Ziel-Attribut <em>href</em> abgelegt.</p>",
+				"en": "<p>Populates the target property <em>href</em> with the groups captured from the regular expression analysis on the source property <em>UUID</em>.</p>\n<p>The regular expression analysis is carried out based on the regular expression <code>\\{(.*?)\\}</code>.<br/>If a source value matches the pattern, the transformation result is constructed based on the output format <code>MappedFeature_{1}</code>.<br/>Within the given format, curly braces wrapping group numbers are replaced by the content of the respective regular expression group.</p>"
+			},
+			"cellId": "C0fef395b-93eb-4e7a-8564-b9e89a099ca8",
+			"parentCells": [
+				"C68b9ade0-9f48-472b-b8ed-8763308f0ace"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Assign (Bound)",
+			"functionId": "eu.esdihumboldt.hale.align.assign.bound",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Value",
+					"paramName": "value",
+					"paramValue": "http://inspire.ec.europa.eu/codelist/FaultTypeValue/fault",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"Tectonic_Boundaries_L (CQL:KIND = 'Bruch')",
+						"UUID"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "TEXT",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "UUID",
+					"entity": {
+						"type": {
+							"localName": "Tectonic_Boundaries_L",
+							"namespace": "http://www.esdi-humboldt.eu/hale/gpkg",
+							"condition": {
+								"lang": "CQL",
+								"expression": "KIND = 'Bruch'"
+							}
+						},
+						"path": [
+							{
+								"localName": "UUID",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"Contact",
+						"contactType",
+						"href"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A contact is a general concept representing any kind of surface separating two geologic units, including primary boundaries such as depositional contacts, all kinds of unconformities, intrusive contacts, and gradational contacts, as well as faults that separate geologic units.</p>"
+						},
+						{
+							"propertyType": "ReferenceType",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The property contactType:ContactTypeTerm classifies the contact (e.g. intrusive, unconformity, bedding surface, lithologic boundary, phase boundary) and is a term from a controlled vocabulary.</p>"
+						},
+						{
+							"propertyType": "hrefType",
+							"propertyCardinality": "0..1"
+						}
+					],
+					"shortName": "href",
+					"entity": {
+						"type": {
+							"localName": "ContactType",
+							"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Basic"
+						},
+						"path": [
+							{
+								"localName": "contactType",
+								"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Basic"
+							},
+							{
+								"localName": "href",
+								"namespace": "http://www.w3.org/1999/xlink"
+							}
+						]
+					}
+				}
+			],
+			"explanations": {
+				"de": "<p>Weist dem Attribut <em>href</em> den Wert <code>http://inspire.ec.europa.eu/codelist/FaultTypeValue/fault</code> zu, falls in der Quelle das Attribut <em>UUID</em> existiert.</p>",
+				"en": "<p>Assigns the value <code>http://inspire.ec.europa.eu/codelist/FaultTypeValue/fault</code> to the <em>href</em> property.<br/>This is only done if the property <em>UUID</em> is present in the source.</p>"
+			},
+			"cellId": "Ce29031bf-6aa6-4025-b87d-e7e28e67e9ce",
+			"parentCells": [
+				"C68b9ade0-9f48-472b-b8ed-8763308f0ace"
+			],
+			"notes": "<p>TODO: An actual codelist for types of contacts still needs to be added.</p>",
 			"priority": "normal",
 			"configurable": true
 		}
