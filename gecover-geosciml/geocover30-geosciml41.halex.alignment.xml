@@ -16,6 +16,41 @@
         <parameter value="false" name="ignoreNamespaces"/>
         <parameter value="false" name="structuralRename"/>
     </cell>
+    <cell relation="eu.esdihumboldt.hale.align.retype" id="C68b9ade0-9f48-472b-b8ed-8763308f0ace" priority="normal">
+        <source>
+            <class>
+                <type name="Tectonic_Boundaries_L" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="CQL">KIND = 'Bruch'</condition>
+                </type>
+            </class>
+        </source>
+        <target>
+            <class>
+                <type name="ContactType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+            </class>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign.bound" id="Ce29031bf-6aa6-4025-b87d-e7e28e67e9ce" priority="normal">
+        <source name="anchor">
+            <property>
+                <type name="Tectonic_Boundaries_L" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="CQL">KIND = 'Bruch'</condition>
+                </type>
+                <child name="UUID"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="ContactType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="contactType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="href" ns="http://www.w3.org/1999/xlink"/>
+            </property>
+        </target>
+        <parameter value="http://inspire.ec.europa.eu/codelist/FaultTypeValue/fault" name="value"/>
+        <documentation>TODO: An actual codelist for types of contacts still needs to be added.</documentation>
+    </cell>
     <cell relation="eu.esdihumboldt.cst.functions.string.regexanalysisfunction" id="C39d82fa4-158c-4c08-89a1-d21c6d9a5ce7" priority="normal">
         <source>
             <property>
@@ -32,6 +67,25 @@
             </property>
         </target>
         <parameter value="Contact_{1}" name="outputFormat"/>
+        <parameter value="\{(.*?)\}" name="regexPattern"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.string.regexanalysisfunction" id="C0fef395b-93eb-4e7a-8564-b9e89a099ca8" priority="normal">
+        <source>
+            <property>
+                <type name="Tectonic_Boundaries_L" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="CQL">KIND = 'Bruch'</condition>
+                </type>
+                <child name="UUID"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="ContactType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="occurrence" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="href" ns="http://www.w3.org/1999/xlink"/>
+            </property>
+        </target>
+        <parameter value="MappedFeature_{1}" name="outputFormat"/>
         <parameter value="\{(.*?)\}" name="regexPattern"/>
     </cell>
     <cell relation="eu.esdihumboldt.hale.align.assign" id="C3802a7c4-4737-4b07-9a8f-ac9490b55606" priority="normal">
@@ -243,6 +297,22 @@
         <parameter value="false" name="ignoreNamespaces"/>
         <parameter value="false" name="structuralRename"/>
     </cell>
+    <cell relation="eu.esdihumboldt.hale.align.retype" id="C679c650d-0080-46d2-be62-56393adf32f2" priority="normal">
+        <source>
+            <class>
+                <type name="Planar_Structures_PT" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="CQL">KIND = 'Orientierung der Schichten'</condition>
+                </type>
+            </class>
+        </source>
+        <target>
+            <class>
+                <type name="FoliationType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+            </class>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
     <cell relation="eu.esdihumboldt.cst.functions.string.regexanalysisfunction" id="C243ec040-b283-41e3-becb-27a90831cd25" priority="normal">
         <source>
             <property>
@@ -260,6 +330,143 @@
         </target>
         <parameter value="Foliation_{1}" name="outputFormat"/>
         <parameter value="\{(.*?)\}" name="regexPattern"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.string.regexanalysisfunction" id="C557b1232-2c19-4e79-9c2c-8d7c839bcd55" priority="normal">
+        <source>
+            <property>
+                <type name="Planar_Structures_PT" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="CQL">KIND = 'Orientierung der Schichten'</condition>
+                </type>
+                <child name="UUID"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="FoliationType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="id" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="Foliation_{1}" name="outputFormat"/>
+        <parameter value="\{(.*?)\}" name="regexPattern"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.string.regexanalysisfunction" id="Ce64339a5-2b1c-49b5-ab90-bbbdf8b2ab99" priority="normal">
+        <source>
+            <property>
+                <type name="Planar_Structures_PT" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="CQL">KIND = 'Orientierung der Schichten'</condition>
+                </type>
+                <child name="UUID"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="FoliationType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="occurrence" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="href" ns="http://www.w3.org/1999/xlink"/>
+            </property>
+        </target>
+        <parameter value="#MappedFeature_{1}" name="outputFormat"/>
+        <parameter value="\{(.*?)\}" name="regexPattern"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign.bound" id="Cd005f3db-ff64-4b5a-aa4a-15a3847a021b" priority="normal">
+        <source name="anchor">
+            <property>
+                <type name="Planar_Structures_PT" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="CQL">KIND = 'Orientierung der Schichten'</condition>
+                </type>
+                <child name="AZIMUTH"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="FoliationType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="stFoliationDescription" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="FoliationDescription" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Extension"/>
+                <child name="orientation" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Extension"/>
+                <child name="GSML_PlanarOrientation" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="azimuth" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="choice" ns="http://www.opengis.net/swe/2.0/QuantityRange"/>
+                <child name="QuantityRange" ns="http://www.opengis.net/swe/2.0"/>
+                <child name="uom" ns="http://www.opengis.net/swe/2.0"/>
+                <child name="href" ns="http://www.w3.org/1999/xlink"/>
+            </property>
+        </target>
+        <parameter value="deg" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="C9f0b176e-5797-4b5f-acee-082adce995fe" priority="normal">
+        <source>
+            <property>
+                <type name="Planar_Structures_PT" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="CQL">KIND = 'Orientierung der Schichten'</condition>
+                </type>
+                <child name="AZIMUTH"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="FoliationType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="stFoliationDescription" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="FoliationDescription" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Extension"/>
+                <child name="orientation" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Extension"/>
+                <child name="GSML_PlanarOrientation" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="azimuth" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="choice" ns="http://www.opengis.net/swe/2.0/QuantityRange"/>
+                <child name="QuantityRange" ns="http://www.opengis.net/swe/2.0"/>
+                <child name="value" ns="http://www.opengis.net/swe/2.0"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign.bound" id="C8257c1ed-e54b-4df0-81c2-d0e4863ca39e" priority="normal">
+        <source name="anchor">
+            <property>
+                <type name="Planar_Structures_PT" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="CQL">KIND = 'Orientierung der Schichten'</condition>
+                </type>
+                <child name="DIP"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="FoliationType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="stFoliationDescription" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="FoliationDescription" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Extension"/>
+                <child name="orientation" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Extension"/>
+                <child name="GSML_PlanarOrientation" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="dip" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="choice" ns="http://www.opengis.net/swe/2.0/QuantityRange"/>
+                <child name="QuantityRange" ns="http://www.opengis.net/swe/2.0"/>
+                <child name="uom" ns="http://www.opengis.net/swe/2.0"/>
+                <child name="href" ns="http://www.w3.org/1999/xlink"/>
+            </property>
+        </target>
+        <parameter value="deg" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="C0c183356-f5ae-4e47-a41f-6dc280560f43" priority="normal">
+        <source>
+            <property>
+                <type name="Planar_Structures_PT" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="CQL">KIND = 'Orientierung der Schichten'</condition>
+                </type>
+                <child name="DIP"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="FoliationType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="stFoliationDescription" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="FoliationDescription" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Extension"/>
+                <child name="orientation" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Extension"/>
+                <child name="GSML_PlanarOrientation" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="dip" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="choice" ns="http://www.opengis.net/swe/2.0/QuantityRange"/>
+                <child name="QuantityRange" ns="http://www.opengis.net/swe/2.0"/>
+                <child name="value" ns="http://www.opengis.net/swe/2.0"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
     </cell>
     <cell relation="eu.esdihumboldt.hale.align.merge" id="Ceffa8dbd-d62a-4986-af97-4e96ab0d5c7d" priority="normal">
         <source>
@@ -1261,6 +1468,22 @@ return ("GeologicUnit_LitStrat_" +&#xD;
         <parameter value="false" name="ignoreNamespaces"/>
         <parameter value="false" name="structuralRename"/>
     </cell>
+    <cell relation="eu.esdihumboldt.hale.align.retype" id="C412eb013-c639-471b-ac7f-64f36b68be1b" priority="normal">
+        <source>
+            <class>
+                <type name="Planar_Structures_PT" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="CQL">KIND = 'Orientierung der Schichten'</condition>
+                </type>
+            </class>
+        </source>
+        <target>
+            <class>
+                <type name="MappedFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+            </class>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
     <cell relation="eu.esdihumboldt.hale.align.retype" id="C9a16831d-e8f5-4e4f-8ca2-5a961749f8f5" priority="normal">
         <source>
             <class>
@@ -1277,6 +1500,22 @@ return ("GeologicUnit_LitStrat_" +&#xD;
         <parameter value="false" name="ignoreNamespaces"/>
         <parameter value="false" name="structuralRename"/>
         <documentation>TODO: To which GeologicStructure should this be mapped? Contact?</documentation>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.retype" id="C0356af1d-3ca1-428c-97c3-1b233175f3d0" priority="normal">
+        <source>
+            <class>
+                <type name="Tectonic_Boundaries_L" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="CQL">KIND = 'Überschiebung'</condition>
+                </type>
+            </class>
+        </source>
+        <target>
+            <class>
+                <type name="MappedFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+            </class>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
     </cell>
     <cell relation="eu.esdihumboldt.hale.align.retype" id="C5eaae1d7-77ed-4fcb-a911-d69703b49790" priority="normal">
         <source>
@@ -1576,6 +1815,24 @@ return ("GeologicUnit_LitStrat_" +&#xD;
             <property>
                 <type name="Karstic_Structures_PT" ns="http://www.esdi-humboldt.eu/hale/gpkg">
                     <condition lang="ECQL">KIND IN('Ponor', 'Hoehle')</condition>
+                </type>
+                <child name="UUID"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="MappedFeatureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="id" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="MappedFeature_{1}" name="outputFormat"/>
+        <parameter value="\{(.*?)\}" name="regexPattern"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.string.regexanalysisfunction" id="Cf8f52efb-048e-40a4-8153-e6b02a06a74e" priority="normal">
+        <source>
+            <property>
+                <type name="Planar_Structures_PT" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="CQL">KIND = 'Orientierung der Schichten'</condition>
                 </type>
                 <child name="UUID"/>
             </property>
@@ -2414,5 +2671,60 @@ else {&#xD;
         </target>
         <parameter value="false" name="ignoreNamespaces"/>
         <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign.bound" id="C5cba5613-a866-4391-965b-59aa76415dfb" priority="normal">
+        <source name="anchor">
+            <property>
+                <type name="Tectonic_Boundaries_L" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="CQL">KIND = 'Überschiebung'</condition>
+                </type>
+                <child name="UUID"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="ShearDisplacementStructureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="faultType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="href" ns="http://www.w3.org/1999/xlink"/>
+            </property>
+        </target>
+        <parameter value="http://inspire.ec.europa.eu/codelist/FaultTypeValue/reverseFault" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.string.regexanalysisfunction" id="C30de60de-baa3-4826-9622-84760c4e3a1d" priority="normal">
+        <source>
+            <property>
+                <type name="Tectonic_Boundaries_L" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="CQL">KIND = 'Überschiebung'</condition>
+                </type>
+                <child name="UUID"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="ShearDisplacementStructureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="id" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="ShearDisplacementStructure_{1}" name="outputFormat"/>
+        <parameter value="\{(.*?)\}" name="regexPattern"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.string.regexanalysisfunction" id="C7b7e4f88-d181-4b7e-ad56-603b3919d737" priority="normal">
+        <source>
+            <property>
+                <type name="Tectonic_Boundaries_L" ns="http://www.esdi-humboldt.eu/hale/gpkg">
+                    <condition lang="CQL">KIND = 'Überschiebung'</condition>
+                </type>
+                <child name="UUID"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="ShearDisplacementStructureType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="occurrence" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                <child name="href" ns="http://www.w3.org/1999/xlink"/>
+            </property>
+        </target>
+        <parameter value="#MappedFeature_{1}" name="outputFormat"/>
+        <parameter value="\{(.*?)\}" name="regexPattern"/>
     </cell>
 </alignment>

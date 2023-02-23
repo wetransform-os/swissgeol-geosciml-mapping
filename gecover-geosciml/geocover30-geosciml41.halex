@@ -3,7 +3,7 @@
     <name>swisstopo GeoCover 3.0 nach GeoSciML 4.1 - Analysis</name>
     <author>Thorsten Reitz (im Auftrag von swisstopo)</author>
     <created>2023-02-05T16:19:39.287+01:00</created>
-    <modified>2023-02-06T16:45:37.633+01:00</modified>
+    <modified>2023-02-23T07:48:05.511+01:00</modified>
     <save-config action-id="project.save" provider-id="eu.esdihumboldt.hale.io.project.hale25.xml.writer">
         <setting name="charset">UTF-8</setting>
         <setting name="projectFiles.separate">false</setting>
@@ -71,8 +71,30 @@
         <setting name="source">file:/C:/wetransform/Box%20Sync/staff/Projects/2022-08%20swisstopo%20INTERLIS%20GeoSciML/Daten/GC-V-V3-012/GPKG/de/012_Chancy.gpkg</setting>
         <setting name="contentType">eu.esdihumboldt.hale.io.geopackage</setting>
     </resource>
+    <resource action-id="eu.esdihumboldt.hale.codelist.read" provider-id="eu.esdihumboldt.hale.io.codelist.inspire.reader">
+        <setting name="charset">UTF-8</setting>
+        <setting name="resourceId">8aa6c96d-8daa-4207-83d8-3f04064703a8</setting>
+        <setting name="source">http://inspire.ec.europa.eu/codelist/FaultTypeValue</setting>
+        <setting name="contentType">eu.esdihumboldt.hale.io.codelist.inspire</setting>
+    </resource>
     <file name="alignment.xml" location="geocover30-geosciml41.halex.alignment.xml"/>
     <file name="styles.sld" location="geocover30-geosciml41.halex.styles.sld"/>
+    <complex-property name="codelists">
+        <associations>
+            <codeList identifier="//inspire.ec.europa.eu/codelist/FaultTypeValue" namespace="http://inspire.ec.europa.eu/codelist/FaultTypeValue">
+                <entity>
+                    <type name="ShearDisplacementStructureType" namespace="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                    <property name="faultType" namespace="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                    <property name="href" namespace="http://www.w3.org/1999/xlink"/>
+                </entity>
+                <entity>
+                    <type name="ContactType" namespace="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                    <property name="contactType" namespace="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+                    <property name="href" namespace="http://www.w3.org/1999/xlink"/>
+                </entity>
+            </codeList>
+        </associations>
+    </complex-property>
     <property name="defaultGeometry:{http://www.esdi-humboldt.eu/hale/gpkg}Alluvial_and_Lacustrine_Structures_L/1">geom</property>
     <property name="defaultGeometry:{http://www.esdi-humboldt.eu/hale/gpkg}Alluvial_and_Lacustrine_Structures_L/count">1</property>
     <property name="defaultGeometry:{http://www.esdi-humboldt.eu/hale/gpkg}Archaeology_PT/1">geom</property>
