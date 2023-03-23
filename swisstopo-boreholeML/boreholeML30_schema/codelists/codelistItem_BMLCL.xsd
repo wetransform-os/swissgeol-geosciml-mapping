@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gmx="http://www.isotc211.org/2005/gmx" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:gco="http://www.isotc211.org/2005/gco" xmlns:bmlcl="http://www.infogeo.de/boreholeml/3.0/codelists" targetNamespace="http://www.infogeo.de/boreholeml/3.0/codelists" elementFormDefault="qualified" version="0.2">
+	<!--  import necessary definitions -->
+	<import namespace="http://www.opengis.net/gml/3.2" schemaLocation="http://schemas.opengis.net/gml/3.2.1/gml.xsd"/>
+	<import namespace="http://www.isotc211.org/2005/gmx" schemaLocation="http://schemas.opengis.net/iso/19139/20070417/gmx/gmx.xsd"/>
+	<!-- add hierarchy information to gmx:ML_CodeDefinition_Type for multilingual content -->
+	<complexType name="BMLML_CodeDefinitionType">
+		<complexContent>
+			<extension base="gmx:ML_CodeDefinition_Type">
+				<sequence>
+					<element name="keyID" type="string"/>
+					<element name="parentID" type="string" minOccurs="0"/>
+					<element name="hierarchyLevel" type="string"/>
+					<element name="colorCode" type="string" minOccurs="0"/>
+					<element name="signaturePath" type="string" minOccurs="0"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<element name="BMLML_CodeDefinition" type="bmlcl:BMLML_CodeDefinitionType" substitutionGroup="gmx:ML_CodeDefinition"/>
+	<!-- add hierarchy information to gml:DefinitionType for non-multilingual content -->
+	<complexType name="BML_CodeDefinitionType">
+		<complexContent>
+			<extension base="gmx:CodeDefinition_Type">
+				<sequence>
+					<element name="keyID" type="string"/>
+					<element name="parentID" type="string" minOccurs="0"/>
+					<element name="hierarchyLevel" type="string"/>
+					<element name="colorCode" type="string" minOccurs="0"/>
+					<element name="signaturePath" type="string" minOccurs="0"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<element name="BML_CodeDefinition" type="bmlcl:BML_CodeDefinitionType" substitutionGroup="gmx:CodeDefinition"/>
+</schema>
