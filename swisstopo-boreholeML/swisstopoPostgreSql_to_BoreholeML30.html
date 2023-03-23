@@ -1,0 +1,1959 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>swisstopoPostgreSql_to_BoreholeML30</title>
+	
+	<link rel="stylesheet"
+		href="http://build-artifacts.wetransform.to/halejs/1.1.16/halejs.full.min.css">
+	<script type="text/javascript"
+		src="http://build-artifacts.wetransform.to/halejs/1.1.16/halejs.full.min.js"></script>
+	
+	<script type="text/javascript">
+		angular.module('halejs').value('LANGUAGES', []);
+		angular.module('hale', ['halejs']).controller('alignmentCtrl', function($scope) {
+			$scope.alignment = {
+	"export": {
+		"timestamp": "2023-03-23T16:09:52.924264200Z",
+		"haleVersion": "5.0.0.release"
+	},
+	"project": {
+		"name": "swisstopoPostgreSql_to_BoreholeML30",
+		"author": "AnnaTamm",
+		"haleVersion": "5.0.0.release",
+		"created": "2023-03-07T14:07:48.355Z",
+		"modified": "2023-03-23T16:05:00.118Z"
+	},
+	"sourceSchemas": [
+		{
+			"namespace": "jdbc:postgresql:bdms-prod-20230213",
+			"location": "jdbc:postgresql://localhost:5432/bdms-prod-20230213"
+		}
+	],
+	"targetSchemas": [
+		{
+			"namespace": "http://www.infogeo.de/boreholeml/3.0",
+			"location": "file:/C:/Users/AnnaTamm/gitRepos/swissgeol-geosciml-mapping/swisstopo-boreholeML/boreholeML30_schema/BoreholeML.xsd"
+		}
+	],
+	"cells": [
+		{
+			"functionName": "Groovy Retype",
+			"functionId": "eu.esdihumboldt.cst.functions.groovy.retype",
+			"typeRelation": true,
+			"functionParameters": [
+				{
+					"paramLabel": "script",
+					"paramName": "script",
+					"paramValue": "//this groovy script collects all ids and text values of codelist\r\n//no target is created\r\n\r\nwithTransformationContext {\r\n\tdef c = _.context.collector(it)\r\n\t\r\n\tdef codelist_ids = _source.p.id_cli.value()\r\n\tdef codelist_text = _source.p.text_cli_en.value()\r\n\t\r\n\tc.codelist[codelist_ids] << codelist_text\r\n}",
+					"simple": false
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"codelist"
+					],
+					"propertyDescriptions": [
+						{
+						}
+					],
+					"shortName": "codelist",
+					"entity": {
+						"type": {
+							"localName": "codelist",
+							"namespace": "jdbc:postgresql:bdms-prod-20230213:bdms"
+						}
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>[de] Enth\u00e4lt die Angaben zur Bohrungslokation und die Stammdaten pro Bohrung.</p>\n<p>[en] Contains location data and header information of the borehole.</p>\n"
+						}
+					],
+					"shortName": "Borehole",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.infogeo.de/boreholeml/3.0"
+						}
+					}
+				}
+			],
+			"explanation": "<p>Creates a <em>Borehole</em> instance for each <em>codelist</em> instance in the source data set.</p>\n<br />Before the property transformations are run, the target instance is populated by executing the following Groovy script:<br /><br /><pre><code class=\"language-groovy\">//this groovy script collects all ids and text values of codelist\r\n//no target is created\r\n\r\nwithTransformationContext {\r\n\tdef c = _.context.collector(it)\r\n\t\r\n\tdef codelist_ids = _source.p.id_cli.value()\r\n\tdef codelist_text = _source.p.text_cli_en.value()\r\n\t\r\n\tc.codelist[codelist_ids] << codelist_text\r\n}</code></pre>",
+			"cellId": "C9edd550a-7d0f-4e7b-a74c-7086fd8b07e5",
+			"mode": "active",
+			"priority": "highest",
+			"configurable": true
+		},
+		{
+			"functionName": "Groovy script",
+			"functionId": "eu.esdihumboldt.cst.functions.groovy",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Groovy script",
+					"paramName": "script",
+					"paramValue": "// this groovy script searches for the text of 'status_id_cli' defined  \r\n// in the source table 'codelist' and classifies the result \r\n\r\ndef c = _.context.collector()\r\ndef textEn = c.codelist[status_id_cli].value()\r\n\r\nswitch (textEn) {\r\n\tcase 'cased, in use':\r\n\treturn 'au'\r\n\t\r\n\tcase 'filled':\r\n\treturn 'vf'\r\n\t\r\n\tcase 'cased, measurements impossible':\r\n\treturn 'au'\r\n\t\r\n\tcase 'other ':\r\n\treturn 'ka'\r\n\t\r\n\tcase 'not specified':\r\n\treturn 'ka'\r\n}\r\n",
+					"simple": false
+				},
+				{
+					"paramLabel": "Use instances for variables with child properties",
+					"paramName": "variablesAsInstances",
+					"paramValue": "false",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"borehole",
+						"status_id_cli"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "int4",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "status_id_cli",
+					"entity": {
+						"type": {
+							"localName": "borehole",
+							"namespace": "jdbc:postgresql:bdms-prod-20230213:bdms"
+						},
+						"path": [
+							{
+								"localName": "status_id_cli",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole",
+						"boreholeStatus"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>[de] Enth\u00e4lt die Angaben zur Bohrungslokation und die Stammdaten pro Bohrung.</p>\n<p>[en] Contains location data and header information of the borehole.</p>\n"
+						},
+						{
+							"propertyType": "CodeType",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>[de] Aktueller Status der Bohrung.</p>\n<p>[en] Current status of the borehole.</p>\n"
+						}
+					],
+					"shortName": "boreholeStatus",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.infogeo.de/boreholeml/3.0"
+						},
+						"path": [
+							{
+								"localName": "boreholeStatus",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							}
+						]
+					}
+				}
+			],
+			"explanation": "Populates the <em>boreholeStatus</em> property with the result of the following Groovy script:<br /><br /><pre><code class=\"language-groovy\">// this groovy script searches for the text of 'status_id_cli' defined  \r\n// in the source table 'codelist' and classifies the result \r\n\r\ndef c = _.context.collector()\r\ndef textEn = c.codelist[status_id_cli].value()\r\n\r\nswitch (textEn) {\r\n\tcase 'cased, in use':\r\n\treturn 'au'\r\n\t\r\n\tcase 'filled':\r\n\treturn 'vf'\r\n\t\r\n\tcase 'cased, measurements impossible':\r\n\treturn 'au'\r\n\t\r\n\tcase 'other ':\r\n\treturn 'ka'\r\n\t\r\n\tcase 'not specified':\r\n\treturn 'ka'\r\n}\r\n</code></pre><br />Source property names are bound to the corresponding value, if the context condition/index matches, otherwise the value is not set.",
+			"cellId": "C215267c4-3c7a-4974-a5ad-224f5b02fe97",
+			"parentCells": [
+				"C08f8ecd7-b7ab-46ab-9ead-3f2ee8fd89bb"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Assign",
+			"functionId": "eu.esdihumboldt.hale.align.assign",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Value",
+					"paramName": "value",
+					"paramValue": "https://www.infogeo.de/boreholeml/3.0/codelists/BoreholeStatusList.xml",
+					"simple": true
+				}
+			],
+			"sources": [],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole",
+						"boreholeStatus",
+						"codeSpace"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>[de] Enth\u00e4lt die Angaben zur Bohrungslokation und die Stammdaten pro Bohrung.</p>\n<p>[en] Contains location data and header information of the borehole.</p>\n"
+						},
+						{
+							"propertyType": "CodeType",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>[de] Aktueller Status der Bohrung.</p>\n<p>[en] Current status of the borehole.</p>\n"
+						},
+						{
+							"propertyType": "anyURI",
+							"propertyCardinality": "0..1"
+						}
+					],
+					"shortName": "codeSpace",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.infogeo.de/boreholeml/3.0"
+						},
+						"path": [
+							{
+								"localName": "boreholeStatus",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							},
+							{
+								"localName": "codeSpace",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"explanation": "<p>Assigns the value <code>https://www.infogeo.de/boreholeml/3.0/codelists/BoreholeStatusList.xml</code> to the <em>codeSpace</em> property.</p>\n",
+			"cellId": "C1d7aac83-df05-4777-941b-092646032299",
+			"parentCells": [
+				"C9edd550a-7d0f-4e7b-a74c-7086fd8b07e5",
+				"C08f8ecd7-b7ab-46ab-9ead-3f2ee8fd89bb"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Assign",
+			"functionId": "eu.esdihumboldt.hale.align.assign",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Value",
+					"paramName": "value",
+					"paramValue": "2023-02-13",
+					"simple": true
+				}
+			],
+			"sources": [],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole",
+						"exportDate"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>[de] Enth\u00e4lt die Angaben zur Bohrungslokation und die Stammdaten pro Bohrung.</p>\n<p>[en] Contains location data and header information of the borehole.</p>\n"
+						},
+						{
+							"propertyType": "realizationEpoch",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>[de] Datum des Auszuges aus der Quelldatenbank.</p>\n<p>[en] Export date of the borehole data from the source database.</p>\n"
+						}
+					],
+					"shortName": "exportDate",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.infogeo.de/boreholeml/3.0"
+						},
+						"path": [
+							{
+								"localName": "exportDate",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							}
+						]
+					}
+				}
+			],
+			"explanation": "<p>Assigns the value <code>2023-02-13</code> to the <em>exportDate</em> property.</p>\n",
+			"cellId": "C1c9e6761-95fb-4e0b-87f2-54c6b27235b9",
+			"parentCells": [
+				"C9edd550a-7d0f-4e7b-a74c-7086fd8b07e5",
+				"C08f8ecd7-b7ab-46ab-9ead-3f2ee8fd89bb"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Rename",
+			"functionId": "eu.esdihumboldt.hale.align.rename",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Structural rename",
+					"paramName": "structuralRename",
+					"paramValue": "false",
+					"simple": true
+				},
+				{
+					"paramLabel": "Allow ignore namespace",
+					"paramName": "ignoreNamespaces",
+					"paramValue": "false",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"borehole",
+						"original_name_bho"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "varchar",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "original_name_bho",
+					"entity": {
+						"type": {
+							"localName": "borehole",
+							"namespace": "jdbc:postgresql:bdms-prod-20230213:bdms"
+						},
+						"path": [
+							{
+								"localName": "original_name_bho",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole",
+						"fullName",
+						"LocalisedCharacterString"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>[de] Enth\u00e4lt die Angaben zur Bohrungslokation und die Stammdaten pro Bohrung.</p>\n<p>[en] Contains location data and header information of the borehole.</p>\n"
+						},
+						{
+							"propertyType": "LocalisedCharacterString_PropertyType",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>[de] Voller Name der Bohrung, meist vom Einsender vergeben (nicht zwingend eindeutig).</p>\n<p>[en] Full name of the borehole, normally given by the sender (not necessarily unique).</p>\n"
+						},
+						{
+							"propertyType": "LocalisedCharacterString",
+							"propertyCardinality": "0..1"
+						}
+					],
+					"shortName": "LocalisedCharacterString",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.infogeo.de/boreholeml/3.0"
+						},
+						"path": [
+							{
+								"localName": "fullName",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							},
+							{
+								"localName": "LocalisedCharacterString",
+								"namespace": "http://www.isotc211.org/2005/gmd"
+							}
+						]
+					}
+				}
+			],
+			"explanation": "<p>For each value in <em>original_name_bho</em> adds the same value to the <em>LocalisedCharacterString</em> property. If necessary a conversion is applied.</p>\n",
+			"cellId": "Ceb97515c-5e95-453d-ab87-26741130bc1c",
+			"parentCells": [
+				"C08f8ecd7-b7ab-46ab-9ead-3f2ee8fd89bb"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Assign",
+			"functionId": "eu.esdihumboldt.hale.align.assign",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Value",
+					"paramName": "value",
+					"paramValue": "unknown",
+					"simple": true
+				}
+			],
+			"sources": [],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole",
+						"groundwater",
+						"nilReason"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>[de] Enth\u00e4lt die Angaben zur Bohrungslokation und die Stammdaten pro Bohrung.</p>\n<p>[en] Contains location data and header information of the borehole.</p>\n"
+						},
+						{
+							"propertyType": "?",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>[de] Zusammenfassende Grundwasserbeobachtungen bezogen auf den Bohrvorgang nach DIN4022. Enth\u00e4lt die Grundwasserbeobachtungen<br />\nbeim ersten Antreffen des Grundwassers bis zur Beendigung der Bohrarbeiten.</p>\n<p>[en] Comprehensive Information about the groundwater level according to DIN4022. Contains the groundwater observations during the drilling process until drillhole completion.</p>\n"
+						},
+						{
+							"propertyType": "Null",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>gml:NilReasonType defines a content model that allows recording of an explanation for a void value or other exception.<br />\ngml:NilReasonType is a union of the following enumerated values:<br />\n-\tinapplicable there is no value<br />\n-\tmissing the correct value is not readily available to the sender of this data. Furthermore, a correct value may not exist<br />\n-\ttemplate the value will be available later<br />\n-\tunknown the correct value is not known to, and not computable by, the sender of this data. However, a correct value probably exists<br />\n-\twithheld the value is not divulged<br />\n-\tother:text other brief explanation, where text is a string of two or more characters with no included spaces<br />\nand<br />\n-\tanyURI which should refer to a resource which describes the reason for the exception<br />\nA particular community may choose to assign more detailed semantics to the standard values provided. Alternatively, the URI method enables a specific or more complete explanation for the absence of a value to be provided elsewhere and indicated by-reference in an instance document.<br />\ngml:NilReasonType is used as a member of a union in a number of simple content types where it is necessary to permit a value from the NilReasonType union as an alternative to the primary type.</p>\n"
+						}
+					],
+					"shortName": "nilReason",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.infogeo.de/boreholeml/3.0"
+						},
+						"path": [
+							{
+								"localName": "groundwater",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							},
+							{
+								"localName": "nilReason",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"explanation": "<p>Assigns the value <code>unknown</code> to the <em>nilReason</em> property.</p>\n",
+			"cellId": "C7615b481-977b-48f8-ba8e-dc236a900c30",
+			"parentCells": [
+				"C9edd550a-7d0f-4e7b-a74c-7086fd8b07e5",
+				"C08f8ecd7-b7ab-46ab-9ead-3f2ee8fd89bb"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Rename",
+			"functionId": "eu.esdihumboldt.hale.align.rename",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Structural rename",
+					"paramName": "structuralRename",
+					"paramValue": "false",
+					"simple": true
+				},
+				{
+					"paramLabel": "Allow ignore namespace",
+					"paramName": "ignoreNamespaces",
+					"paramValue": "false",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"borehole",
+						"groundwater_bho"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "bool",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "groundwater_bho",
+					"entity": {
+						"type": {
+							"localName": "borehole",
+							"namespace": "jdbc:postgresql:bdms-prod-20230213:bdms"
+						},
+						"path": [
+							{
+								"localName": "groundwater_bho",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole",
+						"groundwaterEncountered"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>[de] Enth\u00e4lt die Angaben zur Bohrungslokation und die Stammdaten pro Bohrung.</p>\n<p>[en] Contains location data and header information of the borehole.</p>\n"
+						},
+						{
+							"propertyType": "? extends boolean",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>[de] Information, ob Grundwasser angetroffen worden ist oder nicht.</p>\n<p>[en] Information whether groundwater was encountered or not.</p>\n"
+						}
+					],
+					"shortName": "groundwaterEncountered",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.infogeo.de/boreholeml/3.0"
+						},
+						"path": [
+							{
+								"localName": "groundwaterEncountered",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							}
+						]
+					}
+				}
+			],
+			"explanation": "<p>For each value in <em>groundwater_bho</em> adds the same value to the <em>groundwaterEncountered</em> property. If necessary a conversion is applied.</p>\n",
+			"cellId": "C7d4b1af0-d399-4ba2-8df4-002cf39a736f",
+			"parentCells": [
+				"C08f8ecd7-b7ab-46ab-9ead-3f2ee8fd89bb"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Assign",
+			"functionId": "eu.esdihumboldt.hale.align.assign",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Value",
+					"paramName": "value",
+					"paramValue": "unknown",
+					"simple": true
+				}
+			],
+			"sources": [],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole",
+						"groundwaterEncountered",
+						"nilReason"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>[de] Enth\u00e4lt die Angaben zur Bohrungslokation und die Stammdaten pro Bohrung.</p>\n<p>[en] Contains location data and header information of the borehole.</p>\n"
+						},
+						{
+							"propertyType": "? extends boolean",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>[de] Information, ob Grundwasser angetroffen worden ist oder nicht.</p>\n<p>[en] Information whether groundwater was encountered or not.</p>\n"
+						},
+						{
+							"propertyType": "Null",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>gml:NilReasonType defines a content model that allows recording of an explanation for a void value or other exception.<br />\ngml:NilReasonType is a union of the following enumerated values:<br />\n-\tinapplicable there is no value<br />\n-\tmissing the correct value is not readily available to the sender of this data. Furthermore, a correct value may not exist<br />\n-\ttemplate the value will be available later<br />\n-\tunknown the correct value is not known to, and not computable by, the sender of this data. However, a correct value probably exists<br />\n-\twithheld the value is not divulged<br />\n-\tother:text other brief explanation, where text is a string of two or more characters with no included spaces<br />\nand<br />\n-\tanyURI which should refer to a resource which describes the reason for the exception<br />\nA particular community may choose to assign more detailed semantics to the standard values provided. Alternatively, the URI method enables a specific or more complete explanation for the absence of a value to be provided elsewhere and indicated by-reference in an instance document.<br />\ngml:NilReasonType is used as a member of a union in a number of simple content types where it is necessary to permit a value from the NilReasonType union as an alternative to the primary type.</p>\n"
+						}
+					],
+					"shortName": "nilReason",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.infogeo.de/boreholeml/3.0"
+						},
+						"path": [
+							{
+								"localName": "groundwaterEncountered",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							},
+							{
+								"localName": "nilReason",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"explanation": "<p>Assigns the value <code>unknown</code> to the <em>nilReason</em> property.</p>\n",
+			"cellId": "C539437c0-b6a7-461f-bfd9-4bd24548afeb",
+			"parentCells": [
+				"C9edd550a-7d0f-4e7b-a74c-7086fd8b07e5",
+				"C08f8ecd7-b7ab-46ab-9ead-3f2ee8fd89bb"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Assign",
+			"functionId": "eu.esdihumboldt.hale.align.assign",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Value",
+					"paramName": "value",
+					"paramValue": "unknown",
+					"simple": true
+				}
+			],
+			"sources": [],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole",
+						"groundwaterObservation",
+						"nilReason"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>[de] Enth\u00e4lt die Angaben zur Bohrungslokation und die Stammdaten pro Bohrung.</p>\n<p>[en] Contains location data and header information of the borehole.</p>\n"
+						},
+						{
+							"propertyType": "?",
+							"propertyCardinality": "0..110",
+							"propertyDescription": "<p>[de] Grundwasserbeobachtungen nach Beendigung des Bohrprozesses. Dient der ausf\u00fchrlichen Dokumentation von Messreihen zur Grundwasserbeobachtung.</p>\n<p>[en] Groundwater observations after drillhole completion. Serves the detailed documentation of groundwater monitoring.</p>\n"
+						},
+						{
+							"propertyType": "Null",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>gml:NilReasonType defines a content model that allows recording of an explanation for a void value or other exception.<br />\ngml:NilReasonType is a union of the following enumerated values:<br />\n-\tinapplicable there is no value<br />\n-\tmissing the correct value is not readily available to the sender of this data. Furthermore, a correct value may not exist<br />\n-\ttemplate the value will be available later<br />\n-\tunknown the correct value is not known to, and not computable by, the sender of this data. However, a correct value probably exists<br />\n-\twithheld the value is not divulged<br />\n-\tother:text other brief explanation, where text is a string of two or more characters with no included spaces<br />\nand<br />\n-\tanyURI which should refer to a resource which describes the reason for the exception<br />\nA particular community may choose to assign more detailed semantics to the standard values provided. Alternatively, the URI method enables a specific or more complete explanation for the absence of a value to be provided elsewhere and indicated by-reference in an instance document.<br />\ngml:NilReasonType is used as a member of a union in a number of simple content types where it is necessary to permit a value from the NilReasonType union as an alternative to the primary type.</p>\n"
+						}
+					],
+					"shortName": "nilReason",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.infogeo.de/boreholeml/3.0"
+						},
+						"path": [
+							{
+								"localName": "groundwaterObservation",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							},
+							{
+								"localName": "nilReason",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"explanation": "<p>Assigns the value <code>unknown</code> to the <em>nilReason</em> property.</p>\n",
+			"cellId": "C601e3af0-37d2-46f2-99e4-3f986c7d25c6",
+			"parentCells": [
+				"C9edd550a-7d0f-4e7b-a74c-7086fd8b07e5",
+				"C08f8ecd7-b7ab-46ab-9ead-3f2ee8fd89bb"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Rename",
+			"functionId": "eu.esdihumboldt.hale.align.rename",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Structural rename",
+					"paramName": "structuralRename",
+					"paramValue": "false",
+					"simple": true
+				},
+				{
+					"paramLabel": "Allow ignore namespace",
+					"paramName": "ignoreNamespaces",
+					"paramValue": "false",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"borehole",
+						"id_bho"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "serial",
+							"propertyCardinality": "0..1"
+						}
+					],
+					"shortName": "id_bho",
+					"entity": {
+						"type": {
+							"localName": "borehole",
+							"namespace": "jdbc:postgresql:bdms-prod-20230213:bdms"
+						},
+						"path": [
+							{
+								"localName": "id_bho",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole",
+						"id"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>[de] Enth\u00e4lt die Angaben zur Bohrungslokation und die Stammdaten pro Bohrung.</p>\n<p>[en] Contains location data and header information of the borehole.</p>\n"
+						},
+						{
+							"propertyType": "string",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>[de] Fachlicher Identifikator (ID) der Bohrung, wie in der Quelldatenbank angegeben. Das K\u00fcrzel dient als Teilschl\u00fcssel neben dem Kurznamen der Quelldatenbank in database zur eindeutigen Bezeichnung einer Bohrung (vgl. gml:id).</p>\n<p>[en] Identifier (ID) of the borehole, code is taken from the source database. Combined with the database short name code in database, the borehole ID is used as a compound key which allows the unique identification of the borehole (s. gml:id).</p>\n"
+						}
+					],
+					"shortName": "id",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.infogeo.de/boreholeml/3.0"
+						},
+						"path": [
+							{
+								"localName": "id",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							}
+						]
+					}
+				}
+			],
+			"explanation": "<p>For each value in <em>id_bho</em> adds the same value to the <em>id</em> property. If necessary a conversion is applied.</p>\n",
+			"cellId": "C5131bed8-d2bf-4eaa-b41b-70026c57457f",
+			"parentCells": [
+				"C08f8ecd7-b7ab-46ab-9ead-3f2ee8fd89bb"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Rename",
+			"functionId": "eu.esdihumboldt.hale.align.rename",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Structural rename",
+					"paramName": "structuralRename",
+					"paramValue": "false",
+					"simple": true
+				},
+				{
+					"paramLabel": "Allow ignore namespace",
+					"paramName": "ignoreNamespaces",
+					"paramValue": "false",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"stratigraphy",
+						"name_sty"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "varchar",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "name_sty",
+					"entity": {
+						"type": {
+							"localName": "stratigraphy",
+							"namespace": "jdbc:postgresql:bdms-prod-20230213:bdms"
+						},
+						"path": [
+							{
+								"localName": "name_sty",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole",
+						"intervalSeries",
+						"IntervalSeries",
+						"description",
+						"LocalisedCharacterString"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>[de] Enth\u00e4lt die Angaben zur Bohrungslokation und die Stammdaten pro Bohrung.</p>\n<p>[en] Contains location data and header information of the borehole.</p>\n"
+						},
+						{
+							"propertyType": "?",
+							"propertyCardinality": "0..110",
+							"propertyDescription": "<p>[de] Abzugebendes Schichtenverzeichnis. Das Schichtenverzeichnis besteht aus der Abfolge einzeln abgrenzbarer Schichten, deren Merkmale jeweils in der Klasse Lithology beschrieben werden. Ein Schichtenverzeichnis verf\u00fcgt \u00fcber mindestens eine Schicht. Es k\u00f6nnen mehrere Schichtenverzeichnis-Versionen pro Bohrung gespeichert werden.</p>\n<p>[en] Disposable interval series for the borehole. The interval series consists of an amount of single layers with specific intervals, whose attributes are stored in the class Lithology. An interval series must have at least one interval defining one layer. It is possible to store several versions of interval series for the same borehole.</p>\n"
+						},
+						{
+							"propertyType": "IntervalSeries",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>[de] Abzugebendes Schichtenverzeichnis. Das Schichtenverzeichnis besteht aus der Abfolge einzeln abgrenzbarer Schichten, deren Merkmale jeweils in der Klasse Lithology beschrieben werden. Ein Schichtenverzeichnis verf\u00fcgt \u00fcber mindestens eine Schicht. Es k\u00f6nnen mehrere Schichtenverzeichnis-Versionen pro Bohrung gespeichert werden.</p>\n<p>[en] Disposable interval series for the borehole. The interval series consists of an amount of single layers with specific intervals, whose attributes are stored in the class Lithology. An interval series must have at least one interval defining one layer. It is possible to store several versions of interval series for the same borehole.</p>\n"
+						},
+						{
+							"propertyType": "LocalisedCharacterString_PropertyType",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>[de] Art des Schichtenverzeichnisses. (Defaultwert: Master-Schichtenverzeichnis)</p>\n<p>[en] Type of interval series. (Default value: master interval series)</p>\n"
+						},
+						{
+							"propertyType": "LocalisedCharacterString",
+							"propertyCardinality": "0..1"
+						}
+					],
+					"shortName": "LocalisedCharacterString",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.infogeo.de/boreholeml/3.0"
+						},
+						"path": [
+							{
+								"localName": "intervalSeries",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							},
+							{
+								"localName": "IntervalSeries",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							},
+							{
+								"localName": "description",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							},
+							{
+								"localName": "LocalisedCharacterString",
+								"namespace": "http://www.isotc211.org/2005/gmd"
+							}
+						]
+					}
+				}
+			],
+			"explanation": "<p>For each value in <em>name_sty</em> adds the same value to the <em>LocalisedCharacterString</em> property. If necessary a conversion is applied.</p>\n",
+			"cellId": "Ca5142ed1-70b1-4d54-9f34-7f7020207ce4",
+			"parentCells": [
+				"C08f8ecd7-b7ab-46ab-9ead-3f2ee8fd89bb"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Rename",
+			"functionId": "eu.esdihumboldt.hale.align.rename",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Structural rename",
+					"paramName": "structuralRename",
+					"paramValue": "false",
+					"simple": true
+				},
+				{
+					"paramLabel": "Allow ignore namespace",
+					"paramName": "ignoreNamespaces",
+					"paramValue": "false",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"layer",
+						"depth_from_lay"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "float8",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "depth_from_lay",
+					"entity": {
+						"type": {
+							"localName": "layer",
+							"namespace": "jdbc:postgresql:bdms-prod-20230213:bdms"
+						},
+						"path": [
+							{
+								"localName": "depth_from_lay",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole",
+						"intervalSeries",
+						"IntervalSeries",
+						"layer",
+						"Interval",
+						"from"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>[de] Enth\u00e4lt die Angaben zur Bohrungslokation und die Stammdaten pro Bohrung.</p>\n<p>[en] Contains location data and header information of the borehole.</p>\n"
+						},
+						{
+							"propertyType": "?",
+							"propertyCardinality": "0..110",
+							"propertyDescription": "<p>[de] Abzugebendes Schichtenverzeichnis. Das Schichtenverzeichnis besteht aus der Abfolge einzeln abgrenzbarer Schichten, deren Merkmale jeweils in der Klasse Lithology beschrieben werden. Ein Schichtenverzeichnis verf\u00fcgt \u00fcber mindestens eine Schicht. Es k\u00f6nnen mehrere Schichtenverzeichnis-Versionen pro Bohrung gespeichert werden.</p>\n<p>[en] Disposable interval series for the borehole. The interval series consists of an amount of single layers with specific intervals, whose attributes are stored in the class Lithology. An interval series must have at least one interval defining one layer. It is possible to store several versions of interval series for the same borehole.</p>\n"
+						},
+						{
+							"propertyType": "IntervalSeries",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>[de] Abzugebendes Schichtenverzeichnis. Das Schichtenverzeichnis besteht aus der Abfolge einzeln abgrenzbarer Schichten, deren Merkmale jeweils in der Klasse Lithology beschrieben werden. Ein Schichtenverzeichnis verf\u00fcgt \u00fcber mindestens eine Schicht. Es k\u00f6nnen mehrere Schichtenverzeichnis-Versionen pro Bohrung gespeichert werden.</p>\n<p>[en] Disposable interval series for the borehole. The interval series consists of an amount of single layers with specific intervals, whose attributes are stored in the class Lithology. An interval series must have at least one interval defining one layer. It is possible to store several versions of interval series for the same borehole.</p>\n"
+						},
+						{
+							"propertyType": "IntervalPropertyType",
+							"propertyCardinality": "1..110",
+							"propertyDescription": "<p>[de] Der abstrakte Datentyp layer dient der Vererbung allgemeiner Schichtdaten an Haupt- und Teilschichten.</p>\n<p>[en] The abstract data type layer serves the inheritance of general interval data to main layers and sub layers.</p>\n"
+						},
+						{
+							"propertyType": "Interval",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>[de] Die Daten einer abgrenzbaren Schicht. Jeder Schicht muss mindestens ein Gesteinstyp zugeordnet werden, dessen Merkmale in der Klasse Lithology beschrieben werden. Es k\u00f6nnen bis maximal 9 verschiedene Gesteinstypen zugeordnet werden. Jeder Schicht muss eine stratigraphische Bezeichnung zugeordnet sein.</p>\n<p>[en] The strata data of a layer. Each layer must be associated with at least one rock type, whose attributes are stored in the class Lithology. Each layer can be associated with up to nine different rock types. Each layer must be associated with a stratigraphical term.</p>\n"
+						},
+						{
+							"propertyType": "LengthType",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>[de] Oberkante des Intervalls relativ zum Bohransatzpunkt.<br />\nIntervalle werden entlang des Bohrungspfades gemessen.</p>\n<p>[en] Top of the interval relative to given altitude at starting point. Intervals are measured along the borehole path.</p>\n"
+						}
+					],
+					"shortName": "from",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.infogeo.de/boreholeml/3.0"
+						},
+						"path": [
+							{
+								"localName": "intervalSeries",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							},
+							{
+								"localName": "IntervalSeries",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							},
+							{
+								"localName": "layer",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							},
+							{
+								"localName": "Interval",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							},
+							{
+								"localName": "from",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							}
+						]
+					}
+				}
+			],
+			"explanation": "<p>For each value in <em>depth_from_lay</em> adds the same value to the <em>from</em> property. If necessary a conversion is applied.</p>\n",
+			"cellId": "Cb70e83f8-5f75-4523-9037-3064c2ed8885",
+			"parentCells": [
+				"C08f8ecd7-b7ab-46ab-9ead-3f2ee8fd89bb"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Assign",
+			"functionId": "eu.esdihumboldt.hale.align.assign",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Value",
+					"paramName": "value",
+					"paramValue": "m",
+					"simple": true
+				}
+			],
+			"sources": [],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole",
+						"intervalSeries",
+						"IntervalSeries",
+						"layer",
+						"Interval",
+						"from",
+						"uom"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>[de] Enth\u00e4lt die Angaben zur Bohrungslokation und die Stammdaten pro Bohrung.</p>\n<p>[en] Contains location data and header information of the borehole.</p>\n"
+						},
+						{
+							"propertyType": "?",
+							"propertyCardinality": "0..110",
+							"propertyDescription": "<p>[de] Abzugebendes Schichtenverzeichnis. Das Schichtenverzeichnis besteht aus der Abfolge einzeln abgrenzbarer Schichten, deren Merkmale jeweils in der Klasse Lithology beschrieben werden. Ein Schichtenverzeichnis verf\u00fcgt \u00fcber mindestens eine Schicht. Es k\u00f6nnen mehrere Schichtenverzeichnis-Versionen pro Bohrung gespeichert werden.</p>\n<p>[en] Disposable interval series for the borehole. The interval series consists of an amount of single layers with specific intervals, whose attributes are stored in the class Lithology. An interval series must have at least one interval defining one layer. It is possible to store several versions of interval series for the same borehole.</p>\n"
+						},
+						{
+							"propertyType": "IntervalSeries",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>[de] Abzugebendes Schichtenverzeichnis. Das Schichtenverzeichnis besteht aus der Abfolge einzeln abgrenzbarer Schichten, deren Merkmale jeweils in der Klasse Lithology beschrieben werden. Ein Schichtenverzeichnis verf\u00fcgt \u00fcber mindestens eine Schicht. Es k\u00f6nnen mehrere Schichtenverzeichnis-Versionen pro Bohrung gespeichert werden.</p>\n<p>[en] Disposable interval series for the borehole. The interval series consists of an amount of single layers with specific intervals, whose attributes are stored in the class Lithology. An interval series must have at least one interval defining one layer. It is possible to store several versions of interval series for the same borehole.</p>\n"
+						},
+						{
+							"propertyType": "IntervalPropertyType",
+							"propertyCardinality": "1..110",
+							"propertyDescription": "<p>[de] Der abstrakte Datentyp layer dient der Vererbung allgemeiner Schichtdaten an Haupt- und Teilschichten.</p>\n<p>[en] The abstract data type layer serves the inheritance of general interval data to main layers and sub layers.</p>\n"
+						},
+						{
+							"propertyType": "Interval",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>[de] Die Daten einer abgrenzbaren Schicht. Jeder Schicht muss mindestens ein Gesteinstyp zugeordnet werden, dessen Merkmale in der Klasse Lithology beschrieben werden. Es k\u00f6nnen bis maximal 9 verschiedene Gesteinstypen zugeordnet werden. Jeder Schicht muss eine stratigraphische Bezeichnung zugeordnet sein.</p>\n<p>[en] The strata data of a layer. Each layer must be associated with at least one rock type, whose attributes are stored in the class Lithology. Each layer can be associated with up to nine different rock types. Each layer must be associated with a stratigraphical term.</p>\n"
+						},
+						{
+							"propertyType": "LengthType",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>[de] Oberkante des Intervalls relativ zum Bohransatzpunkt.<br />\nIntervalle werden entlang des Bohrungspfades gemessen.</p>\n<p>[en] Top of the interval relative to given altitude at starting point. Intervals are measured along the borehole path.</p>\n"
+						},
+						{
+							"propertyType": "UomIdentifier",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>The simple type gml:UomIdentifer defines the syntax and value space of the unit of measure identifier.</p>\n"
+						}
+					],
+					"shortName": "uom",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.infogeo.de/boreholeml/3.0"
+						},
+						"path": [
+							{
+								"localName": "intervalSeries",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							},
+							{
+								"localName": "IntervalSeries",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							},
+							{
+								"localName": "layer",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							},
+							{
+								"localName": "Interval",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							},
+							{
+								"localName": "from",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							},
+							{
+								"localName": "uom",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"explanation": "<p>Assigns the value <code>m</code> to the <em>uom</em> property.</p>\n",
+			"cellId": "Cd0783028-ea6b-410a-b4cd-9b15465fd6eb",
+			"parentCells": [
+				"C9edd550a-7d0f-4e7b-a74c-7086fd8b07e5",
+				"C08f8ecd7-b7ab-46ab-9ead-3f2ee8fd89bb"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Groovy script",
+			"functionId": "eu.esdihumboldt.cst.functions.groovy",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Groovy script",
+					"paramName": "script",
+					"paramValue": "// this groovy script searches for the text of \r\n// 'status_id_cli' defined in the source table \r\n// 'codelist'\r\n\r\ndef c = _.context.collector()\r\ndef textEn = c.codelist[lithology_id_cli].value()",
+					"simple": false
+				},
+				{
+					"paramLabel": "Use instances for variables with child properties",
+					"paramName": "variablesAsInstances",
+					"paramValue": "false",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"layer",
+						"lithology_id_cli"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "int4",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "lithology_id_cli",
+					"entity": {
+						"type": {
+							"localName": "layer",
+							"namespace": "jdbc:postgresql:bdms-prod-20230213:bdms"
+						},
+						"path": [
+							{
+								"localName": "lithology_id_cli",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole",
+						"intervalSeries",
+						"IntervalSeries",
+						"layer",
+						"Interval",
+						"rockNameText",
+						"LocalisedCharacterString"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>[de] Enth\u00e4lt die Angaben zur Bohrungslokation und die Stammdaten pro Bohrung.</p>\n<p>[en] Contains location data and header information of the borehole.</p>\n"
+						},
+						{
+							"propertyType": "?",
+							"propertyCardinality": "0..110",
+							"propertyDescription": "<p>[de] Abzugebendes Schichtenverzeichnis. Das Schichtenverzeichnis besteht aus der Abfolge einzeln abgrenzbarer Schichten, deren Merkmale jeweils in der Klasse Lithology beschrieben werden. Ein Schichtenverzeichnis verf\u00fcgt \u00fcber mindestens eine Schicht. Es k\u00f6nnen mehrere Schichtenverzeichnis-Versionen pro Bohrung gespeichert werden.</p>\n<p>[en] Disposable interval series for the borehole. The interval series consists of an amount of single layers with specific intervals, whose attributes are stored in the class Lithology. An interval series must have at least one interval defining one layer. It is possible to store several versions of interval series for the same borehole.</p>\n"
+						},
+						{
+							"propertyType": "IntervalSeries",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>[de] Abzugebendes Schichtenverzeichnis. Das Schichtenverzeichnis besteht aus der Abfolge einzeln abgrenzbarer Schichten, deren Merkmale jeweils in der Klasse Lithology beschrieben werden. Ein Schichtenverzeichnis verf\u00fcgt \u00fcber mindestens eine Schicht. Es k\u00f6nnen mehrere Schichtenverzeichnis-Versionen pro Bohrung gespeichert werden.</p>\n<p>[en] Disposable interval series for the borehole. The interval series consists of an amount of single layers with specific intervals, whose attributes are stored in the class Lithology. An interval series must have at least one interval defining one layer. It is possible to store several versions of interval series for the same borehole.</p>\n"
+						},
+						{
+							"propertyType": "IntervalPropertyType",
+							"propertyCardinality": "1..110",
+							"propertyDescription": "<p>[de] Der abstrakte Datentyp layer dient der Vererbung allgemeiner Schichtdaten an Haupt- und Teilschichten.</p>\n<p>[en] The abstract data type layer serves the inheritance of general interval data to main layers and sub layers.</p>\n"
+						},
+						{
+							"propertyType": "Interval",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>[de] Die Daten einer abgrenzbaren Schicht. Jeder Schicht muss mindestens ein Gesteinstyp zugeordnet werden, dessen Merkmale in der Klasse Lithology beschrieben werden. Es k\u00f6nnen bis maximal 9 verschiedene Gesteinstypen zugeordnet werden. Jeder Schicht muss eine stratigraphische Bezeichnung zugeordnet sein.</p>\n<p>[en] The strata data of a layer. Each layer must be associated with at least one rock type, whose attributes are stored in the class Lithology. Each layer can be associated with up to nine different rock types. Each layer must be associated with a stratigraphical term.</p>\n"
+						},
+						{
+							"propertyType": "LocalisedCharacterString_PropertyType",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>[de] Pr\u00e4gnante, klartextliche Gesteinsbezeichnung f\u00fcr die gesamte Schicht oder Komponente entsprechend der Information aus der Quelldatenbank.</p>\n<p>[en] Identifying textual description of the intervals rock types according to the information in the source database.</p>\n"
+						},
+						{
+							"propertyType": "LocalisedCharacterString",
+							"propertyCardinality": "0..1"
+						}
+					],
+					"shortName": "LocalisedCharacterString",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.infogeo.de/boreholeml/3.0"
+						},
+						"path": [
+							{
+								"localName": "intervalSeries",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							},
+							{
+								"localName": "IntervalSeries",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							},
+							{
+								"localName": "layer",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							},
+							{
+								"localName": "Interval",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							},
+							{
+								"localName": "rockNameText",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							},
+							{
+								"localName": "LocalisedCharacterString",
+								"namespace": "http://www.isotc211.org/2005/gmd"
+							}
+						]
+					}
+				}
+			],
+			"explanation": "Populates the <em>LocalisedCharacterString</em> property with the result of the following Groovy script:<br /><br /><pre><code class=\"language-groovy\">// this groovy script searches for the text of \r\n// 'status_id_cli' defined in the source table \r\n// 'codelist'\r\n\r\ndef c = _.context.collector()\r\ndef textEn = c.codelist[lithology_id_cli].value()</code></pre><br />Source property names are bound to the corresponding value, if the context condition/index matches, otherwise the value is not set.",
+			"cellId": "C75a3204c-343b-479a-a1bc-f2c5b5e02606",
+			"parentCells": [
+				"C08f8ecd7-b7ab-46ab-9ead-3f2ee8fd89bb"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Rename",
+			"functionId": "eu.esdihumboldt.hale.align.rename",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Structural rename",
+					"paramName": "structuralRename",
+					"paramValue": "false",
+					"simple": true
+				},
+				{
+					"paramLabel": "Allow ignore namespace",
+					"paramName": "ignoreNamespaces",
+					"paramValue": "false",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"layer",
+						"depth_to_lay"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "float8",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "depth_to_lay",
+					"entity": {
+						"type": {
+							"localName": "layer",
+							"namespace": "jdbc:postgresql:bdms-prod-20230213:bdms"
+						},
+						"path": [
+							{
+								"localName": "depth_to_lay",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole",
+						"intervalSeries",
+						"IntervalSeries",
+						"layer",
+						"Interval",
+						"to"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>[de] Enth\u00e4lt die Angaben zur Bohrungslokation und die Stammdaten pro Bohrung.</p>\n<p>[en] Contains location data and header information of the borehole.</p>\n"
+						},
+						{
+							"propertyType": "?",
+							"propertyCardinality": "0..110",
+							"propertyDescription": "<p>[de] Abzugebendes Schichtenverzeichnis. Das Schichtenverzeichnis besteht aus der Abfolge einzeln abgrenzbarer Schichten, deren Merkmale jeweils in der Klasse Lithology beschrieben werden. Ein Schichtenverzeichnis verf\u00fcgt \u00fcber mindestens eine Schicht. Es k\u00f6nnen mehrere Schichtenverzeichnis-Versionen pro Bohrung gespeichert werden.</p>\n<p>[en] Disposable interval series for the borehole. The interval series consists of an amount of single layers with specific intervals, whose attributes are stored in the class Lithology. An interval series must have at least one interval defining one layer. It is possible to store several versions of interval series for the same borehole.</p>\n"
+						},
+						{
+							"propertyType": "IntervalSeries",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>[de] Abzugebendes Schichtenverzeichnis. Das Schichtenverzeichnis besteht aus der Abfolge einzeln abgrenzbarer Schichten, deren Merkmale jeweils in der Klasse Lithology beschrieben werden. Ein Schichtenverzeichnis verf\u00fcgt \u00fcber mindestens eine Schicht. Es k\u00f6nnen mehrere Schichtenverzeichnis-Versionen pro Bohrung gespeichert werden.</p>\n<p>[en] Disposable interval series for the borehole. The interval series consists of an amount of single layers with specific intervals, whose attributes are stored in the class Lithology. An interval series must have at least one interval defining one layer. It is possible to store several versions of interval series for the same borehole.</p>\n"
+						},
+						{
+							"propertyType": "IntervalPropertyType",
+							"propertyCardinality": "1..110",
+							"propertyDescription": "<p>[de] Der abstrakte Datentyp layer dient der Vererbung allgemeiner Schichtdaten an Haupt- und Teilschichten.</p>\n<p>[en] The abstract data type layer serves the inheritance of general interval data to main layers and sub layers.</p>\n"
+						},
+						{
+							"propertyType": "Interval",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>[de] Die Daten einer abgrenzbaren Schicht. Jeder Schicht muss mindestens ein Gesteinstyp zugeordnet werden, dessen Merkmale in der Klasse Lithology beschrieben werden. Es k\u00f6nnen bis maximal 9 verschiedene Gesteinstypen zugeordnet werden. Jeder Schicht muss eine stratigraphische Bezeichnung zugeordnet sein.</p>\n<p>[en] The strata data of a layer. Each layer must be associated with at least one rock type, whose attributes are stored in the class Lithology. Each layer can be associated with up to nine different rock types. Each layer must be associated with a stratigraphical term.</p>\n"
+						},
+						{
+							"propertyType": "LengthType",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>[de] Unterkante des Intervalls relativ zum Bohransatzpunkt.<br />\nIntervalle werden entlang des Bohrungspfades gemessen.</p>\n<p>[en] Bottom of the interval relative to given altitude at starting point. Intervals are measured along the borehole path.</p>\n"
+						}
+					],
+					"shortName": "to",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.infogeo.de/boreholeml/3.0"
+						},
+						"path": [
+							{
+								"localName": "intervalSeries",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							},
+							{
+								"localName": "IntervalSeries",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							},
+							{
+								"localName": "layer",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							},
+							{
+								"localName": "Interval",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							},
+							{
+								"localName": "to",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							}
+						]
+					}
+				}
+			],
+			"explanation": "<p>For each value in <em>depth_to_lay</em> adds the same value to the <em>to</em> property. If necessary a conversion is applied.</p>\n",
+			"cellId": "C14716ff6-341c-48c0-8c2a-08ad7c00bf16",
+			"parentCells": [
+				"C08f8ecd7-b7ab-46ab-9ead-3f2ee8fd89bb"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Assign",
+			"functionId": "eu.esdihumboldt.hale.align.assign",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Value",
+					"paramName": "value",
+					"paramValue": "m",
+					"simple": true
+				}
+			],
+			"sources": [],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole",
+						"intervalSeries",
+						"IntervalSeries",
+						"layer",
+						"Interval",
+						"to",
+						"uom"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>[de] Enth\u00e4lt die Angaben zur Bohrungslokation und die Stammdaten pro Bohrung.</p>\n<p>[en] Contains location data and header information of the borehole.</p>\n"
+						},
+						{
+							"propertyType": "?",
+							"propertyCardinality": "0..110",
+							"propertyDescription": "<p>[de] Abzugebendes Schichtenverzeichnis. Das Schichtenverzeichnis besteht aus der Abfolge einzeln abgrenzbarer Schichten, deren Merkmale jeweils in der Klasse Lithology beschrieben werden. Ein Schichtenverzeichnis verf\u00fcgt \u00fcber mindestens eine Schicht. Es k\u00f6nnen mehrere Schichtenverzeichnis-Versionen pro Bohrung gespeichert werden.</p>\n<p>[en] Disposable interval series for the borehole. The interval series consists of an amount of single layers with specific intervals, whose attributes are stored in the class Lithology. An interval series must have at least one interval defining one layer. It is possible to store several versions of interval series for the same borehole.</p>\n"
+						},
+						{
+							"propertyType": "IntervalSeries",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>[de] Abzugebendes Schichtenverzeichnis. Das Schichtenverzeichnis besteht aus der Abfolge einzeln abgrenzbarer Schichten, deren Merkmale jeweils in der Klasse Lithology beschrieben werden. Ein Schichtenverzeichnis verf\u00fcgt \u00fcber mindestens eine Schicht. Es k\u00f6nnen mehrere Schichtenverzeichnis-Versionen pro Bohrung gespeichert werden.</p>\n<p>[en] Disposable interval series for the borehole. The interval series consists of an amount of single layers with specific intervals, whose attributes are stored in the class Lithology. An interval series must have at least one interval defining one layer. It is possible to store several versions of interval series for the same borehole.</p>\n"
+						},
+						{
+							"propertyType": "IntervalPropertyType",
+							"propertyCardinality": "1..110",
+							"propertyDescription": "<p>[de] Der abstrakte Datentyp layer dient der Vererbung allgemeiner Schichtdaten an Haupt- und Teilschichten.</p>\n<p>[en] The abstract data type layer serves the inheritance of general interval data to main layers and sub layers.</p>\n"
+						},
+						{
+							"propertyType": "Interval",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>[de] Die Daten einer abgrenzbaren Schicht. Jeder Schicht muss mindestens ein Gesteinstyp zugeordnet werden, dessen Merkmale in der Klasse Lithology beschrieben werden. Es k\u00f6nnen bis maximal 9 verschiedene Gesteinstypen zugeordnet werden. Jeder Schicht muss eine stratigraphische Bezeichnung zugeordnet sein.</p>\n<p>[en] The strata data of a layer. Each layer must be associated with at least one rock type, whose attributes are stored in the class Lithology. Each layer can be associated with up to nine different rock types. Each layer must be associated with a stratigraphical term.</p>\n"
+						},
+						{
+							"propertyType": "LengthType",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>[de] Unterkante des Intervalls relativ zum Bohransatzpunkt.<br />\nIntervalle werden entlang des Bohrungspfades gemessen.</p>\n<p>[en] Bottom of the interval relative to given altitude at starting point. Intervals are measured along the borehole path.</p>\n"
+						},
+						{
+							"propertyType": "UomIdentifier",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>The simple type gml:UomIdentifer defines the syntax and value space of the unit of measure identifier.</p>\n"
+						}
+					],
+					"shortName": "uom",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.infogeo.de/boreholeml/3.0"
+						},
+						"path": [
+							{
+								"localName": "intervalSeries",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							},
+							{
+								"localName": "IntervalSeries",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							},
+							{
+								"localName": "layer",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							},
+							{
+								"localName": "Interval",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							},
+							{
+								"localName": "to",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							},
+							{
+								"localName": "uom",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"explanation": "<p>Assigns the value <code>m</code> to the <em>uom</em> property.</p>\n",
+			"cellId": "C43102393-7849-4613-97f3-dc3f4b99fae5",
+			"parentCells": [
+				"C9edd550a-7d0f-4e7b-a74c-7086fd8b07e5",
+				"C08f8ecd7-b7ab-46ab-9ead-3f2ee8fd89bb"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Rename",
+			"functionId": "eu.esdihumboldt.hale.align.rename",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Structural rename",
+					"paramName": "structuralRename",
+					"paramValue": "false",
+					"simple": true
+				},
+				{
+					"paramLabel": "Allow ignore namespace",
+					"paramName": "ignoreNamespaces",
+					"paramValue": "false",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"stratigraphy",
+						"name_sty"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "varchar",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "name_sty",
+					"entity": {
+						"type": {
+							"localName": "stratigraphy",
+							"namespace": "jdbc:postgresql:bdms-prod-20230213:bdms"
+						},
+						"path": [
+							{
+								"localName": "name_sty",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole",
+						"intervalSeries",
+						"IntervalSeries",
+						"version"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>[de] Enth\u00e4lt die Angaben zur Bohrungslokation und die Stammdaten pro Bohrung.</p>\n<p>[en] Contains location data and header information of the borehole.</p>\n"
+						},
+						{
+							"propertyType": "?",
+							"propertyCardinality": "0..110",
+							"propertyDescription": "<p>[de] Abzugebendes Schichtenverzeichnis. Das Schichtenverzeichnis besteht aus der Abfolge einzeln abgrenzbarer Schichten, deren Merkmale jeweils in der Klasse Lithology beschrieben werden. Ein Schichtenverzeichnis verf\u00fcgt \u00fcber mindestens eine Schicht. Es k\u00f6nnen mehrere Schichtenverzeichnis-Versionen pro Bohrung gespeichert werden.</p>\n<p>[en] Disposable interval series for the borehole. The interval series consists of an amount of single layers with specific intervals, whose attributes are stored in the class Lithology. An interval series must have at least one interval defining one layer. It is possible to store several versions of interval series for the same borehole.</p>\n"
+						},
+						{
+							"propertyType": "IntervalSeries",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>[de] Abzugebendes Schichtenverzeichnis. Das Schichtenverzeichnis besteht aus der Abfolge einzeln abgrenzbarer Schichten, deren Merkmale jeweils in der Klasse Lithology beschrieben werden. Ein Schichtenverzeichnis verf\u00fcgt \u00fcber mindestens eine Schicht. Es k\u00f6nnen mehrere Schichtenverzeichnis-Versionen pro Bohrung gespeichert werden.</p>\n<p>[en] Disposable interval series for the borehole. The interval series consists of an amount of single layers with specific intervals, whose attributes are stored in the class Lithology. An interval series must have at least one interval defining one layer. It is possible to store several versions of interval series for the same borehole.</p>\n"
+						},
+						{
+							"propertyType": "? extends string",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>[de] Versionsnummer oder -name des Schichtenverzeichnisses.</p>\n<p>[en] Version number or version name of the interval series.</p>\n"
+						}
+					],
+					"shortName": "version",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.infogeo.de/boreholeml/3.0"
+						},
+						"path": [
+							{
+								"localName": "intervalSeries",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							},
+							{
+								"localName": "IntervalSeries",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							},
+							{
+								"localName": "version",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							}
+						]
+					}
+				}
+			],
+			"explanation": "<p>For each value in <em>name_sty</em> adds the same value to the <em>version</em> property. If necessary a conversion is applied.</p>\n",
+			"cellId": "C065c7a56-e05b-48b0-bc49-a40bca149bc6",
+			"parentCells": [
+				"C08f8ecd7-b7ab-46ab-9ead-3f2ee8fd89bb"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Ordinates to Point",
+			"functionId": "eu.esdihumboldt.cst.functions.geometric.ordinates_to_point",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Coordinate Reference System",
+					"paramName": "referenceSystem",
+					"paramValue": "epsg:2056",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"borehole",
+						"location_x_bho"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "float8",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "location_x_bho",
+					"entity": {
+						"type": {
+							"localName": "borehole",
+							"namespace": "jdbc:postgresql:bdms-prod-20230213:bdms"
+						},
+						"path": [
+							{
+								"localName": "location_x_bho",
+								"namespace": null
+							}
+						]
+					}
+				},
+				{
+					"propertyPath": [
+						"borehole",
+						"location_y_bho"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "float8",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "location_y_bho",
+					"entity": {
+						"type": {
+							"localName": "borehole",
+							"namespace": "jdbc:postgresql:bdms-prod-20230213:bdms"
+						},
+						"path": [
+							{
+								"localName": "location_y_bho",
+								"namespace": null
+							}
+						]
+					}
+				},
+				{
+					"propertyPath": [
+						"borehole",
+						"elevation_z_bho"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "float8",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "elevation_z_bho",
+					"entity": {
+						"type": {
+							"localName": "borehole",
+							"namespace": "jdbc:postgresql:bdms-prod-20230213:bdms"
+						},
+						"path": [
+							{
+								"localName": "elevation_z_bho",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole",
+						"location",
+						"Point"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>[de] Enth\u00e4lt die Angaben zur Bohrungslokation und die Stammdaten pro Bohrung.</p>\n<p>[en] Contains location data and header information of the borehole.</p>\n"
+						},
+						{
+							"propertyType": "PointPropertyType",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>[de] Position des Bohrloch-Ansatzpunktes. Der Datentyp enth\u00e4lt eine dreidimensionale Koordinate basierend auf der Umrechnung von Origin.originalLocation und Origin.elevation. Das Attribut gml:id setzt sich zusammen aus dem K\u00fcrzel in databaseSource und der jeweiligen Bohrungs-ID in id. Syntax: database_id</p>\n<p>[en] Position of the borehole-location. The data type contains a three-dimensional coordinate based on the transformation of Origin.originalLocation and Origin.elevation. The attribute gml:id is a compound key of the code in databaseSource and the given borehole-ID in id. Syntax: database_id</p>\n"
+						},
+						{
+							"propertyType": "Point",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>A Point is defined by a single coordinate tuple. The direct position of a point is specified by the pos element which is of type DirectPositionType.</p>\n"
+						}
+					],
+					"shortName": "Point",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.infogeo.de/boreholeml/3.0"
+						},
+						"path": [
+							{
+								"localName": "location",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							},
+							{
+								"localName": "Point",
+								"namespace": "http://www.opengis.net/gml/3.2"
+							}
+						]
+					}
+				}
+			],
+			"explanation": "<p>Fills the <em>Point</em> property with point geometries created from source properties, where the <em>location_x_bho</em> property is x, the <em>location_y_bho</em> property is y and the <em>elevation_z_bho</em> property is z.<br />\nThe reference system epsg:2056 is used.</p>\n",
+			"cellId": "C60c64b29-bfe0-4848-976f-721c0e5028cb",
+			"parentCells": [
+				"C08f8ecd7-b7ab-46ab-9ead-3f2ee8fd89bb"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Rename",
+			"functionId": "eu.esdihumboldt.hale.align.rename",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Structural rename",
+					"paramName": "structuralRename",
+					"paramValue": "false",
+					"simple": true
+				},
+				{
+					"paramLabel": "Allow ignore namespace",
+					"paramName": "ignoreNamespaces",
+					"paramValue": "false",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"borehole",
+						"total_depth_bho"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "float8",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "total_depth_bho",
+					"entity": {
+						"type": {
+							"localName": "borehole",
+							"namespace": "jdbc:postgresql:bdms-prod-20230213:bdms"
+						},
+						"path": [
+							{
+								"localName": "total_depth_bho",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole",
+						"totalLength"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>[de] Enth\u00e4lt die Angaben zur Bohrungslokation und die Stammdaten pro Bohrung.</p>\n<p>[en] Contains location data and header information of the borehole.</p>\n"
+						},
+						{
+							"propertyType": "LengthType",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>[de] Die Aufschlussl\u00e4nge der Bohrung in Meter. Abstand des Endpunktes der Bohrung vom Ansatzpunkt, entlang des Bohrpfades gemessen.</p>\n<p>[en] Length along the borehole path in meter measured from the drill start point to the end point.</p>\n"
+						}
+					],
+					"shortName": "totalLength",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.infogeo.de/boreholeml/3.0"
+						},
+						"path": [
+							{
+								"localName": "totalLength",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							}
+						]
+					}
+				}
+			],
+			"explanation": "<p>For each value in <em>total_depth_bho</em> adds the same value to the <em>totalLength</em> property. If necessary a conversion is applied.</p>\n",
+			"cellId": "Cb7a895f9-0f66-4416-b148-4363b95633a4",
+			"parentCells": [
+				"C08f8ecd7-b7ab-46ab-9ead-3f2ee8fd89bb"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Assign",
+			"functionId": "eu.esdihumboldt.hale.align.assign",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Value",
+					"paramName": "value",
+					"paramValue": "m",
+					"simple": true
+				}
+			],
+			"sources": [],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole",
+						"totalLength",
+						"uom"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>[de] Enth\u00e4lt die Angaben zur Bohrungslokation und die Stammdaten pro Bohrung.</p>\n<p>[en] Contains location data and header information of the borehole.</p>\n"
+						},
+						{
+							"propertyType": "LengthType",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>[de] Die Aufschlussl\u00e4nge der Bohrung in Meter. Abstand des Endpunktes der Bohrung vom Ansatzpunkt, entlang des Bohrpfades gemessen.</p>\n<p>[en] Length along the borehole path in meter measured from the drill start point to the end point.</p>\n"
+						},
+						{
+							"propertyType": "UomIdentifier",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>The simple type gml:UomIdentifer defines the syntax and value space of the unit of measure identifier.</p>\n"
+						}
+					],
+					"shortName": "uom",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.infogeo.de/boreholeml/3.0"
+						},
+						"path": [
+							{
+								"localName": "totalLength",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							},
+							{
+								"localName": "uom",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"explanation": "<p>Assigns the value <code>m</code> to the <em>uom</em> property.</p>\n",
+			"cellId": "C6b79d29d-a626-4bed-86cb-614c4fa2fbbc",
+			"parentCells": [
+				"C9edd550a-7d0f-4e7b-a74c-7086fd8b07e5",
+				"C08f8ecd7-b7ab-46ab-9ead-3f2ee8fd89bb"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Join",
+			"functionId": "eu.esdihumboldt.hale.align.join",
+			"typeRelation": true,
+			"functionParameters": [
+				{
+					"paramLabel": "Join definition",
+					"paramName": "join",
+					"paramValue": {
+						"jp:join-parameter": {"@xmlns:jp":"http://www.esdi-humboldt.eu/hale/join","class":[{"@xmlns:xmlns":"http://www.esdi-humboldt.eu/hale/alignment","type":{"@name":"borehole","@ns":"jdbc:postgresql:bdms-prod-20230213:bdms"}},{"@xmlns:xmlns":"http://www.esdi-humboldt.eu/hale/alignment","type":{"@name":"stratigraphy","@ns":"jdbc:postgresql:bdms-prod-20230213:bdms"}},{"@xmlns:xmlns":"http://www.esdi-humboldt.eu/hale/alignment","type":{"@name":"layer","@ns":"jdbc:postgresql:bdms-prod-20230213:bdms"}}],"jp:condition":[{"property":[{"@xmlns:xmlns":"http://www.esdi-humboldt.eu/hale/alignment","type":{"@name":"borehole","@ns":"jdbc:postgresql:bdms-prod-20230213:bdms"},"child":{"@name":"id_bho"}},{"@xmlns:xmlns":"http://www.esdi-humboldt.eu/hale/alignment","type":{"@name":"stratigraphy","@ns":"jdbc:postgresql:bdms-prod-20230213:bdms"},"child":{"@name":"id_bho_fk"}}]},{"property":[{"@xmlns:xmlns":"http://www.esdi-humboldt.eu/hale/alignment","type":{"@name":"stratigraphy","@ns":"jdbc:postgresql:bdms-prod-20230213:bdms"},"child":{"@name":"id_sty"}},{"@xmlns:xmlns":"http://www.esdi-humboldt.eu/hale/alignment","type":{"@name":"layer","@ns":"jdbc:postgresql:bdms-prod-20230213:bdms"},"child":{"@name":"id_sty_fk"}}]}]}
+
+					},
+					"simple": false
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"layer"
+					],
+					"propertyDescriptions": [
+						{
+						}
+					],
+					"shortName": "layer",
+					"entity": {
+						"type": {
+							"localName": "layer",
+							"namespace": "jdbc:postgresql:bdms-prod-20230213:bdms"
+						}
+					}
+				},
+				{
+					"propertyPath": [
+						"borehole"
+					],
+					"propertyDescriptions": [
+						{
+						}
+					],
+					"shortName": "borehole",
+					"entity": {
+						"type": {
+							"localName": "borehole",
+							"namespace": "jdbc:postgresql:bdms-prod-20230213:bdms"
+						}
+					}
+				},
+				{
+					"propertyPath": [
+						"stratigraphy"
+					],
+					"propertyDescriptions": [
+						{
+						}
+					],
+					"shortName": "stratigraphy",
+					"entity": {
+						"type": {
+							"localName": "stratigraphy",
+							"namespace": "jdbc:postgresql:bdms-prod-20230213:bdms"
+						}
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>[de] Enth\u00e4lt die Angaben zur Bohrungslokation und die Stammdaten pro Bohrung.</p>\n<p>[en] Contains location data and header information of the borehole.</p>\n"
+						}
+					],
+					"shortName": "Borehole",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.infogeo.de/boreholeml/3.0"
+						}
+					}
+				}
+			],
+			"explanation": "Joins the types <em>borehole</em>, <em>stratigraphy</em>, <em>layer</em> based on the following conditions:<br /><br /><em>stratigraphy</em>.<em>id_sty</em> = <em>layer</em>.<em>id_sty_fk</em><br /><em>borehole</em>.<em>id_bho</em> = <em>stratigraphy</em>.<em>id_bho_fk</em><br /><br />",
+			"cellId": "C08f8ecd7-b7ab-46ab-9ead-3f2ee8fd89bb",
+			"mode": "active",
+			"priority": "normal",
+			"configurable": true
+		}
+	]
+};
+		});
+	</script>
+</head>
+<body ng-app="hale">
+	<div class="container" ng-controller="alignmentCtrl">
+		<hale-documentation alignment="alignment"></hale-documentation>
+	</div>
+</body>
+</html>
