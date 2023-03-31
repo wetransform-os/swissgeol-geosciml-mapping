@@ -3,7 +3,7 @@
     <name>swisstopoPostgreSql_to_BoreholeML30</name>
     <author>AnnaTamm</author>
     <created>2023-03-07T15:07:48.355+01:00</created>
-    <modified>2023-03-23T17:05:00.118+01:00</modified>
+    <modified>2023-03-31T17:27:59.101+02:00</modified>
     <save-config action-id="project.save" provider-id="eu.esdihumboldt.hale.io.project.hale25.xml.writer">
         <setting name="charset">UTF-8</setting>
         <setting name="projectFiles.separate">false</setting>
@@ -9025,7 +9025,7 @@
     <property name="defaultGeometry:{urn:x-inspire:specification:gmlas:GeographicalNames:3.0}NamedPlaceType/count">2</property>
     <property name="instances.sampling.enabled">true</property>
     <property name="instances.sampling.sampler">first</property>
-    <property name="instances.sampling.settings.first">100</property>
+    <property name="instances.sampling.settings.first">1000</property>
     <property name="instances.sampling.settings.skip">10</property>
     <property name="mappableSourceType/1">{jdbc:postgresql:bdms-prod-20230213:bdms}workgroups</property>
     <property name="mappableSourceType/10">{jdbc:postgresql:bdms-prod-20230213:bdms}users_roles</property>
