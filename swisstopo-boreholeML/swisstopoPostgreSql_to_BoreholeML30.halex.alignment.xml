@@ -621,7 +621,7 @@ _target {&#13;
 								&#13;
 								def compactnessValue = getCompactnessListValue( sourceLayer.p.compactness_id_cli.value() )&#13;
 								if (compactnessValue){&#13;
-									consistency( compactnessValue ) {&#13;
+									compactness( compactnessValue ) {&#13;
 										codeSpace( 'https://www.infogeo.de/boreholeml/3.0/codelists/CompactnessList.xml' )&#13;
 									}&#13;
 								}&#13;
