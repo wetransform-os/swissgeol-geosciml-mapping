@@ -14,7 +14,7 @@
 		angular.module('hale', ['halejs']).controller('alignmentCtrl', function($scope) {
 			$scope.alignment = {
 	"export": {
-		"timestamp": "2023-03-31T15:24:18.219886200Z",
+		"timestamp": "2023-06-02T07:36:52.964487800Z",
 		"haleVersion": "5.0.0.release"
 	},
 	"project": {
@@ -22,7 +22,7 @@
 		"author": "AnnaTamm",
 		"haleVersion": "5.0.0.release",
 		"created": "2023-03-07T14:07:48.355Z",
-		"modified": "2023-03-31T15:23:50.264Z"
+		"modified": "2023-06-02T06:57:56.434Z"
 	},
 	"sourceSchemas": [
 		{
@@ -37,6 +37,778 @@
 		}
 	],
 	"cells": [
+		{
+			"functionName": "Groovy Retype",
+			"functionId": "eu.esdihumboldt.cst.functions.groovy.retype",
+			"typeRelation": true,
+			"functionParameters": [
+				{
+					"paramLabel": "script",
+					"paramName": "script",
+					"paramValue": "//this groovy script collects all ids and text values of codelist\r\n//and all codes of codelist\r\n//no target is created\r\n\r\nwithTransformationContext {\r\n\tdef c = _.context.collector(it)\r\n\t\r\n\tdef codelist_ids = _source.p.id_cli.value()\r\n\tdef codelist_text = _source.p.text_cli_en.value()\r\n\t\r\n\tc.codelist[codelist_ids] << codelist_text\r\n\t\r\n\tdef codelist_code = _source.p.code_cli.value()\r\n\tc.codelist_id_code[codelist_ids] << codelist_code\r\n}",
+					"simple": false
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"codelist"
+					],
+					"propertyDescriptions": [
+						{
+						}
+					],
+					"shortName": "codelist",
+					"entity": {
+						"type": {
+							"localName": "codelist",
+							"namespace": "jdbc:postgresql:bdms-prod-20230213:bdms"
+						}
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>[de] Enth\u00e4lt die Angaben zur Bohrungslokation und die Stammdaten pro Bohrung.</p>\n<p>[en] Contains location data and header information of the borehole.</p>\n"
+						}
+					],
+					"shortName": "Borehole",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.infogeo.de/boreholeml/3.0"
+						}
+					}
+				}
+			],
+			"explanation": "<p>Creates a <em>Borehole</em> instance for each <em>codelist</em> instance in the source data set.</p>\n<br />Before the property transformations are run, the target instance is populated by executing the following Groovy script:<br /><br /><pre><code class=\"language-groovy\">//this groovy script collects all ids and text values of codelist\r\n//and all codes of codelist\r\n//no target is created\r\n\r\nwithTransformationContext {\r\n\tdef c = _.context.collector(it)\r\n\t\r\n\tdef codelist_ids = _source.p.id_cli.value()\r\n\tdef codelist_text = _source.p.text_cli_en.value()\r\n\t\r\n\tc.codelist[codelist_ids] << codelist_text\r\n\t\r\n\tdef codelist_code = _source.p.code_cli.value()\r\n\tc.codelist_id_code[codelist_ids] << codelist_code\r\n}</code></pre>",
+			"cellId": "C9edd550a-7d0f-4e7b-a74c-7086fd8b07e5",
+			"mode": "active",
+			"priority": "highest",
+			"configurable": true
+		},
+		{
+			"functionName": "Groovy script",
+			"functionId": "eu.esdihumboldt.cst.functions.groovy",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Groovy script",
+					"paramName": "script",
+					"paramValue": "// this groovy script searches for the (en) text of 'status_id_cli' \r\n// defined in the source table 'codelist' and classifies the result \r\n\r\ndef c = _.context.collector()\r\ndef textEn = c.codelist[status_id_cli].value()\r\n\r\nswitch (textEn) {\r\n\tcase 'filled':\r\n\treturn 'vf'\r\n\t\r\n\tcase 'cased, measurements possible':\r\n\treturn 'au'\r\n\t\r\n\tcase 'cased, in use':\r\n\treturn 'au'\r\n\t\r\n\tcase 'cased, measurements impossible':\r\n\treturn 'au'\r\n\t\r\n\tcase 'other ':\r\n\treturn 'ka'\r\n\t\r\n\tcase 'not specified':\r\n\treturn 'ka'\r\n}",
+					"simple": false
+				},
+				{
+					"paramLabel": "Use instances for variables with child properties",
+					"paramName": "variablesAsInstances",
+					"paramValue": "false",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"borehole",
+						"status_id_cli"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "int4",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "status_id_cli",
+					"entity": {
+						"type": {
+							"localName": "borehole",
+							"namespace": "jdbc:postgresql:bdms-prod-20230213:bdms"
+						},
+						"path": [
+							{
+								"localName": "status_id_cli",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole",
+						"boreholeStatus"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>[de] Enth\u00e4lt die Angaben zur Bohrungslokation und die Stammdaten pro Bohrung.</p>\n<p>[en] Contains location data and header information of the borehole.</p>\n"
+						},
+						{
+							"propertyType": "CodeType",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>[de] Aktueller Status der Bohrung.</p>\n<p>[en] Current status of the borehole.</p>\n"
+						}
+					],
+					"shortName": "boreholeStatus",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.infogeo.de/boreholeml/3.0"
+						},
+						"path": [
+							{
+								"localName": "boreholeStatus",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							}
+						]
+					}
+				}
+			],
+			"explanation": "Populates the <em>boreholeStatus</em> property with the result of the following Groovy script:<br /><br /><pre><code class=\"language-groovy\">// this groovy script searches for the (en) text of 'status_id_cli' \r\n// defined in the source table 'codelist' and classifies the result \r\n\r\ndef c = _.context.collector()\r\ndef textEn = c.codelist[status_id_cli].value()\r\n\r\nswitch (textEn) {\r\n\tcase 'filled':\r\n\treturn 'vf'\r\n\t\r\n\tcase 'cased, measurements possible':\r\n\treturn 'au'\r\n\t\r\n\tcase 'cased, in use':\r\n\treturn 'au'\r\n\t\r\n\tcase 'cased, measurements impossible':\r\n\treturn 'au'\r\n\t\r\n\tcase 'other ':\r\n\treturn 'ka'\r\n\t\r\n\tcase 'not specified':\r\n\treturn 'ka'\r\n}</code></pre><br />Source property names are bound to the corresponding value, if the context condition/index matches, otherwise the value is not set.",
+			"cellId": "C215267c4-3c7a-4974-a5ad-224f5b02fe97",
+			"parentCells": [
+				"C08f8ecd7-b7ab-46ab-9ead-3f2ee8fd89bb"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Assign (Bound)",
+			"functionId": "eu.esdihumboldt.hale.align.assign.bound",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Value",
+					"paramName": "value",
+					"paramValue": "https://www.infogeo.de/boreholeml/3.0/codelists/BoreholeStatusList.xml",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"borehole",
+						"status_id_cli"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "int4",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "status_id_cli",
+					"entity": {
+						"type": {
+							"localName": "borehole",
+							"namespace": "jdbc:postgresql:bdms-prod-20230213:bdms"
+						},
+						"path": [
+							{
+								"localName": "status_id_cli",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole",
+						"boreholeStatus",
+						"codeSpace"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>[de] Enth\u00e4lt die Angaben zur Bohrungslokation und die Stammdaten pro Bohrung.</p>\n<p>[en] Contains location data and header information of the borehole.</p>\n"
+						},
+						{
+							"propertyType": "CodeType",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>[de] Aktueller Status der Bohrung.</p>\n<p>[en] Current status of the borehole.</p>\n"
+						},
+						{
+							"propertyType": "anyURI",
+							"propertyCardinality": "0..1"
+						}
+					],
+					"shortName": "codeSpace",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.infogeo.de/boreholeml/3.0"
+						},
+						"path": [
+							{
+								"localName": "boreholeStatus",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							},
+							{
+								"localName": "codeSpace",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"explanation": "<p>Assigns the value <code>https://www.infogeo.de/boreholeml/3.0/codelists/BoreholeStatusList.xml</code> to the <em>codeSpace</em> property.<br />\nThis is only done if the property <em>status_id_cli</em> is present in the source.</p>\n",
+			"cellId": "Cb324d35a-47c3-4f5f-b8ad-eddedb0026d4",
+			"parentCells": [
+				"C08f8ecd7-b7ab-46ab-9ead-3f2ee8fd89bb"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Assign",
+			"functionId": "eu.esdihumboldt.hale.align.assign",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Value",
+					"paramName": "value",
+					"paramValue": "bdms-prod-20230213",
+					"simple": true
+				}
+			],
+			"sources": [],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole",
+						"databaseSource"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>[de] Enth\u00e4lt die Angaben zur Bohrungslokation und die Stammdaten pro Bohrung.</p>\n<p>[en] Contains location data and header information of the borehole.</p>\n"
+						},
+						{
+							"propertyType": "CodeType",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>[de] Kurzbezeichnung der Quelldatenbank. Das K\u00fcrzel dient als Teilschl\u00fcssel zus\u00e4tzlich zu id zur eindeutigen Bezeichnung einer Bohrung.</p>\n<p>[en] Short name of the source database. Combined with the ID, the name code is used as a compound key which allows the unique identification of the borehole.</p>\n"
+						}
+					],
+					"shortName": "databaseSource",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.infogeo.de/boreholeml/3.0"
+						},
+						"path": [
+							{
+								"localName": "databaseSource",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							}
+						]
+					}
+				}
+			],
+			"explanation": "<p>Assigns the value <code>bdms-prod-20230213</code> to the <em>databaseSource</em> property.</p>\n",
+			"cellId": "C0d24693a-c8ae-42c9-9192-7415aa626f5c",
+			"parentCells": [
+				"C9edd550a-7d0f-4e7b-a74c-7086fd8b07e5",
+				"C08f8ecd7-b7ab-46ab-9ead-3f2ee8fd89bb"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Rename",
+			"functionId": "eu.esdihumboldt.hale.align.rename",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Structural rename",
+					"paramName": "structuralRename",
+					"paramValue": "false",
+					"simple": true
+				},
+				{
+					"paramLabel": "Allow ignore namespace",
+					"paramName": "ignoreNamespaces",
+					"paramValue": "false",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"borehole",
+						"drilling_date_bho"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "date",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "drilling_date_bho",
+					"entity": {
+						"type": {
+							"localName": "borehole",
+							"namespace": "jdbc:postgresql:bdms-prod-20230213:bdms"
+						},
+						"path": [
+							{
+								"localName": "drilling_date_bho",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole",
+						"drillingDate"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>[de] Enth\u00e4lt die Angaben zur Bohrungslokation und die Stammdaten pro Bohrung.</p>\n<p>[en] Contains location data and header information of the borehole.</p>\n"
+						},
+						{
+							"propertyType": "CalDate",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>[de] Datum der Beendigung der Bohrungsarbeiten (tages-, monats- oder jahresgenau).</p>\n<p>[en] Date of finishing the drilling process (minimum declaration of the drilling year).</p>\n"
+						}
+					],
+					"shortName": "drillingDate",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.infogeo.de/boreholeml/3.0"
+						},
+						"path": [
+							{
+								"localName": "drillingDate",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							}
+						]
+					}
+				}
+			],
+			"explanation": "<p>For each value in <em>drilling_date_bho</em> adds the same value to the <em>drillingDate</em> property. If necessary a conversion is applied.</p>\n",
+			"cellId": "C1299fef2-d632-40aa-98c0-5041b7563005",
+			"parentCells": [
+				"C08f8ecd7-b7ab-46ab-9ead-3f2ee8fd89bb"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Groovy script",
+			"functionId": "eu.esdihumboldt.cst.functions.groovy",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Groovy script",
+					"paramName": "script",
+					"paramValue": "// this groovy script searches for the (en) text of 'drilling_method_id_cli' \r\n// defined in the source table 'codelist' and classifies the result \r\n\r\ndef c = _.context.collector()\r\ndef textEn = c.codelist[drilling_method_id_cli].value()\r\n\r\nswitch (textEn){\r\n\tcase 'not specified':\r\n\treturn 'UN'\r\n\t\r\n\tcase 'auger drilling':\r\n\treturn 'DB'\r\n\t\r\n\tcase 'manual drilling':\r\n\treturn 'HB'\r\n\t\r\n\tcase 'other ':\r\n\treturn 'W'\r\n\t\r\n\tcase 'dynamic probing':\r\n\treturn 'RB'\r\n\t\r\n\tcase 'direct push soil sampling':\r\n\treturn 'SK'\r\n\t\r\n\tcase 'percussion drilling':\r\n\treturn 'SA'\r\n\t\r\n\tcase 'rotary drilling':\r\n\treturn 'DBO'\r\n\t\r\n\tcase 'rotary coring':\r\n\treturn 'RKB'\r\n\t\r\n\tcase 'wireline core drilling':\r\n\treturn 'SKB'\r\n\t\r\n\tcase 'grab drilling':\r\n\treturn 'TG'\r\n}",
+					"simple": false
+				},
+				{
+					"paramLabel": "Use instances for variables with child properties",
+					"paramName": "variablesAsInstances",
+					"paramValue": "false",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"borehole",
+						"drilling_method_id_cli"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "int4",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "drilling_method_id_cli",
+					"entity": {
+						"type": {
+							"localName": "borehole",
+							"namespace": "jdbc:postgresql:bdms-prod-20230213:bdms"
+						},
+						"path": [
+							{
+								"localName": "drilling_method_id_cli",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole",
+						"drillingMethod"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>[de] Enth\u00e4lt die Angaben zur Bohrungslokation und die Stammdaten pro Bohrung.</p>\n<p>[en] Contains location data and header information of the borehole.</p>\n"
+						},
+						{
+							"propertyType": "? extends CodeType",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>[de] W\u00e4hrend der Bohrung verwendetes Bohrverfahren. Bei mehreren Bohrverfahren in einer Bohrung wird ein entsprechendes Kombibohrverfahren aus der Begriffsliste verwendet.</p>\n<p>[en] Type of drilling method. In case of more than one drilling methods applied, a combined drilling method is used from the codelist.</p>\n"
+						}
+					],
+					"shortName": "drillingMethod",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.infogeo.de/boreholeml/3.0"
+						},
+						"path": [
+							{
+								"localName": "drillingMethod",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							}
+						]
+					}
+				}
+			],
+			"explanation": "Populates the <em>drillingMethod</em> property with the result of the following Groovy script:<br /><br /><pre><code class=\"language-groovy\">// this groovy script searches for the (en) text of 'drilling_method_id_cli' \r\n// defined in the source table 'codelist' and classifies the result \r\n\r\ndef c = _.context.collector()\r\ndef textEn = c.codelist[drilling_method_id_cli].value()\r\n\r\nswitch (textEn){\r\n\tcase 'not specified':\r\n\treturn 'UN'\r\n\t\r\n\tcase 'auger drilling':\r\n\treturn 'DB'\r\n\t\r\n\tcase 'manual drilling':\r\n\treturn 'HB'\r\n\t\r\n\tcase 'other ':\r\n\treturn 'W'\r\n\t\r\n\tcase 'dynamic probing':\r\n\treturn 'RB'\r\n\t\r\n\tcase 'direct push soil sampling':\r\n\treturn 'SK'\r\n\t\r\n\tcase 'percussion drilling':\r\n\treturn 'SA'\r\n\t\r\n\tcase 'rotary drilling':\r\n\treturn 'DBO'\r\n\t\r\n\tcase 'rotary coring':\r\n\treturn 'RKB'\r\n\t\r\n\tcase 'wireline core drilling':\r\n\treturn 'SKB'\r\n\t\r\n\tcase 'grab drilling':\r\n\treturn 'TG'\r\n}</code></pre><br />Source property names are bound to the corresponding value, if the context condition/index matches, otherwise the value is not set.",
+			"cellId": "C3ee259ec-52a9-4722-806f-404de8becff6",
+			"parentCells": [
+				"C08f8ecd7-b7ab-46ab-9ead-3f2ee8fd89bb"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Assign (Bound)",
+			"functionId": "eu.esdihumboldt.hale.align.assign.bound",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Value",
+					"paramName": "value",
+					"paramValue": "https://www.infogeo.de/boreholeml/3.0/codelists/DrillingMethodList.xml",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"borehole",
+						"drilling_method_id_cli"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "int4",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "drilling_method_id_cli",
+					"entity": {
+						"type": {
+							"localName": "borehole",
+							"namespace": "jdbc:postgresql:bdms-prod-20230213:bdms"
+						},
+						"path": [
+							{
+								"localName": "drilling_method_id_cli",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole",
+						"drillingMethod",
+						"codeSpace"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>[de] Enth\u00e4lt die Angaben zur Bohrungslokation und die Stammdaten pro Bohrung.</p>\n<p>[en] Contains location data and header information of the borehole.</p>\n"
+						},
+						{
+							"propertyType": "? extends CodeType",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>[de] W\u00e4hrend der Bohrung verwendetes Bohrverfahren. Bei mehreren Bohrverfahren in einer Bohrung wird ein entsprechendes Kombibohrverfahren aus der Begriffsliste verwendet.</p>\n<p>[en] Type of drilling method. In case of more than one drilling methods applied, a combined drilling method is used from the codelist.</p>\n"
+						},
+						{
+							"propertyType": "anyURI",
+							"propertyCardinality": "0..1"
+						}
+					],
+					"shortName": "codeSpace",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.infogeo.de/boreholeml/3.0"
+						},
+						"path": [
+							{
+								"localName": "drillingMethod",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							},
+							{
+								"localName": "codeSpace",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"explanation": "<p>Assigns the value <code>https://www.infogeo.de/boreholeml/3.0/codelists/DrillingMethodList.xml</code> to the <em>codeSpace</em> property.<br />\nThis is only done if the property <em>drilling_method_id_cli</em> is present in the source.</p>\n",
+			"cellId": "C0d65a7a3-3e4b-4fd5-9c5c-237144bfdb58",
+			"parentCells": [
+				"C08f8ecd7-b7ab-46ab-9ead-3f2ee8fd89bb"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Groovy script",
+			"functionId": "eu.esdihumboldt.cst.functions.groovy",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Groovy script",
+					"paramName": "script",
+					"paramValue": "// this groovy script searches for the (en) text of 'purpose_id_cli' \r\n// defined in the source table 'codelist' and classifies the result \r\n\r\ndef c = _.context.collector()\r\ndef textEn = c.codelist[purpose_id_cli].value()\r\n\r\nswitch (textEn){\r\n\tcase 'contaminated sites':\r\n\treturn 'AUD'\r\n\t\r\n\tcase 'downhole heat exchanger':\r\n\treturn 'GTH'\r\n\t\r\n\tcase 'hydrology':\r\n\treturn 'HY'\r\n\t\r\n\tcase 'other ':\r\n\treturn 'Sonstiger Zweck'\r\n\t\r\n\tcase 'not specified':\r\n\treturn 'UN'\r\n}\r\n\r\n",
+					"simple": false
+				},
+				{
+					"paramLabel": "Use instances for variables with child properties",
+					"paramName": "variablesAsInstances",
+					"paramValue": "false",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"borehole",
+						"purpose_id_cli"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "int4",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "purpose_id_cli",
+					"entity": {
+						"type": {
+							"localName": "borehole",
+							"namespace": "jdbc:postgresql:bdms-prod-20230213:bdms"
+						},
+						"path": [
+							{
+								"localName": "purpose_id_cli",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole",
+						"drillingPurpose"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>[de] Enth\u00e4lt die Angaben zur Bohrungslokation und die Stammdaten pro Bohrung.</p>\n<p>[en] Contains location data and header information of the borehole.</p>\n"
+						},
+						{
+							"propertyType": "? extends CodeType",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>[de] Zweck bzw. Fachgebiet, f\u00fcr welches die Bohrung abgeteuft worden ist.</p>\n<p>[en] Purpose for sinking the borehole.</p>\n"
+						}
+					],
+					"shortName": "drillingPurpose",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.infogeo.de/boreholeml/3.0"
+						},
+						"path": [
+							{
+								"localName": "drillingPurpose",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							}
+						]
+					}
+				}
+			],
+			"explanation": "Populates the <em>drillingPurpose</em> property with the result of the following Groovy script:<br /><br /><pre><code class=\"language-groovy\">// this groovy script searches for the (en) text of 'purpose_id_cli' \r\n// defined in the source table 'codelist' and classifies the result \r\n\r\ndef c = _.context.collector()\r\ndef textEn = c.codelist[purpose_id_cli].value()\r\n\r\nswitch (textEn){\r\n\tcase 'contaminated sites':\r\n\treturn 'AUD'\r\n\t\r\n\tcase 'downhole heat exchanger':\r\n\treturn 'GTH'\r\n\t\r\n\tcase 'hydrology':\r\n\treturn 'HY'\r\n\t\r\n\tcase 'other ':\r\n\treturn 'Sonstiger Zweck'\r\n\t\r\n\tcase 'not specified':\r\n\treturn 'UN'\r\n}\r\n\r\n</code></pre><br />Source property names are bound to the corresponding value, if the context condition/index matches, otherwise the value is not set.",
+			"cellId": "C3d497b8a-6ee7-4491-867d-57d1c398ad7e",
+			"parentCells": [
+				"C08f8ecd7-b7ab-46ab-9ead-3f2ee8fd89bb"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Assign (Bound)",
+			"functionId": "eu.esdihumboldt.hale.align.assign.bound",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Value",
+					"paramName": "value",
+					"paramValue": "https://www.infogeo.de/boreholeml/3.0/codelists/DrillingPurposeList.xml",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"borehole",
+						"purpose_id_cli"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "int4",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "purpose_id_cli",
+					"entity": {
+						"type": {
+							"localName": "borehole",
+							"namespace": "jdbc:postgresql:bdms-prod-20230213:bdms"
+						},
+						"path": [
+							{
+								"localName": "purpose_id_cli",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole",
+						"drillingPurpose",
+						"codeSpace"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>[de] Enth\u00e4lt die Angaben zur Bohrungslokation und die Stammdaten pro Bohrung.</p>\n<p>[en] Contains location data and header information of the borehole.</p>\n"
+						},
+						{
+							"propertyType": "? extends CodeType",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>[de] Zweck bzw. Fachgebiet, f\u00fcr welches die Bohrung abgeteuft worden ist.</p>\n<p>[en] Purpose for sinking the borehole.</p>\n"
+						},
+						{
+							"propertyType": "anyURI",
+							"propertyCardinality": "0..1"
+						}
+					],
+					"shortName": "codeSpace",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.infogeo.de/boreholeml/3.0"
+						},
+						"path": [
+							{
+								"localName": "drillingPurpose",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							},
+							{
+								"localName": "codeSpace",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"explanation": "<p>Assigns the value <code>https://www.infogeo.de/boreholeml/3.0/codelists/DrillingPurposeList.xml</code> to the <em>codeSpace</em> property.<br />\nThis is only done if the property <em>purpose_id_cli</em> is present in the source.</p>\n",
+			"cellId": "C93134429-70e8-4e42-93e1-dd0967d0c240",
+			"parentCells": [
+				"C08f8ecd7-b7ab-46ab-9ead-3f2ee8fd89bb"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Assign",
+			"functionId": "eu.esdihumboldt.hale.align.assign",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Value",
+					"paramName": "value",
+					"paramValue": "2023-02-13",
+					"simple": true
+				}
+			],
+			"sources": [],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole",
+						"exportDate"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>[de] Enth\u00e4lt die Angaben zur Bohrungslokation und die Stammdaten pro Bohrung.</p>\n<p>[en] Contains location data and header information of the borehole.</p>\n"
+						},
+						{
+							"propertyType": "realizationEpoch",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>[de] Datum des Auszuges aus der Quelldatenbank.</p>\n<p>[en] Export date of the borehole data from the source database.</p>\n"
+						}
+					],
+					"shortName": "exportDate",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.infogeo.de/boreholeml/3.0"
+						},
+						"path": [
+							{
+								"localName": "exportDate",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							}
+						]
+					}
+				}
+			],
+			"explanation": "<p>Assigns the value <code>2023-02-13</code> to the <em>exportDate</em> property.</p>\n",
+			"cellId": "Ccb44eb63-9dbb-4faa-800b-cca3d6b21b76",
+			"parentCells": [
+				"C9edd550a-7d0f-4e7b-a74c-7086fd8b07e5",
+				"C08f8ecd7-b7ab-46ab-9ead-3f2ee8fd89bb"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
 		{
 			"functionName": "Rename",
 			"functionId": "eu.esdihumboldt.hale.align.rename",
@@ -305,123 +1077,40 @@
 			"configurable": true
 		},
 		{
-			"functionName": "Ordinates to Point",
-			"functionId": "eu.esdihumboldt.cst.functions.geometric.ordinates_to_point",
+			"functionName": "Assign",
+			"functionId": "eu.esdihumboldt.hale.align.assign",
 			"typeRelation": false,
 			"functionParameters": [
 				{
-					"paramLabel": "Coordinate Reference System",
-					"paramName": "referenceSystem",
-					"paramValue": "epsg:2056",
+					"paramLabel": "Value",
+					"paramName": "value",
+					"paramValue": "deu",
 					"simple": true
 				}
 			],
-			"sources": [
-				{
-					"propertyPath": [
-						"borehole",
-						"location_x_bho"
-					],
-					"propertyDescriptions": [
-						{
-						},
-						{
-							"propertyType": "float8",
-							"propertyCardinality": "1..1"
-						}
-					],
-					"shortName": "location_x_bho",
-					"entity": {
-						"type": {
-							"localName": "borehole",
-							"namespace": "jdbc:postgresql:bdms-prod-20230213:bdms"
-						},
-						"path": [
-							{
-								"localName": "location_x_bho",
-								"namespace": null
-							}
-						]
-					}
-				},
-				{
-					"propertyPath": [
-						"borehole",
-						"location_y_bho"
-					],
-					"propertyDescriptions": [
-						{
-						},
-						{
-							"propertyType": "float8",
-							"propertyCardinality": "1..1"
-						}
-					],
-					"shortName": "location_y_bho",
-					"entity": {
-						"type": {
-							"localName": "borehole",
-							"namespace": "jdbc:postgresql:bdms-prod-20230213:bdms"
-						},
-						"path": [
-							{
-								"localName": "location_y_bho",
-								"namespace": null
-							}
-						]
-					}
-				},
-				{
-					"propertyPath": [
-						"borehole",
-						"elevation_z_bho"
-					],
-					"propertyDescriptions": [
-						{
-						},
-						{
-							"propertyType": "float8",
-							"propertyCardinality": "1..1"
-						}
-					],
-					"shortName": "elevation_z_bho",
-					"entity": {
-						"type": {
-							"localName": "borehole",
-							"namespace": "jdbc:postgresql:bdms-prod-20230213:bdms"
-						},
-						"path": [
-							{
-								"localName": "elevation_z_bho",
-								"namespace": null
-							}
-						]
-					}
-				}
-			],
+			"sources": [],
 			"targets": [
 				{
 					"propertyPath": [
 						"Borehole",
-						"location",
-						"Point"
+						"language",
+						"LanguageCode"
 					],
 					"propertyDescriptions": [
 						{
 							"typeDescription": "<p>[de] Enth\u00e4lt die Angaben zur Bohrungslokation und die Stammdaten pro Bohrung.</p>\n<p>[en] Contains location data and header information of the borehole.</p>\n"
 						},
 						{
-							"propertyType": "PointPropertyType",
+							"propertyType": "LanguageCode_PropertyType",
 							"propertyCardinality": "1..1",
-							"propertyDescription": "<p>[de] Position des Bohrloch-Ansatzpunktes. Der Datentyp enth\u00e4lt eine dreidimensionale Koordinate basierend auf der Umrechnung von Origin.originalLocation und Origin.elevation. Das Attribut gml:id setzt sich zusammen aus dem K\u00fcrzel in databaseSource und der jeweiligen Bohrungs-ID in id. Syntax: database_id</p>\n<p>[en] Position of the borehole-location. The data type contains a three-dimensional coordinate based on the transformation of Origin.originalLocation and Origin.elevation. The attribute gml:id is a compound key of the code in databaseSource and the given borehole-ID in id. Syntax: database_id</p>\n"
+							"propertyDescription": "<p>[de] Sprache der Datenquelle nach ISO 639-3 oder ISO 639-5.</p>\n<p>[en] Language code of the data source (s. ISO 639-3 or ISO 639-5).</p>\n"
 						},
 						{
-							"propertyType": "Point",
-							"propertyCardinality": "0..1",
-							"propertyDescription": "<p>A Point is defined by a single coordinate tuple. The direct position of a point is specified by the pos element which is of type DirectPositionType.</p>\n"
+							"propertyType": "CodeListValue_Type",
+							"propertyCardinality": "0..1"
 						}
 					],
-					"shortName": "Point",
+					"shortName": "LanguageCode",
 					"entity": {
 						"type": {
 							"localName": "BoreholeType",
@@ -429,106 +1118,21 @@
 						},
 						"path": [
 							{
-								"localName": "location",
+								"localName": "language",
 								"namespace": "http://www.infogeo.de/boreholeml/3.0"
 							},
 							{
-								"localName": "Point",
-								"namespace": "http://www.opengis.net/gml/3.2"
+								"localName": "LanguageCode",
+								"namespace": "http://www.isotc211.org/2005/gmd"
 							}
 						]
 					}
 				}
 			],
-			"explanation": "<p>Fills the <em>Point</em> property with point geometries created from source properties, where the <em>location_x_bho</em> property is x, the <em>location_y_bho</em> property is y and the <em>elevation_z_bho</em> property is z.<br />\nThe reference system epsg:2056 is used.</p>\n",
-			"cellId": "C60c64b29-bfe0-4848-976f-721c0e5028cb",
+			"explanation": "<p>Assigns the value <code>deu</code> to the <em>LanguageCode</em> property.</p>\n",
+			"cellId": "C24108b64-9ead-40c5-bb5c-95bb9c14cab7",
 			"parentCells": [
-				"C08f8ecd7-b7ab-46ab-9ead-3f2ee8fd89bb"
-			],
-			"priority": "normal",
-			"configurable": true
-		},
-		{
-			"functionName": "Rename",
-			"functionId": "eu.esdihumboldt.hale.align.rename",
-			"typeRelation": false,
-			"functionParameters": [
-				{
-					"paramLabel": "Structural rename",
-					"paramName": "structuralRename",
-					"paramValue": "false",
-					"simple": true
-				},
-				{
-					"paramLabel": "Allow ignore namespace",
-					"paramName": "ignoreNamespaces",
-					"paramValue": "false",
-					"simple": true
-				}
-			],
-			"sources": [
-				{
-					"propertyPath": [
-						"borehole",
-						"total_depth_bho"
-					],
-					"propertyDescriptions": [
-						{
-						},
-						{
-							"propertyType": "float8",
-							"propertyCardinality": "1..1"
-						}
-					],
-					"shortName": "total_depth_bho",
-					"entity": {
-						"type": {
-							"localName": "borehole",
-							"namespace": "jdbc:postgresql:bdms-prod-20230213:bdms"
-						},
-						"path": [
-							{
-								"localName": "total_depth_bho",
-								"namespace": null
-							}
-						]
-					}
-				}
-			],
-			"targets": [
-				{
-					"propertyPath": [
-						"Borehole",
-						"totalLength"
-					],
-					"propertyDescriptions": [
-						{
-							"typeDescription": "<p>[de] Enth\u00e4lt die Angaben zur Bohrungslokation und die Stammdaten pro Bohrung.</p>\n<p>[en] Contains location data and header information of the borehole.</p>\n"
-						},
-						{
-							"propertyType": "LengthType",
-							"propertyCardinality": "1..1",
-							"propertyDescription": "<p>[de] Die Aufschlussl\u00e4nge der Bohrung in Meter. Abstand des Endpunktes der Bohrung vom Ansatzpunkt, entlang des Bohrpfades gemessen.</p>\n<p>[en] Length along the borehole path in meter measured from the drill start point to the end point.</p>\n"
-						}
-					],
-					"shortName": "totalLength",
-					"entity": {
-						"type": {
-							"localName": "BoreholeType",
-							"namespace": "http://www.infogeo.de/boreholeml/3.0"
-						},
-						"path": [
-							{
-								"localName": "totalLength",
-								"namespace": "http://www.infogeo.de/boreholeml/3.0"
-							}
-						]
-					}
-				}
-			],
-			"explanation": "<p>For each value in <em>total_depth_bho</em> adds the same value to the <em>totalLength</em> property. If necessary a conversion is applied.</p>\n",
-			"cellId": "Cb7a895f9-0f66-4416-b148-4363b95633a4",
-			"parentCells": [
+				"C9edd550a-7d0f-4e7b-a74c-7086fd8b07e5",
 				"C08f8ecd7-b7ab-46ab-9ead-3f2ee8fd89bb"
 			],
 			"priority": "normal",
@@ -677,20 +1281,14 @@
 			"configurable": true
 		},
 		{
-			"functionName": "Rename",
-			"functionId": "eu.esdihumboldt.hale.align.rename",
+			"functionName": "Ordinates to Point",
+			"functionId": "eu.esdihumboldt.cst.functions.geometric.ordinates_to_point",
 			"typeRelation": false,
 			"functionParameters": [
 				{
-					"paramLabel": "Structural rename",
-					"paramName": "structuralRename",
-					"paramValue": "false",
-					"simple": true
-				},
-				{
-					"paramLabel": "Allow ignore namespace",
-					"paramName": "ignoreNamespaces",
-					"paramValue": "false",
+					"paramLabel": "Coordinate Reference System",
+					"paramName": "referenceSystem",
+					"paramValue": "epsg:2056",
 					"simple": true
 				}
 			],
@@ -698,17 +1296,17 @@
 				{
 					"propertyPath": [
 						"borehole",
-						"alternate_name_bho"
+						"location_x_bho"
 					],
 					"propertyDescriptions": [
 						{
 						},
 						{
-							"propertyType": "varchar",
+							"propertyType": "float8",
 							"propertyCardinality": "1..1"
 						}
 					],
-					"shortName": "alternate_name_bho",
+					"shortName": "location_x_bho",
 					"entity": {
 						"type": {
 							"localName": "borehole",
@@ -716,7 +1314,61 @@
 						},
 						"path": [
 							{
-								"localName": "alternate_name_bho",
+								"localName": "location_x_bho",
+								"namespace": null
+							}
+						]
+					}
+				},
+				{
+					"propertyPath": [
+						"borehole",
+						"location_y_bho"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "float8",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "location_y_bho",
+					"entity": {
+						"type": {
+							"localName": "borehole",
+							"namespace": "jdbc:postgresql:bdms-prod-20230213:bdms"
+						},
+						"path": [
+							{
+								"localName": "location_y_bho",
+								"namespace": null
+							}
+						]
+					}
+				},
+				{
+					"propertyPath": [
+						"borehole",
+						"elevation_z_bho"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "float8",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "elevation_z_bho",
+					"entity": {
+						"type": {
+							"localName": "borehole",
+							"namespace": "jdbc:postgresql:bdms-prod-20230213:bdms"
+						},
+						"path": [
+							{
+								"localName": "elevation_z_bho",
 								"namespace": null
 							}
 						]
@@ -727,24 +1379,25 @@
 				{
 					"propertyPath": [
 						"Borehole",
-						"shortName",
-						"LocalisedCharacterString"
+						"location",
+						"Point"
 					],
 					"propertyDescriptions": [
 						{
 							"typeDescription": "<p>[de] Enth\u00e4lt die Angaben zur Bohrungslokation und die Stammdaten pro Bohrung.</p>\n<p>[en] Contains location data and header information of the borehole.</p>\n"
 						},
 						{
-							"propertyType": "LocalisedCharacterString_PropertyType",
-							"propertyCardinality": "0..1",
-							"propertyDescription": "<p>[de] Kurzname der Bohrung.</p>\n<p>[en] Short name of the borehole.</p>\n"
+							"propertyType": "PointPropertyType",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>[de] Position des Bohrloch-Ansatzpunktes. Der Datentyp enth\u00e4lt eine dreidimensionale Koordinate basierend auf der Umrechnung von Origin.originalLocation und Origin.elevation. Das Attribut gml:id setzt sich zusammen aus dem K\u00fcrzel in databaseSource und der jeweiligen Bohrungs-ID in id. Syntax: database_id</p>\n<p>[en] Position of the borehole-location. The data type contains a three-dimensional coordinate based on the transformation of Origin.originalLocation and Origin.elevation. The attribute gml:id is a compound key of the code in databaseSource and the given borehole-ID in id. Syntax: database_id</p>\n"
 						},
 						{
-							"propertyType": "LocalisedCharacterString",
-							"propertyCardinality": "0..1"
+							"propertyType": "Point",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>A Point is defined by a single coordinate tuple. The direct position of a point is specified by the pos element which is of type DirectPositionType.</p>\n"
 						}
 					],
-					"shortName": "LocalisedCharacterString",
+					"shortName": "Point",
 					"entity": {
 						"type": {
 							"localName": "BoreholeType",
@@ -752,19 +1405,19 @@
 						},
 						"path": [
 							{
-								"localName": "shortName",
+								"localName": "location",
 								"namespace": "http://www.infogeo.de/boreholeml/3.0"
 							},
 							{
-								"localName": "LocalisedCharacterString",
-								"namespace": "http://www.isotc211.org/2005/gmd"
+								"localName": "Point",
+								"namespace": "http://www.opengis.net/gml/3.2"
 							}
 						]
 					}
 				}
 			],
-			"explanation": "<p>For each value in <em>alternate_name_bho</em> adds the same value to the <em>LocalisedCharacterString</em> property. If necessary a conversion is applied.</p>\n",
-			"cellId": "C70d756e3-b89f-4486-be4f-682968b0eef4",
+			"explanation": "<p>Fills the <em>Point</em> property with point geometries created from source properties, where the <em>location_x_bho</em> property is x, the <em>location_y_bho</em> property is y and the <em>elevation_z_bho</em> property is z.<br />\nThe reference system epsg:2056 is used.</p>\n",
+			"cellId": "C60c64b29-bfe0-4848-976f-721c0e5028cb",
 			"parentCells": [
 				"C08f8ecd7-b7ab-46ab-9ead-3f2ee8fd89bb"
 			],
@@ -779,7 +1432,7 @@
 				{
 					"paramLabel": "Value",
 					"paramName": "value",
-					"paramValue": "2023-02-13",
+					"paramValue": "latin",
 					"simple": true
 				}
 			],
@@ -788,19 +1441,43 @@
 				{
 					"propertyPath": [
 						"Borehole",
-						"exportDate"
+						"locationName",
+						"GeographicalName",
+						"spelling",
+						"SpellingOfName",
+						"script"
 					],
 					"propertyDescriptions": [
 						{
 							"typeDescription": "<p>[de] Enth\u00e4lt die Angaben zur Bohrungslokation und die Stammdaten pro Bohrung.</p>\n<p>[en] Contains location data and header information of the borehole.</p>\n"
 						},
 						{
-							"propertyType": "realizationEpoch",
+							"propertyType": "?",
 							"propertyCardinality": "1..1",
-							"propertyDescription": "<p>[de] Datum des Auszuges aus der Quelldatenbank.</p>\n<p>[en] Export date of the borehole data from the source database.</p>\n"
+							"propertyDescription": "<p>[de] Bezeichnung der Bohrungslokation wie Ortschaften oder Gemarkungen.</p>\n<p>[en] Name of the borehole location, e.g. quarter or district.</p>\n"
+						},
+						{
+							"propertyType": "GeographicalName",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>&ndash; Definition &ndash;<br />\nProper noun applied to a real world entity.</p>\n"
+						},
+						{
+							"propertyType": "SpellingOfNamePropertyType",
+							"propertyCardinality": "1..110",
+							"propertyDescription": "<p>&ndash; Definition &ndash;<br />\nA proper way of writing the geographical name.</p>\n<p>&ndash; Description &ndash;<br />\nNOTE 1 Different spellings should only be used for names rendered in different scripts. .</p>\n<p>NOTE 2 While a particular GeographicalName should only have one spelling in a given script, providing different spellings in the same script should be done through the provision of different geographical names associated with the same named place.</p>\n"
+						},
+						{
+							"propertyType": "SpellingOfName",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>&ndash; Definition &ndash;<br />\nProper way of writing a name.</p>\n<p>&ndash; Description &ndash;<br />\nSOURCE Adapted from [UNGEGN Manual 2006].</p>\n<p>NOTE Proper spelling means the writing of a name with the correct capitalisation and the correct letters and diacritics present in an accepted standard order.</p>\n"
+						},
+						{
+							"propertyType": "? extends string",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>&ndash; Definition &ndash;<br />\nSet of graphic symbols (for example an alphabet) employed in writing the name, expressed using the four letters codes defined in ISO 15924, where applicable.</p>\n<p>&ndash; Description &ndash;<br />\nSOURCE Adapted from [UNGEGN Glossary 2007].</p>\n<p>EXAMPLES Cyrillic, Greek, Roman/Latin scripts.</p>\n<p>NOTE 1The four letter codes for Latin (Roman), Cyrillic and Greek script are &ldquo;Latn&rdquo;, &ldquo;Cyrl&rdquo; and &ldquo;Grek&rdquo;, respectively.</p>\n<p>NOTE 2 In rare cases other codes could be used (for other scripts than Latin, Greek and Cyrillic). However, this should mainly apply for historical names in historical scripts.</p>\n<p>NOTE 3 This attribute is of first importance in the multi-scriptual context of Europe.</p>\n"
 						}
 					],
-					"shortName": "exportDate",
+					"shortName": "script",
 					"entity": {
 						"type": {
 							"localName": "BoreholeType",
@@ -808,68 +1485,31 @@
 						},
 						"path": [
 							{
-								"localName": "exportDate",
+								"localName": "locationName",
 								"namespace": "http://www.infogeo.de/boreholeml/3.0"
-							}
-						]
-					}
-				}
-			],
-			"explanation": "<p>Assigns the value <code>2023-02-13</code> to the <em>exportDate</em> property.</p>\n",
-			"cellId": "Ccb44eb63-9dbb-4faa-800b-cca3d6b21b76",
-			"parentCells": [
-				"C9edd550a-7d0f-4e7b-a74c-7086fd8b07e5",
-				"C08f8ecd7-b7ab-46ab-9ead-3f2ee8fd89bb"
-			],
-			"priority": "normal",
-			"configurable": true
-		},
-		{
-			"functionName": "Assign",
-			"functionId": "eu.esdihumboldt.hale.align.assign",
-			"typeRelation": false,
-			"functionParameters": [
-				{
-					"paramLabel": "Value",
-					"paramName": "value",
-					"paramValue": "bdms-prod-20230213",
-					"simple": true
-				}
-			],
-			"sources": [],
-			"targets": [
-				{
-					"propertyPath": [
-						"Borehole",
-						"databaseSource"
-					],
-					"propertyDescriptions": [
-						{
-							"typeDescription": "<p>[de] Enth\u00e4lt die Angaben zur Bohrungslokation und die Stammdaten pro Bohrung.</p>\n<p>[en] Contains location data and header information of the borehole.</p>\n"
-						},
-						{
-							"propertyType": "CodeType",
-							"propertyCardinality": "1..1",
-							"propertyDescription": "<p>[de] Kurzbezeichnung der Quelldatenbank. Das K\u00fcrzel dient als Teilschl\u00fcssel zus\u00e4tzlich zu id zur eindeutigen Bezeichnung einer Bohrung.</p>\n<p>[en] Short name of the source database. Combined with the ID, the name code is used as a compound key which allows the unique identification of the borehole.</p>\n"
-						}
-					],
-					"shortName": "databaseSource",
-					"entity": {
-						"type": {
-							"localName": "BoreholeType",
-							"namespace": "http://www.infogeo.de/boreholeml/3.0"
-						},
-						"path": [
+							},
 							{
-								"localName": "databaseSource",
-								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+								"localName": "GeographicalName",
+								"namespace": "urn:x-inspire:specification:gmlas:GeographicalNames:3.0"
+							},
+							{
+								"localName": "spelling",
+								"namespace": "urn:x-inspire:specification:gmlas:GeographicalNames:3.0"
+							},
+							{
+								"localName": "SpellingOfName",
+								"namespace": "urn:x-inspire:specification:gmlas:GeographicalNames:3.0"
+							},
+							{
+								"localName": "script",
+								"namespace": "urn:x-inspire:specification:gmlas:GeographicalNames:3.0"
 							}
 						]
 					}
 				}
 			],
-			"explanation": "<p>Assigns the value <code>bdms-prod-20230213</code> to the <em>databaseSource</em> property.</p>\n",
-			"cellId": "C0d24693a-c8ae-42c9-9192-7415aa626f5c",
+			"explanation": "<p>Assigns the value <code>latin</code> to the <em>script</em> property.</p>\n",
+			"cellId": "C89d59470-70da-432d-9c99-ee8e982a2c0a",
 			"parentCells": [
 				"C9edd550a-7d0f-4e7b-a74c-7086fd8b07e5",
 				"C08f8ecd7-b7ab-46ab-9ead-3f2ee8fd89bb"
@@ -1004,835 +1644,6 @@
 			"configurable": true
 		},
 		{
-			"functionName": "Assign",
-			"functionId": "eu.esdihumboldt.hale.align.assign",
-			"typeRelation": false,
-			"functionParameters": [
-				{
-					"paramLabel": "Value",
-					"paramName": "value",
-					"paramValue": "m",
-					"simple": true
-				}
-			],
-			"sources": [],
-			"targets": [
-				{
-					"propertyPath": [
-						"Borehole",
-						"totalLength",
-						"uom"
-					],
-					"propertyDescriptions": [
-						{
-							"typeDescription": "<p>[de] Enth\u00e4lt die Angaben zur Bohrungslokation und die Stammdaten pro Bohrung.</p>\n<p>[en] Contains location data and header information of the borehole.</p>\n"
-						},
-						{
-							"propertyType": "LengthType",
-							"propertyCardinality": "1..1",
-							"propertyDescription": "<p>[de] Die Aufschlussl\u00e4nge der Bohrung in Meter. Abstand des Endpunktes der Bohrung vom Ansatzpunkt, entlang des Bohrpfades gemessen.</p>\n<p>[en] Length along the borehole path in meter measured from the drill start point to the end point.</p>\n"
-						},
-						{
-							"propertyType": "UomIdentifier",
-							"propertyCardinality": "1..1",
-							"propertyDescription": "<p>The simple type gml:UomIdentifer defines the syntax and value space of the unit of measure identifier.</p>\n"
-						}
-					],
-					"shortName": "uom",
-					"entity": {
-						"type": {
-							"localName": "BoreholeType",
-							"namespace": "http://www.infogeo.de/boreholeml/3.0"
-						},
-						"path": [
-							{
-								"localName": "totalLength",
-								"namespace": "http://www.infogeo.de/boreholeml/3.0"
-							},
-							{
-								"localName": "uom",
-								"namespace": null
-							}
-						]
-					}
-				}
-			],
-			"explanation": "<p>Assigns the value <code>m</code> to the <em>uom</em> property.</p>\n",
-			"cellId": "C6a177c6e-5892-40a1-ad2a-087de5b3fa9f",
-			"parentCells": [
-				"C9edd550a-7d0f-4e7b-a74c-7086fd8b07e5",
-				"C08f8ecd7-b7ab-46ab-9ead-3f2ee8fd89bb"
-			],
-			"priority": "normal",
-			"configurable": true
-		},
-		{
-			"functionName": "Assign",
-			"functionId": "eu.esdihumboldt.hale.align.assign",
-			"typeRelation": false,
-			"functionParameters": [
-				{
-					"paramLabel": "Value",
-					"paramName": "value",
-					"paramValue": "deu",
-					"simple": true
-				}
-			],
-			"sources": [],
-			"targets": [
-				{
-					"propertyPath": [
-						"Borehole",
-						"language",
-						"LanguageCode"
-					],
-					"propertyDescriptions": [
-						{
-							"typeDescription": "<p>[de] Enth\u00e4lt die Angaben zur Bohrungslokation und die Stammdaten pro Bohrung.</p>\n<p>[en] Contains location data and header information of the borehole.</p>\n"
-						},
-						{
-							"propertyType": "LanguageCode_PropertyType",
-							"propertyCardinality": "1..1",
-							"propertyDescription": "<p>[de] Sprache der Datenquelle nach ISO 639-3 oder ISO 639-5.</p>\n<p>[en] Language code of the data source (s. ISO 639-3 or ISO 639-5).</p>\n"
-						},
-						{
-							"propertyType": "CodeListValue_Type",
-							"propertyCardinality": "0..1"
-						}
-					],
-					"shortName": "LanguageCode",
-					"entity": {
-						"type": {
-							"localName": "BoreholeType",
-							"namespace": "http://www.infogeo.de/boreholeml/3.0"
-						},
-						"path": [
-							{
-								"localName": "language",
-								"namespace": "http://www.infogeo.de/boreholeml/3.0"
-							},
-							{
-								"localName": "LanguageCode",
-								"namespace": "http://www.isotc211.org/2005/gmd"
-							}
-						]
-					}
-				}
-			],
-			"explanation": "<p>Assigns the value <code>deu</code> to the <em>LanguageCode</em> property.</p>\n",
-			"cellId": "C24108b64-9ead-40c5-bb5c-95bb9c14cab7",
-			"parentCells": [
-				"C9edd550a-7d0f-4e7b-a74c-7086fd8b07e5",
-				"C08f8ecd7-b7ab-46ab-9ead-3f2ee8fd89bb"
-			],
-			"priority": "normal",
-			"configurable": true
-		},
-		{
-			"functionName": "Assign",
-			"functionId": "eu.esdihumboldt.hale.align.assign",
-			"typeRelation": false,
-			"functionParameters": [
-				{
-					"paramLabel": "Value",
-					"paramName": "value",
-					"paramValue": "latin",
-					"simple": true
-				}
-			],
-			"sources": [],
-			"targets": [
-				{
-					"propertyPath": [
-						"Borehole",
-						"locationName",
-						"GeographicalName",
-						"spelling",
-						"SpellingOfName",
-						"script"
-					],
-					"propertyDescriptions": [
-						{
-							"typeDescription": "<p>[de] Enth\u00e4lt die Angaben zur Bohrungslokation und die Stammdaten pro Bohrung.</p>\n<p>[en] Contains location data and header information of the borehole.</p>\n"
-						},
-						{
-							"propertyType": "?",
-							"propertyCardinality": "1..1",
-							"propertyDescription": "<p>[de] Bezeichnung der Bohrungslokation wie Ortschaften oder Gemarkungen.</p>\n<p>[en] Name of the borehole location, e.g. quarter or district.</p>\n"
-						},
-						{
-							"propertyType": "GeographicalName",
-							"propertyCardinality": "1..1",
-							"propertyDescription": "<p>&ndash; Definition &ndash;<br />\nProper noun applied to a real world entity.</p>\n"
-						},
-						{
-							"propertyType": "SpellingOfNamePropertyType",
-							"propertyCardinality": "1..110",
-							"propertyDescription": "<p>&ndash; Definition &ndash;<br />\nA proper way of writing the geographical name.</p>\n<p>&ndash; Description &ndash;<br />\nNOTE 1 Different spellings should only be used for names rendered in different scripts. .</p>\n<p>NOTE 2 While a particular GeographicalName should only have one spelling in a given script, providing different spellings in the same script should be done through the provision of different geographical names associated with the same named place.</p>\n"
-						},
-						{
-							"propertyType": "SpellingOfName",
-							"propertyCardinality": "1..1",
-							"propertyDescription": "<p>&ndash; Definition &ndash;<br />\nProper way of writing a name.</p>\n<p>&ndash; Description &ndash;<br />\nSOURCE Adapted from [UNGEGN Manual 2006].</p>\n<p>NOTE Proper spelling means the writing of a name with the correct capitalisation and the correct letters and diacritics present in an accepted standard order.</p>\n"
-						},
-						{
-							"propertyType": "? extends string",
-							"propertyCardinality": "1..1",
-							"propertyDescription": "<p>&ndash; Definition &ndash;<br />\nSet of graphic symbols (for example an alphabet) employed in writing the name, expressed using the four letters codes defined in ISO 15924, where applicable.</p>\n<p>&ndash; Description &ndash;<br />\nSOURCE Adapted from [UNGEGN Glossary 2007].</p>\n<p>EXAMPLES Cyrillic, Greek, Roman/Latin scripts.</p>\n<p>NOTE 1The four letter codes for Latin (Roman), Cyrillic and Greek script are &ldquo;Latn&rdquo;, &ldquo;Cyrl&rdquo; and &ldquo;Grek&rdquo;, respectively.</p>\n<p>NOTE 2 In rare cases other codes could be used (for other scripts than Latin, Greek and Cyrillic). However, this should mainly apply for historical names in historical scripts.</p>\n<p>NOTE 3 This attribute is of first importance in the multi-scriptual context of Europe.</p>\n"
-						}
-					],
-					"shortName": "script",
-					"entity": {
-						"type": {
-							"localName": "BoreholeType",
-							"namespace": "http://www.infogeo.de/boreholeml/3.0"
-						},
-						"path": [
-							{
-								"localName": "locationName",
-								"namespace": "http://www.infogeo.de/boreholeml/3.0"
-							},
-							{
-								"localName": "GeographicalName",
-								"namespace": "urn:x-inspire:specification:gmlas:GeographicalNames:3.0"
-							},
-							{
-								"localName": "spelling",
-								"namespace": "urn:x-inspire:specification:gmlas:GeographicalNames:3.0"
-							},
-							{
-								"localName": "SpellingOfName",
-								"namespace": "urn:x-inspire:specification:gmlas:GeographicalNames:3.0"
-							},
-							{
-								"localName": "script",
-								"namespace": "urn:x-inspire:specification:gmlas:GeographicalNames:3.0"
-							}
-						]
-					}
-				}
-			],
-			"explanation": "<p>Assigns the value <code>latin</code> to the <em>script</em> property.</p>\n",
-			"cellId": "C89d59470-70da-432d-9c99-ee8e982a2c0a",
-			"parentCells": [
-				"C9edd550a-7d0f-4e7b-a74c-7086fd8b07e5",
-				"C08f8ecd7-b7ab-46ab-9ead-3f2ee8fd89bb"
-			],
-			"priority": "normal",
-			"configurable": true
-		},
-		{
-			"functionName": "Rename",
-			"functionId": "eu.esdihumboldt.hale.align.rename",
-			"typeRelation": false,
-			"functionParameters": [
-				{
-					"paramLabel": "Structural rename",
-					"paramName": "structuralRename",
-					"paramValue": "false",
-					"simple": true
-				},
-				{
-					"paramLabel": "Allow ignore namespace",
-					"paramName": "ignoreNamespaces",
-					"paramValue": "false",
-					"simple": true
-				}
-			],
-			"sources": [
-				{
-					"propertyPath": [
-						"borehole",
-						"drilling_date_bho"
-					],
-					"propertyDescriptions": [
-						{
-						},
-						{
-							"propertyType": "date",
-							"propertyCardinality": "1..1"
-						}
-					],
-					"shortName": "drilling_date_bho",
-					"entity": {
-						"type": {
-							"localName": "borehole",
-							"namespace": "jdbc:postgresql:bdms-prod-20230213:bdms"
-						},
-						"path": [
-							{
-								"localName": "drilling_date_bho",
-								"namespace": null
-							}
-						]
-					}
-				}
-			],
-			"targets": [
-				{
-					"propertyPath": [
-						"Borehole",
-						"drillingDate"
-					],
-					"propertyDescriptions": [
-						{
-							"typeDescription": "<p>[de] Enth\u00e4lt die Angaben zur Bohrungslokation und die Stammdaten pro Bohrung.</p>\n<p>[en] Contains location data and header information of the borehole.</p>\n"
-						},
-						{
-							"propertyType": "CalDate",
-							"propertyCardinality": "1..1",
-							"propertyDescription": "<p>[de] Datum der Beendigung der Bohrungsarbeiten (tages-, monats- oder jahresgenau).</p>\n<p>[en] Date of finishing the drilling process (minimum declaration of the drilling year).</p>\n"
-						}
-					],
-					"shortName": "drillingDate",
-					"entity": {
-						"type": {
-							"localName": "BoreholeType",
-							"namespace": "http://www.infogeo.de/boreholeml/3.0"
-						},
-						"path": [
-							{
-								"localName": "drillingDate",
-								"namespace": "http://www.infogeo.de/boreholeml/3.0"
-							}
-						]
-					}
-				}
-			],
-			"explanation": "<p>For each value in <em>drilling_date_bho</em> adds the same value to the <em>drillingDate</em> property. If necessary a conversion is applied.</p>\n",
-			"cellId": "C1299fef2-d632-40aa-98c0-5041b7563005",
-			"parentCells": [
-				"C08f8ecd7-b7ab-46ab-9ead-3f2ee8fd89bb"
-			],
-			"priority": "normal",
-			"configurable": true
-		},
-		{
-			"functionName": "Assign (Bound)",
-			"functionId": "eu.esdihumboldt.hale.align.assign.bound",
-			"typeRelation": false,
-			"functionParameters": [
-				{
-					"paramLabel": "Value",
-					"paramName": "value",
-					"paramValue": "https://www.infogeo.de/boreholeml/3.0/codelists/DrillingMethodList.xml",
-					"simple": true
-				}
-			],
-			"sources": [
-				{
-					"propertyPath": [
-						"borehole",
-						"drilling_method_id_cli"
-					],
-					"propertyDescriptions": [
-						{
-						},
-						{
-							"propertyType": "int4",
-							"propertyCardinality": "1..1"
-						}
-					],
-					"shortName": "drilling_method_id_cli",
-					"entity": {
-						"type": {
-							"localName": "borehole",
-							"namespace": "jdbc:postgresql:bdms-prod-20230213:bdms"
-						},
-						"path": [
-							{
-								"localName": "drilling_method_id_cli",
-								"namespace": null
-							}
-						]
-					}
-				}
-			],
-			"targets": [
-				{
-					"propertyPath": [
-						"Borehole",
-						"drillingMethod",
-						"codeSpace"
-					],
-					"propertyDescriptions": [
-						{
-							"typeDescription": "<p>[de] Enth\u00e4lt die Angaben zur Bohrungslokation und die Stammdaten pro Bohrung.</p>\n<p>[en] Contains location data and header information of the borehole.</p>\n"
-						},
-						{
-							"propertyType": "? extends CodeType",
-							"propertyCardinality": "1..1",
-							"propertyDescription": "<p>[de] W\u00e4hrend der Bohrung verwendetes Bohrverfahren. Bei mehreren Bohrverfahren in einer Bohrung wird ein entsprechendes Kombibohrverfahren aus der Begriffsliste verwendet.</p>\n<p>[en] Type of drilling method. In case of more than one drilling methods applied, a combined drilling method is used from the codelist.</p>\n"
-						},
-						{
-							"propertyType": "anyURI",
-							"propertyCardinality": "0..1"
-						}
-					],
-					"shortName": "codeSpace",
-					"entity": {
-						"type": {
-							"localName": "BoreholeType",
-							"namespace": "http://www.infogeo.de/boreholeml/3.0"
-						},
-						"path": [
-							{
-								"localName": "drillingMethod",
-								"namespace": "http://www.infogeo.de/boreholeml/3.0"
-							},
-							{
-								"localName": "codeSpace",
-								"namespace": null
-							}
-						]
-					}
-				}
-			],
-			"explanation": "<p>Assigns the value <code>https://www.infogeo.de/boreholeml/3.0/codelists/DrillingMethodList.xml</code> to the <em>codeSpace</em> property.<br />\nThis is only done if the property <em>drilling_method_id_cli</em> is present in the source.</p>\n",
-			"cellId": "C0d65a7a3-3e4b-4fd5-9c5c-237144bfdb58",
-			"parentCells": [
-				"C08f8ecd7-b7ab-46ab-9ead-3f2ee8fd89bb"
-			],
-			"priority": "normal",
-			"configurable": true
-		},
-		{
-			"functionName": "Groovy script",
-			"functionId": "eu.esdihumboldt.cst.functions.groovy",
-			"typeRelation": false,
-			"functionParameters": [
-				{
-					"paramLabel": "Use instances for variables with child properties",
-					"paramName": "variablesAsInstances",
-					"paramValue": "false",
-					"simple": true
-				},
-				{
-					"paramLabel": "Groovy script",
-					"paramName": "script",
-					"paramValue": "// this groovy script searches for the (en) text of 'drilling_method_id_cli' \r\n// defined in the source table 'codelist' and classifies the result \r\n\r\ndef c = _.context.collector()\r\ndef textEn = c.codelist[drilling_method_id_cli].value()\r\n\r\nswitch (textEn){\r\n\tcase 'not specified':\r\n\treturn 'UN'\r\n\t\r\n\tcase 'auger drilling':\r\n\treturn 'DB'\r\n\t\r\n\tcase 'manual drilling':\r\n\treturn 'HB'\r\n\t\r\n\tcase 'other ':\r\n\treturn 'W'\r\n\t\r\n\tcase 'dynamic probing':\r\n\treturn 'RB'\r\n\t\r\n\tcase 'direct push soil sampling':\r\n\treturn 'SK'\r\n\t\r\n\tcase 'percussion drilling':\r\n\treturn 'SA'\r\n\t\r\n\tcase 'rotary drilling':\r\n\treturn 'DBO'\r\n\t\r\n\tcase 'rotary coring':\r\n\treturn 'RKB'\r\n\t\r\n\tcase 'wireline core drilling':\r\n\treturn 'SKB'\r\n\t\r\n\tcase 'grab drilling':\r\n\treturn 'TG'\r\n}",
-					"simple": false
-				}
-			],
-			"sources": [
-				{
-					"propertyPath": [
-						"borehole",
-						"drilling_method_id_cli"
-					],
-					"propertyDescriptions": [
-						{
-						},
-						{
-							"propertyType": "int4",
-							"propertyCardinality": "1..1"
-						}
-					],
-					"shortName": "drilling_method_id_cli",
-					"entity": {
-						"type": {
-							"localName": "borehole",
-							"namespace": "jdbc:postgresql:bdms-prod-20230213:bdms"
-						},
-						"path": [
-							{
-								"localName": "drilling_method_id_cli",
-								"namespace": null
-							}
-						]
-					}
-				}
-			],
-			"targets": [
-				{
-					"propertyPath": [
-						"Borehole",
-						"drillingMethod"
-					],
-					"propertyDescriptions": [
-						{
-							"typeDescription": "<p>[de] Enth\u00e4lt die Angaben zur Bohrungslokation und die Stammdaten pro Bohrung.</p>\n<p>[en] Contains location data and header information of the borehole.</p>\n"
-						},
-						{
-							"propertyType": "? extends CodeType",
-							"propertyCardinality": "1..1",
-							"propertyDescription": "<p>[de] W\u00e4hrend der Bohrung verwendetes Bohrverfahren. Bei mehreren Bohrverfahren in einer Bohrung wird ein entsprechendes Kombibohrverfahren aus der Begriffsliste verwendet.</p>\n<p>[en] Type of drilling method. In case of more than one drilling methods applied, a combined drilling method is used from the codelist.</p>\n"
-						}
-					],
-					"shortName": "drillingMethod",
-					"entity": {
-						"type": {
-							"localName": "BoreholeType",
-							"namespace": "http://www.infogeo.de/boreholeml/3.0"
-						},
-						"path": [
-							{
-								"localName": "drillingMethod",
-								"namespace": "http://www.infogeo.de/boreholeml/3.0"
-							}
-						]
-					}
-				}
-			],
-			"explanation": "Populates the <em>drillingMethod</em> property with the result of the following Groovy script:<br /><br /><pre><code class=\"language-groovy\">// this groovy script searches for the (en) text of 'drilling_method_id_cli' \r\n// defined in the source table 'codelist' and classifies the result \r\n\r\ndef c = _.context.collector()\r\ndef textEn = c.codelist[drilling_method_id_cli].value()\r\n\r\nswitch (textEn){\r\n\tcase 'not specified':\r\n\treturn 'UN'\r\n\t\r\n\tcase 'auger drilling':\r\n\treturn 'DB'\r\n\t\r\n\tcase 'manual drilling':\r\n\treturn 'HB'\r\n\t\r\n\tcase 'other ':\r\n\treturn 'W'\r\n\t\r\n\tcase 'dynamic probing':\r\n\treturn 'RB'\r\n\t\r\n\tcase 'direct push soil sampling':\r\n\treturn 'SK'\r\n\t\r\n\tcase 'percussion drilling':\r\n\treturn 'SA'\r\n\t\r\n\tcase 'rotary drilling':\r\n\treturn 'DBO'\r\n\t\r\n\tcase 'rotary coring':\r\n\treturn 'RKB'\r\n\t\r\n\tcase 'wireline core drilling':\r\n\treturn 'SKB'\r\n\t\r\n\tcase 'grab drilling':\r\n\treturn 'TG'\r\n}</code></pre><br />Source property names are bound to the corresponding value, if the context condition/index matches, otherwise the value is not set.",
-			"cellId": "C3ee259ec-52a9-4722-806f-404de8becff6",
-			"parentCells": [
-				"C08f8ecd7-b7ab-46ab-9ead-3f2ee8fd89bb"
-			],
-			"priority": "normal",
-			"configurable": true
-		},
-		{
-			"functionName": "Assign (Bound)",
-			"functionId": "eu.esdihumboldt.hale.align.assign.bound",
-			"typeRelation": false,
-			"functionParameters": [
-				{
-					"paramLabel": "Value",
-					"paramName": "value",
-					"paramValue": "https://www.infogeo.de/boreholeml/3.0/codelists/BoreholeStatusList.xml",
-					"simple": true
-				}
-			],
-			"sources": [
-				{
-					"propertyPath": [
-						"borehole",
-						"status_id_cli"
-					],
-					"propertyDescriptions": [
-						{
-						},
-						{
-							"propertyType": "int4",
-							"propertyCardinality": "1..1"
-						}
-					],
-					"shortName": "status_id_cli",
-					"entity": {
-						"type": {
-							"localName": "borehole",
-							"namespace": "jdbc:postgresql:bdms-prod-20230213:bdms"
-						},
-						"path": [
-							{
-								"localName": "status_id_cli",
-								"namespace": null
-							}
-						]
-					}
-				}
-			],
-			"targets": [
-				{
-					"propertyPath": [
-						"Borehole",
-						"boreholeStatus",
-						"codeSpace"
-					],
-					"propertyDescriptions": [
-						{
-							"typeDescription": "<p>[de] Enth\u00e4lt die Angaben zur Bohrungslokation und die Stammdaten pro Bohrung.</p>\n<p>[en] Contains location data and header information of the borehole.</p>\n"
-						},
-						{
-							"propertyType": "CodeType",
-							"propertyCardinality": "1..1",
-							"propertyDescription": "<p>[de] Aktueller Status der Bohrung.</p>\n<p>[en] Current status of the borehole.</p>\n"
-						},
-						{
-							"propertyType": "anyURI",
-							"propertyCardinality": "0..1"
-						}
-					],
-					"shortName": "codeSpace",
-					"entity": {
-						"type": {
-							"localName": "BoreholeType",
-							"namespace": "http://www.infogeo.de/boreholeml/3.0"
-						},
-						"path": [
-							{
-								"localName": "boreholeStatus",
-								"namespace": "http://www.infogeo.de/boreholeml/3.0"
-							},
-							{
-								"localName": "codeSpace",
-								"namespace": null
-							}
-						]
-					}
-				}
-			],
-			"explanation": "<p>Assigns the value <code>https://www.infogeo.de/boreholeml/3.0/codelists/BoreholeStatusList.xml</code> to the <em>codeSpace</em> property.<br />\nThis is only done if the property <em>status_id_cli</em> is present in the source.</p>\n",
-			"cellId": "Cb324d35a-47c3-4f5f-b8ad-eddedb0026d4",
-			"parentCells": [
-				"C08f8ecd7-b7ab-46ab-9ead-3f2ee8fd89bb"
-			],
-			"priority": "normal",
-			"configurable": true
-		},
-		{
-			"functionName": "Groovy script",
-			"functionId": "eu.esdihumboldt.cst.functions.groovy",
-			"typeRelation": false,
-			"functionParameters": [
-				{
-					"paramLabel": "Use instances for variables with child properties",
-					"paramName": "variablesAsInstances",
-					"paramValue": "false",
-					"simple": true
-				},
-				{
-					"paramLabel": "Groovy script",
-					"paramName": "script",
-					"paramValue": "// this groovy script searches for the (en) text of 'status_id_cli' \r\n// defined in the source table 'codelist' and classifies the result \r\n\r\ndef c = _.context.collector()\r\ndef textEn = c.codelist[status_id_cli].value()\r\n\r\nswitch (textEn) {\r\n\tcase 'filled':\r\n\treturn 'vf'\r\n\t\r\n\tcase 'cased, measurements possible':\r\n\treturn 'au'\r\n\t\r\n\tcase 'cased, in use':\r\n\treturn 'au'\r\n\t\r\n\tcase 'cased, measurements impossible':\r\n\treturn 'au'\r\n\t\r\n\tcase 'other ':\r\n\treturn 'ka'\r\n\t\r\n\tcase 'not specified':\r\n\treturn 'ka'\r\n}",
-					"simple": false
-				}
-			],
-			"sources": [
-				{
-					"propertyPath": [
-						"borehole",
-						"status_id_cli"
-					],
-					"propertyDescriptions": [
-						{
-						},
-						{
-							"propertyType": "int4",
-							"propertyCardinality": "1..1"
-						}
-					],
-					"shortName": "status_id_cli",
-					"entity": {
-						"type": {
-							"localName": "borehole",
-							"namespace": "jdbc:postgresql:bdms-prod-20230213:bdms"
-						},
-						"path": [
-							{
-								"localName": "status_id_cli",
-								"namespace": null
-							}
-						]
-					}
-				}
-			],
-			"targets": [
-				{
-					"propertyPath": [
-						"Borehole",
-						"boreholeStatus"
-					],
-					"propertyDescriptions": [
-						{
-							"typeDescription": "<p>[de] Enth\u00e4lt die Angaben zur Bohrungslokation und die Stammdaten pro Bohrung.</p>\n<p>[en] Contains location data and header information of the borehole.</p>\n"
-						},
-						{
-							"propertyType": "CodeType",
-							"propertyCardinality": "1..1",
-							"propertyDescription": "<p>[de] Aktueller Status der Bohrung.</p>\n<p>[en] Current status of the borehole.</p>\n"
-						}
-					],
-					"shortName": "boreholeStatus",
-					"entity": {
-						"type": {
-							"localName": "BoreholeType",
-							"namespace": "http://www.infogeo.de/boreholeml/3.0"
-						},
-						"path": [
-							{
-								"localName": "boreholeStatus",
-								"namespace": "http://www.infogeo.de/boreholeml/3.0"
-							}
-						]
-					}
-				}
-			],
-			"explanation": "Populates the <em>boreholeStatus</em> property with the result of the following Groovy script:<br /><br /><pre><code class=\"language-groovy\">// this groovy script searches for the (en) text of 'status_id_cli' \r\n// defined in the source table 'codelist' and classifies the result \r\n\r\ndef c = _.context.collector()\r\ndef textEn = c.codelist[status_id_cli].value()\r\n\r\nswitch (textEn) {\r\n\tcase 'filled':\r\n\treturn 'vf'\r\n\t\r\n\tcase 'cased, measurements possible':\r\n\treturn 'au'\r\n\t\r\n\tcase 'cased, in use':\r\n\treturn 'au'\r\n\t\r\n\tcase 'cased, measurements impossible':\r\n\treturn 'au'\r\n\t\r\n\tcase 'other ':\r\n\treturn 'ka'\r\n\t\r\n\tcase 'not specified':\r\n\treturn 'ka'\r\n}</code></pre><br />Source property names are bound to the corresponding value, if the context condition/index matches, otherwise the value is not set.",
-			"cellId": "C215267c4-3c7a-4974-a5ad-224f5b02fe97",
-			"parentCells": [
-				"C08f8ecd7-b7ab-46ab-9ead-3f2ee8fd89bb"
-			],
-			"priority": "normal",
-			"configurable": true
-		},
-		{
-			"functionName": "Groovy script",
-			"functionId": "eu.esdihumboldt.cst.functions.groovy",
-			"typeRelation": false,
-			"functionParameters": [
-				{
-					"paramLabel": "Use instances for variables with child properties",
-					"paramName": "variablesAsInstances",
-					"paramValue": "false",
-					"simple": true
-				},
-				{
-					"paramLabel": "Groovy script",
-					"paramName": "script",
-					"paramValue": "// this groovy script searches for the (en) text of 'purpose_id_cli' \r\n// defined in the source table 'codelist' and classifies the result \r\n\r\ndef c = _.context.collector()\r\ndef textEn = c.codelist[purpose_id_cli].value()\r\n\r\nswitch (textEn){\r\n\tcase 'contaminated sites':\r\n\treturn 'AUD'\r\n\t\r\n\tcase 'downhole heat exchanger':\r\n\treturn 'GTH'\r\n\t\r\n\tcase 'hydrology':\r\n\treturn 'HY'\r\n\t\r\n\tcase 'other ':\r\n\treturn 'Sonstiger Zweck'\r\n\t\r\n\tcase 'not specified':\r\n\treturn 'UN'\r\n}\r\n\r\n",
-					"simple": false
-				}
-			],
-			"sources": [
-				{
-					"propertyPath": [
-						"borehole",
-						"purpose_id_cli"
-					],
-					"propertyDescriptions": [
-						{
-						},
-						{
-							"propertyType": "int4",
-							"propertyCardinality": "1..1"
-						}
-					],
-					"shortName": "purpose_id_cli",
-					"entity": {
-						"type": {
-							"localName": "borehole",
-							"namespace": "jdbc:postgresql:bdms-prod-20230213:bdms"
-						},
-						"path": [
-							{
-								"localName": "purpose_id_cli",
-								"namespace": null
-							}
-						]
-					}
-				}
-			],
-			"targets": [
-				{
-					"propertyPath": [
-						"Borehole",
-						"drillingPurpose"
-					],
-					"propertyDescriptions": [
-						{
-							"typeDescription": "<p>[de] Enth\u00e4lt die Angaben zur Bohrungslokation und die Stammdaten pro Bohrung.</p>\n<p>[en] Contains location data and header information of the borehole.</p>\n"
-						},
-						{
-							"propertyType": "? extends CodeType",
-							"propertyCardinality": "1..1",
-							"propertyDescription": "<p>[de] Zweck bzw. Fachgebiet, f\u00fcr welches die Bohrung abgeteuft worden ist.</p>\n<p>[en] Purpose for sinking the borehole.</p>\n"
-						}
-					],
-					"shortName": "drillingPurpose",
-					"entity": {
-						"type": {
-							"localName": "BoreholeType",
-							"namespace": "http://www.infogeo.de/boreholeml/3.0"
-						},
-						"path": [
-							{
-								"localName": "drillingPurpose",
-								"namespace": "http://www.infogeo.de/boreholeml/3.0"
-							}
-						]
-					}
-				}
-			],
-			"explanation": "Populates the <em>drillingPurpose</em> property with the result of the following Groovy script:<br /><br /><pre><code class=\"language-groovy\">// this groovy script searches for the (en) text of 'purpose_id_cli' \r\n// defined in the source table 'codelist' and classifies the result \r\n\r\ndef c = _.context.collector()\r\ndef textEn = c.codelist[purpose_id_cli].value()\r\n\r\nswitch (textEn){\r\n\tcase 'contaminated sites':\r\n\treturn 'AUD'\r\n\t\r\n\tcase 'downhole heat exchanger':\r\n\treturn 'GTH'\r\n\t\r\n\tcase 'hydrology':\r\n\treturn 'HY'\r\n\t\r\n\tcase 'other ':\r\n\treturn 'Sonstiger Zweck'\r\n\t\r\n\tcase 'not specified':\r\n\treturn 'UN'\r\n}\r\n\r\n</code></pre><br />Source property names are bound to the corresponding value, if the context condition/index matches, otherwise the value is not set.",
-			"cellId": "C3d497b8a-6ee7-4491-867d-57d1c398ad7e",
-			"parentCells": [
-				"C08f8ecd7-b7ab-46ab-9ead-3f2ee8fd89bb"
-			],
-			"priority": "normal",
-			"configurable": true
-		},
-		{
-			"functionName": "Assign (Bound)",
-			"functionId": "eu.esdihumboldt.hale.align.assign.bound",
-			"typeRelation": false,
-			"functionParameters": [
-				{
-					"paramLabel": "Value",
-					"paramName": "value",
-					"paramValue": "https://www.infogeo.de/boreholeml/3.0/codelists/DrillingPurposeList.xml",
-					"simple": true
-				}
-			],
-			"sources": [
-				{
-					"propertyPath": [
-						"borehole",
-						"purpose_id_cli"
-					],
-					"propertyDescriptions": [
-						{
-						},
-						{
-							"propertyType": "int4",
-							"propertyCardinality": "1..1"
-						}
-					],
-					"shortName": "purpose_id_cli",
-					"entity": {
-						"type": {
-							"localName": "borehole",
-							"namespace": "jdbc:postgresql:bdms-prod-20230213:bdms"
-						},
-						"path": [
-							{
-								"localName": "purpose_id_cli",
-								"namespace": null
-							}
-						]
-					}
-				}
-			],
-			"targets": [
-				{
-					"propertyPath": [
-						"Borehole",
-						"drillingPurpose",
-						"codeSpace"
-					],
-					"propertyDescriptions": [
-						{
-							"typeDescription": "<p>[de] Enth\u00e4lt die Angaben zur Bohrungslokation und die Stammdaten pro Bohrung.</p>\n<p>[en] Contains location data and header information of the borehole.</p>\n"
-						},
-						{
-							"propertyType": "? extends CodeType",
-							"propertyCardinality": "1..1",
-							"propertyDescription": "<p>[de] Zweck bzw. Fachgebiet, f\u00fcr welches die Bohrung abgeteuft worden ist.</p>\n<p>[en] Purpose for sinking the borehole.</p>\n"
-						},
-						{
-							"propertyType": "anyURI",
-							"propertyCardinality": "0..1"
-						}
-					],
-					"shortName": "codeSpace",
-					"entity": {
-						"type": {
-							"localName": "BoreholeType",
-							"namespace": "http://www.infogeo.de/boreholeml/3.0"
-						},
-						"path": [
-							{
-								"localName": "drillingPurpose",
-								"namespace": "http://www.infogeo.de/boreholeml/3.0"
-							},
-							{
-								"localName": "codeSpace",
-								"namespace": null
-							}
-						]
-					}
-				}
-			],
-			"explanation": "<p>Assigns the value <code>https://www.infogeo.de/boreholeml/3.0/codelists/DrillingPurposeList.xml</code> to the <em>codeSpace</em> property.<br />\nThis is only done if the property <em>purpose_id_cli</em> is present in the source.</p>\n",
-			"cellId": "C93134429-70e8-4e42-93e1-dd0967d0c240",
-			"parentCells": [
-				"C08f8ecd7-b7ab-46ab-9ead-3f2ee8fd89bb"
-			],
-			"priority": "normal",
-			"configurable": true
-		},
-		{
 			"functionName": "Rename",
 			"functionId": "eu.esdihumboldt.hale.align.rename",
 			"typeRelation": false,
@@ -1919,58 +1730,247 @@
 			"configurable": true
 		},
 		{
-			"functionName": "Groovy Retype",
-			"functionId": "eu.esdihumboldt.cst.functions.groovy.retype",
-			"typeRelation": true,
+			"functionName": "Rename",
+			"functionId": "eu.esdihumboldt.hale.align.rename",
+			"typeRelation": false,
 			"functionParameters": [
 				{
-					"paramLabel": "script",
-					"paramName": "script",
-					"paramValue": "//this groovy script collects all ids and text values of codelist\r\n//and all codes of codelist\r\n//no target is created\r\n\r\nwithTransformationContext {\r\n\tdef c = _.context.collector(it)\r\n\t\r\n\tdef codelist_ids = _source.p.id_cli.value()\r\n\tdef codelist_text = _source.p.text_cli_en.value()\r\n\t\r\n\tc.codelist[codelist_ids] << codelist_text\r\n\t\r\n\tdef codelist_code = _source.p.code_cli.value()\r\n\tc.codelist_id_code[codelist_ids] << codelist_code\r\n}",
-					"simple": false
+					"paramLabel": "Structural rename",
+					"paramName": "structuralRename",
+					"paramValue": "false",
+					"simple": true
+				},
+				{
+					"paramLabel": "Allow ignore namespace",
+					"paramName": "ignoreNamespaces",
+					"paramValue": "false",
+					"simple": true
 				}
 			],
 			"sources": [
 				{
 					"propertyPath": [
-						"codelist"
+						"borehole",
+						"alternate_name_bho"
 					],
 					"propertyDescriptions": [
 						{
+						},
+						{
+							"propertyType": "varchar",
+							"propertyCardinality": "1..1"
 						}
 					],
-					"shortName": "codelist",
+					"shortName": "alternate_name_bho",
 					"entity": {
 						"type": {
-							"localName": "codelist",
+							"localName": "borehole",
 							"namespace": "jdbc:postgresql:bdms-prod-20230213:bdms"
-						}
+						},
+						"path": [
+							{
+								"localName": "alternate_name_bho",
+								"namespace": null
+							}
+						]
 					}
 				}
 			],
 			"targets": [
 				{
 					"propertyPath": [
-						"Borehole"
+						"Borehole",
+						"shortName",
+						"LocalisedCharacterString"
 					],
 					"propertyDescriptions": [
 						{
 							"typeDescription": "<p>[de] Enth\u00e4lt die Angaben zur Bohrungslokation und die Stammdaten pro Bohrung.</p>\n<p>[en] Contains location data and header information of the borehole.</p>\n"
+						},
+						{
+							"propertyType": "LocalisedCharacterString_PropertyType",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>[de] Kurzname der Bohrung.</p>\n<p>[en] Short name of the borehole.</p>\n"
+						},
+						{
+							"propertyType": "LocalisedCharacterString",
+							"propertyCardinality": "0..1"
 						}
 					],
-					"shortName": "Borehole",
+					"shortName": "LocalisedCharacterString",
 					"entity": {
 						"type": {
 							"localName": "BoreholeType",
 							"namespace": "http://www.infogeo.de/boreholeml/3.0"
-						}
+						},
+						"path": [
+							{
+								"localName": "shortName",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							},
+							{
+								"localName": "LocalisedCharacterString",
+								"namespace": "http://www.isotc211.org/2005/gmd"
+							}
+						]
 					}
 				}
 			],
-			"explanation": "<p>Creates a <em>Borehole</em> instance for each <em>codelist</em> instance in the source data set.</p>\n<br />Before the property transformations are run, the target instance is populated by executing the following Groovy script:<br /><br /><pre><code class=\"language-groovy\">//this groovy script collects all ids and text values of codelist\r\n//and all codes of codelist\r\n//no target is created\r\n\r\nwithTransformationContext {\r\n\tdef c = _.context.collector(it)\r\n\t\r\n\tdef codelist_ids = _source.p.id_cli.value()\r\n\tdef codelist_text = _source.p.text_cli_en.value()\r\n\t\r\n\tc.codelist[codelist_ids] << codelist_text\r\n\t\r\n\tdef codelist_code = _source.p.code_cli.value()\r\n\tc.codelist_id_code[codelist_ids] << codelist_code\r\n}</code></pre>",
-			"cellId": "C9edd550a-7d0f-4e7b-a74c-7086fd8b07e5",
-			"mode": "active",
-			"priority": "highest",
+			"explanation": "<p>For each value in <em>alternate_name_bho</em> adds the same value to the <em>LocalisedCharacterString</em> property. If necessary a conversion is applied.</p>\n",
+			"cellId": "C70d756e3-b89f-4486-be4f-682968b0eef4",
+			"parentCells": [
+				"C08f8ecd7-b7ab-46ab-9ead-3f2ee8fd89bb"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Rename",
+			"functionId": "eu.esdihumboldt.hale.align.rename",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Structural rename",
+					"paramName": "structuralRename",
+					"paramValue": "false",
+					"simple": true
+				},
+				{
+					"paramLabel": "Allow ignore namespace",
+					"paramName": "ignoreNamespaces",
+					"paramValue": "false",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"borehole",
+						"total_depth_bho"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "float8",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "total_depth_bho",
+					"entity": {
+						"type": {
+							"localName": "borehole",
+							"namespace": "jdbc:postgresql:bdms-prod-20230213:bdms"
+						},
+						"path": [
+							{
+								"localName": "total_depth_bho",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole",
+						"totalLength"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>[de] Enth\u00e4lt die Angaben zur Bohrungslokation und die Stammdaten pro Bohrung.</p>\n<p>[en] Contains location data and header information of the borehole.</p>\n"
+						},
+						{
+							"propertyType": "LengthType",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>[de] Die Aufschlussl\u00e4nge der Bohrung in Meter. Abstand des Endpunktes der Bohrung vom Ansatzpunkt, entlang des Bohrpfades gemessen.</p>\n<p>[en] Length along the borehole path in meter measured from the drill start point to the end point.</p>\n"
+						}
+					],
+					"shortName": "totalLength",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.infogeo.de/boreholeml/3.0"
+						},
+						"path": [
+							{
+								"localName": "totalLength",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							}
+						]
+					}
+				}
+			],
+			"explanation": "<p>For each value in <em>total_depth_bho</em> adds the same value to the <em>totalLength</em> property. If necessary a conversion is applied.</p>\n",
+			"cellId": "Cb7a895f9-0f66-4416-b148-4363b95633a4",
+			"parentCells": [
+				"C08f8ecd7-b7ab-46ab-9ead-3f2ee8fd89bb"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Assign",
+			"functionId": "eu.esdihumboldt.hale.align.assign",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Value",
+					"paramName": "value",
+					"paramValue": "m",
+					"simple": true
+				}
+			],
+			"sources": [],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole",
+						"totalLength",
+						"uom"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>[de] Enth\u00e4lt die Angaben zur Bohrungslokation und die Stammdaten pro Bohrung.</p>\n<p>[en] Contains location data and header information of the borehole.</p>\n"
+						},
+						{
+							"propertyType": "LengthType",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>[de] Die Aufschlussl\u00e4nge der Bohrung in Meter. Abstand des Endpunktes der Bohrung vom Ansatzpunkt, entlang des Bohrpfades gemessen.</p>\n<p>[en] Length along the borehole path in meter measured from the drill start point to the end point.</p>\n"
+						},
+						{
+							"propertyType": "UomIdentifier",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>The simple type gml:UomIdentifer defines the syntax and value space of the unit of measure identifier.</p>\n"
+						}
+					],
+					"shortName": "uom",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.infogeo.de/boreholeml/3.0"
+						},
+						"path": [
+							{
+								"localName": "totalLength",
+								"namespace": "http://www.infogeo.de/boreholeml/3.0"
+							},
+							{
+								"localName": "uom",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"explanation": "<p>Assigns the value <code>m</code> to the <em>uom</em> property.</p>\n",
+			"cellId": "C6a177c6e-5892-40a1-ad2a-087de5b3fa9f",
+			"parentCells": [
+				"C9edd550a-7d0f-4e7b-a74c-7086fd8b07e5",
+				"C08f8ecd7-b7ab-46ab-9ead-3f2ee8fd89bb"
+			],
+			"priority": "normal",
 			"configurable": true
 		},
 		{
@@ -1981,7 +1981,7 @@
 				{
 					"paramLabel": "script",
 					"paramName": "script",
-					"paramValue": "def stratigraphyList = _source.links.stratigraphy.list()\r\n\r\n\r\n\r\ndef getCodelistValueById(codelistId) {\r\n\tdef c = _.context.collector()\r\n\tdef textEn = c.codelist[codelistId].value()\t\r\n\treturn textEn\r\n}\r\n\r\ndef getWaterContentListValue(codelistId){\r\n\tdef sourceValue = getCodelistValueById(codelistId)\r\n\t\r\n\tswitch (sourceValue) {\r\n\t\tcase 'dry':\r\n\t\treturn 'feu1'\r\n\t\t\r\n\t\tcase 'earth-moist':\r\n\t\treturn 'feu3'\r\n\t\t\r\n\t\tcase 'moist':\r\n\t\treturn 'feu4'\r\n\t\t\r\n\t\tcase 'wet':\r\n\t\treturn 'feu5'\r\n\t\t\r\n\t\tcase 'not specified':\r\n\t\tbreak\r\n\t}\r\n}\r\n\r\ndef getConsistencyListValue(codelistId){\r\n\tdef sourceValue = getCodelistValueById(codelistId)\r\n\t\r\n\tswitch (sourceValue) {\r\n\t\tcase 'very soft':\r\n\t\treturn 'bre '\r\n\t\t\r\n\t\tcase 'soft':\r\n\t\treturn 'wh '\r\n\t\t\r\n\t\tcase 'firm':\r\n\t\treturn 'hfe '\r\n\t\t\r\n\t\tcase 'stiff':\r\n\t\treturn 'stf '\r\n\t\t\r\n\t\tcase 'hard':\r\n\t\treturn 'fe '\r\n\t\t\r\n\t\tcase 'very hard':\r\n\t\treturn 'fe '\r\n\t\t\r\n\t\tcase 'not specified':\r\n\t\tbreak\r\n\t}\r\n}\r\n\r\ndef getCompactnessListValue(codelistId){\r\n\tdef sourceValue = getCodelistValueById(codelistId)\r\n\t\r\n\tswitch (sourceValue) {\r\n\t\tcase 'very loose':\r\n\t\treturn 'ld1 '\r\n\t\t\r\n\t\tcase 'loose':\r\n\t\treturn 'ld2 '\r\n\t\t\r\n\t\tcase 'moderately loose':\r\n\t\treturn 'ld3 '\r\n\t\t\r\n\t\tcase 'dense':\r\n\t\treturn 'ld4 '\r\n\t\t\r\n\t\tcase 'very dense':\t\r\n\t\treturn 'ld5 '\r\n\t\t\r\n\t\tcase 'not specified':\t\r\n\t\tbreak\r\n\t}\r\n}\r\n\r\ndef getChronoStratListValue(codelistId){\r\n\tdef codelistTextEn = getCodelistValueById(codelistId)\r\n\t\r\n\tswitch (codelistTextEn) {\r\n\t\tcase 'Phanerozoic':\r\n\t\treturn 'PH'\r\n\t\tcase 'Calabrian':\r\n\t\treturn 'Q1C'\r\n\t\tcase 'Gelasian':\r\n\t\treturn 'Q1G'\r\n\t\tcase 'Pliocene':\r\n\t\treturn 'N2'\r\n\t\tcase 'Santonian':\r\n\t\treturn 'K2S'\r\n\t\tcase 'Turonian':\r\n\t\treturn 'K2T'\r\n\t\tcase 'Induan':\r\n\t\treturn 'T1I'\r\n\t\tcase 'Lopingian':\r\n\t\treturn 'P3'\r\n\t\tcase 'Changhsingian':\r\n\t\treturn 'P3C'\r\n\t\tcase 'Wuchiapingian':\r\n\t\treturn 'P3W'\r\n\t\tcase 'Guadalupian':\r\n\t\treturn 'P2'\r\n\t\tcase 'Capitanian':\r\n\t\treturn 'P2C'\r\n\t\tcase 'Wordian':\r\n\t\treturn 'P2W'\r\n\t\tcase 'Cisuralian':\r\n\t\treturn 'P1'\r\n\t\tcase 'Kungurian':\r\n\t\treturn 'P1K'\r\n\t\tcase 'Artinskian':\r\n\t\treturn 'P1Ar'\r\n\t\tcase 'Sakmarian':\r\n\t\treturn 'P1S'\r\n\t\tcase 'Pennsylvanian':\r\n\t\treturn 'C2'\r\n\t\tcase 'Mississippian':\r\n\t\treturn 'C1'\r\n\t\tcase 'Gzhelian':\r\n\t\treturn 'C2G'\r\n\t\tcase 'Kasimovian':\r\n\t\treturn 'C2K'\r\n\t\tcase 'Moscovian':\r\n\t\treturn 'C2M'\r\n\t\tcase 'Serpukhovian':\r\n\t\treturn 'C1S'\r\n\t\tcase 'Tournaisian':\r\n\t\treturn 'C1T'\r\n\t\tcase 'Ludlow':\r\n\t\treturn 'S3'\r\n\t\tcase 'Wenlock':\r\n\t\treturn 'S2'\r\n\t\tcase 'Llandovery':\r\n\t\treturn 'S1'\r\n\t\tcase 'Middle Ordovician':\r\n\t\treturn 'O2'\r\n\t\tcase 'Middle Devonian':\r\n\t\treturn 'D2'\r\n\t\tcase 'Silurian':\r\n\t\treturn 'S'\r\n\t\tcase 'Ordovician':\r\n\t\treturn 'O'\r\n\t\tcase 'Cambrian':\r\n\t\treturn 'Cb'\r\n\t\tcase 'Pridoli':\r\n\t\treturn 'S4'\r\n\t\tcase 'Cenozoic':\r\n\t\treturn 'CZ'\r\n\t\tcase 'Quaternary':\r\n\t\treturn 'Q'\r\n\t\tcase 'Holocene':\r\n\t\treturn 'Q2'\r\n\t\tcase 'Pleistocene':\r\n\t\treturn 'Q1'\r\n\t\tcase 'Neogene':\r\n\t\treturn 'N'\r\n\t\tcase 'Miocene':\r\n\t\treturn 'N1'\r\n\t\tcase 'Oligocene':\r\n\t\treturn 'E3'\r\n\t\tcase 'Eocene':\r\n\t\treturn 'E2'\r\n\t\tcase 'Paleocene':\r\n\t\treturn 'E1'\r\n\t\tcase 'Mesozoic':\r\n\t\treturn 'MZ'\r\n\t\tcase 'Campanian':\r\n\t\treturn 'K2Ca'\r\n\t\tcase 'Coniacian':\r\n\t\treturn 'K2Cc'\r\n\t\tcase 'Cenomanian':\r\n\t\treturn 'K2Cn'\r\n\t\tcase 'Albian':\r\n\t\treturn 'K1Al'\r\n\t\tcase 'Aptian':\r\n\t\treturn 'K1Ap'\r\n\t\tcase 'Barremian':\r\n\t\treturn 'K1Ba'\r\n\t\tcase 'Hauterivian':\r\n\t\treturn 'K1H'\r\n\t\tcase 'Valanginian':\r\n\t\treturn 'K1V'\r\n\t\tcase 'Berriasian':\r\n\t\treturn 'K1Be'\r\n\t\tcase 'Tithonian':\r\n\t\treturn 'J3T'\r\n\t\tcase 'Kimmeridgian':\r\n\t\treturn 'J3K'\r\n\t\tcase 'Oxfordian':\r\n\t\treturn 'J3O'\r\n\t\tcase 'Middle Jurassic':\r\n\t\treturn 'J2'\r\n\t\tcase 'Callovian':\r\n\t\treturn 'J2C'\r\n\t\tcase 'Bathonian':\r\n\t\treturn 'J2Bt'\r\n\t\tcase 'Bajocian':\r\n\t\treturn 'J2Bj'\r\n\t\tcase 'Aalenian':\r\n\t\treturn 'J2A'\r\n\t\tcase 'Toarcian':\r\n\t\treturn 'J1T'\r\n\t\tcase 'Pliensbachian':\r\n\t\treturn 'J1P'\r\n\t\tcase 'Sinemurian':\r\n\t\treturn 'J1S'\r\n\t\tcase 'Hettangian':\r\n\t\treturn 'J1H'\r\n\t\tcase 'Triassic':\r\n\t\treturn 'T'\r\n\t\tcase 'Rhaetian':\r\n\t\treturn 'T3R'\r\n\t\tcase 'Norian':\r\n\t\treturn 'T3N'\r\n\t\tcase 'Carnian':\r\n\t\treturn 'T3K'\r\n\t\tcase 'Middle Triassic':\r\n\t\treturn 'T2'\r\n\t\tcase 'Ladinian':\r\n\t\treturn 'T2L'\r\n\t\tcase 'Anisian':\r\n\t\treturn 'T2A'\r\n\t\tcase 'Olenekian':\r\n\t\treturn 'T1O'\r\n\t\tcase 'Paleozoic':\r\n\t\treturn 'PZ'\r\n\t\tcase 'Permian':\r\n\t\treturn 'P'\r\n\t\tcase 'Roadian':\r\n\t\treturn 'P2R'\r\n\t\tcase 'Asselian':\r\n\t\treturn 'P1As'\r\n\t\tcase 'Jurassic':\r\n\t\treturn 'J'\r\n\t\tcase 'Devonian':\r\n\t\treturn 'D'\r\n\t\tcase 'Proterozoic':\r\n\t\treturn 'PR'\r\n\t\r\n\t}\r\n}\r\n\r\ndef getRockNameListValue(codelistId){\r\n\tdef codelistTextEn = getCodelistValueById(codelistId)\r\n\t\r\n\tswitch (codelistTextEn) {\r\n\t\tcase 'breccia':\r\n\t\treturn 'eGst'\r\n\t\t\r\n\t\tcase 'conglomerate':\r\n\t\treturn 'rGst'\r\n\t\t\r\n\t\tcase 'arkose':\r\n\t\treturn 'FspSst'\r\n\t\t\r\n\t\tcase 'siltstone':\r\n\t\treturn 'Ust'\r\n\t\t\r\n\t\tcase 'claystone':\r\n\t\treturn 'Tst'\r\n\t\t\r\n\t\tcase 'marlstone':\r\n\t\treturn 'Mst'\r\n\t\t\r\n\t\tcase 'granite':\r\n\t\treturn 'Gr'\r\n\t\t\r\n\t\tcase 'limestone':\r\n\t\treturn 'Kst'\r\n\t\t\r\n\t\tcase 'sparite':\r\n\t\treturn 'Spa'\r\n\t\t\r\n\t\tcase 'arenite':\r\n\t\treturn 'Are'\r\n\t\t\r\n\t\tcase 'rudite':\r\n\t\treturn 'CGst'\r\n\t\t\r\n\t\tcase 'radiolarite':\r\n\t\treturn 'Rad'\r\n\t\t\r\n\t\tcase 'chert':\r\n\t\treturn 'Hor'\r\n\t\t\r\n\t\tcase 'anhydrite':\r\n\t\treturn 'Ahy'\r\n\t\t\r\n\t\tcase 'gypsum':\r\n\t\treturn 'Gyp'\r\n\t\t\r\n\t\tcase 'rock salt':\r\n\t\treturn 'NaCl'\r\n\t\t\r\n\t\tcase 'granodiorite':\r\n\t\treturn 'Grd'\r\n\t\t\r\n\t\tcase 'tonalite':\r\n\t\treturn 'Ton'\r\n\t\t\r\n\t\tcase 'diorite':\r\n\t\treturn 'Di'\r\n\t\t\r\n\t\tcase 'syenite':\r\n\t\treturn 'Sy'\r\n\t\t\r\n\t\tcase 'gabbro':\r\n\t\treturn 'Gab'\r\n\t\t\r\n\t\tcase 'monzodiorite':\r\n\t\treturn 'MsDi'\r\n\t\t\r\n\t\tcase 'monzonite':\r\n\t\treturn 'Mz'\r\n\t\t\r\n\t\tcase 'pyroxenite':\r\n\t\treturn 'Pyx'\r\n\t\t\r\n\t\tcase 'peridotite':\r\n\t\treturn 'Per'\r\n\t\t\r\n\t\tcase 'pegmatite':\r\n\t\treturn 'Peg'\r\n\t\t\r\n\t\tcase 'lamprophyre':\r\n\t\treturn 'Lam'\r\n\t\t\r\n\t\tcase 'rhyodacite':\r\n\t\treturn 'Ryd'\r\n\t\t\r\n\t\tcase 'dacite':\r\n\t\treturn 'Dac'\r\n\t\t\r\n\t\tcase 'andesite':\r\n\t\treturn 'And'\r\n\t\t\r\n\t\tcase 'trachyte':\r\n\t\treturn 'Tra'\r\n\t\t\r\n\t\tcase 'basalt':\r\n\t\treturn 'Bas'\r\n\t\t\r\n\t\tcase 'phonolite':\r\n\t\treturn 'Pho'\r\n\t\t\r\n\t\tcase 'ignimbrite':\r\n\t\treturn 'Ign'\r\n\t\t\r\n\t\tcase 'lapilli tuff':\r\n\t\treturn 'Lapst'\r\n\t\t\r\n\t\tcase 'ash tuff':\r\n\t\treturn 'Asvst'\r\n\t\t\r\n\t\tcase 'bentonite':\r\n\t\treturn 'Ben'\r\n\t\t\r\n\t\tcase 'marble':\r\n\t\treturn 'Mar'\r\n\t\t\r\n\t\tcase 'protomylonite':\r\n\t\treturn 'Pmyl'\r\n\t\t\r\n\t\tcase 'mylonite':\r\n\t\treturn 'Myl'\r\n\t\t\r\n\t\tcase 'ultramylonite':\r\n\t\treturn 'Umyl'\r\n\t\t\r\n\t\tcase 'glaucophane schist':\r\n\t\treturn 'Gpsf'\r\n\t\t\r\n\t\tcase 'prasinite':\r\n\t\treturn 'Pra'\r\n\t\t\r\n\t\tcase 'calcsilicate rock':\r\n\t\treturn 'Ksifs'\r\n\t\t\r\n\t\tcase 'granulite':\r\n\t\treturn 'Grl'\r\n\t\t\r\n\t\tcase 'amphibolite':\r\n\t\treturn 'Amp'\r\n\t\t\r\n\t\tcase 'eclogite':\r\n\t\treturn 'Ekl'\r\n\t\t\r\n\t\tcase 'hornfels':\r\n\t\treturn 'Hfs'\r\n\t\t\r\n\t\tcase 'metasomatite':\r\n\t\treturn 'fums'\r\n\t\t\r\n\t\tcase 'skarn':\r\n\t\treturn 'Skr'\r\n\t\t\r\n\t\tcase 'greisen':\r\n\t\treturn 'Grs'\r\n\t\t\r\n\t\tcase 'migmatite':\r\n\t\treturn 'Mig'\r\n\t\t\r\n\t\tcase 'serpentinite':\r\n\t\treturn 'Sep'\r\n\t\t\r\n\t\tcase 'greenschist':\r\n\t\treturn 'Gsf'\r\n\t\t\r\n\t\tcase 'metasediment':\r\n\t\treturn 'fus'\r\n\t\t\r\n\t\tcase 'metaconglomerate':\r\n\t\treturn 'uKgl'\r\n\t\t\r\n\t\tcase 'metasandstone':\r\n\t\treturn 'uSst'\r\n\t\t\r\n\t\tcase 'metapsammite':\r\n\t\treturn 'fuss'\r\n\t\t\r\n\t\tcase 'meta-arkose':\r\n\t\treturn 'uArk'\r\n\t\t\r\n\t\tcase 'metagreywacke':\r\n\t\treturn 'uGwk'\r\n\t\t\r\n\t\tcase 'metapelite':\r\n\t\treturn 'fust'\r\n\t\t\r\n\t\tcase 'metaplutonite':\r\n\t\treturn 'fut'\r\n\t\t\r\n\t\tcase 'metavulcanite':\r\n\t\treturn 'fuv'\r\n\t}\r\n}\r\n\r\ndef getCodelistCodeById(codelistId) {\r\n\tdef c = _.context.collector()\r\n\tdef code = c.codelist_id_code[codelistId].value()\t\r\n\treturn code\r\n}\r\n\r\n_target {\r\n\tstratigraphyList.each { stratigraphy ->\r\n\t\tstratigraphy_kind_id = stratigraphy.p.kind_id_cli.value()\t\r\n\t\t//create interval series if startigraphy.kind_id = 3000 (Geology)\t\r\n\t\tif (stratigraphy_kind_id == 3000) {\r\n\t\t\t\r\n\t\t\tintervalSeries {\r\n\t\t\t\tIntervalSeries {\r\n\t\t\t\t\tdescription {\r\n\t\t\t\t\t\tLocalisedCharacterString( stratigraphy.p.name_sty.value() )\r\n\t\t\t\t\t}\r\n\t\t\t\t\t\r\n\t\t\t\t\t//create related layers\r\n\t\t\t\t\tstratigraphy.links.layer.list().each { sourceLayer ->\r\n\t\t\t\t\t\tlayer {\r\n\t\t\t\t\t\t\tInterval {\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\tfrom( sourceLayer.p.depth_from_lay.value() ){\r\n\t\t\t\t\t\t\t\t\tuom( 'm' )\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\tto( sourceLayer.p.depth_to_lay.value() ){\r\n\t\t\t\t\t\t\t\t\tuom( 'm' )\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\tdef waterContentValue = getWaterContentListValue( sourceLayer.p.humidity_id_cli.value() )\r\n\t\t\t\t\t\t\t\tif (waterContentValue){\r\n\t\t\t\t\t\t\t\t\twaterContent(waterContentValue){\r\n\t\t\t\t\t\t\t\t\t\tcodeSpace( 'https://www.infogeo.de/boreholeml/3.0/codelists/WaterContentList.xml' )\r\n\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\tdef consistanceValue = getConsistencyListValue( sourceLayer.p.consistance_id_cli.value() )\r\n\t\t\t\t\t\t\t\tif (consistanceValue){\r\n\t\t\t\t\t\t\t\t\tconsistency( consistanceValue ) {\r\n\t\t\t\t\t\t\t\t\t\tcodeSpace( 'https://www.infogeo.de/boreholeml/3.0/codelists/ConsistencyList.xml' )\r\n\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\tdef compactnessValue = getCompactnessListValue( sourceLayer.p.compactness_id_cli.value() )\r\n\t\t\t\t\t\t\t\tif (compactnessValue){\r\n\t\t\t\t\t\t\t\t\tconsistency( compactnessValue ) {\r\n\t\t\t\t\t\t\t\t\t\tcodeSpace( 'https://www.infogeo.de/boreholeml/3.0/codelists/CompactnessList.xml' )\r\n\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\tdef lithology_code = getCodelistCodeById( sourceLayer.p.lithology_id_cli.value() )\r\n\t\t\t\t\t\t\t\tdef lithology_text = getCodelistValueById( sourceLayer.p.lithology_id_cli.value() )\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\trockCode( lithology_code )\r\n\t\t\t\t\t\t\t\t\t\t\trockNameText {\r\n\t\t\t\t\t\t\t\t\tLocalisedCharacterString( lithology_text )\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\tdef lithology = getRockNameListValue( sourceLayer.p.lithology_id_cli.value() )\r\n\t\t\t\t\t\t\t\tif (lithology) {\r\n\t\t\t\t\t\t\t\t\t_b.lithology {\r\n\t\t\t\t\t\t\t\t\t\tLithology {\r\n\t\t\t\t\t\t\t\t\t\t\trockName( lithology ){\r\n\t\t\t\t\t\t\t\t\t\t\t\tcodeSpace( 'https://www.infogeo.de/boreholeml/3.0/codelists/RockNameList.xml' )\r\n\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t_b.stratigraphy {\r\n\t\t\t\t\t\t\t\t\tStratigraphy {\r\n\t\t\t\t\t\t\t\t\t\tdef chronoStrat = getChronoStratListValue( sourceLayer.p.chronostratigraphy_id_cli.value() )\r\n\t\t\t\t\t\t\t\t\t\tif (chronoStrat){\r\n\t\t\t\t\t\t\t\t\t\t\tchronoStratigraphy( chronoStrat ) {\r\n\t\t\t\t\t\t\t\t\t\t\t\tcodeSpace( 'https://www.infogeo.de/boreholeml/3.0/codelists/ChronoStratigraphyList.xml' )\r\n\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\tdef lithoStrat = getCodelistValueById(sourceLayer.p.lithostratigraphy_id_cli.value())\r\n\t\t\t\t\t\t\t\t\t\tif (lithoStrat) {\r\n\t\t\t\t\t\t\t\t\t\t\tlithoStratigraphy {\r\n\t\t\t\t\t\t\t\t\t\t\t\tLocalisedCharacterString( lithoStrat )\r\n\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t}\t\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t}\r\n\t\t//create spaceFilling if startigraphy.kind_id = 3004 (Filling)\t\r\n\t\tif (stratigraphy_kind_id == 3004) {\r\n\t\t\tinstallationDetail {\r\n\t\t\t\tInstallationDetails {\r\n\t\t\t\t\t\r\n\t\t\t\t\t//create related layers\r\n\t\t\t\t\tstratigraphy.links.layer.list().each { sourceLayer ->\r\n\t\t\t\t\t\tspaceFilling {\r\n\t\t\t\t\t\t\tSpaceFilling {\r\n\t\t\t\t\t\t\t\tfrom( sourceLayer.p.depth_from_lay.value() ){\r\n\t\t\t\t\t\t\t\t\tuom( 'm' )\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\tto( sourceLayer.p.depth_to_lay.value() ){\r\n\t\t\t\t\t\t\t\t\tuom( 'm' )\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t}\r\n\t\t\t\t\t\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t\r\n\t\t}\r\n\t\t\r\n\t}\t\r\n}\r\n",
+					"paramValue": "import eu.esdihumboldt.hale.common.lookup.*;\r\nimport eu.esdihumboldt.hale.ui.HaleUI;\r\nimport eu.esdihumboldt.hale.common.core.io.*;\r\n\r\n//available lookup tables,\r\ndef lookupTableIds = [\"borehole_status\": \"6b020fbf-5f11-4422-8bf0-8922baa7513d\",\r\n\t\t\t\t\t  \"borehole_drillingMethod\":\"3f3e28f7-2c75-4d2e-96eb-0265928de559\",\r\n\t\t\t\t\t  \"borehole_purpose\":\"701e44eb-184b-4283-9ec4-4861bc83b682\",\t\t\t\t\t  \r\n\t\t\t\t\t  \"layer_casingKind\":\"994bcdea-12b9-4671-bde2-a1df4e1be3d9\",\r\n\t\t\t\t\t  \"layer_casingMaterial\":\"e9317ef4-c273-47e4-a326-ab3e39a669bd\",\t\t\t\t\t  \r\n\t\t\t\t\t  \"layer_chronostratigraphy\":\"f5433b9b-a89e-4860-a4c7-f8c3ffe8d6ee\",\r\n\t\t\t\t\t  \"layer_compactness\":\"4cb095ce-f452-4c30-8331-d2689dff4a07\",\r\n\t\t\t\t\t  \"layer_consistance\":\"1326c176-5a33-4be5-a209-65b1476cac33\",\r\n\t\t\t\t\t  \"layer_fillKind\":\"5024b85b-7438-4721-96f3-47273dc72f58\",\r\n\t\t\t\t\t  \"layer_humidity\":\"ae1cf944-0d7d-41b8-8474-f723fa009c6f\",\r\n\t\t\t\t\t  \"layer_lithology\":\"b85c79a6-da9f-4f18-a32a-651f52978fde\"]\r\n\r\n\r\ndef stratigraphyList = _source.links.stratigraphy.list()\r\n_target {\r\n\tstratigraphyList.each { stratigraphy ->\r\n\t\tstratigraphy_kind_id = stratigraphy.p.kind_id_cli.value()\t\r\n\t\t//create interval series if startigraphy.kind_id = 3000 (Geology)\t\r\n\t\tif (stratigraphy_kind_id == 3000) {\r\n\t\t\t\r\n\t\t\tintervalSeries {\r\n\t\t\t\tIntervalSeries {\r\n\t\t\t\t\tdescription {\r\n\t\t\t\t\t\tLocalisedCharacterString( stratigraphy.p.name_sty.value() )\r\n\t\t\t\t\t}\r\n\t\t\t\t\t\r\n\t\t\t\t\t//create related layers\r\n\t\t\t\t\tstratigraphy.links.layer.list().each { sourceLayer ->\r\n\t\t\t\t\t\tlayer {\r\n\t\t\t\t\t\t\tInterval {\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\tfrom( sourceLayer.p.depth_from_lay.value() ){\r\n\t\t\t\t\t\t\t\t\tuom( 'm' )\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\tto( sourceLayer.p.depth_to_lay.value() ){\r\n\t\t\t\t\t\t\t\t\tuom( 'm' )\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\tdef waterContentValue = getLookupTableValue(sourceLayer.p.humidity_id_cli.value(), lookupTableIds[\"layer_humidity\"])\r\n\t\t\t\t\t\t\t\tif (waterContentValue){\r\n\t\t\t\t\t\t\t\t\twaterContent(waterContentValue){\r\n\t\t\t\t\t\t\t\t\t\tcodeSpace( 'https://www.infogeo.de/boreholeml/3.0/codelists/WaterContentList.xml' )\r\n\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\tdef consistanceValue = getLookupTableValue( sourceLayer.p.consistance_id_cli.value(), lookupTableIds[\"layer_consistance\"] )\r\n\t\t\t\t\t\t\t\tif (consistanceValue){\r\n\t\t\t\t\t\t\t\t\tconsistency( consistanceValue ) {\r\n\t\t\t\t\t\t\t\t\t\tcodeSpace( 'https://www.infogeo.de/boreholeml/3.0/codelists/ConsistencyList.xml' )\r\n\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\tdef compactnessValue = getLookupTableValue( sourceLayer.p.compactness_id_cli.value(), lookupTableIds[\"layer_compactness\"] )\r\n\t\t\t\t\t\t\t\tif (compactnessValue){\r\n\t\t\t\t\t\t\t\t\tcompactness( compactnessValue ) {\r\n\t\t\t\t\t\t\t\t\t\tcodeSpace( 'https://www.infogeo.de/boreholeml/3.0/codelists/CompactnessList.xml' )\r\n\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\tdef lithology_code = getCollectedCodeById( sourceLayer.p.lithology_id_cli.value() )\r\n\t\t\t\t\t\t\t\tdef lithology_text = getCollectedValueById( sourceLayer.p.lithology_id_cli.value() )\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\trockCode( lithology_code )\r\n\t\t\t\t\t\t\t\trockNameText {\r\n\t\t\t\t\t\t\t\t\tLocalisedCharacterString( lithology_text )\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\tdef lithologyValue = getLookupTableValue( sourceLayer.p.lithology_id_cli.value(), lookupTableIds[\"layer_lithology\"] )\r\n\t\t\t\t\t\t\t\tif (lithologyValue) {\r\n\t\t\t\t\t\t\t\t\tlithology {\r\n\t\t\t\t\t\t\t\t\t\tLithology {\r\n\t\t\t\t\t\t\t\t\t\t\trockName( lithologyValue ){\r\n\t\t\t\t\t\t\t\t\t\t\t\tcodeSpace( 'https://www.infogeo.de/boreholeml/3.0/codelists/RockNameList.xml' )\r\n\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t_b.stratigraphy {\r\n\t\t\t\t\t\t\t\t\tStratigraphy {\r\n\t\t\t\t\t\t\t\t\t\tdef chronoStrat = getLookupTableValue( sourceLayer.p.chronostratigraphy_id_cli.value(), lookupTableIds[\"layer_chronostratigraphy\"] )\r\n\t\t\t\t\t\t\t\t\t\tif (chronoStrat){\r\n\t\t\t\t\t\t\t\t\t\t\tchronoStratigraphy( chronoStrat ) {\r\n\t\t\t\t\t\t\t\t\t\t\t\tcodeSpace( 'https://www.infogeo.de/boreholeml/3.0/codelists/ChronoStratigraphyList.xml' )\r\n\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\tdef lithoStrat = getCollectedValueById(sourceLayer.p.lithostratigraphy_id_cli.value())\r\n\t\t\t\t\t\t\t\t\t\tif (lithoStrat) {\r\n\t\t\t\t\t\t\t\t\t\t\tlithoStratigraphy {\r\n\t\t\t\t\t\t\t\t\t\t\t\tLocalisedCharacterString( lithoStrat )\r\n\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t}\t\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t}\r\n\t\t\r\n\t\t\r\n\t\t//create installationDetail only \r\n\t\tif (stratigraphy_kind_id == 3002 || stratigraphy_kind_id == 3004){\r\n\t\t\tinstallationDetail {\r\n\t\t\t\tInstallationDetails {\r\n\t\t\t\t\t//create casingString if straigraphy.kind_id = 3002 (Casing)\r\n\t\t\t\t\tif (stratigraphy_kind_id == 3002) {\r\n\t\t\t\t\t\tcasingString {\r\n\t\t\t\t\t\t\tCasingString {\r\n\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t//create related segments\r\n\t\t\t\t\t\t\t\tstratigraphy.links.layer.list().each { sourceLayer ->\r\n\t\t\t\t\t\t\t\t\tcasingStringSegment {\r\n\t\t\t\t\t\t\t\t\t\tCasingStringSegment {\r\n\t\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\t\tfrom( sourceLayer.p.depth_from_lay.value() ) {\r\n\t\t\t\t\t\t\t\t\t\t\t\tuom( 'm' )\r\n\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\t\tto( sourceLayer.p.depth_to_lay.value() ) {\r\n\t\t\t\t\t\t\t\t\t\t\t\tuom( 'm' )\r\n\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\t\tdef casingMaterialValue = getLookupTableValue( sourceLayer.p.casng_material_id_cli.value(), lookupTableIds[\"layer_casingMaterial\"] )\r\n\t\t\t\t\t\t\t\t\t\t\tif (casingMaterialValue){\r\n\t\t\t\t\t\t\t\t\t\t\t\tcasingMaterial( casingMaterialValue ) {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\tcodeSpace( 'https://www.infogeo.de/boreholeml/3.0/codelists/CasingMaterialList.xml' )\r\n\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\t\tdiameter( sourceLayer.p.casng_outer_diameter_lay.value() ) {\r\n\t\t\t\t\t\t\t\t\t\t\t\tuom( 'mm' )\r\n\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\t\twallThickness( sourceLayer.p.casng_outer_diameter_lay.value() - sourceLayer.p.casng_inner_diameter_lay.value() ) {\r\n\t\t\t\t\t\t\t\t\t\t\t\tuom( 'mm' )\r\n\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\t\tdef installationElementValue = getLookupTableValue( sourceLayer.p.casng_kind_id_cli.value(), lookupTableIds[\"layer_casingKind\"] )\r\n\t\t\t\t\t\t\t\t\t\t\tif (installationElementValue){\r\n\t\t\t\t\t\t\t\t\t\t\t\tinstallationElement( installationElementValue ) {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\tcodeSpace( 'https://www.infogeo.de/boreholeml/3.0/codelists/InstallationElementList.xml' )\r\n\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t}\t\r\n\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t}\r\n\t\t\t\t\r\n\t\t\t\t\t//create spaceFilling if startigraphy.kind_id = 3004 (Filling)\t\r\n\t\t\t\t\tif (stratigraphy_kind_id == 3004) {\r\n\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t//create related segments if fill_kind_id_cli = 25000301 (Ringraumverf\u00fcllung)\r\n\t\t\t\t\t\tstratigraphy.links.layer.list().each { sourceLayer ->\r\n\t\t\t\t\t\t\tif (sourceLayer.p.fill_kind_id_cli.value() == 25000301){\r\n\t\t\t\t\t\t\t\tspaceFilling {\r\n\t\t\t\t\t\t\t\t\tSpaceFilling {\r\n\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\tfrom( sourceLayer.p.depth_from_lay.value() ){\r\n\t\t\t\t\t\t\t\t\t\t\tuom( 'm' )\r\n\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\tto( sourceLayer.p.depth_to_lay.value() ){\r\n\t\t\t\t\t\t\t\t\t\t\tuom( 'm' )\r\n\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\tdef fillingMaterialValue = getLookupTableValue( sourceLayer.p.fill_kind_id_cli.value(), lookupTableIds[\"layer_fillKind\"] )\r\n\t\t\t\t\t\t\t\t\t\tif (fillingMaterialValue){\r\n\t\t\t\t\t\t\t\t\t\t\tspaceFillingMaterial( fillingMaterialValue ) {\r\n\t\t\t\t\t\t\t\t\t\t\t\tcodeSpace( 'https://www.infogeo.de/boreholeml/3.0/codelists/FillingMaterialList.xml' )\r\n\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t}\r\n\t}\t\r\n}\r\n\r\n\r\ndef getLookupTableValue(value, tableId){\r\n\t// retrieve Lookup table\r\n\tLookupService ls = HaleUI.getServiceProvider().getService(LookupService.class);\r\n\tLookupTableInfo lithTable = ls.getTable(tableId);\r\n\tdef table = lithTable.getTable();\r\n\t\r\n\t//get value\r\n\tdef result = table.lookup(Value.of(value))\r\n\treturn result\r\n}\r\n\r\ndef getCollectedValueById(codelistId) {\r\n\tdef c = _.context.collector()\r\n\tdef textEn = c.codelist[codelistId].value()\t\r\n\treturn textEn\r\n}\r\n\r\ndef getCollectedCodeById(codelistId) {\r\n\tdef c = _.context.collector()\r\n\tdef code = c.codelist_id_code[codelistId].value()\t\r\n\treturn code\r\n}",
 					"simple": false
 				},
 				{
@@ -2063,7 +2063,7 @@
 					}
 				}
 			],
-			"explanation": "Joins the types <em>borehole</em>, <em>stratigraphy</em>, <em>layer</em> based on the following conditions:<br /><br /><em>stratigraphy</em>.<em>id_sty</em> = <em>layer</em>.<em>id_sty_fk</em><br /><em>borehole</em>.<em>id_bho</em> = <em>stratigraphy</em>.<em>id_bho_fk</em><br /><br /><br />Before the property transformations are run, the target instance is populated by executing the following Groovy script:<br /><br /><pre><code class=\"language-groovy\">def stratigraphyList = _source.links.stratigraphy.list()\r\n\r\n\r\n\r\ndef getCodelistValueById(codelistId) {\r\n\tdef c = _.context.collector()\r\n\tdef textEn = c.codelist[codelistId].value()\t\r\n\treturn textEn\r\n}\r\n\r\ndef getWaterContentListValue(codelistId){\r\n\tdef sourceValue = getCodelistValueById(codelistId)\r\n\t\r\n\tswitch (sourceValue) {\r\n\t\tcase 'dry':\r\n\t\treturn 'feu1'\r\n\t\t\r\n\t\tcase 'earth-moist':\r\n\t\treturn 'feu3'\r\n\t\t\r\n\t\tcase 'moist':\r\n\t\treturn 'feu4'\r\n\t\t\r\n\t\tcase 'wet':\r\n\t\treturn 'feu5'\r\n\t\t\r\n\t\tcase 'not specified':\r\n\t\tbreak\r\n\t}\r\n}\r\n\r\ndef getConsistencyListValue(codelistId){\r\n\tdef sourceValue = getCodelistValueById(codelistId)\r\n\t\r\n\tswitch (sourceValue) {\r\n\t\tcase 'very soft':\r\n\t\treturn 'bre '\r\n\t\t\r\n\t\tcase 'soft':\r\n\t\treturn 'wh '\r\n\t\t\r\n\t\tcase 'firm':\r\n\t\treturn 'hfe '\r\n\t\t\r\n\t\tcase 'stiff':\r\n\t\treturn 'stf '\r\n\t\t\r\n\t\tcase 'hard':\r\n\t\treturn 'fe '\r\n\t\t\r\n\t\tcase 'very hard':\r\n\t\treturn 'fe '\r\n\t\t\r\n\t\tcase 'not specified':\r\n\t\tbreak\r\n\t}\r\n}\r\n\r\ndef getCompactnessListValue(codelistId){\r\n\tdef sourceValue = getCodelistValueById(codelistId)\r\n\t\r\n\tswitch (sourceValue) {\r\n\t\tcase 'very loose':\r\n\t\treturn 'ld1 '\r\n\t\t\r\n\t\tcase 'loose':\r\n\t\treturn 'ld2 '\r\n\t\t\r\n\t\tcase 'moderately loose':\r\n\t\treturn 'ld3 '\r\n\t\t\r\n\t\tcase 'dense':\r\n\t\treturn 'ld4 '\r\n\t\t\r\n\t\tcase 'very dense':\t\r\n\t\treturn 'ld5 '\r\n\t\t\r\n\t\tcase 'not specified':\t\r\n\t\tbreak\r\n\t}\r\n}\r\n\r\ndef getChronoStratListValue(codelistId){\r\n\tdef codelistTextEn = getCodelistValueById(codelistId)\r\n\t\r\n\tswitch (codelistTextEn) {\r\n\t\tcase 'Phanerozoic':\r\n\t\treturn 'PH'\r\n\t\tcase 'Calabrian':\r\n\t\treturn 'Q1C'\r\n\t\tcase 'Gelasian':\r\n\t\treturn 'Q1G'\r\n\t\tcase 'Pliocene':\r\n\t\treturn 'N2'\r\n\t\tcase 'Santonian':\r\n\t\treturn 'K2S'\r\n\t\tcase 'Turonian':\r\n\t\treturn 'K2T'\r\n\t\tcase 'Induan':\r\n\t\treturn 'T1I'\r\n\t\tcase 'Lopingian':\r\n\t\treturn 'P3'\r\n\t\tcase 'Changhsingian':\r\n\t\treturn 'P3C'\r\n\t\tcase 'Wuchiapingian':\r\n\t\treturn 'P3W'\r\n\t\tcase 'Guadalupian':\r\n\t\treturn 'P2'\r\n\t\tcase 'Capitanian':\r\n\t\treturn 'P2C'\r\n\t\tcase 'Wordian':\r\n\t\treturn 'P2W'\r\n\t\tcase 'Cisuralian':\r\n\t\treturn 'P1'\r\n\t\tcase 'Kungurian':\r\n\t\treturn 'P1K'\r\n\t\tcase 'Artinskian':\r\n\t\treturn 'P1Ar'\r\n\t\tcase 'Sakmarian':\r\n\t\treturn 'P1S'\r\n\t\tcase 'Pennsylvanian':\r\n\t\treturn 'C2'\r\n\t\tcase 'Mississippian':\r\n\t\treturn 'C1'\r\n\t\tcase 'Gzhelian':\r\n\t\treturn 'C2G'\r\n\t\tcase 'Kasimovian':\r\n\t\treturn 'C2K'\r\n\t\tcase 'Moscovian':\r\n\t\treturn 'C2M'\r\n\t\tcase 'Serpukhovian':\r\n\t\treturn 'C1S'\r\n\t\tcase 'Tournaisian':\r\n\t\treturn 'C1T'\r\n\t\tcase 'Ludlow':\r\n\t\treturn 'S3'\r\n\t\tcase 'Wenlock':\r\n\t\treturn 'S2'\r\n\t\tcase 'Llandovery':\r\n\t\treturn 'S1'\r\n\t\tcase 'Middle Ordovician':\r\n\t\treturn 'O2'\r\n\t\tcase 'Middle Devonian':\r\n\t\treturn 'D2'\r\n\t\tcase 'Silurian':\r\n\t\treturn 'S'\r\n\t\tcase 'Ordovician':\r\n\t\treturn 'O'\r\n\t\tcase 'Cambrian':\r\n\t\treturn 'Cb'\r\n\t\tcase 'Pridoli':\r\n\t\treturn 'S4'\r\n\t\tcase 'Cenozoic':\r\n\t\treturn 'CZ'\r\n\t\tcase 'Quaternary':\r\n\t\treturn 'Q'\r\n\t\tcase 'Holocene':\r\n\t\treturn 'Q2'\r\n\t\tcase 'Pleistocene':\r\n\t\treturn 'Q1'\r\n\t\tcase 'Neogene':\r\n\t\treturn 'N'\r\n\t\tcase 'Miocene':\r\n\t\treturn 'N1'\r\n\t\tcase 'Oligocene':\r\n\t\treturn 'E3'\r\n\t\tcase 'Eocene':\r\n\t\treturn 'E2'\r\n\t\tcase 'Paleocene':\r\n\t\treturn 'E1'\r\n\t\tcase 'Mesozoic':\r\n\t\treturn 'MZ'\r\n\t\tcase 'Campanian':\r\n\t\treturn 'K2Ca'\r\n\t\tcase 'Coniacian':\r\n\t\treturn 'K2Cc'\r\n\t\tcase 'Cenomanian':\r\n\t\treturn 'K2Cn'\r\n\t\tcase 'Albian':\r\n\t\treturn 'K1Al'\r\n\t\tcase 'Aptian':\r\n\t\treturn 'K1Ap'\r\n\t\tcase 'Barremian':\r\n\t\treturn 'K1Ba'\r\n\t\tcase 'Hauterivian':\r\n\t\treturn 'K1H'\r\n\t\tcase 'Valanginian':\r\n\t\treturn 'K1V'\r\n\t\tcase 'Berriasian':\r\n\t\treturn 'K1Be'\r\n\t\tcase 'Tithonian':\r\n\t\treturn 'J3T'\r\n\t\tcase 'Kimmeridgian':\r\n\t\treturn 'J3K'\r\n\t\tcase 'Oxfordian':\r\n\t\treturn 'J3O'\r\n\t\tcase 'Middle Jurassic':\r\n\t\treturn 'J2'\r\n\t\tcase 'Callovian':\r\n\t\treturn 'J2C'\r\n\t\tcase 'Bathonian':\r\n\t\treturn 'J2Bt'\r\n\t\tcase 'Bajocian':\r\n\t\treturn 'J2Bj'\r\n\t\tcase 'Aalenian':\r\n\t\treturn 'J2A'\r\n\t\tcase 'Toarcian':\r\n\t\treturn 'J1T'\r\n\t\tcase 'Pliensbachian':\r\n\t\treturn 'J1P'\r\n\t\tcase 'Sinemurian':\r\n\t\treturn 'J1S'\r\n\t\tcase 'Hettangian':\r\n\t\treturn 'J1H'\r\n\t\tcase 'Triassic':\r\n\t\treturn 'T'\r\n\t\tcase 'Rhaetian':\r\n\t\treturn 'T3R'\r\n\t\tcase 'Norian':\r\n\t\treturn 'T3N'\r\n\t\tcase 'Carnian':\r\n\t\treturn 'T3K'\r\n\t\tcase 'Middle Triassic':\r\n\t\treturn 'T2'\r\n\t\tcase 'Ladinian':\r\n\t\treturn 'T2L'\r\n\t\tcase 'Anisian':\r\n\t\treturn 'T2A'\r\n\t\tcase 'Olenekian':\r\n\t\treturn 'T1O'\r\n\t\tcase 'Paleozoic':\r\n\t\treturn 'PZ'\r\n\t\tcase 'Permian':\r\n\t\treturn 'P'\r\n\t\tcase 'Roadian':\r\n\t\treturn 'P2R'\r\n\t\tcase 'Asselian':\r\n\t\treturn 'P1As'\r\n\t\tcase 'Jurassic':\r\n\t\treturn 'J'\r\n\t\tcase 'Devonian':\r\n\t\treturn 'D'\r\n\t\tcase 'Proterozoic':\r\n\t\treturn 'PR'\r\n\t\r\n\t}\r\n}\r\n\r\ndef getRockNameListValue(codelistId){\r\n\tdef codelistTextEn = getCodelistValueById(codelistId)\r\n\t\r\n\tswitch (codelistTextEn) {\r\n\t\tcase 'breccia':\r\n\t\treturn 'eGst'\r\n\t\t\r\n\t\tcase 'conglomerate':\r\n\t\treturn 'rGst'\r\n\t\t\r\n\t\tcase 'arkose':\r\n\t\treturn 'FspSst'\r\n\t\t\r\n\t\tcase 'siltstone':\r\n\t\treturn 'Ust'\r\n\t\t\r\n\t\tcase 'claystone':\r\n\t\treturn 'Tst'\r\n\t\t\r\n\t\tcase 'marlstone':\r\n\t\treturn 'Mst'\r\n\t\t\r\n\t\tcase 'granite':\r\n\t\treturn 'Gr'\r\n\t\t\r\n\t\tcase 'limestone':\r\n\t\treturn 'Kst'\r\n\t\t\r\n\t\tcase 'sparite':\r\n\t\treturn 'Spa'\r\n\t\t\r\n\t\tcase 'arenite':\r\n\t\treturn 'Are'\r\n\t\t\r\n\t\tcase 'rudite':\r\n\t\treturn 'CGst'\r\n\t\t\r\n\t\tcase 'radiolarite':\r\n\t\treturn 'Rad'\r\n\t\t\r\n\t\tcase 'chert':\r\n\t\treturn 'Hor'\r\n\t\t\r\n\t\tcase 'anhydrite':\r\n\t\treturn 'Ahy'\r\n\t\t\r\n\t\tcase 'gypsum':\r\n\t\treturn 'Gyp'\r\n\t\t\r\n\t\tcase 'rock salt':\r\n\t\treturn 'NaCl'\r\n\t\t\r\n\t\tcase 'granodiorite':\r\n\t\treturn 'Grd'\r\n\t\t\r\n\t\tcase 'tonalite':\r\n\t\treturn 'Ton'\r\n\t\t\r\n\t\tcase 'diorite':\r\n\t\treturn 'Di'\r\n\t\t\r\n\t\tcase 'syenite':\r\n\t\treturn 'Sy'\r\n\t\t\r\n\t\tcase 'gabbro':\r\n\t\treturn 'Gab'\r\n\t\t\r\n\t\tcase 'monzodiorite':\r\n\t\treturn 'MsDi'\r\n\t\t\r\n\t\tcase 'monzonite':\r\n\t\treturn 'Mz'\r\n\t\t\r\n\t\tcase 'pyroxenite':\r\n\t\treturn 'Pyx'\r\n\t\t\r\n\t\tcase 'peridotite':\r\n\t\treturn 'Per'\r\n\t\t\r\n\t\tcase 'pegmatite':\r\n\t\treturn 'Peg'\r\n\t\t\r\n\t\tcase 'lamprophyre':\r\n\t\treturn 'Lam'\r\n\t\t\r\n\t\tcase 'rhyodacite':\r\n\t\treturn 'Ryd'\r\n\t\t\r\n\t\tcase 'dacite':\r\n\t\treturn 'Dac'\r\n\t\t\r\n\t\tcase 'andesite':\r\n\t\treturn 'And'\r\n\t\t\r\n\t\tcase 'trachyte':\r\n\t\treturn 'Tra'\r\n\t\t\r\n\t\tcase 'basalt':\r\n\t\treturn 'Bas'\r\n\t\t\r\n\t\tcase 'phonolite':\r\n\t\treturn 'Pho'\r\n\t\t\r\n\t\tcase 'ignimbrite':\r\n\t\treturn 'Ign'\r\n\t\t\r\n\t\tcase 'lapilli tuff':\r\n\t\treturn 'Lapst'\r\n\t\t\r\n\t\tcase 'ash tuff':\r\n\t\treturn 'Asvst'\r\n\t\t\r\n\t\tcase 'bentonite':\r\n\t\treturn 'Ben'\r\n\t\t\r\n\t\tcase 'marble':\r\n\t\treturn 'Mar'\r\n\t\t\r\n\t\tcase 'protomylonite':\r\n\t\treturn 'Pmyl'\r\n\t\t\r\n\t\tcase 'mylonite':\r\n\t\treturn 'Myl'\r\n\t\t\r\n\t\tcase 'ultramylonite':\r\n\t\treturn 'Umyl'\r\n\t\t\r\n\t\tcase 'glaucophane schist':\r\n\t\treturn 'Gpsf'\r\n\t\t\r\n\t\tcase 'prasinite':\r\n\t\treturn 'Pra'\r\n\t\t\r\n\t\tcase 'calcsilicate rock':\r\n\t\treturn 'Ksifs'\r\n\t\t\r\n\t\tcase 'granulite':\r\n\t\treturn 'Grl'\r\n\t\t\r\n\t\tcase 'amphibolite':\r\n\t\treturn 'Amp'\r\n\t\t\r\n\t\tcase 'eclogite':\r\n\t\treturn 'Ekl'\r\n\t\t\r\n\t\tcase 'hornfels':\r\n\t\treturn 'Hfs'\r\n\t\t\r\n\t\tcase 'metasomatite':\r\n\t\treturn 'fums'\r\n\t\t\r\n\t\tcase 'skarn':\r\n\t\treturn 'Skr'\r\n\t\t\r\n\t\tcase 'greisen':\r\n\t\treturn 'Grs'\r\n\t\t\r\n\t\tcase 'migmatite':\r\n\t\treturn 'Mig'\r\n\t\t\r\n\t\tcase 'serpentinite':\r\n\t\treturn 'Sep'\r\n\t\t\r\n\t\tcase 'greenschist':\r\n\t\treturn 'Gsf'\r\n\t\t\r\n\t\tcase 'metasediment':\r\n\t\treturn 'fus'\r\n\t\t\r\n\t\tcase 'metaconglomerate':\r\n\t\treturn 'uKgl'\r\n\t\t\r\n\t\tcase 'metasandstone':\r\n\t\treturn 'uSst'\r\n\t\t\r\n\t\tcase 'metapsammite':\r\n\t\treturn 'fuss'\r\n\t\t\r\n\t\tcase 'meta-arkose':\r\n\t\treturn 'uArk'\r\n\t\t\r\n\t\tcase 'metagreywacke':\r\n\t\treturn 'uGwk'\r\n\t\t\r\n\t\tcase 'metapelite':\r\n\t\treturn 'fust'\r\n\t\t\r\n\t\tcase 'metaplutonite':\r\n\t\treturn 'fut'\r\n\t\t\r\n\t\tcase 'metavulcanite':\r\n\t\treturn 'fuv'\r\n\t}\r\n}\r\n\r\ndef getCodelistCodeById(codelistId) {\r\n\tdef c = _.context.collector()\r\n\tdef code = c.codelist_id_code[codelistId].value()\t\r\n\treturn code\r\n}\r\n\r\n_target {\r\n\tstratigraphyList.each { stratigraphy ->\r\n\t\tstratigraphy_kind_id = stratigraphy.p.kind_id_cli.value()\t\r\n\t\t//create interval series if startigraphy.kind_id = 3000 (Geology)\t\r\n\t\tif (stratigraphy_kind_id == 3000) {\r\n\t\t\t\r\n\t\t\tintervalSeries {\r\n\t\t\t\tIntervalSeries {\r\n\t\t\t\t\tdescription {\r\n\t\t\t\t\t\tLocalisedCharacterString( stratigraphy.p.name_sty.value() )\r\n\t\t\t\t\t}\r\n\t\t\t\t\t\r\n\t\t\t\t\t//create related layers\r\n\t\t\t\t\tstratigraphy.links.layer.list().each { sourceLayer ->\r\n\t\t\t\t\t\tlayer {\r\n\t\t\t\t\t\t\tInterval {\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\tfrom( sourceLayer.p.depth_from_lay.value() ){\r\n\t\t\t\t\t\t\t\t\tuom( 'm' )\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\tto( sourceLayer.p.depth_to_lay.value() ){\r\n\t\t\t\t\t\t\t\t\tuom( 'm' )\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\tdef waterContentValue = getWaterContentListValue( sourceLayer.p.humidity_id_cli.value() )\r\n\t\t\t\t\t\t\t\tif (waterContentValue){\r\n\t\t\t\t\t\t\t\t\twaterContent(waterContentValue){\r\n\t\t\t\t\t\t\t\t\t\tcodeSpace( 'https://www.infogeo.de/boreholeml/3.0/codelists/WaterContentList.xml' )\r\n\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\tdef consistanceValue = getConsistencyListValue( sourceLayer.p.consistance_id_cli.value() )\r\n\t\t\t\t\t\t\t\tif (consistanceValue){\r\n\t\t\t\t\t\t\t\t\tconsistency( consistanceValue ) {\r\n\t\t\t\t\t\t\t\t\t\tcodeSpace( 'https://www.infogeo.de/boreholeml/3.0/codelists/ConsistencyList.xml' )\r\n\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\tdef compactnessValue = getCompactnessListValue( sourceLayer.p.compactness_id_cli.value() )\r\n\t\t\t\t\t\t\t\tif (compactnessValue){\r\n\t\t\t\t\t\t\t\t\tconsistency( compactnessValue ) {\r\n\t\t\t\t\t\t\t\t\t\tcodeSpace( 'https://www.infogeo.de/boreholeml/3.0/codelists/CompactnessList.xml' )\r\n\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\tdef lithology_code = getCodelistCodeById( sourceLayer.p.lithology_id_cli.value() )\r\n\t\t\t\t\t\t\t\tdef lithology_text = getCodelistValueById( sourceLayer.p.lithology_id_cli.value() )\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\trockCode( lithology_code )\r\n\t\t\t\t\t\t\t\t\t\t\trockNameText {\r\n\t\t\t\t\t\t\t\t\tLocalisedCharacterString( lithology_text )\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\tdef lithology = getRockNameListValue( sourceLayer.p.lithology_id_cli.value() )\r\n\t\t\t\t\t\t\t\tif (lithology) {\r\n\t\t\t\t\t\t\t\t\t_b.lithology {\r\n\t\t\t\t\t\t\t\t\t\tLithology {\r\n\t\t\t\t\t\t\t\t\t\t\trockName( lithology ){\r\n\t\t\t\t\t\t\t\t\t\t\t\tcodeSpace( 'https://www.infogeo.de/boreholeml/3.0/codelists/RockNameList.xml' )\r\n\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t_b.stratigraphy {\r\n\t\t\t\t\t\t\t\t\tStratigraphy {\r\n\t\t\t\t\t\t\t\t\t\tdef chronoStrat = getChronoStratListValue( sourceLayer.p.chronostratigraphy_id_cli.value() )\r\n\t\t\t\t\t\t\t\t\t\tif (chronoStrat){\r\n\t\t\t\t\t\t\t\t\t\t\tchronoStratigraphy( chronoStrat ) {\r\n\t\t\t\t\t\t\t\t\t\t\t\tcodeSpace( 'https://www.infogeo.de/boreholeml/3.0/codelists/ChronoStratigraphyList.xml' )\r\n\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\tdef lithoStrat = getCodelistValueById(sourceLayer.p.lithostratigraphy_id_cli.value())\r\n\t\t\t\t\t\t\t\t\t\tif (lithoStrat) {\r\n\t\t\t\t\t\t\t\t\t\t\tlithoStratigraphy {\r\n\t\t\t\t\t\t\t\t\t\t\t\tLocalisedCharacterString( lithoStrat )\r\n\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t}\t\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t}\r\n\t\t//create spaceFilling if startigraphy.kind_id = 3004 (Filling)\t\r\n\t\tif (stratigraphy_kind_id == 3004) {\r\n\t\t\tinstallationDetail {\r\n\t\t\t\tInstallationDetails {\r\n\t\t\t\t\t\r\n\t\t\t\t\t//create related layers\r\n\t\t\t\t\tstratigraphy.links.layer.list().each { sourceLayer ->\r\n\t\t\t\t\t\tspaceFilling {\r\n\t\t\t\t\t\t\tSpaceFilling {\r\n\t\t\t\t\t\t\t\tfrom( sourceLayer.p.depth_from_lay.value() ){\r\n\t\t\t\t\t\t\t\t\tuom( 'm' )\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\tto( sourceLayer.p.depth_to_lay.value() ){\r\n\t\t\t\t\t\t\t\t\tuom( 'm' )\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t}\r\n\t\t\t\t\t\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t\r\n\t\t}\r\n\t\t\r\n\t}\t\r\n}\r\n</code></pre>",
+			"explanation": "Joins the types <em>borehole</em>, <em>stratigraphy</em>, <em>layer</em> based on the following conditions:<br /><br /><em>stratigraphy</em>.<em>id_sty</em> = <em>layer</em>.<em>id_sty_fk</em><br /><em>borehole</em>.<em>id_bho</em> = <em>stratigraphy</em>.<em>id_bho_fk</em><br /><br /><br />Before the property transformations are run, the target instance is populated by executing the following Groovy script:<br /><br /><pre><code class=\"language-groovy\">import eu.esdihumboldt.hale.common.lookup.*;\r\nimport eu.esdihumboldt.hale.ui.HaleUI;\r\nimport eu.esdihumboldt.hale.common.core.io.*;\r\n\r\n//available lookup tables,\r\ndef lookupTableIds = [\"borehole_status\": \"6b020fbf-5f11-4422-8bf0-8922baa7513d\",\r\n\t\t\t\t\t  \"borehole_drillingMethod\":\"3f3e28f7-2c75-4d2e-96eb-0265928de559\",\r\n\t\t\t\t\t  \"borehole_purpose\":\"701e44eb-184b-4283-9ec4-4861bc83b682\",\t\t\t\t\t  \r\n\t\t\t\t\t  \"layer_casingKind\":\"994bcdea-12b9-4671-bde2-a1df4e1be3d9\",\r\n\t\t\t\t\t  \"layer_casingMaterial\":\"e9317ef4-c273-47e4-a326-ab3e39a669bd\",\t\t\t\t\t  \r\n\t\t\t\t\t  \"layer_chronostratigraphy\":\"f5433b9b-a89e-4860-a4c7-f8c3ffe8d6ee\",\r\n\t\t\t\t\t  \"layer_compactness\":\"4cb095ce-f452-4c30-8331-d2689dff4a07\",\r\n\t\t\t\t\t  \"layer_consistance\":\"1326c176-5a33-4be5-a209-65b1476cac33\",\r\n\t\t\t\t\t  \"layer_fillKind\":\"5024b85b-7438-4721-96f3-47273dc72f58\",\r\n\t\t\t\t\t  \"layer_humidity\":\"ae1cf944-0d7d-41b8-8474-f723fa009c6f\",\r\n\t\t\t\t\t  \"layer_lithology\":\"b85c79a6-da9f-4f18-a32a-651f52978fde\"]\r\n\r\n\r\ndef stratigraphyList = _source.links.stratigraphy.list()\r\n_target {\r\n\tstratigraphyList.each { stratigraphy ->\r\n\t\tstratigraphy_kind_id = stratigraphy.p.kind_id_cli.value()\t\r\n\t\t//create interval series if startigraphy.kind_id = 3000 (Geology)\t\r\n\t\tif (stratigraphy_kind_id == 3000) {\r\n\t\t\t\r\n\t\t\tintervalSeries {\r\n\t\t\t\tIntervalSeries {\r\n\t\t\t\t\tdescription {\r\n\t\t\t\t\t\tLocalisedCharacterString( stratigraphy.p.name_sty.value() )\r\n\t\t\t\t\t}\r\n\t\t\t\t\t\r\n\t\t\t\t\t//create related layers\r\n\t\t\t\t\tstratigraphy.links.layer.list().each { sourceLayer ->\r\n\t\t\t\t\t\tlayer {\r\n\t\t\t\t\t\t\tInterval {\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\tfrom( sourceLayer.p.depth_from_lay.value() ){\r\n\t\t\t\t\t\t\t\t\tuom( 'm' )\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\tto( sourceLayer.p.depth_to_lay.value() ){\r\n\t\t\t\t\t\t\t\t\tuom( 'm' )\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\tdef waterContentValue = getLookupTableValue(sourceLayer.p.humidity_id_cli.value(), lookupTableIds[\"layer_humidity\"])\r\n\t\t\t\t\t\t\t\tif (waterContentValue){\r\n\t\t\t\t\t\t\t\t\twaterContent(waterContentValue){\r\n\t\t\t\t\t\t\t\t\t\tcodeSpace( 'https://www.infogeo.de/boreholeml/3.0/codelists/WaterContentList.xml' )\r\n\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\tdef consistanceValue = getLookupTableValue( sourceLayer.p.consistance_id_cli.value(), lookupTableIds[\"layer_consistance\"] )\r\n\t\t\t\t\t\t\t\tif (consistanceValue){\r\n\t\t\t\t\t\t\t\t\tconsistency( consistanceValue ) {\r\n\t\t\t\t\t\t\t\t\t\tcodeSpace( 'https://www.infogeo.de/boreholeml/3.0/codelists/ConsistencyList.xml' )\r\n\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\tdef compactnessValue = getLookupTableValue( sourceLayer.p.compactness_id_cli.value(), lookupTableIds[\"layer_compactness\"] )\r\n\t\t\t\t\t\t\t\tif (compactnessValue){\r\n\t\t\t\t\t\t\t\t\tcompactness( compactnessValue ) {\r\n\t\t\t\t\t\t\t\t\t\tcodeSpace( 'https://www.infogeo.de/boreholeml/3.0/codelists/CompactnessList.xml' )\r\n\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\tdef lithology_code = getCollectedCodeById( sourceLayer.p.lithology_id_cli.value() )\r\n\t\t\t\t\t\t\t\tdef lithology_text = getCollectedValueById( sourceLayer.p.lithology_id_cli.value() )\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\trockCode( lithology_code )\r\n\t\t\t\t\t\t\t\trockNameText {\r\n\t\t\t\t\t\t\t\t\tLocalisedCharacterString( lithology_text )\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\tdef lithologyValue = getLookupTableValue( sourceLayer.p.lithology_id_cli.value(), lookupTableIds[\"layer_lithology\"] )\r\n\t\t\t\t\t\t\t\tif (lithologyValue) {\r\n\t\t\t\t\t\t\t\t\tlithology {\r\n\t\t\t\t\t\t\t\t\t\tLithology {\r\n\t\t\t\t\t\t\t\t\t\t\trockName( lithologyValue ){\r\n\t\t\t\t\t\t\t\t\t\t\t\tcodeSpace( 'https://www.infogeo.de/boreholeml/3.0/codelists/RockNameList.xml' )\r\n\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t_b.stratigraphy {\r\n\t\t\t\t\t\t\t\t\tStratigraphy {\r\n\t\t\t\t\t\t\t\t\t\tdef chronoStrat = getLookupTableValue( sourceLayer.p.chronostratigraphy_id_cli.value(), lookupTableIds[\"layer_chronostratigraphy\"] )\r\n\t\t\t\t\t\t\t\t\t\tif (chronoStrat){\r\n\t\t\t\t\t\t\t\t\t\t\tchronoStratigraphy( chronoStrat ) {\r\n\t\t\t\t\t\t\t\t\t\t\t\tcodeSpace( 'https://www.infogeo.de/boreholeml/3.0/codelists/ChronoStratigraphyList.xml' )\r\n\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\tdef lithoStrat = getCollectedValueById(sourceLayer.p.lithostratigraphy_id_cli.value())\r\n\t\t\t\t\t\t\t\t\t\tif (lithoStrat) {\r\n\t\t\t\t\t\t\t\t\t\t\tlithoStratigraphy {\r\n\t\t\t\t\t\t\t\t\t\t\t\tLocalisedCharacterString( lithoStrat )\r\n\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t}\t\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t}\r\n\t\t\r\n\t\t\r\n\t\t//create installationDetail only \r\n\t\tif (stratigraphy_kind_id == 3002 || stratigraphy_kind_id == 3004){\r\n\t\t\tinstallationDetail {\r\n\t\t\t\tInstallationDetails {\r\n\t\t\t\t\t//create casingString if straigraphy.kind_id = 3002 (Casing)\r\n\t\t\t\t\tif (stratigraphy_kind_id == 3002) {\r\n\t\t\t\t\t\tcasingString {\r\n\t\t\t\t\t\t\tCasingString {\r\n\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t//create related segments\r\n\t\t\t\t\t\t\t\tstratigraphy.links.layer.list().each { sourceLayer ->\r\n\t\t\t\t\t\t\t\t\tcasingStringSegment {\r\n\t\t\t\t\t\t\t\t\t\tCasingStringSegment {\r\n\t\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\t\tfrom( sourceLayer.p.depth_from_lay.value() ) {\r\n\t\t\t\t\t\t\t\t\t\t\t\tuom( 'm' )\r\n\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\t\tto( sourceLayer.p.depth_to_lay.value() ) {\r\n\t\t\t\t\t\t\t\t\t\t\t\tuom( 'm' )\r\n\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\t\tdef casingMaterialValue = getLookupTableValue( sourceLayer.p.casng_material_id_cli.value(), lookupTableIds[\"layer_casingMaterial\"] )\r\n\t\t\t\t\t\t\t\t\t\t\tif (casingMaterialValue){\r\n\t\t\t\t\t\t\t\t\t\t\t\tcasingMaterial( casingMaterialValue ) {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\tcodeSpace( 'https://www.infogeo.de/boreholeml/3.0/codelists/CasingMaterialList.xml' )\r\n\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\t\tdiameter( sourceLayer.p.casng_outer_diameter_lay.value() ) {\r\n\t\t\t\t\t\t\t\t\t\t\t\tuom( 'mm' )\r\n\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\t\twallThickness( sourceLayer.p.casng_outer_diameter_lay.value() - sourceLayer.p.casng_inner_diameter_lay.value() ) {\r\n\t\t\t\t\t\t\t\t\t\t\t\tuom( 'mm' )\r\n\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\t\tdef installationElementValue = getLookupTableValue( sourceLayer.p.casng_kind_id_cli.value(), lookupTableIds[\"layer_casingKind\"] )\r\n\t\t\t\t\t\t\t\t\t\t\tif (installationElementValue){\r\n\t\t\t\t\t\t\t\t\t\t\t\tinstallationElement( installationElementValue ) {\r\n\t\t\t\t\t\t\t\t\t\t\t\t\tcodeSpace( 'https://www.infogeo.de/boreholeml/3.0/codelists/InstallationElementList.xml' )\r\n\t\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\t}\t\r\n\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t}\r\n\t\t\t\t\r\n\t\t\t\t\t//create spaceFilling if startigraphy.kind_id = 3004 (Filling)\t\r\n\t\t\t\t\tif (stratigraphy_kind_id == 3004) {\r\n\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t//create related segments if fill_kind_id_cli = 25000301 (Ringraumverf\u00fcllung)\r\n\t\t\t\t\t\tstratigraphy.links.layer.list().each { sourceLayer ->\r\n\t\t\t\t\t\t\tif (sourceLayer.p.fill_kind_id_cli.value() == 25000301){\r\n\t\t\t\t\t\t\t\tspaceFilling {\r\n\t\t\t\t\t\t\t\t\tSpaceFilling {\r\n\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\tfrom( sourceLayer.p.depth_from_lay.value() ){\r\n\t\t\t\t\t\t\t\t\t\t\tuom( 'm' )\r\n\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\tto( sourceLayer.p.depth_to_lay.value() ){\r\n\t\t\t\t\t\t\t\t\t\t\tuom( 'm' )\r\n\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\tdef fillingMaterialValue = getLookupTableValue( sourceLayer.p.fill_kind_id_cli.value(), lookupTableIds[\"layer_fillKind\"] )\r\n\t\t\t\t\t\t\t\t\t\tif (fillingMaterialValue){\r\n\t\t\t\t\t\t\t\t\t\t\tspaceFillingMaterial( fillingMaterialValue ) {\r\n\t\t\t\t\t\t\t\t\t\t\t\tcodeSpace( 'https://www.infogeo.de/boreholeml/3.0/codelists/FillingMaterialList.xml' )\r\n\t\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t}\r\n\t}\t\r\n}\r\n\r\n\r\ndef getLookupTableValue(value, tableId){\r\n\t// retrieve Lookup table\r\n\tLookupService ls = HaleUI.getServiceProvider().getService(LookupService.class);\r\n\tLookupTableInfo lithTable = ls.getTable(tableId);\r\n\tdef table = lithTable.getTable();\r\n\t\r\n\t//get value\r\n\tdef result = table.lookup(Value.of(value))\r\n\treturn result\r\n}\r\n\r\ndef getCollectedValueById(codelistId) {\r\n\tdef c = _.context.collector()\r\n\tdef textEn = c.codelist[codelistId].value()\t\r\n\treturn textEn\r\n}\r\n\r\ndef getCollectedCodeById(codelistId) {\r\n\tdef c = _.context.collector()\r\n\tdef code = c.codelist_id_code[codelistId].value()\t\r\n\treturn code\r\n}</code></pre>",
 			"cellId": "C08f8ecd7-b7ab-46ab-9ead-3f2ee8fd89bb",
 			"mode": "active",
 			"priority": "normal",

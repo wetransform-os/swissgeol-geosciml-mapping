@@ -1,0 +1,7 @@
+id_cli,text_cli_en,text_cli_de,Zuordnung zu CompactnessList - Code,Zuordnung zu CompactnessList - Name
+21102001,very loose,sehr locker,ld1 ,sehr locker 
+21102002,loose,locker,ld2 ,locker gelagert 
+21102003,moderately loose,mitteldicht,ld3 ,mitteldicht
+21102005,dense,dicht,ld4 ,dicht gelagert
+21102006,very dense,sehr dicht,ld5 ,sehr dicht
+21102007,not specified,keine Angaben,,

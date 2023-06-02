@@ -1,0 +1,9 @@
+id_cli,text_cli_en,text_cli_de,Zuordnung zu boreholeML LithologyList - Name,Zuordnung zu boreholeML LithologyList - Code
+25000114,other ,anderes,Sonstige,sonst
+25000115,not specified,keine Angaben,nicht bekannt,NB
+25000111,steel,Stahl,Stahl allgemein,st
+25000112,stainless steel,Edelstahl,Stahl rostfrei,rf
+25000113,concrete,Beton,Beton,bet
+25000108,PVC (polyvinyl chloride),PVC (Polyvinylchlorid),PVC,pvc
+25000109,HDPE (high density polyethylene),HDPE (Polyethylen mit hoher Dichte),HDPE (PE hoher Dichte),hdpe
+25000110,plastic (unspecified),Kunstoff (nicht spezifiziert),Kunststoff allgemein,k

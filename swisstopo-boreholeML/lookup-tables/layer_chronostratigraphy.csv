@@ -1,0 +1,150 @@
+id_cli,text_cli_en,text_cli_de,Zuordnung zu boreholeML ChronoStratigraphyList,Zuordnung zu boreholeML ChronoStratigraphyList - Code
+15001002,Cenozoic,Känozoikum,Cenozoic,CZ
+15001003,Quaternary,Quartär,Quaternary,Q
+15001004,Holocene,Holozän,Holocene,Q2
+15001005,Pleistocene,Pleistozän,Pleistocene,Q1
+15001009,Early Pleistocene,Frühes Pleistozän,,
+15001013,Neogene,Neogen,Neogene,N
+15001017,Miocene,Miozän,Miocene,N1
+15001020,Tortonian,Tortonien,,
+15001021,Middle Miocene,Mittleres Miozän,,
+15001024,Early Miocene,Frühes Miozän,,
+15001025,Burdigalian,Burdigalien,,
+15001026,Late Burdigalian,Spätes Burdigalien,,
+15001028,Aquitanian,Aquitanien,,
+15001029,Palaeogene,Paläogen,,
+15001030,Oligocene,Oligozän,Oligocene,E3
+15001031,Chattian,Chattien,,
+15001035,Eocene,Eozän,Eocene,E2
+15001036,Late Eocene,Spätes Eozän,,
+15001037,Priabonian,Priabonien,,
+15001040,Middle Eocene,Mittleres Eozän,,
+15001041,Bartonian,Bartonien,,
+15001042,Lutetian,Lutétien,,
+15001045,Paleocene,Paleozän,Paleocene,E1
+15001049,Mesozoic,Mesozoikum,Mesozoic,MZ
+15001050,Cretaceaous,Kreide,,
+15001051,Late Cretaceous,Späte Kreide,,
+15001053,Campanian,Campanien,Campanian,K2Ca
+15001055,Coniacian,Coniacien,Coniacian,K2Cc
+15001057,Cenomanian,Cénomanien,Cenomanian,K2Cn
+15001058,Early Cretaceous,Frühe Kreide,,
+15001059,Albian,Albien,Albian,K1Al
+15001060,Aptian,Aptien,Aptian,K1Ap
+15001061,Barremian,Barrémien,Barremian,K1Ba
+15001062,Hauterivian,Hauterivien,Hauterivian,K1H
+15001063,Valanginian,Valanginien,Valanginian,K1V
+15001064,Berriasian,Berriasien,Berriasian,K1Be
+15001066,Late Jurassic,Später Jura,,
+15001067,Tithonian,Tithonien,Tithonian,J3T
+15001068,Kimmeridgian,Kimméridgien,Kimmeridgian,J3K
+15001069,Oxfordian,Oxfordien,Oxfordian,J3O
+15001070,Middle Jurassic,Mittlerer Jura,Middle Jurassic,J2
+15001071,Callovian,Callovien,Callovian,J2C
+15001072,Bathonian,Bathonien,Bathonian,J2Bt
+15001073,Bajocian,Bajocien,Bajocian,J2Bj
+15001074,Aalenian,Aalénien,Aalenian,J2A
+15001075,Early Jurassic,Früher Jura,,
+15001076,Toarcian,Toarcien,Toarcian,J1T
+15001077,Pliensbachian,Pliensbachien,Pliensbachian,J1P
+15001078,Sinemurian,Sinémurien,Sinemurian,J1S
+15001079,Hettangian,Hettangien,Hettangian,J1H
+15001080,Triassic,Trias,Triassic,T
+15001081,Late Triassic,Späte Trias,,
+15001082,Rhaetian,Rhät,Rhaetian,T3R
+15001083,Norian,Norien,Norian,T3N
+15001084,Carnian,Carnien,Carnian,T3K
+15001085,Middle Triassic,Mittlere Trias,Middle Triassic,T2
+15001086,Ladinian,Ladinien,Ladinian,T2L
+15001087,Anisian,Anisien,Anisian,T2A
+15001088,Early Triassic,Frühe Trias,,
+15001089,Olenekian,Olénékien,Olenekian,T1O
+15001091,Paleozoic,Paläozoikum,Paleozoic,PZ
+15001093,Permian,Perm,Permian,P
+15001108,Roadian,Roadien,Roadian,P2R
+15001117,Asselian,Asselien,Asselian,P1As
+15001119,Carboniferours,Karbon,,
+15001125,Late Mississippian,Spätes Mississippien,,
+15001168,Middle Jurassic undifferenciated,Mittlerer Jura undifferenziert,,
+15001034,Rupelian,Rupélien,,
+15001065,Jurassic,Jura,Jurassic,J
+15001128,Devonian,Devon,Devonian,D
+15001136,Proterozoic,Proterozoikum,Proterozoic,PR
+15001001,Phanerozoic,Phanerozoikum,Phanerozoic,PH
+15001006,Late Pleisteocene,Spätes Pleistozän,,
+15001007,Middle Pleistocene,Mittleres Pleistozän,,
+15001010,Calabrian,Calabrien,Calabrian,Q1C
+15001011,Gelasian,Gélasien,Gelasian,Q1G
+15001014,Pliocene,Pliozän,Pliocene,N2
+15001015,Piacenzian,Piacenzien,,
+15001016,Zanclean,Zancléen,,
+15001018,Late Miocene,Spätes Miozän,,
+15001019,Messinian,Messinien,,
+15001022,Serravallian,Serravallien,,
+15001023,Langhian,Langhien,,
+15001027,Early Burdigalian,Frühes Burdigalien,,
+15001032,Late Chattian,Spätes Chattien,,
+15001033,Early Chattian,Frühes Chattien,,
+15001038,Late Priabonian / Latdorfian,Spätes Priabonien / Latdorfien,,
+15001039,Early Priabonian,Frühes Priabonien,,
+15001043,Early Eocene,Frühes Eozän,,
+15001044,Ypresian,Yprésien,,
+15001046,Thanetian,Thanétien,,
+15001047,Selandian,Sélandien,,
+15001048,Danian,Danien,,
+15001052,Masstrichtian,Maastrichtien,,
+15001054,Santonian,Santonien,Santonian,K2S
+15001056,Turonian,Turonien,Turonian,K2T
+15001090,Induan,Induen,Induan,T1I
+15001095,Lopingian,Lopingien,Lopingian,P3
+15001096,Changhsingian,Changhsingien,Changhsingian,P3C
+15001098,Wuchiapingian,Wuchiapingien,Wuchiapingian,P3W
+15001101,Guadalupian,Guadalupien,Guadalupian,P2
+15001102,Capitanian,Capitanien,Capitanian,P2C
+15001106,Wordian,Wordien,Wordian,P2W
+15001110,Cisuralian,Cisuralien,Cisuralian,P1
+15001111,Kungurian,Kungurien,Kungurian,P1K
+15001113,Artinskian,Artinskien,Artinskian,P1Ar
+15001115,Sakmarian,Sakmarien,Sakmarian,P1S
+15001120,Pennsylvanian,Pennsylvanien,Pennsylvanian,C2
+15001121,Late Pennsylvanian,Spätes Pennsyl.,,
+15001122,Middle Pennsylvanian,Mittleres Pennsyl.,,
+15001123,Early Pennsylvanian,Frühes Pennsyl.,,
+15001124,Mississippian,Mississippien,Mississippian,C1
+15001126,Middle Mississippian,Mittleres Mississippien,,
+15001137,Gzhelian,Gzhélien,Gzhelian,C2G
+15001138,Kasimovian,Kasimovien,Kasimovian,C2K
+15001139,Moscovian,Moscovien,Moscovian,C2M
+15001140,Bashkirien,Bashkirien,,
+15001141,Serpukhovian,Serpukhovien,Serpukhovian,C1S
+15001143,Tournaisian,Tournaisien,Tournaisian,C1T
+15001145,Ludlow,Ludlowien,Ludlow,S3
+15001146,Wenlock,Wenlockien,Wenlock,S2
+15001147,Llandovery,Llandoveryien,Llandovery,S1
+15001148,Late Ordovician,Spätes Ordovizium,,
+15001149,Middle Ordovician,Mittleres Ordovizium,Middle Ordovician,O2
+15001150,Early Ordovician,Frühes Ordovizium,,
+15001160,Pliocene undifferenciated,Pliozän undifferenziert,,
+15001161,Late Oligocene ,Spätes Oligozän,,
+15001162,Early Oligocene ,Frühes Oligozän,,
+15001163,Late Paleocene,Spätes Paleozän,,
+15001164,Early Paleocene,Frühes Paleozän,,
+15001165,Late Cretaceous undifferenciated,Späte Kreide undifferenziert,,
+15001166,Early Cretaceous undifferenciated,Frühe Kreide undifferenziert,,
+15001167,Late Jurassic undifferenciated,Später Jura undifferenziert,,
+15001169,Early Jurassic undifferenciated,Früher Jura undifferenziert,,
+15001170,Late Triassic undifferenciated,Späte Trias undifferenziert,,
+15001171,Middle Triassic undifferenciated,Mittlere Trias undifferenziert,,
+15001172,Early Triassic undifferenciated,Frühe Trias undifferenziert,,
+15001173,Lopingian undifferenciated,Lopingien undifferenziert,,
+15001174,Guadalupian undifferenciated,Guadalupien undifferenziert,,
+15001175,Cisuralian undifferenciated,Cisuralien undifferenziert,,
+15001127,Early Mississippian,Frühes Mississippien,,
+15001129,Late Devonian,Spätes Devon,,
+15001130,Middle Devonian,Mittleres Devon,Middle Devonian,D2
+15001131,Early Devonian,Frühes Devon,,
+15001133,Silurian,Silur,Silurian,S
+15001134,Ordovician,Ordovizium,Ordovician,O
+15001135,Cambrian,Kambrium,Cambrian,Cb
+15001142,Visean,Viséen,,
+15001144,Pridoli,Pridolien,Pridoli,S4

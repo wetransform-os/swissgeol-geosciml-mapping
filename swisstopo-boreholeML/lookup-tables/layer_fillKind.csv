@@ -1,0 +1,9 @@
+id_cli,text_cli_en,text_cli_de,Zuordnung zu boreholeML LithologyList - Name,Zuordnung zu boreholeML LithologyList - Code
+25000305,cuttings,Bohrklein,Bohrgut,VBG
+25000306,filter gravel,Filterkies,Filterkies,FKIZ
+25000307,filter sand,Filtersand,Filtersand,FS
+25000308,cement,Zement,Zement/Zementinjektion,AZ
+25000309,clay pellets,Ton Pellets,Volltonkugeln,ATK
+25000310,packer,Packer,Packer,AP
+25000311,other ,anderes,,
+25000312,not specified,keine Angaben,,

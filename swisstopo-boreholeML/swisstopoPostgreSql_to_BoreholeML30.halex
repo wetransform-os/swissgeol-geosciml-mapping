@@ -3,7 +3,7 @@
     <name>swisstopoPostgreSql_to_BoreholeML30</name>
     <author>AnnaTamm</author>
     <created>2023-03-07T15:07:48.355+01:00</created>
-    <modified>2023-03-31T17:27:59.101+02:00</modified>
+    <modified>2023-06-02T08:35:03.002+02:00</modified>
     <save-config action-id="project.save" provider-id="eu.esdihumboldt.hale.io.project.hale25.xml.writer">
         <setting name="charset">UTF-8</setting>
         <setting name="projectFiles.separate">false</setting>
@@ -8582,6 +8582,160 @@
                 </hsd:types>
             </hsd:schema>
         </cache>
+    </resource>
+    <resource action-id="eu.esdihumboldt.hale.lookup.import" provider-id="eu.esdihumboldt.hale.io.csv.reader.lookup">
+        <setting name="charset">ISO-8859-1</setting>
+        <setting name="ignoreEmptyStrings">true</setting>
+        <setting name="resourceId">6b020fbf-5f11-4422-8bf0-8922baa7513d</setting>
+        <setting name="quote">"</setting>
+        <setting name="keyColumn">0</setting>
+        <setting name="name">borehole_status</setting>
+        <setting name="valueColumn">3</setting>
+        <setting name="skip">true</setting>
+        <setting name="source">file:/C:/Users/AnnaTamm/gitRepos/swissgeol-geosciml-mapping/swisstopo-boreholeML/lookup-tables/borehole_status.csv</setting>
+        <setting name="contentType">eu.esdihumboldt.hale.io.csv</setting>
+        <setting name="separator">,</setting>
+        <setting name="escape">\</setting>
+    </resource>
+    <resource action-id="eu.esdihumboldt.hale.lookup.import" provider-id="eu.esdihumboldt.hale.io.csv.reader.lookup">
+        <setting name="charset">ISO-8859-1</setting>
+        <setting name="ignoreEmptyStrings">true</setting>
+        <setting name="resourceId">3f3e28f7-2c75-4d2e-96eb-0265928de559</setting>
+        <setting name="quote">"</setting>
+        <setting name="keyColumn">0</setting>
+        <setting name="name">borehole_drillingMethod</setting>
+        <setting name="valueColumn">3</setting>
+        <setting name="skip">true</setting>
+        <setting name="source">file:/C:/Users/AnnaTamm/gitRepos/swissgeol-geosciml-mapping/swisstopo-boreholeML/lookup-tables/borehole_drillingMethod.csv</setting>
+        <setting name="contentType">eu.esdihumboldt.hale.io.csv</setting>
+        <setting name="separator">,</setting>
+        <setting name="escape">\</setting>
+    </resource>
+    <resource action-id="eu.esdihumboldt.hale.lookup.import" provider-id="eu.esdihumboldt.hale.io.csv.reader.lookup">
+        <setting name="charset">ISO-8859-1</setting>
+        <setting name="ignoreEmptyStrings">true</setting>
+        <setting name="resourceId">701e44eb-184b-4283-9ec4-4861bc83b682</setting>
+        <setting name="quote">"</setting>
+        <setting name="keyColumn">0</setting>
+        <setting name="name">borehole_purpose</setting>
+        <setting name="valueColumn">3</setting>
+        <setting name="skip">true</setting>
+        <setting name="source">file:/C:/Users/AnnaTamm/gitRepos/swissgeol-geosciml-mapping/swisstopo-boreholeML/lookup-tables/borehole_purpose.csv</setting>
+        <setting name="contentType">eu.esdihumboldt.hale.io.csv</setting>
+        <setting name="separator">,</setting>
+        <setting name="escape">\</setting>
+    </resource>
+    <resource action-id="eu.esdihumboldt.hale.lookup.import" provider-id="eu.esdihumboldt.hale.io.csv.reader.lookup">
+        <setting name="charset">ISO-8859-1</setting>
+        <setting name="ignoreEmptyStrings">true</setting>
+        <setting name="resourceId">994bcdea-12b9-4671-bde2-a1df4e1be3d9</setting>
+        <setting name="quote">"</setting>
+        <setting name="keyColumn">0</setting>
+        <setting name="name">layer_casingKind</setting>
+        <setting name="valueColumn">3</setting>
+        <setting name="skip">true</setting>
+        <setting name="source">file:/C:/Users/AnnaTamm/gitRepos/swissgeol-geosciml-mapping/swisstopo-boreholeML/lookup-tables/layer_casingKind.csv</setting>
+        <setting name="contentType">eu.esdihumboldt.hale.io.csv</setting>
+        <setting name="separator">,</setting>
+        <setting name="escape">\</setting>
+    </resource>
+    <resource action-id="eu.esdihumboldt.hale.lookup.import" provider-id="eu.esdihumboldt.hale.io.csv.reader.lookup">
+        <setting name="charset">ISO-8859-1</setting>
+        <setting name="ignoreEmptyStrings">true</setting>
+        <setting name="resourceId">e9317ef4-c273-47e4-a326-ab3e39a669bd</setting>
+        <setting name="quote">"</setting>
+        <setting name="keyColumn">0</setting>
+        <setting name="name">layer_casingMaterial</setting>
+        <setting name="valueColumn">3</setting>
+        <setting name="skip">true</setting>
+        <setting name="source">file:/C:/Users/AnnaTamm/gitRepos/swissgeol-geosciml-mapping/swisstopo-boreholeML/lookup-tables/layer_casingMaterial.csv</setting>
+        <setting name="contentType">eu.esdihumboldt.hale.io.csv</setting>
+        <setting name="separator">,</setting>
+        <setting name="escape">\</setting>
+    </resource>
+    <resource action-id="eu.esdihumboldt.hale.lookup.import" provider-id="eu.esdihumboldt.hale.io.csv.reader.lookup">
+        <setting name="charset">ISO-8859-1</setting>
+        <setting name="ignoreEmptyStrings">true</setting>
+        <setting name="resourceId">f5433b9b-a89e-4860-a4c7-f8c3ffe8d6ee</setting>
+        <setting name="quote">"</setting>
+        <setting name="keyColumn">0</setting>
+        <setting name="name">layer_chronostratigraphy</setting>
+        <setting name="valueColumn">4</setting>
+        <setting name="skip">true</setting>
+        <setting name="source">file:/C:/Users/AnnaTamm/gitRepos/swissgeol-geosciml-mapping/swisstopo-boreholeML/lookup-tables/layer_chronostratigraphy.csv</setting>
+        <setting name="contentType">eu.esdihumboldt.hale.io.csv</setting>
+        <setting name="separator">,</setting>
+        <setting name="escape">\</setting>
+    </resource>
+    <resource action-id="eu.esdihumboldt.hale.lookup.import" provider-id="eu.esdihumboldt.hale.io.csv.reader.lookup">
+        <setting name="charset">ISO-8859-1</setting>
+        <setting name="ignoreEmptyStrings">true</setting>
+        <setting name="resourceId">4cb095ce-f452-4c30-8331-d2689dff4a07</setting>
+        <setting name="quote">"</setting>
+        <setting name="keyColumn">0</setting>
+        <setting name="name">layer_compactness</setting>
+        <setting name="valueColumn">3</setting>
+        <setting name="skip">true</setting>
+        <setting name="source">file:/C:/Users/AnnaTamm/gitRepos/swissgeol-geosciml-mapping/swisstopo-boreholeML/lookup-tables/layer_compactness.csv</setting>
+        <setting name="contentType">eu.esdihumboldt.hale.io.csv</setting>
+        <setting name="separator">,</setting>
+        <setting name="escape">\</setting>
+    </resource>
+    <resource action-id="eu.esdihumboldt.hale.lookup.import" provider-id="eu.esdihumboldt.hale.io.csv.reader.lookup">
+        <setting name="charset">ISO-8859-1</setting>
+        <setting name="ignoreEmptyStrings">true</setting>
+        <setting name="resourceId">1326c176-5a33-4be5-a209-65b1476cac33</setting>
+        <setting name="quote">"</setting>
+        <setting name="keyColumn">0</setting>
+        <setting name="name">layer_consistance</setting>
+        <setting name="valueColumn">3</setting>
+        <setting name="skip">true</setting>
+        <setting name="source">file:/C:/Users/AnnaTamm/gitRepos/swissgeol-geosciml-mapping/swisstopo-boreholeML/lookup-tables/layer_consistance.csv</setting>
+        <setting name="contentType">eu.esdihumboldt.hale.io.csv</setting>
+        <setting name="separator">,</setting>
+        <setting name="escape">\</setting>
+    </resource>
+    <resource action-id="eu.esdihumboldt.hale.lookup.import" provider-id="eu.esdihumboldt.hale.io.csv.reader.lookup">
+        <setting name="charset">ISO-8859-1</setting>
+        <setting name="ignoreEmptyStrings">true</setting>
+        <setting name="resourceId">5024b85b-7438-4721-96f3-47273dc72f58</setting>
+        <setting name="quote">"</setting>
+        <setting name="keyColumn">0</setting>
+        <setting name="name">layer_fillKind</setting>
+        <setting name="valueColumn">4</setting>
+        <setting name="skip">true</setting>
+        <setting name="source">file:/C:/Users/AnnaTamm/gitRepos/swissgeol-geosciml-mapping/swisstopo-boreholeML/lookup-tables/layer_fillKind.csv</setting>
+        <setting name="contentType">eu.esdihumboldt.hale.io.csv</setting>
+        <setting name="separator">,</setting>
+        <setting name="escape">\</setting>
+    </resource>
+    <resource action-id="eu.esdihumboldt.hale.lookup.import" provider-id="eu.esdihumboldt.hale.io.csv.reader.lookup">
+        <setting name="charset">ISO-8859-1</setting>
+        <setting name="ignoreEmptyStrings">true</setting>
+        <setting name="resourceId">ae1cf944-0d7d-41b8-8474-f723fa009c6f</setting>
+        <setting name="quote">"</setting>
+        <setting name="keyColumn">0</setting>
+        <setting name="name">layer_humidity</setting>
+        <setting name="valueColumn">3</setting>
+        <setting name="skip">true</setting>
+        <setting name="source">file:/C:/Users/AnnaTamm/gitRepos/swissgeol-geosciml-mapping/swisstopo-boreholeML/lookup-tables/layer_humidity.csv</setting>
+        <setting name="contentType">eu.esdihumboldt.hale.io.csv</setting>
+        <setting name="separator">,</setting>
+        <setting name="escape">\</setting>
+    </resource>
+    <resource action-id="eu.esdihumboldt.hale.lookup.import" provider-id="eu.esdihumboldt.hale.io.csv.reader.lookup">
+        <setting name="charset">ISO-8859-1</setting>
+        <setting name="ignoreEmptyStrings">true</setting>
+        <setting name="resourceId">b85c79a6-da9f-4f18-a32a-651f52978fde</setting>
+        <setting name="quote">"</setting>
+        <setting name="keyColumn">0</setting>
+        <setting name="name">layer_lithology</setting>
+        <setting name="valueColumn">4</setting>
+        <setting name="skip">true</setting>
+        <setting name="source">file:/C:/Users/AnnaTamm/gitRepos/swissgeol-geosciml-mapping/swisstopo-boreholeML/lookup-tables/layer_lithology.csv</setting>
+        <setting name="contentType">eu.esdihumboldt.hale.io.csv</setting>
+        <setting name="separator">,</setting>
+        <setting name="escape">\</setting>
     </resource>
     <file name="alignment.xml" location="swisstopoPostgreSql_to_BoreholeML30.halex.alignment.xml"/>
     <file name="styles.sld" location="swisstopoPostgreSql_to_BoreholeML30.halex.styles.sld"/>
