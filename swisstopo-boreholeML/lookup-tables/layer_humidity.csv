@@ -1,0 +1,6 @@
+id_cli,text_cli_en,text_cli_de,Zuordnung zu WaterContentList - Code,Zuordnung zu WaterContentList - Name
+21105001,dry,trocken,feu1,trocken 
+21105002,earth-moist,erdfeucht,feu3,feucht (bergfeucht)
+21105003,moist,feucht,feu4,stark feucht
+21105004,wet,nass,feu5,nass 
+21105005,not specified,keine Angaben,,

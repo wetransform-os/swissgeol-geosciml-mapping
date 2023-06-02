@@ -1,0 +1,7 @@
+id_cli,text_cli_en,text_cli_de,Zuordnung zu boreholeML LithologyList - Name,Zuordnung zu boreholeML LithologyList - Code
+30000014,liner hanger,Liner-Hanger,,
+25000100,blank casing,Vollrohr,,
+25000101,screen and casing pipe,Filterrohr,Filterrohr,FI
+25000102,conductor pipe,Standrohr,Standrohr,ROST
+25000106,other ,anderer,,
+25000107,not specified,keine Angaben,nicht bekannt,NB

@@ -1,0 +1,16 @@
+id_cli,text_cli_en,text_cli_de,Zuordnung zu DrillingMethodList - Code,Zuordnung zu DrillingMethodList - Name
+22107018,not specified,keine Angaben ,UN,unbekanntes Bohrverfahren
+22107014,piling,Pfahlbohrung,,
+22107017,auger drilling,Schneckenbohrung,DB,Drillbohrung [Schnecke]
+22107006,manual drilling,Handbohrung,HB,Handbohrung
+22107019,other ,andere,W,sonstiges Bohrverfahren
+22107003,dynamic probing,Rammsondierung,RB,Rammbohrung
+22107011,direct push soil sampling,Rammkernsondierung,SK,Rammkernbohrung
+22107013,percussion drilling,Immlochhammer-Bohrung,SA,Schlagbohrung
+22107008,rotary drilling,Rotary Bohrung,DBO,Drehbohrverfahren (Rotationsbohrungen)
+22107015,reverse circulation drilling,Rotary Bohrung Lufthebend,,
+22107004,rotary coring,Rotary Kernbohrung,RKB,Rotationskernbohrung
+22107016,wireline core drilling,Rotary Seilkernbohrung,SKB,Seilkernbohrung
+22107007,shaft drilling,Schachtbohrung,,
+22107009,trench,Baggerschlitz,,
+22107012,grab drilling,Greiferbohrung,TG,Greiferbohrung
