@@ -16,6 +16,11 @@
                 <type name="stratigraphy" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
             </class>
         </source>
+        <source name="types">
+            <class>
+                <type name="lithological_description" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
+            </class>
+        </source>
         <target>
             <class>
                 <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
@@ -31,6 +36,9 @@
                 </class>
                 <class>
                     <type name="layer" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
+                </class>
+                <class>
+                    <type name="lithological_description" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
                 </class>
                 <jp:condition>
                     <property>
@@ -49,6 +57,16 @@
                     </property>
                     <property>
                         <type name="layer" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
+                        <child name="id_sty_fk"/>
+                    </property>
+                </jp:condition>
+                <jp:condition>
+                    <property>
+                        <type name="stratigraphy" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
+                        <child name="id_sty"/>
+                    </property>
+                    <property>
+                        <type name="lithological_description" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
                         <child name="id_sty_fk"/>
                     </property>
                 </jp:condition>
@@ -156,6 +174,17 @@ _target {&#13;
 												LocalisedCharacterString( lithoStrat )&#13;
 											}&#13;
 										}&#13;
+									}&#13;
+								}&#13;
+								&#13;
+								&#13;
+								stratigraphy.links.lithological_description.each { lithDescription -&gt;&#13;
+									if ( (sourceLayer.p.depth_from_lay.value() &gt;= lithDescription.p.depth_from.value()) &amp;&amp; (sourceLayer.p.depth_to_lay.value() &lt;= lithDescription.p.depth_to.value()) ){&#13;
+										&#13;
+										descriptiveText {&#13;
+											LocalisedCharacterString( lithDescription.p.description.value() )&#13;
+										}&#13;
+										&#13;
 									}&#13;
 								}&#13;
 								&#13;
@@ -276,7 +305,12 @@ def getCollectedCodeById(codelistId) {&#13;
 	def c = _.context.collector()&#13;
 	def code = c.codelist_id_code[codelistId].value()	&#13;
 	return code&#13;
-}
+}&#13;
+&#13;
+&#13;
+&#13;
+&#13;
+
 </core:text>
         </complexParameter>
     </cell>
