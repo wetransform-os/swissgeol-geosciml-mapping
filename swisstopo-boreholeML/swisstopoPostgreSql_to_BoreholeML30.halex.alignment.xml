@@ -384,49 +384,21 @@ withTransformationContext {&#13;
 </core:text>
         </complexParameter>
     </cell>
-    <cell relation="eu.esdihumboldt.cst.functions.groovy" id="C215267c4-3c7a-4974-a5ad-224f5b02fe97" priority="normal">
-        <source name="var">
+    <cell relation="eu.esdihumboldt.hale.align.classification" id="C778f2c05-3aec-4363-8220-987afb0e88d2" priority="normal">
+        <source>
             <property>
                 <type name="borehole" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
                 <child name="status_id_cli"/>
             </property>
         </source>
-        <target name="result">
+        <target>
             <property>
                 <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
                 <child name="boreholeStatus" ns="http://www.infogeo.de/boreholeml/3.0"/>
             </property>
         </target>
-        <complexParameter name="script">
-            <core:text xmlns:core="http://www.esdi-humboldt.eu/hale/core" xml:space="preserve">
-// this groovy script searches for the (en) text of 'status_id_cli' &#13;
-// defined in the source table 'codelist' and classifies the result &#13;
-&#13;
-def c = _.context.collector()&#13;
-def textEn = c.codelist[status_id_cli].value()&#13;
-&#13;
-switch (textEn) {&#13;
-	case 'filled':&#13;
-	return 'vf'&#13;
-	&#13;
-	case 'cased, measurements possible':&#13;
-	return 'au'&#13;
-	&#13;
-	case 'cased, in use':&#13;
-	return 'au'&#13;
-	&#13;
-	case 'cased, measurements impossible':&#13;
-	return 'au'&#13;
-	&#13;
-	case 'other ':&#13;
-	return 'ka'&#13;
-	&#13;
-	case 'not specified':&#13;
-	return 'ka'&#13;
-}
-</core:text>
-        </complexParameter>
-        <parameter value="false" name="variablesAsInstances"/>
+        <parameter value="6b020fbf-5f11-4422-8bf0-8922baa7513d" name="lookupTableID"/>
+        <parameter value="null" name="notClassifiedAction"/>
     </cell>
     <cell relation="eu.esdihumboldt.hale.align.assign.bound" id="Cb324d35a-47c3-4f5f-b8ad-eddedb0026d4" priority="normal">
         <source name="anchor">
@@ -469,64 +441,21 @@ switch (textEn) {&#13;
         <parameter value="false" name="ignoreNamespaces"/>
         <parameter value="false" name="structuralRename"/>
     </cell>
-    <cell relation="eu.esdihumboldt.cst.functions.groovy" id="C3ee259ec-52a9-4722-806f-404de8becff6" priority="normal">
-        <source name="var">
+    <cell relation="eu.esdihumboldt.hale.align.classification" id="C3ee259ec-52a9-4722-806f-404de8becff6" priority="normal">
+        <source>
             <property>
                 <type name="borehole" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
                 <child name="drilling_method_id_cli"/>
             </property>
         </source>
-        <target name="result">
+        <target>
             <property>
                 <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
                 <child name="drillingMethod" ns="http://www.infogeo.de/boreholeml/3.0"/>
             </property>
         </target>
-        <complexParameter name="script">
-            <core:text xmlns:core="http://www.esdi-humboldt.eu/hale/core" xml:space="preserve">
-// this groovy script searches for the (en) text of 'drilling_method_id_cli' &#13;
-// defined in the source table 'codelist' and classifies the result &#13;
-&#13;
-def c = _.context.collector()&#13;
-def textEn = c.codelist[drilling_method_id_cli].value()&#13;
-&#13;
-switch (textEn){&#13;
-	case 'not specified':&#13;
-	return 'UN'&#13;
-	&#13;
-	case 'auger drilling':&#13;
-	return 'DB'&#13;
-	&#13;
-	case 'manual drilling':&#13;
-	return 'HB'&#13;
-	&#13;
-	case 'other ':&#13;
-	return 'W'&#13;
-	&#13;
-	case 'dynamic probing':&#13;
-	return 'RB'&#13;
-	&#13;
-	case 'direct push soil sampling':&#13;
-	return 'SK'&#13;
-	&#13;
-	case 'percussion drilling':&#13;
-	return 'SA'&#13;
-	&#13;
-	case 'rotary drilling':&#13;
-	return 'DBO'&#13;
-	&#13;
-	case 'rotary coring':&#13;
-	return 'RKB'&#13;
-	&#13;
-	case 'wireline core drilling':&#13;
-	return 'SKB'&#13;
-	&#13;
-	case 'grab drilling':&#13;
-	return 'TG'&#13;
-}
-</core:text>
-        </complexParameter>
-        <parameter value="false" name="variablesAsInstances"/>
+        <parameter value="3f3e28f7-2c75-4d2e-96eb-0265928de559" name="lookupTableID"/>
+        <parameter value="null" name="notClassifiedAction"/>
     </cell>
     <cell relation="eu.esdihumboldt.hale.align.assign.bound" id="C0d65a7a3-3e4b-4fd5-9c5c-237144bfdb58" priority="normal">
         <source name="anchor">
@@ -544,48 +473,21 @@ switch (textEn){&#13;
         </target>
         <parameter value="https://www.infogeo.de/boreholeml/3.0/codelists/DrillingMethodList.xml" name="value"/>
     </cell>
-    <cell relation="eu.esdihumboldt.cst.functions.groovy" id="C3d497b8a-6ee7-4491-867d-57d1c398ad7e" priority="normal">
-        <source name="var">
+    <cell relation="eu.esdihumboldt.hale.align.classification" id="C3d497b8a-6ee7-4491-867d-57d1c398ad7e" priority="normal">
+        <source>
             <property>
                 <type name="borehole" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
                 <child name="purpose_id_cli"/>
             </property>
         </source>
-        <target name="result">
+        <target>
             <property>
                 <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
                 <child name="drillingPurpose" ns="http://www.infogeo.de/boreholeml/3.0"/>
             </property>
         </target>
-        <complexParameter name="script">
-            <core:text xmlns:core="http://www.esdi-humboldt.eu/hale/core" xml:space="preserve">
-// this groovy script searches for the (en) text of 'purpose_id_cli' &#13;
-// defined in the source table 'codelist' and classifies the result &#13;
-&#13;
-def c = _.context.collector()&#13;
-def textEn = c.codelist[purpose_id_cli].value()&#13;
-&#13;
-switch (textEn){&#13;
-	case 'contaminated sites':&#13;
-	return 'AUD'&#13;
-	&#13;
-	case 'downhole heat exchanger':&#13;
-	return 'GTH'&#13;
-	&#13;
-	case 'hydrology':&#13;
-	return 'HY'&#13;
-	&#13;
-	case 'other ':&#13;
-	return 'Sonstiger Zweck'&#13;
-	&#13;
-	case 'not specified':&#13;
-	return 'UN'&#13;
-}&#13;
-&#13;
-
-</core:text>
-        </complexParameter>
-        <parameter value="false" name="variablesAsInstances"/>
+        <parameter value="701e44eb-184b-4283-9ec4-4861bc83b682" name="lookupTableID"/>
+        <parameter value="null" name="notClassifiedAction"/>
     </cell>
     <cell relation="eu.esdihumboldt.hale.align.assign.bound" id="C93134429-70e8-4e42-93e1-dd0967d0c240" priority="normal">
         <source name="anchor">
