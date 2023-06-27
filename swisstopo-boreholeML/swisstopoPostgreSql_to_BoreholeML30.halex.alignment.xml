@@ -21,6 +21,11 @@
                 <type name="lithological_description" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
             </class>
         </source>
+        <source name="types">
+            <class>
+                <type name="layer_codelist" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
+            </class>
+        </source>
         <target>
             <class>
                 <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
@@ -40,6 +45,9 @@
                 <class>
                     <type name="lithological_description" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
                 </class>
+                <class>
+                    <type name="layer_codelist" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
+                </class>
                 <jp:condition>
                     <property>
                         <type name="borehole" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
@@ -48,6 +56,16 @@
                     <property>
                         <type name="stratigraphy" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
                         <child name="id_bho_fk"/>
+                    </property>
+                </jp:condition>
+                <jp:condition>
+                    <property>
+                        <type name="layer" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
+                        <child name="id_lay"/>
+                    </property>
+                    <property>
+                        <type name="layer_codelist" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
+                        <child name="id_lay_fk"/>
                     </property>
                 </jp:condition>
                 <jp:condition>
@@ -89,7 +107,8 @@ def lookupTableIds = ["borehole_status": "6b020fbf-5f11-4422-8bf0-8922baa7513d",
 					  "layer_consistance":"1326c176-5a33-4be5-a209-65b1476cac33",&#13;
 					  "layer_fillKind":"5024b85b-7438-4721-96f3-47273dc72f58",&#13;
 					  "layer_humidity":"ae1cf944-0d7d-41b8-8474-f723fa009c6f",&#13;
-					  "layer_lithology":"b85c79a6-da9f-4f18-a32a-651f52978fde"]&#13;
+					  "layer_lithology":"b85c79a6-da9f-4f18-a32a-651f52978fde",&#13;
+					  "layer_rockColour":"8adca855-ddfe-40af-8164-99e5034db376"]&#13;
 &#13;
 &#13;
 def stratigraphyList = _source.links.stratigraphy.list()&#13;
@@ -155,9 +174,27 @@ _target {&#13;
 											rockName( lithologyValue ){&#13;
 												codeSpace( 'https://www.infogeo.de/boreholeml/3.0/codelists/RockNameList.xml' )&#13;
 											}&#13;
+											&#13;
+											//get rockColors from table layer_codelist as list (as boreholeML codelist values)&#13;
+											def layer_codelist_colours = []&#13;
+											sourceLayer.links.layer_codelist.each {item -&gt;&#13;
+												if(item.p.code_cli.value() == 'mlpr112'){&#13;
+													def colour = getLookupTableValue( item.p.id_cli_fk.value(), lookupTableIds["layer_rockColour"] )&#13;
+													layer_codelist_colours.add(colour)&#13;
+												}&#13;
+											}&#13;
+											//set rockColor if the source data contains not more than one colour&#13;
+											if (layer_codelist_colours.size() == 1){&#13;
+												rockColor( layer_codelist_colours[0] ) {&#13;
+													codeSpace( 'https://www.infogeo.de/boreholeml/3.0/codelists/RockColorList.xml' )&#13;
+												}&#13;
+											}&#13;
+											&#13;
+											&#13;
 										}&#13;
 									}&#13;
 								}&#13;
+								&#13;
 								&#13;
 								_b.stratigraphy {&#13;
 									Stratigraphy {&#13;
