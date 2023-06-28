@@ -384,6 +384,63 @@ withTransformationContext {&#13;
 </core:text>
         </complexParameter>
     </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.groovy" id="Cb3258cb1-bdba-4c08-831a-56749e75f622" priority="normal">
+        <source name="var">
+            <property>
+                <type name="borehole" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
+                <child name="elevation_z_bho"/>
+            </property>
+        </source>
+        <source name="var">
+            <property>
+                <type name="borehole" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
+                <child name="location_x_bho"/>
+            </property>
+        </source>
+        <source name="var">
+            <property>
+                <type name="borehole" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
+                <child name="total_depth_bho"/>
+            </property>
+        </source>
+        <source name="var">
+            <property>
+                <type name="borehole" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
+                <child name="location_y_bho"/>
+            </property>
+        </source>
+        <target name="result">
+            <property>
+                <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="boreholePath" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="choice" ns="http://www.opengis.net/gml/3.2/AbstractCurve"/>
+                <child name="LineString" ns="http://www.opengis.net/gml/3.2"/>
+                <child name="choice_1" ns="http://www.opengis.net/gml/3.2/LineStringType"/>
+                <child name="posList" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <complexParameter name="script">
+            <core:text xmlns:core="http://www.esdi-humboldt.eu/hale/core" xml:space="preserve">
+if (location_x_bho &amp;&amp; location_y_bho &amp;&amp; elevation_z_bho &amp;&amp; total_depth_bho){&#13;
+	def zCoord = elevation_z_bho - total_depth_bho&#13;
+	return [location_x_bho, location_y_bho, elevation_z_bho, location_x_bho, location_y_bho, zCoord]&#13;
+}
+</core:text>
+        </complexParameter>
+        <parameter value="false" name="variablesAsInstances"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="C731acf57-1ba8-4d32-8930-e09c61456da7" priority="normal">
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="boreholePath" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="choice" ns="http://www.opengis.net/gml/3.2/AbstractCurve"/>
+                <child name="LineString" ns="http://www.opengis.net/gml/3.2"/>
+                <child name="srsName"/>
+            </property>
+        </target>
+        <parameter value="EPSG:2056" name="value"/>
+    </cell>
     <cell relation="eu.esdihumboldt.hale.align.assign" id="C34d80c7b-6d04-428a-99da-660eb740151a" priority="normal">
         <target>
             <property>
