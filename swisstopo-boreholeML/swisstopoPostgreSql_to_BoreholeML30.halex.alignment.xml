@@ -416,6 +416,15 @@ withTransformationContext {&#13;
         </target>
         <parameter value="https://www.infogeo.de/boreholeml/3.0/codelists/BoreholeStatusList.xml" name="value"/>
     </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="Ce8e30042-3053-4462-888f-13bbcbef1c09" priority="normal">
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="codingStandard" ns="http://www.infogeo.de/boreholeml/3.0"/>
+            </property>
+        </target>
+        <parameter value="boreholes.swissgeol.ch_v01" name="value"/>
+    </cell>
     <cell relation="eu.esdihumboldt.hale.align.assign" id="C0d24693a-c8ae-42c9-9192-7415aa626f5c" priority="normal">
         <target>
             <property>
@@ -656,6 +665,92 @@ withTransformationContext {&#13;
         <parameter value="false" name="ignoreNamespaces"/>
         <parameter value="false" name="structuralRename"/>
     </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="C4b35fcc2-e90f-4c83-894d-0f4d862c244e" priority="normal">
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="organisation" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="BoreholeProvider" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="contactInfo" ns="http://www.isotc211.org/2005/gmd"/>
+                <child name="nilReason" ns="http://www.isotc211.org/2005/gco"/>
+            </property>
+        </target>
+        <parameter value="withheld" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="Cb6cfe6d7-f93d-4daf-8b47-4dbed30f9a39" priority="normal">
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="organisation" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="BoreholeProvider" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="individualName" ns="http://www.isotc211.org/2005/gmd"/>
+                <child name="nilReason" ns="http://www.isotc211.org/2005/gco"/>
+            </property>
+        </target>
+        <parameter value="withheld" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="Ca9caafac-a12d-4ff9-8d13-d7abb117eac0" priority="normal">
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="organisation" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="BoreholeProvider" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="organisationName" ns="http://www.isotc211.org/2005/gmd"/>
+                <child name="nilReason" ns="http://www.isotc211.org/2005/gco"/>
+            </property>
+        </target>
+        <parameter value="withheld" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="Caebff0b4-5909-44ff-b958-8bd448e319de" priority="normal">
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="organisation" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="BoreholeProvider" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="positionName" ns="http://www.isotc211.org/2005/gmd"/>
+                <child name="nilReason" ns="http://www.isotc211.org/2005/gco"/>
+            </property>
+        </target>
+        <parameter value="withheld" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="C10ae6b1e-81b2-4d60-8b32-f7d3cf606740" priority="normal">
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="organisation" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="BoreholeProvider" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="role" ns="http://www.isotc211.org/2005/gmd"/>
+                <child name="CI_RoleCode" ns="http://www.isotc211.org/2005/gmd"/>
+            </property>
+        </target>
+        <parameter value="resourceProvider" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="C0974692a-0c9b-4e80-b5e2-03400acb6cbb" priority="normal">
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="organisation" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="BoreholeProvider" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="role" ns="http://www.isotc211.org/2005/gmd"/>
+                <child name="CI_RoleCode" ns="http://www.isotc211.org/2005/gmd"/>
+                <child name="codeList"/>
+            </property>
+        </target>
+        <parameter value="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="C8d92d0f6-1f76-4757-a6f2-8199a30469e5" priority="normal">
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="organisation" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="BoreholeProvider" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="role" ns="http://www.isotc211.org/2005/gmd"/>
+                <child name="CI_RoleCode" ns="http://www.isotc211.org/2005/gmd"/>
+                <child name="codeListValue"/>
+            </property>
+        </target>
+        <parameter value="resourceProvider" name="value"/>
+    </cell>
     <cell relation="eu.esdihumboldt.hale.align.rename" id="C823c21e5-c241-48d3-915d-9300950a3872" priority="normal">
         <source>
             <property>
@@ -705,7 +800,13 @@ withTransformationContext {&#13;
         <parameter value="false" name="ignoreNamespaces"/>
         <parameter value="false" name="structuralRename"/>
     </cell>
-    <cell relation="eu.esdihumboldt.hale.align.assign" id="C6a177c6e-5892-40a1-ad2a-087de5b3fa9f" priority="normal">
+    <cell relation="eu.esdihumboldt.hale.align.assign.bound" id="C6a177c6e-5892-40a1-ad2a-087de5b3fa9f" priority="normal">
+        <source name="anchor">
+            <property>
+                <type name="borehole" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
+                <child name="total_depth_bho"/>
+            </property>
+        </source>
         <target>
             <property>
                 <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
