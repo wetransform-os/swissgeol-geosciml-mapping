@@ -384,6 +384,134 @@ withTransformationContext {&#13;
 </core:text>
         </complexParameter>
     </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="C34d80c7b-6d04-428a-99da-660eb740151a" priority="normal">
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="boreholeSegment" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="BoreholeSegment" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="azimuth" ns="http://www.infogeo.de/boreholeml/3.0"/>
+            </property>
+        </target>
+        <parameter value="0.0" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="C2f607458-8a4f-407c-adef-63f4e3765912" priority="normal">
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="boreholeSegment" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="BoreholeSegment" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="azimuth" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="uom"/>
+            </property>
+        </target>
+        <parameter value="deg" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="Cb26cfa3d-1184-4d91-9e23-3b2e3aa31a19" priority="normal">
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="boreholeSegment" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="BoreholeSegment" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="from" ns="http://www.infogeo.de/boreholeml/3.0"/>
+            </property>
+        </target>
+        <parameter value="0.0" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="C7ba84336-0e6a-4410-9694-6946fc508b2a" priority="normal">
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="boreholeSegment" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="BoreholeSegment" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="from" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="uom"/>
+            </property>
+        </target>
+        <parameter value="m" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="Cfe167f98-76c9-47b2-8bd2-052db1408d9c" priority="normal">
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="boreholeSegment" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="BoreholeSegment" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="inclination" ns="http://www.infogeo.de/boreholeml/3.0"/>
+            </property>
+        </target>
+        <parameter value="0.0" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="C2bfeee34-48ea-4738-be9d-221e6ec0e451" priority="normal">
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="boreholeSegment" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="BoreholeSegment" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="inclination" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="uom"/>
+            </property>
+        </target>
+        <parameter value="deg" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="Ce6fd5e0e-853d-456b-81d5-7f246006f292" priority="normal">
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="boreholeSegment" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="BoreholeSegment" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="segmentDataQuality" ns="http://www.infogeo.de/boreholeml/3.0"/>
+            </property>
+        </target>
+        <parameter value="A" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="Ccdecc00f-42b8-4be8-b5d4-e3dc652f0fc4" priority="normal">
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="boreholeSegment" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="BoreholeSegment" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="segmentDataQuality" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="codeSpace"/>
+            </property>
+        </target>
+        <parameter value="https://www.infogeo.de/boreholeml/3.0/codelists/SegmentDataQualityList.xml" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="C782301cc-6eda-4c60-8f71-3d9b1388abf0" priority="normal">
+        <source>
+            <property>
+                <type name="borehole" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
+                <child name="total_depth_bho"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="boreholeSegment" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="BoreholeSegment" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="to" ns="http://www.infogeo.de/boreholeml/3.0"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign.bound" id="C8f23f9fc-53a2-4e39-aaea-5d019e7ddf3c" priority="normal">
+        <source name="anchor">
+            <property>
+                <type name="borehole" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
+                <child name="total_depth_bho"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="boreholeSegment" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="BoreholeSegment" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="to" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="uom"/>
+            </property>
+        </target>
+        <parameter value="m" name="value"/>
+    </cell>
     <cell relation="eu.esdihumboldt.hale.align.classification" id="C778f2c05-3aec-4363-8220-987afb0e88d2" priority="normal">
         <source>
             <property>
