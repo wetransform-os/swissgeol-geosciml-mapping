@@ -8701,10 +8701,10 @@
         <setting name="resourceId">5024b85b-7438-4721-96f3-47273dc72f58</setting>
         <setting name="quote">"</setting>
         <setting name="keyColumn">0</setting>
-        <setting name="name">layer_fillKind</setting>
+        <setting name="name">layer_fillMaterial</setting>
         <setting name="valueColumn">4</setting>
         <setting name="skip">true</setting>
-        <setting name="source">file:/C:/Users/AnnaTamm/gitRepos/swissgeol-geosciml-mapping/swisstopo-boreholeML/lookup-tables/layer_fillKind.csv</setting>
+        <setting name="source">file:/C:/Users/AnnaTamm/gitRepos/swissgeol-geosciml-mapping/swisstopo-boreholeML/lookup-tables/layer_fillMaterial.csv</setting>
         <setting name="contentType">eu.esdihumboldt.hale.io.csv</setting>
         <setting name="separator">,</setting>
         <setting name="escape">\</setting>

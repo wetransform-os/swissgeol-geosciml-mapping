@@ -16,6 +16,16 @@
                 <type name="stratigraphy" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
             </class>
         </source>
+        <source name="types">
+            <class>
+                <type name="lithological_description" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
+            </class>
+        </source>
+        <source name="types">
+            <class>
+                <type name="layer_codelist" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
+            </class>
+        </source>
         <target>
             <class>
                 <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
@@ -32,6 +42,12 @@
                 <class>
                     <type name="layer" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
                 </class>
+                <class>
+                    <type name="lithological_description" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
+                </class>
+                <class>
+                    <type name="layer_codelist" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
+                </class>
                 <jp:condition>
                     <property>
                         <type name="borehole" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
@@ -44,11 +60,31 @@
                 </jp:condition>
                 <jp:condition>
                     <property>
+                        <type name="layer" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
+                        <child name="id_lay"/>
+                    </property>
+                    <property>
+                        <type name="layer_codelist" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
+                        <child name="id_lay_fk"/>
+                    </property>
+                </jp:condition>
+                <jp:condition>
+                    <property>
                         <type name="stratigraphy" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
                         <child name="id_sty"/>
                     </property>
                     <property>
                         <type name="layer" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
+                        <child name="id_sty_fk"/>
+                    </property>
+                </jp:condition>
+                <jp:condition>
+                    <property>
+                        <type name="stratigraphy" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
+                        <child name="id_sty"/>
+                    </property>
+                    <property>
+                        <type name="lithological_description" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
                         <child name="id_sty_fk"/>
                     </property>
                 </jp:condition>
@@ -69,16 +105,20 @@ def lookupTableIds = ["borehole_status": "6b020fbf-5f11-4422-8bf0-8922baa7513d",
 					  "layer_chronostratigraphy":"f5433b9b-a89e-4860-a4c7-f8c3ffe8d6ee",&#13;
 					  "layer_compactness":"4cb095ce-f452-4c30-8331-d2689dff4a07",&#13;
 					  "layer_consistance":"1326c176-5a33-4be5-a209-65b1476cac33",&#13;
-					  "layer_fillKind":"5024b85b-7438-4721-96f3-47273dc72f58",&#13;
+					  "layer_fillMaterial":"5024b85b-7438-4721-96f3-47273dc72f58",&#13;
 					  "layer_humidity":"ae1cf944-0d7d-41b8-8474-f723fa009c6f",&#13;
-					  "layer_lithology":"b85c79a6-da9f-4f18-a32a-651f52978fde"]&#13;
+					  "layer_lithology":"b85c79a6-da9f-4f18-a32a-651f52978fde",&#13;
+					  "layer_rockColour":"8adca855-ddfe-40af-8164-99e5034db376"]&#13;
 &#13;
 &#13;
 def stratigraphyList = _source.links.stratigraphy.list()&#13;
+def countBoreholeFilling = 0&#13;
 _target {&#13;
+	//loop over all instances in source table 'stratigraphy'&#13;
 	stratigraphyList.each { stratigraphy -&gt;&#13;
-		stratigraphy_kind_id = stratigraphy.p.kind_id_cli.value()	&#13;
-		//create interval series if startigraphy.kind_id = 3000 (Geology)	&#13;
+		stratigraphy_kind_id = stratigraphy.p.kind_id_cli.value()		&#13;
+		&#13;
+		//create borehole.intervalSeries for each stratigraphy if startigraphy.kind_id = 3000 (Geology)&#13;
 		if (stratigraphy_kind_id == 3000) {&#13;
 			&#13;
 			intervalSeries {&#13;
@@ -137,9 +177,27 @@ _target {&#13;
 											rockName( lithologyValue ){&#13;
 												codeSpace( 'https://www.infogeo.de/boreholeml/3.0/codelists/RockNameList.xml' )&#13;
 											}&#13;
+											&#13;
+											//get rockColors from table layer_codelist as list (as boreholeML codelist values)&#13;
+											def layer_codelist_colours = []&#13;
+											sourceLayer.links.layer_codelist.each {item -&gt;&#13;
+												if(item.p.code_cli.value() == 'mlpr112'){&#13;
+													def colour = getLookupTableValue( item.p.id_cli_fk.value(), lookupTableIds["layer_rockColour"] )&#13;
+													layer_codelist_colours.add(colour)&#13;
+												}&#13;
+											}&#13;
+											//set rockColor if the source data contains not more than one colour&#13;
+											if (layer_codelist_colours.size() == 1){&#13;
+												rockColor( layer_codelist_colours[0] ) {&#13;
+													codeSpace( 'https://www.infogeo.de/boreholeml/3.0/codelists/RockColorList.xml' )&#13;
+												}&#13;
+											}&#13;
+											&#13;
+											&#13;
 										}&#13;
 									}&#13;
 								}&#13;
+								&#13;
 								&#13;
 								_b.stratigraphy {&#13;
 									Stratigraphy {&#13;
@@ -160,6 +218,17 @@ _target {&#13;
 								}&#13;
 								&#13;
 								&#13;
+								stratigraphy.links.lithological_description.each { lithDescription -&gt;&#13;
+									if ( (sourceLayer.p.depth_from_lay.value() &gt;= lithDescription.p.depth_from.value()) &amp;&amp; (sourceLayer.p.depth_to_lay.value() &lt;= lithDescription.p.depth_to.value()) ){&#13;
+										&#13;
+										descriptiveText {&#13;
+											LocalisedCharacterString( lithDescription.p.description.value() )&#13;
+										}&#13;
+										&#13;
+									}&#13;
+								}&#13;
+								&#13;
+								&#13;
 								&#13;
 							}&#13;
 						}&#13;
@@ -167,17 +236,81 @@ _target {&#13;
 				}&#13;
 			}&#13;
 		}&#13;
+		//map borehole Filling, if stratigraphy.kind_id = 3004 (Filling) &#13;
+		//and if layer.fill_kind_id = 25000302 (Rohrlochverfüllung/casing plugging) &#13;
+		//or 25000300 (borehole plugging/Bohrlochverfüllung)&#13;
+		else if (stratigraphy_kind_id == 3004) {&#13;
+			stratigraphy.links.layer.list().each { sourceLayer -&gt;&#13;
+				&#13;
+				if ((sourceLayer.p.fill_kind_id_cli.value() == 25000302 || sourceLayer.p.fill_kind_id_cli.value() == 25000300) &amp;&amp; countBoreholeFilling &lt; 1) {&#13;
+					countBoreholeFilling += 1&#13;
+					&#13;
+					boreholeFilling {&#13;
+						BoreholeFilling {&#13;
+							&#13;
+							from( sourceLayer.p.depth_from_lay.value() ) {&#13;
+								uom( 'm' )&#13;
+							}&#13;
+							&#13;
+							to( sourceLayer.p.depth_to_lay.value() ) {&#13;
+								uom( 'm' )&#13;
+							}&#13;
+							&#13;
+							def boreholeFillingValue = getLookupTableValue( sourceLayer.p.fill_material_id_cli.value(), lookupTableIds["layer_fillMaterial"] )&#13;
+							if (boreholeFillingValue) {&#13;
+								boreholeFillingMaterial( boreholeFillingValue ) {&#13;
+									codeSpace( 'https://www.infogeo.de/boreholeml/3.0/codelists/FillingMaterialList.xml' )&#13;
+								}&#13;
+							}&#13;
+							&#13;
+						}&#13;
+					}&#13;
+				}&#13;
+				else if (countBoreholeFilling &gt;= 1){&#13;
+					_log.info("Für Bohrloch ${_source.p.id_bho.value()} wurde mehr als eine Bohrloch- oder Ringraumverfüllung angegeben. Es wurde nur die erste vorkommende Verfüllung in die Zieldaten nach borehole.BoreholeFilling übernommen.")&#13;
+				}&#13;
+			}&#13;
+		}&#13;
 		&#13;
+	}	&#13;
+	&#13;
+	&#13;
+	//create mandatory attribute borehole.installationDetail	&#13;
+	installationDetail {&#13;
 		&#13;
-		//create installationDetail only &#13;
-		if (stratigraphy_kind_id == 3002 || stratigraphy_kind_id == 3004){&#13;
-			installationDetail {&#13;
-				InstallationDetails {&#13;
+		//check if installation details exists in source data&#13;
+		def installationDetailsExist = false&#13;
+		stratigraphyList.each { stratigraphy -&gt; &#13;
+			if (stratigraphy.p.kind_id_cli.value() == 3002) {&#13;
+				installationDetailsExist = true&#13;
+			}&#13;
+			stratigraphy.links.layer.list().each { sourceLayer -&gt;&#13;
+				if (sourceLayer.p.fill_kind_id_cli.value() == 25000301){&#13;
+					installationDetailsExist = true&#13;
+				}&#13;
+			}&#13;
+		}&#13;
+		&#13;
+		//map installation details if exists in source data&#13;
+		if (installationDetailsExist) {&#13;
+			InstallationDetails {&#13;
+				&#13;
+				def casingStrNumber = 0&#13;
+				//loop through all stratigraphy instances&#13;
+				stratigraphyList.each { stratigraphy -&gt; &#13;
+					&#13;
 					//create casingString if straigraphy.kind_id = 3002 (Casing)&#13;
-					if (stratigraphy_kind_id == 3002) {&#13;
+					if (stratigraphy.p.kind_id_cli.value() == 3002) {&#13;
 						casingString {&#13;
 							CasingString {&#13;
-							&#13;
+								&#13;
+								casingStringNumber( casingStrNumber )&#13;
+								casingStrNumber += 1&#13;
+								&#13;
+								casingStringType( 'un' ) {&#13;
+									codeSpace( 'https://www.infogeo.de/boreholeml/3.0/codelists/CasingStringTypeList.xml' )&#13;
+								}&#13;
+								&#13;
 								//create related segments&#13;
 								stratigraphy.links.layer.list().each { sourceLayer -&gt;&#13;
 									casingStringSegment {&#13;
@@ -202,8 +335,10 @@ _target {&#13;
 												uom( 'mm' )&#13;
 											}&#13;
 											&#13;
-											wallThickness( sourceLayer.p.casng_outer_diameter_lay.value() - sourceLayer.p.casng_inner_diameter_lay.value() ) {&#13;
-												uom( 'mm' )&#13;
+											if(sourceLayer.p.casng_outer_diameter_lay.value() &amp;&amp; sourceLayer.p.casng_inner_diameter_lay.value()) {&#13;
+												wallThickness( sourceLayer.p.casng_outer_diameter_lay.value() - sourceLayer.p.casng_inner_diameter_lay.value() ) {&#13;
+													uom( 'mm' )&#13;
+												}&#13;
 											}&#13;
 											&#13;
 											def installationElementValue = getLookupTableValue( sourceLayer.p.casng_kind_id_cli.value(), lookupTableIds["layer_casingKind"] )&#13;
@@ -219,15 +354,14 @@ _target {&#13;
 						}&#13;
 					}&#13;
 				&#13;
-					//create spaceFilling if startigraphy.kind_id = 3004 (Filling)	&#13;
-					if (stratigraphy_kind_id == 3004) {&#13;
-									&#13;
-						//create related segments if fill_kind_id_cli = 25000301 (Ringraumverfüllung)&#13;
+					//create spaceFilling if startigraphy.kind_id = 3004 (Filling) &#13;
+					//(and fill_kind_id_cli = 25000301 (annular sealing/Ringraumverfüllung) )&#13;
+					else if (stratigraphy.p.kind_id_cli.value() == 3004) {&#13;
 						stratigraphy.links.layer.list().each { sourceLayer -&gt;&#13;
 							if (sourceLayer.p.fill_kind_id_cli.value() == 25000301){&#13;
 								spaceFilling {&#13;
 									SpaceFilling {&#13;
-										&#13;
+											&#13;
 										from( sourceLayer.p.depth_from_lay.value() ){&#13;
 											uom( 'm' )&#13;
 										}&#13;
@@ -236,22 +370,29 @@ _target {&#13;
 											uom( 'm' )&#13;
 										}&#13;
 										&#13;
-										def fillingMaterialValue = getLookupTableValue( sourceLayer.p.fill_kind_id_cli.value(), lookupTableIds["layer_fillKind"] )&#13;
+										def fillingMaterialValue = getLookupTableValue( sourceLayer.p.fill_material_id_cli.value(), lookupTableIds["layer_fillMaterial"] )&#13;
 										if (fillingMaterialValue){&#13;
 											spaceFillingMaterial( fillingMaterialValue ) {&#13;
 												codeSpace( 'https://www.infogeo.de/boreholeml/3.0/codelists/FillingMaterialList.xml' )&#13;
 											}&#13;
 										}&#13;
-										&#13;
+									&#13;
 									}&#13;
 								}&#13;
 							}&#13;
 						}&#13;
 					}&#13;
+							&#13;
 				}&#13;
 			}&#13;
 		}&#13;
+		//if no installation detail exists in source data assign a nilReason&#13;
+		else {&#13;
+			nilReason( 'unknown' )&#13;
+		}&#13;
 	}	&#13;
+	&#13;
+	&#13;
 }&#13;
 &#13;
 &#13;
@@ -276,7 +417,12 @@ def getCollectedCodeById(codelistId) {&#13;
 	def c = _.context.collector()&#13;
 	def code = c.codelist_id_code[codelistId].value()	&#13;
 	return code&#13;
-}
+}&#13;
+&#13;
+&#13;
+&#13;
+&#13;
+
 </core:text>
         </complexParameter>
     </cell>
@@ -311,49 +457,206 @@ withTransformationContext {&#13;
 </core:text>
         </complexParameter>
     </cell>
-    <cell relation="eu.esdihumboldt.cst.functions.groovy" id="C215267c4-3c7a-4974-a5ad-224f5b02fe97" priority="normal">
+    <cell relation="eu.esdihumboldt.cst.functions.groovy" id="Cb3258cb1-bdba-4c08-831a-56749e75f622" priority="normal">
         <source name="var">
             <property>
                 <type name="borehole" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
-                <child name="status_id_cli"/>
+                <child name="elevation_z_bho"/>
+            </property>
+        </source>
+        <source name="var">
+            <property>
+                <type name="borehole" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
+                <child name="location_x_bho"/>
+            </property>
+        </source>
+        <source name="var">
+            <property>
+                <type name="borehole" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
+                <child name="total_depth_bho"/>
+            </property>
+        </source>
+        <source name="var">
+            <property>
+                <type name="borehole" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
+                <child name="location_y_bho"/>
             </property>
         </source>
         <target name="result">
             <property>
                 <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
-                <child name="boreholeStatus" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="boreholePath" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="choice" ns="http://www.opengis.net/gml/3.2/AbstractCurve"/>
+                <child name="LineString" ns="http://www.opengis.net/gml/3.2"/>
+                <child name="choice_1" ns="http://www.opengis.net/gml/3.2/LineStringType"/>
+                <child name="posList" ns="http://www.opengis.net/gml/3.2"/>
             </property>
         </target>
         <complexParameter name="script">
             <core:text xmlns:core="http://www.esdi-humboldt.eu/hale/core" xml:space="preserve">
-// this groovy script searches for the (en) text of 'status_id_cli' &#13;
-// defined in the source table 'codelist' and classifies the result &#13;
-&#13;
-def c = _.context.collector()&#13;
-def textEn = c.codelist[status_id_cli].value()&#13;
-&#13;
-switch (textEn) {&#13;
-	case 'filled':&#13;
-	return 'vf'&#13;
-	&#13;
-	case 'cased, measurements possible':&#13;
-	return 'au'&#13;
-	&#13;
-	case 'cased, in use':&#13;
-	return 'au'&#13;
-	&#13;
-	case 'cased, measurements impossible':&#13;
-	return 'au'&#13;
-	&#13;
-	case 'other ':&#13;
-	return 'ka'&#13;
-	&#13;
-	case 'not specified':&#13;
-	return 'ka'&#13;
+if (location_x_bho &amp;&amp; location_y_bho &amp;&amp; elevation_z_bho &amp;&amp; total_depth_bho){&#13;
+	def zCoord = elevation_z_bho - total_depth_bho&#13;
+	return [location_x_bho, location_y_bho, elevation_z_bho, location_x_bho, location_y_bho, zCoord]&#13;
 }
 </core:text>
         </complexParameter>
         <parameter value="false" name="variablesAsInstances"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="C731acf57-1ba8-4d32-8930-e09c61456da7" priority="normal">
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="boreholePath" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="choice" ns="http://www.opengis.net/gml/3.2/AbstractCurve"/>
+                <child name="LineString" ns="http://www.opengis.net/gml/3.2"/>
+                <child name="srsName"/>
+            </property>
+        </target>
+        <parameter value="EPSG:2056" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="C34d80c7b-6d04-428a-99da-660eb740151a" priority="normal">
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="boreholeSegment" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="BoreholeSegment" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="azimuth" ns="http://www.infogeo.de/boreholeml/3.0"/>
+            </property>
+        </target>
+        <parameter value="0.0" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="C2f607458-8a4f-407c-adef-63f4e3765912" priority="normal">
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="boreholeSegment" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="BoreholeSegment" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="azimuth" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="uom"/>
+            </property>
+        </target>
+        <parameter value="deg" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="Cb26cfa3d-1184-4d91-9e23-3b2e3aa31a19" priority="normal">
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="boreholeSegment" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="BoreholeSegment" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="from" ns="http://www.infogeo.de/boreholeml/3.0"/>
+            </property>
+        </target>
+        <parameter value="0.0" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="C7ba84336-0e6a-4410-9694-6946fc508b2a" priority="normal">
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="boreholeSegment" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="BoreholeSegment" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="from" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="uom"/>
+            </property>
+        </target>
+        <parameter value="m" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="Cfe167f98-76c9-47b2-8bd2-052db1408d9c" priority="normal">
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="boreholeSegment" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="BoreholeSegment" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="inclination" ns="http://www.infogeo.de/boreholeml/3.0"/>
+            </property>
+        </target>
+        <parameter value="0.0" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="C2bfeee34-48ea-4738-be9d-221e6ec0e451" priority="normal">
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="boreholeSegment" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="BoreholeSegment" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="inclination" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="uom"/>
+            </property>
+        </target>
+        <parameter value="deg" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="Ce6fd5e0e-853d-456b-81d5-7f246006f292" priority="normal">
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="boreholeSegment" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="BoreholeSegment" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="segmentDataQuality" ns="http://www.infogeo.de/boreholeml/3.0"/>
+            </property>
+        </target>
+        <parameter value="A" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="Ccdecc00f-42b8-4be8-b5d4-e3dc652f0fc4" priority="normal">
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="boreholeSegment" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="BoreholeSegment" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="segmentDataQuality" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="codeSpace"/>
+            </property>
+        </target>
+        <parameter value="https://www.infogeo.de/boreholeml/3.0/codelists/SegmentDataQualityList.xml" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="C782301cc-6eda-4c60-8f71-3d9b1388abf0" priority="normal">
+        <source>
+            <property>
+                <type name="borehole" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
+                <child name="total_depth_bho"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="boreholeSegment" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="BoreholeSegment" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="to" ns="http://www.infogeo.de/boreholeml/3.0"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign.bound" id="C8f23f9fc-53a2-4e39-aaea-5d019e7ddf3c" priority="normal">
+        <source name="anchor">
+            <property>
+                <type name="borehole" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
+                <child name="total_depth_bho"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="boreholeSegment" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="BoreholeSegment" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="to" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="uom"/>
+            </property>
+        </target>
+        <parameter value="m" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.classification" id="C778f2c05-3aec-4363-8220-987afb0e88d2" priority="normal">
+        <source>
+            <property>
+                <type name="borehole" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
+                <child name="status_id_cli"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="boreholeStatus" ns="http://www.infogeo.de/boreholeml/3.0"/>
+            </property>
+        </target>
+        <parameter value="6b020fbf-5f11-4422-8bf0-8922baa7513d" name="lookupTableID"/>
+        <parameter value="null" name="notClassifiedAction"/>
     </cell>
     <cell relation="eu.esdihumboldt.hale.align.assign.bound" id="Cb324d35a-47c3-4f5f-b8ad-eddedb0026d4" priority="normal">
         <source name="anchor">
@@ -371,6 +674,15 @@ switch (textEn) {&#13;
         </target>
         <parameter value="https://www.infogeo.de/boreholeml/3.0/codelists/BoreholeStatusList.xml" name="value"/>
     </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="Ce8e30042-3053-4462-888f-13bbcbef1c09" priority="normal">
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="codingStandard" ns="http://www.infogeo.de/boreholeml/3.0"/>
+            </property>
+        </target>
+        <parameter value="boreholes.swissgeol.ch_v01" name="value"/>
+    </cell>
     <cell relation="eu.esdihumboldt.hale.align.assign" id="C0d24693a-c8ae-42c9-9192-7415aa626f5c" priority="normal">
         <target>
             <property>
@@ -378,7 +690,7 @@ switch (textEn) {&#13;
                 <child name="databaseSource" ns="http://www.infogeo.de/boreholeml/3.0"/>
             </property>
         </target>
-        <parameter value="bdms-prod-20230213" name="value"/>
+        <parameter value="{{project:databaseName}}" name="value"/>
     </cell>
     <cell relation="eu.esdihumboldt.hale.align.rename" id="C1299fef2-d632-40aa-98c0-5041b7563005" priority="normal">
         <source>
@@ -396,64 +708,21 @@ switch (textEn) {&#13;
         <parameter value="false" name="ignoreNamespaces"/>
         <parameter value="false" name="structuralRename"/>
     </cell>
-    <cell relation="eu.esdihumboldt.cst.functions.groovy" id="C3ee259ec-52a9-4722-806f-404de8becff6" priority="normal">
-        <source name="var">
+    <cell relation="eu.esdihumboldt.hale.align.classification" id="C3ee259ec-52a9-4722-806f-404de8becff6" priority="normal">
+        <source>
             <property>
                 <type name="borehole" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
                 <child name="drilling_method_id_cli"/>
             </property>
         </source>
-        <target name="result">
+        <target>
             <property>
                 <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
                 <child name="drillingMethod" ns="http://www.infogeo.de/boreholeml/3.0"/>
             </property>
         </target>
-        <complexParameter name="script">
-            <core:text xmlns:core="http://www.esdi-humboldt.eu/hale/core" xml:space="preserve">
-// this groovy script searches for the (en) text of 'drilling_method_id_cli' &#13;
-// defined in the source table 'codelist' and classifies the result &#13;
-&#13;
-def c = _.context.collector()&#13;
-def textEn = c.codelist[drilling_method_id_cli].value()&#13;
-&#13;
-switch (textEn){&#13;
-	case 'not specified':&#13;
-	return 'UN'&#13;
-	&#13;
-	case 'auger drilling':&#13;
-	return 'DB'&#13;
-	&#13;
-	case 'manual drilling':&#13;
-	return 'HB'&#13;
-	&#13;
-	case 'other ':&#13;
-	return 'W'&#13;
-	&#13;
-	case 'dynamic probing':&#13;
-	return 'RB'&#13;
-	&#13;
-	case 'direct push soil sampling':&#13;
-	return 'SK'&#13;
-	&#13;
-	case 'percussion drilling':&#13;
-	return 'SA'&#13;
-	&#13;
-	case 'rotary drilling':&#13;
-	return 'DBO'&#13;
-	&#13;
-	case 'rotary coring':&#13;
-	return 'RKB'&#13;
-	&#13;
-	case 'wireline core drilling':&#13;
-	return 'SKB'&#13;
-	&#13;
-	case 'grab drilling':&#13;
-	return 'TG'&#13;
-}
-</core:text>
-        </complexParameter>
-        <parameter value="false" name="variablesAsInstances"/>
+        <parameter value="3f3e28f7-2c75-4d2e-96eb-0265928de559" name="lookupTableID"/>
+        <parameter value="null" name="notClassifiedAction"/>
     </cell>
     <cell relation="eu.esdihumboldt.hale.align.assign.bound" id="C0d65a7a3-3e4b-4fd5-9c5c-237144bfdb58" priority="normal">
         <source name="anchor">
@@ -471,48 +740,21 @@ switch (textEn){&#13;
         </target>
         <parameter value="https://www.infogeo.de/boreholeml/3.0/codelists/DrillingMethodList.xml" name="value"/>
     </cell>
-    <cell relation="eu.esdihumboldt.cst.functions.groovy" id="C3d497b8a-6ee7-4491-867d-57d1c398ad7e" priority="normal">
-        <source name="var">
+    <cell relation="eu.esdihumboldt.hale.align.classification" id="C3d497b8a-6ee7-4491-867d-57d1c398ad7e" priority="normal">
+        <source>
             <property>
                 <type name="borehole" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
                 <child name="purpose_id_cli"/>
             </property>
         </source>
-        <target name="result">
+        <target>
             <property>
                 <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
                 <child name="drillingPurpose" ns="http://www.infogeo.de/boreholeml/3.0"/>
             </property>
         </target>
-        <complexParameter name="script">
-            <core:text xmlns:core="http://www.esdi-humboldt.eu/hale/core" xml:space="preserve">
-// this groovy script searches for the (en) text of 'purpose_id_cli' &#13;
-// defined in the source table 'codelist' and classifies the result &#13;
-&#13;
-def c = _.context.collector()&#13;
-def textEn = c.codelist[purpose_id_cli].value()&#13;
-&#13;
-switch (textEn){&#13;
-	case 'contaminated sites':&#13;
-	return 'AUD'&#13;
-	&#13;
-	case 'downhole heat exchanger':&#13;
-	return 'GTH'&#13;
-	&#13;
-	case 'hydrology':&#13;
-	return 'HY'&#13;
-	&#13;
-	case 'other ':&#13;
-	return 'Sonstiger Zweck'&#13;
-	&#13;
-	case 'not specified':&#13;
-	return 'UN'&#13;
-}&#13;
-&#13;
-
-</core:text>
-        </complexParameter>
-        <parameter value="false" name="variablesAsInstances"/>
+        <parameter value="701e44eb-184b-4283-9ec4-4861bc83b682" name="lookupTableID"/>
+        <parameter value="null" name="notClassifiedAction"/>
     </cell>
     <cell relation="eu.esdihumboldt.hale.align.assign.bound" id="C93134429-70e8-4e42-93e1-dd0967d0c240" priority="normal">
         <source name="anchor">
@@ -681,6 +923,92 @@ switch (textEn){&#13;
         <parameter value="false" name="ignoreNamespaces"/>
         <parameter value="false" name="structuralRename"/>
     </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="C4b35fcc2-e90f-4c83-894d-0f4d862c244e" priority="normal">
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="organisation" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="BoreholeProvider" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="contactInfo" ns="http://www.isotc211.org/2005/gmd"/>
+                <child name="nilReason" ns="http://www.isotc211.org/2005/gco"/>
+            </property>
+        </target>
+        <parameter value="withheld" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="Cb6cfe6d7-f93d-4daf-8b47-4dbed30f9a39" priority="normal">
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="organisation" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="BoreholeProvider" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="individualName" ns="http://www.isotc211.org/2005/gmd"/>
+                <child name="nilReason" ns="http://www.isotc211.org/2005/gco"/>
+            </property>
+        </target>
+        <parameter value="withheld" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="Ca9caafac-a12d-4ff9-8d13-d7abb117eac0" priority="normal">
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="organisation" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="BoreholeProvider" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="organisationName" ns="http://www.isotc211.org/2005/gmd"/>
+                <child name="nilReason" ns="http://www.isotc211.org/2005/gco"/>
+            </property>
+        </target>
+        <parameter value="withheld" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="Caebff0b4-5909-44ff-b958-8bd448e319de" priority="normal">
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="organisation" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="BoreholeProvider" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="positionName" ns="http://www.isotc211.org/2005/gmd"/>
+                <child name="nilReason" ns="http://www.isotc211.org/2005/gco"/>
+            </property>
+        </target>
+        <parameter value="withheld" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="C10ae6b1e-81b2-4d60-8b32-f7d3cf606740" priority="normal">
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="organisation" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="BoreholeProvider" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="role" ns="http://www.isotc211.org/2005/gmd"/>
+                <child name="CI_RoleCode" ns="http://www.isotc211.org/2005/gmd"/>
+            </property>
+        </target>
+        <parameter value="resourceProvider" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="C0974692a-0c9b-4e80-b5e2-03400acb6cbb" priority="normal">
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="organisation" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="BoreholeProvider" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="role" ns="http://www.isotc211.org/2005/gmd"/>
+                <child name="CI_RoleCode" ns="http://www.isotc211.org/2005/gmd"/>
+                <child name="codeList"/>
+            </property>
+        </target>
+        <parameter value="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="C8d92d0f6-1f76-4757-a6f2-8199a30469e5" priority="normal">
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="organisation" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="BoreholeProvider" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="role" ns="http://www.isotc211.org/2005/gmd"/>
+                <child name="CI_RoleCode" ns="http://www.isotc211.org/2005/gmd"/>
+                <child name="codeListValue"/>
+            </property>
+        </target>
+        <parameter value="resourceProvider" name="value"/>
+    </cell>
     <cell relation="eu.esdihumboldt.hale.align.rename" id="C823c21e5-c241-48d3-915d-9300950a3872" priority="normal">
         <source>
             <property>
@@ -730,7 +1058,13 @@ switch (textEn){&#13;
         <parameter value="false" name="ignoreNamespaces"/>
         <parameter value="false" name="structuralRename"/>
     </cell>
-    <cell relation="eu.esdihumboldt.hale.align.assign" id="C6a177c6e-5892-40a1-ad2a-087de5b3fa9f" priority="normal">
+    <cell relation="eu.esdihumboldt.hale.align.assign.bound" id="C6a177c6e-5892-40a1-ad2a-087de5b3fa9f" priority="normal">
+        <source name="anchor">
+            <property>
+                <type name="borehole" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
+                <child name="total_depth_bho"/>
+            </property>
+        </source>
         <target>
             <property>
                 <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
