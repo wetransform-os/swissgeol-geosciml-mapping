@@ -690,7 +690,7 @@ if (location_x_bho &amp;&amp; location_y_bho &amp;&amp; elevation_z_bho &amp;&am
                 <child name="databaseSource" ns="http://www.infogeo.de/boreholeml/3.0"/>
             </property>
         </target>
-        <parameter value="bdms-prod-20230213" name="value"/>
+        <parameter value="{{project:databaseName}}" name="value"/>
     </cell>
     <cell relation="eu.esdihumboldt.hale.align.rename" id="C1299fef2-d632-40aa-98c0-5041b7563005" priority="normal">
         <source>
