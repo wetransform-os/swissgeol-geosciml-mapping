@@ -8737,6 +8737,20 @@
         <setting name="separator">,</setting>
         <setting name="escape">\</setting>
     </resource>
+    <resource action-id="eu.esdihumboldt.hale.lookup.import" provider-id="eu.esdihumboldt.hale.io.csv.reader.lookup">
+        <setting name="charset">ISO-8859-1</setting>
+        <setting name="ignoreEmptyStrings">false</setting>
+        <setting name="resourceId">8adca855-ddfe-40af-8164-99e5034db376</setting>
+        <setting name="quote">"</setting>
+        <setting name="keyColumn">0</setting>
+        <setting name="name">layer_rockColour</setting>
+        <setting name="valueColumn">1</setting>
+        <setting name="skip">true</setting>
+        <setting name="source">file:/C:/Users/AnnaTamm/gitRepos/swissgeol-geosciml-mapping/swisstopo-boreholeML/lookup-tables/layer_rockColour.csv</setting>
+        <setting name="contentType">eu.esdihumboldt.hale.io.csv</setting>
+        <setting name="separator">,</setting>
+        <setting name="escape">\</setting>
+    </resource>
     <file name="alignment.xml" location="swisstopoPostgreSql_to_BoreholeML30.halex.alignment.xml"/>
     <file name="styles.sld" location="swisstopoPostgreSql_to_BoreholeML30.halex.styles.sld"/>
     <property name="defaultGeometry:{http://www.infogeo.de/boreholeml/3.0}BoreholeType/1">{http://www.infogeo.de/boreholeml/3.0}location</property>
