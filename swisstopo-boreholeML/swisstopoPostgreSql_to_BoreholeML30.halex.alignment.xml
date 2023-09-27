@@ -779,7 +779,7 @@ if (location_x_bho &amp;&amp; location_y_bho &amp;&amp; elevation_z_bho &amp;&am
                 <child name="exportDate" ns="http://www.infogeo.de/boreholeml/3.0"/>
             </property>
         </target>
-        <parameter value="2023-02-13" name="value"/>
+        <parameter value="{{project:dataBaseExportDate}}" name="value"/>
     </cell>
     <cell relation="eu.esdihumboldt.hale.align.rename" id="Ceb97515c-5e95-453d-ab87-26741130bc1c" priority="normal">
         <source>

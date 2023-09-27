@@ -9213,6 +9213,9 @@
             <core:property name="databaseName">
                 <core:value value="bdms-prod-20230213"/>
             </core:property>
+            <core:property name="dataBaseExportDate">
+                <core:value value="2023-02-13"/>
+            </core:property>
         </core:properties>
     </complex-property>
 </hale-project>
