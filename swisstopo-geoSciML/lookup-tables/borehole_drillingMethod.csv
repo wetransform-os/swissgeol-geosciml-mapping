@@ -1,0 +1,16 @@
+id_cli,text_cli_en,text_cli_de,cgi-Codelist - boreholedrillingmethod
+22107018,not specified,keine Angaben ,
+22107014,piling,Pfahlbohrung,
+22107017,auger drilling,Schneckenbohrung,http://resource.geosciml.org/classifier/cgi/boreholedrillingmethod/auger
+22107006,manual drilling,Handbohrung,
+22107019,other ,andere,
+22107003,dynamic probing,Rammsondierung,
+22107011,direct push soil sampling,Rammkernsondierung,
+22107013,percussion drilling,Immlochhammer-Bohrung,http://resource.geosciml.org/classifier/cgi/boreholedrillingmethod/percussion_drilling
+22107008,rotary drilling,Rotary Bohrung,
+22107015,reverse circulation drilling,Rotary Bohrung Lufthebend,
+22107004,rotary coring,Rotary Kernbohrung,
+22107016,wireline core drilling,Rotary Seilkernbohrung,
+22107007,shaft drilling,Schachtbohrung,
+22107009,trench,Baggerschlitz,
+22107012,grab drilling,Greiferbohrung,

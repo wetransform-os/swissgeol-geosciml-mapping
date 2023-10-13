@@ -1,0 +1,3519 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Swissgeol.boreholes nach geoSciML 4.1</title>
+	
+	<link rel="stylesheet"
+		href="http://build-artifacts.wetransform.to/halejs/1.1.16/halejs.full.min.css">
+	<script type="text/javascript"
+		src="http://build-artifacts.wetransform.to/halejs/1.1.16/halejs.full.min.js"></script>
+	
+	<script type="text/javascript">
+		angular.module('halejs').value('LANGUAGES', []);
+		angular.module('hale', ['halejs']).controller('alignmentCtrl', function($scope) {
+			$scope.alignment = {
+	"export": {
+		"timestamp": "2023-10-13T10:26:17.307724800Z",
+		"haleVersion": "5.1.0.SNAPSHOT"
+	},
+	"project": {
+		"name": "Swissgeol.boreholes nach geoSciML 4.1",
+		"author": "AnnaTamm",
+		"haleVersion": "5.1.0.SNAPSHOT",
+		"created": "2023-09-27T07:52:19.153Z",
+		"modified": "2023-10-13T10:26:05.326Z"
+	},
+	"sourceSchemas": [
+		{
+			"namespace": "jdbc:postgresql:31052023_Dev_db_dump",
+			"location": "jdbc:postgresql://localhost:5432/31052023_Dev_db_dump"
+		}
+	],
+	"targetSchemas": [
+		{
+			"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML",
+			"location": "http://schemas.opengis.net/gsml/4.1/geosciml.xsd"
+		}
+	],
+	"cells": [
+		{
+			"functionName": "Rename",
+			"functionId": "eu.esdihumboldt.hale.align.rename",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Structural rename",
+					"paramName": "structuralRename",
+					"paramValue": "false",
+					"simple": true
+				},
+				{
+					"paramLabel": "Allow ignore namespace",
+					"paramName": "ignoreNamespaces",
+					"paramValue": "false",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"stratigraphy",
+						"name_sty"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "varchar",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "name_sty",
+					"entity": {
+						"type": {
+							"localName": "stratigraphy",
+							"namespace": "jdbc:postgresql:31052023_Dev_db_dump:bdms"
+						},
+						"path": [
+							{
+								"localName": "name_sty",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"BoreholeInterval",
+						"description"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A BoreholeInterval is similar to a MappedFeature  whose shape is 1-D interval and uses the SRS of the containing borehole.  The &ldquo;mappedIntervalBegin&rdquo; and &ldquo;mappedIntervalEnd&rdquo; properties are alternative to the 1D geometry to overcome problems with the delivery and ease of queryability of 1D GML shapes.</p>\n"
+						},
+						{
+							"propertyType": "StringOrRefType",
+							"propertyCardinality": "0..1"
+						}
+					],
+					"shortName": "description",
+					"entity": {
+						"type": {
+							"localName": "BoreholeIntervalType",
+							"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+						},
+						"path": [
+							{
+								"localName": "description",
+								"namespace": "http://www.opengis.net/gml/3.2"
+							}
+						]
+					}
+				}
+			],
+			"explanation": "<p>For each value in <em>name_sty</em> adds the same value to the <em>description</em> property. If necessary a conversion is applied.</p>\n",
+			"cellId": "Cfa1c7e80-6c70-4666-994d-dc01677b6212",
+			"parentCells": [
+				"Ce3cfa7ab-d0fa-4640-b793-b507880d4c63"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Assign",
+			"functionId": "eu.esdihumboldt.hale.align.assign",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Value",
+					"paramName": "value",
+					"paramValue": "m",
+					"simple": true
+				}
+			],
+			"sources": [],
+			"targets": [
+				{
+					"propertyPath": [
+						"BoreholeInterval",
+						"mappedIntervalBegin",
+						"Quantity",
+						"uom",
+						"code"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A BoreholeInterval is similar to a MappedFeature  whose shape is 1-D interval and uses the SRS of the containing borehole.  The &ldquo;mappedIntervalBegin&rdquo; and &ldquo;mappedIntervalEnd&rdquo; properties are alternative to the 1D geometry to overcome problems with the delivery and ease of queryability of 1D GML shapes.</p>\n"
+						},
+						{
+							"propertyType": "? extends AbstractMemberType",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The property mappedIntervalBegin (SWE::Quantity) is a measurement (a value and a unit of measurement) corresponding to the measured distance of the start of the mapped interval along the path of the borehole. The measured value must be less than or equal to the mappedIntervalEnd value.</p>\n"
+						},
+						{
+							"propertyType": "Quantity",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>Scalar component with decimal representation and a unit of measure used to store value of a continuous quantity</p>\n"
+						},
+						{
+							"propertyType": "UnitReference",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>Unit of measure used to express the value of this data component</p>\n"
+						},
+						{
+							"propertyType": "UomSymbol",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>This type specifies a character string of length at least one, and restricted such that it must not contain any of the following characters: &ldquo;:&rdquo; (colon), &quot; &quot; (space), (newline), (carriage return), (tab). This allows values corresponding to familiar abbreviations, such as &ldquo;kg&rdquo;, &ldquo;m/s&rdquo;, etc.<br />\nIt is also required that the symbol be an identifier for a unit of measure as specified in the &ldquo;Unified Code of Units of Measure&rdquo; (UCUM) (<a href=\"http://aurora.regenstrief.org/UCUM\">http://aurora.regenstrief.org/UCUM</a>). This provides a set of symbols and a grammar for constructing identifiers for units of measure that are unique, and may be easily entered with a keyboard supporting the limited character set known as 7-bit ASCII. ISO 2955 formerly provided a specification with this scope, but was withdrawn in 2001. UCUM largely follows ISO 2955 with modifications to remove ambiguities and other problems.</p>\n"
+						}
+					],
+					"shortName": "code",
+					"entity": {
+						"type": {
+							"localName": "BoreholeIntervalType",
+							"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+						},
+						"path": [
+							{
+								"localName": "mappedIntervalBegin",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "Quantity",
+								"namespace": "http://www.opengis.net/swe/2.0"
+							},
+							{
+								"localName": "uom",
+								"namespace": "http://www.opengis.net/swe/2.0"
+							},
+							{
+								"localName": "code",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"explanation": "<p>Assigns the value <code>m</code> to the <em>code</em> property.</p>\n",
+			"cellId": "Cdd4cd1d1-7d83-4d98-b8e8-f5255181ba8d",
+			"parentCells": [
+				"Ce3cfa7ab-d0fa-4640-b793-b507880d4c63"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Assign",
+			"functionId": "eu.esdihumboldt.hale.align.assign",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Value",
+					"paramName": "value",
+					"paramValue": "http://www.opengis.net/def/uom/OGC/1.0/metre",
+					"simple": true
+				}
+			],
+			"sources": [],
+			"targets": [
+				{
+					"propertyPath": [
+						"BoreholeInterval",
+						"mappedIntervalBegin",
+						"Quantity",
+						"uom",
+						"href"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A BoreholeInterval is similar to a MappedFeature  whose shape is 1-D interval and uses the SRS of the containing borehole.  The &ldquo;mappedIntervalBegin&rdquo; and &ldquo;mappedIntervalEnd&rdquo; properties are alternative to the 1D geometry to overcome problems with the delivery and ease of queryability of 1D GML shapes.</p>\n"
+						},
+						{
+							"propertyType": "? extends AbstractMemberType",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The property mappedIntervalBegin (SWE::Quantity) is a measurement (a value and a unit of measurement) corresponding to the measured distance of the start of the mapped interval along the path of the borehole. The measured value must be less than or equal to the mappedIntervalEnd value.</p>\n"
+						},
+						{
+							"propertyType": "Quantity",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>Scalar component with decimal representation and a unit of measure used to store value of a continuous quantity</p>\n"
+						},
+						{
+							"propertyType": "UnitReference",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>Unit of measure used to express the value of this data component</p>\n"
+						},
+						{
+							"propertyType": "hrefType",
+							"propertyCardinality": "0..1"
+						}
+					],
+					"shortName": "href",
+					"entity": {
+						"type": {
+							"localName": "BoreholeIntervalType",
+							"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+						},
+						"path": [
+							{
+								"localName": "mappedIntervalBegin",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "Quantity",
+								"namespace": "http://www.opengis.net/swe/2.0"
+							},
+							{
+								"localName": "uom",
+								"namespace": "http://www.opengis.net/swe/2.0"
+							},
+							{
+								"localName": "href",
+								"namespace": "http://www.w3.org/1999/xlink"
+							}
+						]
+					}
+				}
+			],
+			"explanation": "<p>Assigns the value <code>http://www.opengis.net/def/uom/OGC/1.0/metre</code> to the <em>href</em> property.</p>\n",
+			"cellId": "Cf478c59a-366f-4bf7-b70b-cd775b8484c8",
+			"parentCells": [
+				"Ce3cfa7ab-d0fa-4640-b793-b507880d4c63"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Assign",
+			"functionId": "eu.esdihumboldt.hale.align.assign",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Value",
+					"paramName": "value",
+					"paramValue": "metre",
+					"simple": true
+				}
+			],
+			"sources": [],
+			"targets": [
+				{
+					"propertyPath": [
+						"BoreholeInterval",
+						"mappedIntervalBegin",
+						"Quantity",
+						"uom",
+						"title"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A BoreholeInterval is similar to a MappedFeature  whose shape is 1-D interval and uses the SRS of the containing borehole.  The &ldquo;mappedIntervalBegin&rdquo; and &ldquo;mappedIntervalEnd&rdquo; properties are alternative to the 1D geometry to overcome problems with the delivery and ease of queryability of 1D GML shapes.</p>\n"
+						},
+						{
+							"propertyType": "? extends AbstractMemberType",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The property mappedIntervalBegin (SWE::Quantity) is a measurement (a value and a unit of measurement) corresponding to the measured distance of the start of the mapped interval along the path of the borehole. The measured value must be less than or equal to the mappedIntervalEnd value.</p>\n"
+						},
+						{
+							"propertyType": "Quantity",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>Scalar component with decimal representation and a unit of measure used to store value of a continuous quantity</p>\n"
+						},
+						{
+							"propertyType": "UnitReference",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>Unit of measure used to express the value of this data component</p>\n"
+						},
+						{
+							"propertyType": "titleAttrType",
+							"propertyCardinality": "0..1"
+						}
+					],
+					"shortName": "title",
+					"entity": {
+						"type": {
+							"localName": "BoreholeIntervalType",
+							"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+						},
+						"path": [
+							{
+								"localName": "mappedIntervalBegin",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "Quantity",
+								"namespace": "http://www.opengis.net/swe/2.0"
+							},
+							{
+								"localName": "uom",
+								"namespace": "http://www.opengis.net/swe/2.0"
+							},
+							{
+								"localName": "title",
+								"namespace": "http://www.w3.org/1999/xlink"
+							}
+						]
+					}
+				}
+			],
+			"explanation": "<p>Assigns the value <code>metre</code> to the <em>title</em> property.</p>\n",
+			"cellId": "C6ac1dad0-ed56-481c-a2a2-03442302a1c2",
+			"parentCells": [
+				"Ce3cfa7ab-d0fa-4640-b793-b507880d4c63"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Rename",
+			"functionId": "eu.esdihumboldt.hale.align.rename",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Structural rename",
+					"paramName": "structuralRename",
+					"paramValue": "false",
+					"simple": true
+				},
+				{
+					"paramLabel": "Allow ignore namespace",
+					"paramName": "ignoreNamespaces",
+					"paramValue": "false",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"layer",
+						"depth_from_lay"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "float8",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "depth_from_lay",
+					"entity": {
+						"type": {
+							"localName": "layer",
+							"namespace": "jdbc:postgresql:31052023_Dev_db_dump:bdms"
+						},
+						"path": [
+							{
+								"localName": "depth_from_lay",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"BoreholeInterval",
+						"mappedIntervalBegin",
+						"Quantity",
+						"value"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A BoreholeInterval is similar to a MappedFeature  whose shape is 1-D interval and uses the SRS of the containing borehole.  The &ldquo;mappedIntervalBegin&rdquo; and &ldquo;mappedIntervalEnd&rdquo; properties are alternative to the 1D geometry to overcome problems with the delivery and ease of queryability of 1D GML shapes.</p>\n"
+						},
+						{
+							"propertyType": "? extends AbstractMemberType",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The property mappedIntervalBegin (SWE::Quantity) is a measurement (a value and a unit of measurement) corresponding to the measured distance of the start of the mapped interval along the path of the borehole. The measured value must be less than or equal to the mappedIntervalEnd value.</p>\n"
+						},
+						{
+							"propertyType": "Quantity",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>Scalar component with decimal representation and a unit of measure used to store value of a continuous quantity</p>\n"
+						},
+						{
+							"propertyType": "double",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>Value is optional, to enable structure to act as a schema for values provided using other encodings</p>\n"
+						}
+					],
+					"shortName": "value",
+					"entity": {
+						"type": {
+							"localName": "BoreholeIntervalType",
+							"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+						},
+						"path": [
+							{
+								"localName": "mappedIntervalBegin",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "Quantity",
+								"namespace": "http://www.opengis.net/swe/2.0"
+							},
+							{
+								"localName": "value",
+								"namespace": "http://www.opengis.net/swe/2.0"
+							}
+						]
+					}
+				}
+			],
+			"explanation": "<p>For each value in <em>depth_from_lay</em> adds the same value to the <em>value</em> property. If necessary a conversion is applied.</p>\n",
+			"cellId": "Cb158a578-30de-4d76-82b4-959cb5cc6564",
+			"parentCells": [
+				"Ce3cfa7ab-d0fa-4640-b793-b507880d4c63"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Assign",
+			"functionId": "eu.esdihumboldt.hale.align.assign",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Value",
+					"paramName": "value",
+					"paramValue": "m",
+					"simple": true
+				}
+			],
+			"sources": [],
+			"targets": [
+				{
+					"propertyPath": [
+						"BoreholeInterval",
+						"mappedIntervalEnd",
+						"Quantity",
+						"uom",
+						"code"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A BoreholeInterval is similar to a MappedFeature  whose shape is 1-D interval and uses the SRS of the containing borehole.  The &ldquo;mappedIntervalBegin&rdquo; and &ldquo;mappedIntervalEnd&rdquo; properties are alternative to the 1D geometry to overcome problems with the delivery and ease of queryability of 1D GML shapes.</p>\n"
+						},
+						{
+							"propertyType": "? extends AbstractMemberType",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The mappedIntervalEnd property (SWE::Quantity) is a measurement (a value and a unit of measure) corresponding to the measured distance of the end of the mapped interval along the path of the borehole. The measured value must be greater than or equal to the mappedIntervalBegin value.</p>\n"
+						},
+						{
+							"propertyType": "Quantity",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>Scalar component with decimal representation and a unit of measure used to store value of a continuous quantity</p>\n"
+						},
+						{
+							"propertyType": "UnitReference",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>Unit of measure used to express the value of this data component</p>\n"
+						},
+						{
+							"propertyType": "UomSymbol",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>This type specifies a character string of length at least one, and restricted such that it must not contain any of the following characters: &ldquo;:&rdquo; (colon), &quot; &quot; (space), (newline), (carriage return), (tab). This allows values corresponding to familiar abbreviations, such as &ldquo;kg&rdquo;, &ldquo;m/s&rdquo;, etc.<br />\nIt is also required that the symbol be an identifier for a unit of measure as specified in the &ldquo;Unified Code of Units of Measure&rdquo; (UCUM) (<a href=\"http://aurora.regenstrief.org/UCUM\">http://aurora.regenstrief.org/UCUM</a>). This provides a set of symbols and a grammar for constructing identifiers for units of measure that are unique, and may be easily entered with a keyboard supporting the limited character set known as 7-bit ASCII. ISO 2955 formerly provided a specification with this scope, but was withdrawn in 2001. UCUM largely follows ISO 2955 with modifications to remove ambiguities and other problems.</p>\n"
+						}
+					],
+					"shortName": "code",
+					"entity": {
+						"type": {
+							"localName": "BoreholeIntervalType",
+							"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+						},
+						"path": [
+							{
+								"localName": "mappedIntervalEnd",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "Quantity",
+								"namespace": "http://www.opengis.net/swe/2.0"
+							},
+							{
+								"localName": "uom",
+								"namespace": "http://www.opengis.net/swe/2.0"
+							},
+							{
+								"localName": "code",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"explanation": "<p>Assigns the value <code>m</code> to the <em>code</em> property.</p>\n",
+			"cellId": "C0573f912-c42c-4c3c-96eb-3f6152271dc4",
+			"parentCells": [
+				"Ce3cfa7ab-d0fa-4640-b793-b507880d4c63"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Assign",
+			"functionId": "eu.esdihumboldt.hale.align.assign",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Value",
+					"paramName": "value",
+					"paramValue": "http://www.opengis.net/def/uom/OGC/1.0/metre",
+					"simple": true
+				}
+			],
+			"sources": [],
+			"targets": [
+				{
+					"propertyPath": [
+						"BoreholeInterval",
+						"mappedIntervalEnd",
+						"Quantity",
+						"uom",
+						"href"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A BoreholeInterval is similar to a MappedFeature  whose shape is 1-D interval and uses the SRS of the containing borehole.  The &ldquo;mappedIntervalBegin&rdquo; and &ldquo;mappedIntervalEnd&rdquo; properties are alternative to the 1D geometry to overcome problems with the delivery and ease of queryability of 1D GML shapes.</p>\n"
+						},
+						{
+							"propertyType": "? extends AbstractMemberType",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The mappedIntervalEnd property (SWE::Quantity) is a measurement (a value and a unit of measure) corresponding to the measured distance of the end of the mapped interval along the path of the borehole. The measured value must be greater than or equal to the mappedIntervalBegin value.</p>\n"
+						},
+						{
+							"propertyType": "Quantity",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>Scalar component with decimal representation and a unit of measure used to store value of a continuous quantity</p>\n"
+						},
+						{
+							"propertyType": "UnitReference",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>Unit of measure used to express the value of this data component</p>\n"
+						},
+						{
+							"propertyType": "hrefType",
+							"propertyCardinality": "0..1"
+						}
+					],
+					"shortName": "href",
+					"entity": {
+						"type": {
+							"localName": "BoreholeIntervalType",
+							"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+						},
+						"path": [
+							{
+								"localName": "mappedIntervalEnd",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "Quantity",
+								"namespace": "http://www.opengis.net/swe/2.0"
+							},
+							{
+								"localName": "uom",
+								"namespace": "http://www.opengis.net/swe/2.0"
+							},
+							{
+								"localName": "href",
+								"namespace": "http://www.w3.org/1999/xlink"
+							}
+						]
+					}
+				}
+			],
+			"explanation": "<p>Assigns the value <code>http://www.opengis.net/def/uom/OGC/1.0/metre</code> to the <em>href</em> property.</p>\n",
+			"cellId": "C6b054605-f6b4-486f-a7e5-d313a86aa301",
+			"parentCells": [
+				"Ce3cfa7ab-d0fa-4640-b793-b507880d4c63"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Assign",
+			"functionId": "eu.esdihumboldt.hale.align.assign",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Value",
+					"paramName": "value",
+					"paramValue": "metre",
+					"simple": true
+				}
+			],
+			"sources": [],
+			"targets": [
+				{
+					"propertyPath": [
+						"BoreholeInterval",
+						"mappedIntervalEnd",
+						"Quantity",
+						"uom",
+						"title"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A BoreholeInterval is similar to a MappedFeature  whose shape is 1-D interval and uses the SRS of the containing borehole.  The &ldquo;mappedIntervalBegin&rdquo; and &ldquo;mappedIntervalEnd&rdquo; properties are alternative to the 1D geometry to overcome problems with the delivery and ease of queryability of 1D GML shapes.</p>\n"
+						},
+						{
+							"propertyType": "? extends AbstractMemberType",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The mappedIntervalEnd property (SWE::Quantity) is a measurement (a value and a unit of measure) corresponding to the measured distance of the end of the mapped interval along the path of the borehole. The measured value must be greater than or equal to the mappedIntervalBegin value.</p>\n"
+						},
+						{
+							"propertyType": "Quantity",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>Scalar component with decimal representation and a unit of measure used to store value of a continuous quantity</p>\n"
+						},
+						{
+							"propertyType": "UnitReference",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>Unit of measure used to express the value of this data component</p>\n"
+						},
+						{
+							"propertyType": "titleAttrType",
+							"propertyCardinality": "0..1"
+						}
+					],
+					"shortName": "title",
+					"entity": {
+						"type": {
+							"localName": "BoreholeIntervalType",
+							"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+						},
+						"path": [
+							{
+								"localName": "mappedIntervalEnd",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "Quantity",
+								"namespace": "http://www.opengis.net/swe/2.0"
+							},
+							{
+								"localName": "uom",
+								"namespace": "http://www.opengis.net/swe/2.0"
+							},
+							{
+								"localName": "title",
+								"namespace": "http://www.w3.org/1999/xlink"
+							}
+						]
+					}
+				}
+			],
+			"explanation": "<p>Assigns the value <code>metre</code> to the <em>title</em> property.</p>\n",
+			"cellId": "Ced5d82c6-6234-47d1-9a7e-9d5f85962c15",
+			"parentCells": [
+				"Ce3cfa7ab-d0fa-4640-b793-b507880d4c63"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Rename",
+			"functionId": "eu.esdihumboldt.hale.align.rename",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Structural rename",
+					"paramName": "structuralRename",
+					"paramValue": "false",
+					"simple": true
+				},
+				{
+					"paramLabel": "Allow ignore namespace",
+					"paramName": "ignoreNamespaces",
+					"paramValue": "false",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"layer",
+						"depth_to_lay"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "float8",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "depth_to_lay",
+					"entity": {
+						"type": {
+							"localName": "layer",
+							"namespace": "jdbc:postgresql:31052023_Dev_db_dump:bdms"
+						},
+						"path": [
+							{
+								"localName": "depth_to_lay",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"BoreholeInterval",
+						"mappedIntervalEnd",
+						"Quantity",
+						"value"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A BoreholeInterval is similar to a MappedFeature  whose shape is 1-D interval and uses the SRS of the containing borehole.  The &ldquo;mappedIntervalBegin&rdquo; and &ldquo;mappedIntervalEnd&rdquo; properties are alternative to the 1D geometry to overcome problems with the delivery and ease of queryability of 1D GML shapes.</p>\n"
+						},
+						{
+							"propertyType": "? extends AbstractMemberType",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The mappedIntervalEnd property (SWE::Quantity) is a measurement (a value and a unit of measure) corresponding to the measured distance of the end of the mapped interval along the path of the borehole. The measured value must be greater than or equal to the mappedIntervalBegin value.</p>\n"
+						},
+						{
+							"propertyType": "Quantity",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>Scalar component with decimal representation and a unit of measure used to store value of a continuous quantity</p>\n"
+						},
+						{
+							"propertyType": "double",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>Value is optional, to enable structure to act as a schema for values provided using other encodings</p>\n"
+						}
+					],
+					"shortName": "value",
+					"entity": {
+						"type": {
+							"localName": "BoreholeIntervalType",
+							"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+						},
+						"path": [
+							{
+								"localName": "mappedIntervalEnd",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "Quantity",
+								"namespace": "http://www.opengis.net/swe/2.0"
+							},
+							{
+								"localName": "value",
+								"namespace": "http://www.opengis.net/swe/2.0"
+							}
+						]
+					}
+				}
+			],
+			"explanation": "<p>For each value in <em>depth_to_lay</em> adds the same value to the <em>value</em> property. If necessary a conversion is applied.</p>\n",
+			"cellId": "C603cff18-f00e-49d6-9486-3150748a964f",
+			"parentCells": [
+				"Ce3cfa7ab-d0fa-4640-b793-b507880d4c63"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Formatted string",
+			"functionId": "eu.esdihumboldt.hale.align.formattedstring",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Format pattern",
+					"paramName": "pattern",
+					"paramValue": "#Borehole_{id_bho}",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"borehole",
+						"id_bho"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "serial",
+							"propertyCardinality": "0..1"
+						}
+					],
+					"shortName": "id_bho",
+					"entity": {
+						"type": {
+							"localName": "borehole",
+							"namespace": "jdbc:postgresql:31052023_Dev_db_dump:bdms"
+						},
+						"path": [
+							{
+								"localName": "id_bho",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"BoreholeInterval",
+						"parentBorehole",
+						"href"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A BoreholeInterval is similar to a MappedFeature  whose shape is 1-D interval and uses the SRS of the containing borehole.  The &ldquo;mappedIntervalBegin&rdquo; and &ldquo;mappedIntervalEnd&rdquo; properties are alternative to the 1D geometry to overcome problems with the delivery and ease of queryability of 1D GML shapes.</p>\n"
+						},
+						{
+							"propertyType": "BoreholePropertyType",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The property parentBorehole is an association between a BoreholeInterval and a Borehole to which the interval belongs.</p>\n"
+						},
+						{
+							"propertyType": "hrefType",
+							"propertyCardinality": "0..1"
+						}
+					],
+					"shortName": "href",
+					"entity": {
+						"type": {
+							"localName": "BoreholeIntervalType",
+							"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+						},
+						"path": [
+							{
+								"localName": "parentBorehole",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "href",
+								"namespace": "http://www.w3.org/1999/xlink"
+							}
+						]
+					}
+				}
+			],
+			"explanation": "Populates the <em>href</em> property with a string formatted according to this pattern:<br /><pre>#Borehole_{id_bho}</pre><br />Source property names in curly braces are replaced by the corresponding property value, if the context condition/index matches, otherwise the value is not set.<br /><br />Replacement table:<br /><table border=\"1\"><tr><th>Variable name</th><th>Value of the following property</th></tr><tr><td>{id_bho}</td><td><em>id_bho</em></td></tr></table>",
+			"cellId": "C68bde8d4-2aa9-4eb1-92bc-c2dd36f12e6c",
+			"parentCells": [
+				"Ce3cfa7ab-d0fa-4640-b793-b507880d4c63"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Groovy Retype",
+			"functionId": "eu.esdihumboldt.cst.functions.groovy.retype",
+			"typeRelation": true,
+			"functionParameters": [
+				{
+					"paramLabel": "script",
+					"paramName": "script",
+					"paramValue": "//assign all collected 'BoreholeInterval'-Ids for each borehole\r\ndef layers\r\nwithTransformationContext{\r\n\tdef c = _.context.collector(it)\r\n\tlayers = c.geologyLayers[_source.p.id_bho.value()].values()\r\n}\r\n\r\n_target {\r\n\tlayers.each {lay -> \r\n\t\tlogElement {\r\n\t\t\thref( \"#BoreholeInterval_${lay}\" )\r\n\t\t}\r\n\t}\r\n}\r\n",
+					"simple": false
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"borehole"
+					],
+					"propertyDescriptions": [
+						{
+						}
+					],
+					"shortName": "borehole",
+					"entity": {
+						"type": {
+							"localName": "borehole",
+							"namespace": "jdbc:postgresql:31052023_Dev_db_dump:bdms"
+						}
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A Borehole is the generalized term for any narrow shaft drilled in the ground, either vertically, horizontally, or inclined.</p>\n"
+						}
+					],
+					"shortName": "Borehole",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+						}
+					}
+				}
+			],
+			"explanation": "<p>Creates a <em>Borehole</em> instance for each <em>borehole</em> instance in the source data set.</p>\n<br />Before the property transformations are run, the target instance is populated by executing the following Groovy script:<br /><br /><pre><code class=\"language-groovy\">//assign all collected 'BoreholeInterval'-Ids for each borehole\r\ndef layers\r\nwithTransformationContext{\r\n\tdef c = _.context.collector(it)\r\n\tlayers = c.geologyLayers[_source.p.id_bho.value()].values()\r\n}\r\n\r\n_target {\r\n\tlayers.each {lay -> \r\n\t\tlogElement {\r\n\t\t\thref( \"#BoreholeInterval_${lay}\" )\r\n\t\t}\r\n\t}\r\n}\r\n</code></pre>",
+			"cellId": "Cb92b3edd-86f6-4b63-bfe7-f02acdb7989c",
+			"mode": "active",
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Rename",
+			"functionId": "eu.esdihumboldt.hale.align.rename",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Structural rename",
+					"paramName": "structuralRename",
+					"paramValue": "false",
+					"simple": true
+				},
+				{
+					"paramLabel": "Allow ignore namespace",
+					"paramName": "ignoreNamespaces",
+					"paramValue": "false",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"borehole",
+						"project_name_bho"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "varchar",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "project_name_bho",
+					"entity": {
+						"type": {
+							"localName": "borehole",
+							"namespace": "jdbc:postgresql:31052023_Dev_db_dump:bdms"
+						},
+						"path": [
+							{
+								"localName": "project_name_bho",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole",
+						"description"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A Borehole is the generalized term for any narrow shaft drilled in the ground, either vertically, horizontally, or inclined.</p>\n"
+						},
+						{
+							"propertyType": "StringOrRefType",
+							"propertyCardinality": "0..1"
+						}
+					],
+					"shortName": "description",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+						},
+						"path": [
+							{
+								"localName": "description",
+								"namespace": "http://www.opengis.net/gml/3.2"
+							}
+						]
+					}
+				}
+			],
+			"explanation": "<p>For each value in <em>project_name_bho</em> adds the same value to the <em>description</em> property. If necessary a conversion is applied.</p>\n",
+			"cellId": "C79bd4136-3314-4e8b-a5ad-fe77e48f7874",
+			"parentCells": [
+				"Cb92b3edd-86f6-4b63-bfe7-f02acdb7989c"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Assign",
+			"functionId": "eu.esdihumboldt.hale.align.assign",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Value",
+					"paramName": "value",
+					"paramValue": "mm",
+					"simple": true
+				}
+			],
+			"sources": [],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole",
+						"downholeDrillingDetails",
+						"DrillingDetails",
+						"boreholeDiameter",
+						"Quantity",
+						"uom",
+						"code"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A Borehole is the generalized term for any narrow shaft drilled in the ground, either vertically, horizontally, or inclined.</p>\n"
+						},
+						{
+							"propertyType": "?",
+							"propertyCardinality": "0..110",
+							"propertyDescription": "<p>The property downholeDrillingDetails:DrillingDetails specifies the drilling method and borehole diameter for intervals down the borehole.</p>\n"
+						},
+						{
+							"propertyType": "DrillingDetails",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>DrillingDetails is a class that captures the description of drilling methods and hole diameters down the drilling path. Properties that apply to the Borehole as a whole are managed in BoreholeDetails.</p>\n"
+						},
+						{
+							"propertyType": "? extends AbstractMemberType",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The boreholeDiameter property (SWE::Quantity) contains a measurement (a value and a unit of measure) corresponding to the diameter of the drilled hole.</p>\n"
+						},
+						{
+							"propertyType": "Quantity",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>Scalar component with decimal representation and a unit of measure used to store value of a continuous quantity</p>\n"
+						},
+						{
+							"propertyType": "UnitReference",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>Unit of measure used to express the value of this data component</p>\n"
+						},
+						{
+							"propertyType": "UomSymbol",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>This type specifies a character string of length at least one, and restricted such that it must not contain any of the following characters: &ldquo;:&rdquo; (colon), &quot; &quot; (space), (newline), (carriage return), (tab). This allows values corresponding to familiar abbreviations, such as &ldquo;kg&rdquo;, &ldquo;m/s&rdquo;, etc.<br />\nIt is also required that the symbol be an identifier for a unit of measure as specified in the &ldquo;Unified Code of Units of Measure&rdquo; (UCUM) (<a href=\"http://aurora.regenstrief.org/UCUM\">http://aurora.regenstrief.org/UCUM</a>). This provides a set of symbols and a grammar for constructing identifiers for units of measure that are unique, and may be easily entered with a keyboard supporting the limited character set known as 7-bit ASCII. ISO 2955 formerly provided a specification with this scope, but was withdrawn in 2001. UCUM largely follows ISO 2955 with modifications to remove ambiguities and other problems.</p>\n"
+						}
+					],
+					"shortName": "code",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+						},
+						"path": [
+							{
+								"localName": "downholeDrillingDetails",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "DrillingDetails",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "boreholeDiameter",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "Quantity",
+								"namespace": "http://www.opengis.net/swe/2.0"
+							},
+							{
+								"localName": "uom",
+								"namespace": "http://www.opengis.net/swe/2.0"
+							},
+							{
+								"localName": "code",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"explanation": "<p>Assigns the value <code>mm</code> to the <em>code</em> property.</p>\n",
+			"cellId": "Cc0fde7ba-0117-458a-b6df-f5e9cb1ce4de",
+			"parentCells": [
+				"Cb92b3edd-86f6-4b63-bfe7-f02acdb7989c"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Rename",
+			"functionId": "eu.esdihumboldt.hale.align.rename",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Structural rename",
+					"paramName": "structuralRename",
+					"paramValue": "false",
+					"simple": true
+				},
+				{
+					"paramLabel": "Allow ignore namespace",
+					"paramName": "ignoreNamespaces",
+					"paramValue": "false",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"borehole",
+						"drilling_diameter_bho"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "float8",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "drilling_diameter_bho",
+					"entity": {
+						"type": {
+							"localName": "borehole",
+							"namespace": "jdbc:postgresql:31052023_Dev_db_dump:bdms"
+						},
+						"path": [
+							{
+								"localName": "drilling_diameter_bho",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole",
+						"downholeDrillingDetails",
+						"DrillingDetails",
+						"boreholeDiameter",
+						"Quantity",
+						"value"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A Borehole is the generalized term for any narrow shaft drilled in the ground, either vertically, horizontally, or inclined.</p>\n"
+						},
+						{
+							"propertyType": "?",
+							"propertyCardinality": "0..110",
+							"propertyDescription": "<p>The property downholeDrillingDetails:DrillingDetails specifies the drilling method and borehole diameter for intervals down the borehole.</p>\n"
+						},
+						{
+							"propertyType": "DrillingDetails",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>DrillingDetails is a class that captures the description of drilling methods and hole diameters down the drilling path. Properties that apply to the Borehole as a whole are managed in BoreholeDetails.</p>\n"
+						},
+						{
+							"propertyType": "? extends AbstractMemberType",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The boreholeDiameter property (SWE::Quantity) contains a measurement (a value and a unit of measure) corresponding to the diameter of the drilled hole.</p>\n"
+						},
+						{
+							"propertyType": "Quantity",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>Scalar component with decimal representation and a unit of measure used to store value of a continuous quantity</p>\n"
+						},
+						{
+							"propertyType": "double",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>Value is optional, to enable structure to act as a schema for values provided using other encodings</p>\n"
+						}
+					],
+					"shortName": "value",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+						},
+						"path": [
+							{
+								"localName": "downholeDrillingDetails",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "DrillingDetails",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "boreholeDiameter",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "Quantity",
+								"namespace": "http://www.opengis.net/swe/2.0"
+							},
+							{
+								"localName": "value",
+								"namespace": "http://www.opengis.net/swe/2.0"
+							}
+						]
+					}
+				}
+			],
+			"explanation": "<p>For each value in <em>drilling_diameter_bho</em> adds the same value to the <em>value</em> property. If necessary a conversion is applied.</p>\n",
+			"cellId": "C28277000-6ea2-402b-86b0-9e2ff4978a1a",
+			"parentCells": [
+				"Cb92b3edd-86f6-4b63-bfe7-f02acdb7989c"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Classification",
+			"functionId": "eu.esdihumboldt.hale.align.classification",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "If not classified",
+					"paramName": "notClassifiedAction",
+					"paramValue": "null",
+					"simple": true
+				},
+				{
+					"paramLabel": "lookupTableID",
+					"paramName": "lookupTableID",
+					"paramValue": "ddfdb8f8-f484-4801-b0cc-ca7b2115c89a",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"borehole",
+						"drilling_method_id_cli"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "int4",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "drilling_method_id_cli",
+					"entity": {
+						"type": {
+							"localName": "borehole",
+							"namespace": "jdbc:postgresql:31052023_Dev_db_dump:bdms"
+						},
+						"path": [
+							{
+								"localName": "drilling_method_id_cli",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole",
+						"downholeDrillingDetails",
+						"DrillingDetails",
+						"drillingMethod",
+						"href"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A Borehole is the generalized term for any narrow shaft drilled in the ground, either vertically, horizontally, or inclined.</p>\n"
+						},
+						{
+							"propertyType": "?",
+							"propertyCardinality": "0..110",
+							"propertyDescription": "<p>The property downholeDrillingDetails:DrillingDetails specifies the drilling method and borehole diameter for intervals down the borehole.</p>\n"
+						},
+						{
+							"propertyType": "DrillingDetails",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>DrillingDetails is a class that captures the description of drilling methods and hole diameters down the drilling path. Properties that apply to the Borehole as a whole are managed in BoreholeDetails.</p>\n"
+						},
+						{
+							"propertyType": "ReferenceType",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The drillingMethod:BoreholeDrillingMethodCode property contains a term from a controlled vocabulary indicating the drilling method used. Appropriate terms would include rotary air blast, auger, diamond core, air core, etc.</p>\n"
+						},
+						{
+							"propertyType": "hrefType",
+							"propertyCardinality": "0..1"
+						}
+					],
+					"shortName": "href",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+						},
+						"path": [
+							{
+								"localName": "downholeDrillingDetails",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "DrillingDetails",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "drillingMethod",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "href",
+								"namespace": "http://www.w3.org/1999/xlink"
+							}
+						]
+					}
+				}
+			],
+			"explanation": "Populates the <em>href</em> property from the <em>drilling_method_id_cli</em> property with values according to the following mapping:<br /><table border=\"1\"><tr><th>Source values</th><th>Target value</th></tr><tr><td><span style=\"font-style: italic;\">22107018</span>, <span style=\"font-style: italic;\">22107014</span>, <span style=\"font-style: italic;\">22107006</span>, <span style=\"font-style: italic;\">22107019</span>, <span style=\"font-style: italic;\">22107003</span>, <span style=\"font-style: italic;\">22107011</span>, <span style=\"font-style: italic;\">22107008</span>, <span style=\"font-style: italic;\">22107015</span>, <span style=\"font-style: italic;\">22107004</span>, <span style=\"font-style: italic;\">22107016</span>, <span style=\"font-style: italic;\">22107007</span>, <span style=\"font-style: italic;\">22107009</span>, <span style=\"font-style: italic;\">22107012</span></td><td><span style=\"font-style: italic;\"></span></td></tr><tr><td><span style=\"font-style: italic;\">22107017</span></td><td><span style=\"font-style: italic;\">http://resource.geosciml.org/classifier/cgi/boreholedrillingmethod/auger</span></td></tr><tr><td><span style=\"font-style: italic;\">22107013</span></td><td><span style=\"font-style: italic;\">http://resource.geosciml.org/classifier/cgi/boreholedrillingmethod/percussion_drilling</span></td></tr></table><br />Not mapped source values will result in the following target value: null.",
+			"cellId": "C31291f0d-571f-49e8-8a6c-4f1137f67ec4",
+			"parentCells": [
+				"Cb92b3edd-86f6-4b63-bfe7-f02acdb7989c"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Assign",
+			"functionId": "eu.esdihumboldt.hale.align.assign",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Value",
+					"paramName": "value",
+					"paramValue": "m",
+					"simple": true
+				}
+			],
+			"sources": [],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole",
+						"downholeDrillingDetails",
+						"DrillingDetails",
+						"intervalBegin",
+						"Quantity",
+						"uom",
+						"code"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A Borehole is the generalized term for any narrow shaft drilled in the ground, either vertically, horizontally, or inclined.</p>\n"
+						},
+						{
+							"propertyType": "?",
+							"propertyCardinality": "0..110",
+							"propertyDescription": "<p>The property downholeDrillingDetails:DrillingDetails specifies the drilling method and borehole diameter for intervals down the borehole.</p>\n"
+						},
+						{
+							"propertyType": "DrillingDetails",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>DrillingDetails is a class that captures the description of drilling methods and hole diameters down the drilling path. Properties that apply to the Borehole as a whole are managed in BoreholeDetails.</p>\n"
+						},
+						{
+							"propertyType": "? extends AbstractMemberType",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The intervalBegin property (SWE::Quantity) contains a measurement (a value and a unit of measurement) that corresponds to the measured distance of the start of the interval along the path of the borehole. The measured value must be less than or equal to the intervalEnd value.</p>\n"
+						},
+						{
+							"propertyType": "Quantity",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>Scalar component with decimal representation and a unit of measure used to store value of a continuous quantity</p>\n"
+						},
+						{
+							"propertyType": "UnitReference",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>Unit of measure used to express the value of this data component</p>\n"
+						},
+						{
+							"propertyType": "UomSymbol",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>This type specifies a character string of length at least one, and restricted such that it must not contain any of the following characters: &ldquo;:&rdquo; (colon), &quot; &quot; (space), (newline), (carriage return), (tab). This allows values corresponding to familiar abbreviations, such as &ldquo;kg&rdquo;, &ldquo;m/s&rdquo;, etc.<br />\nIt is also required that the symbol be an identifier for a unit of measure as specified in the &ldquo;Unified Code of Units of Measure&rdquo; (UCUM) (<a href=\"http://aurora.regenstrief.org/UCUM\">http://aurora.regenstrief.org/UCUM</a>). This provides a set of symbols and a grammar for constructing identifiers for units of measure that are unique, and may be easily entered with a keyboard supporting the limited character set known as 7-bit ASCII. ISO 2955 formerly provided a specification with this scope, but was withdrawn in 2001. UCUM largely follows ISO 2955 with modifications to remove ambiguities and other problems.</p>\n"
+						}
+					],
+					"shortName": "code",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+						},
+						"path": [
+							{
+								"localName": "downholeDrillingDetails",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "DrillingDetails",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "intervalBegin",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "Quantity",
+								"namespace": "http://www.opengis.net/swe/2.0"
+							},
+							{
+								"localName": "uom",
+								"namespace": "http://www.opengis.net/swe/2.0"
+							},
+							{
+								"localName": "code",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"explanation": "<p>Assigns the value <code>m</code> to the <em>code</em> property.</p>\n",
+			"cellId": "C7282fcc0-ec0a-4a31-ad95-ea44eda12465",
+			"parentCells": [
+				"Cb92b3edd-86f6-4b63-bfe7-f02acdb7989c"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Assign",
+			"functionId": "eu.esdihumboldt.hale.align.assign",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Value",
+					"paramName": "value",
+					"paramValue": "0.0",
+					"simple": true
+				}
+			],
+			"sources": [],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole",
+						"downholeDrillingDetails",
+						"DrillingDetails",
+						"intervalBegin",
+						"Quantity",
+						"value"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A Borehole is the generalized term for any narrow shaft drilled in the ground, either vertically, horizontally, or inclined.</p>\n"
+						},
+						{
+							"propertyType": "?",
+							"propertyCardinality": "0..110",
+							"propertyDescription": "<p>The property downholeDrillingDetails:DrillingDetails specifies the drilling method and borehole diameter for intervals down the borehole.</p>\n"
+						},
+						{
+							"propertyType": "DrillingDetails",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>DrillingDetails is a class that captures the description of drilling methods and hole diameters down the drilling path. Properties that apply to the Borehole as a whole are managed in BoreholeDetails.</p>\n"
+						},
+						{
+							"propertyType": "? extends AbstractMemberType",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The intervalBegin property (SWE::Quantity) contains a measurement (a value and a unit of measurement) that corresponds to the measured distance of the start of the interval along the path of the borehole. The measured value must be less than or equal to the intervalEnd value.</p>\n"
+						},
+						{
+							"propertyType": "Quantity",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>Scalar component with decimal representation and a unit of measure used to store value of a continuous quantity</p>\n"
+						},
+						{
+							"propertyType": "double",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>Value is optional, to enable structure to act as a schema for values provided using other encodings</p>\n"
+						}
+					],
+					"shortName": "value",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+						},
+						"path": [
+							{
+								"localName": "downholeDrillingDetails",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "DrillingDetails",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "intervalBegin",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "Quantity",
+								"namespace": "http://www.opengis.net/swe/2.0"
+							},
+							{
+								"localName": "value",
+								"namespace": "http://www.opengis.net/swe/2.0"
+							}
+						]
+					}
+				}
+			],
+			"explanation": "<p>Assigns the value <code>0.0</code> to the <em>value</em> property.</p>\n",
+			"cellId": "C662c898d-4128-4c85-ab72-30291288bea0",
+			"parentCells": [
+				"Cb92b3edd-86f6-4b63-bfe7-f02acdb7989c"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Assign",
+			"functionId": "eu.esdihumboldt.hale.align.assign",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Value",
+					"paramName": "value",
+					"paramValue": "m",
+					"simple": true
+				}
+			],
+			"sources": [],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole",
+						"downholeDrillingDetails",
+						"DrillingDetails",
+						"intervalEnd",
+						"Quantity",
+						"uom",
+						"code"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A Borehole is the generalized term for any narrow shaft drilled in the ground, either vertically, horizontally, or inclined.</p>\n"
+						},
+						{
+							"propertyType": "?",
+							"propertyCardinality": "0..110",
+							"propertyDescription": "<p>The property downholeDrillingDetails:DrillingDetails specifies the drilling method and borehole diameter for intervals down the borehole.</p>\n"
+						},
+						{
+							"propertyType": "DrillingDetails",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>DrillingDetails is a class that captures the description of drilling methods and hole diameters down the drilling path. Properties that apply to the Borehole as a whole are managed in BoreholeDetails.</p>\n"
+						},
+						{
+							"propertyType": "? extends AbstractMemberType",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The property intervalEnd (SWE::Quantity) contains a measurement (a value and a unit of measurement) of the measured distance of the end of the interval along the path of the borehole. The measured value must be greater than or equal to the intervalBegin value.</p>\n"
+						},
+						{
+							"propertyType": "Quantity",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>Scalar component with decimal representation and a unit of measure used to store value of a continuous quantity</p>\n"
+						},
+						{
+							"propertyType": "UnitReference",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>Unit of measure used to express the value of this data component</p>\n"
+						},
+						{
+							"propertyType": "UomSymbol",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>This type specifies a character string of length at least one, and restricted such that it must not contain any of the following characters: &ldquo;:&rdquo; (colon), &quot; &quot; (space), (newline), (carriage return), (tab). This allows values corresponding to familiar abbreviations, such as &ldquo;kg&rdquo;, &ldquo;m/s&rdquo;, etc.<br />\nIt is also required that the symbol be an identifier for a unit of measure as specified in the &ldquo;Unified Code of Units of Measure&rdquo; (UCUM) (<a href=\"http://aurora.regenstrief.org/UCUM\">http://aurora.regenstrief.org/UCUM</a>). This provides a set of symbols and a grammar for constructing identifiers for units of measure that are unique, and may be easily entered with a keyboard supporting the limited character set known as 7-bit ASCII. ISO 2955 formerly provided a specification with this scope, but was withdrawn in 2001. UCUM largely follows ISO 2955 with modifications to remove ambiguities and other problems.</p>\n"
+						}
+					],
+					"shortName": "code",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+						},
+						"path": [
+							{
+								"localName": "downholeDrillingDetails",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "DrillingDetails",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "intervalEnd",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "Quantity",
+								"namespace": "http://www.opengis.net/swe/2.0"
+							},
+							{
+								"localName": "uom",
+								"namespace": "http://www.opengis.net/swe/2.0"
+							},
+							{
+								"localName": "code",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"explanation": "<p>Assigns the value <code>m</code> to the <em>code</em> property.</p>\n",
+			"cellId": "C8be901bb-c2bb-481d-9441-63fed65ddce0",
+			"parentCells": [
+				"Cb92b3edd-86f6-4b63-bfe7-f02acdb7989c"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Rename",
+			"functionId": "eu.esdihumboldt.hale.align.rename",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Structural rename",
+					"paramName": "structuralRename",
+					"paramValue": "false",
+					"simple": true
+				},
+				{
+					"paramLabel": "Allow ignore namespace",
+					"paramName": "ignoreNamespaces",
+					"paramValue": "false",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"borehole",
+						"total_depth_bho"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "float8",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "total_depth_bho",
+					"entity": {
+						"type": {
+							"localName": "borehole",
+							"namespace": "jdbc:postgresql:31052023_Dev_db_dump:bdms"
+						},
+						"path": [
+							{
+								"localName": "total_depth_bho",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole",
+						"downholeDrillingDetails",
+						"DrillingDetails",
+						"intervalEnd",
+						"Quantity",
+						"value"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A Borehole is the generalized term for any narrow shaft drilled in the ground, either vertically, horizontally, or inclined.</p>\n"
+						},
+						{
+							"propertyType": "?",
+							"propertyCardinality": "0..110",
+							"propertyDescription": "<p>The property downholeDrillingDetails:DrillingDetails specifies the drilling method and borehole diameter for intervals down the borehole.</p>\n"
+						},
+						{
+							"propertyType": "DrillingDetails",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>DrillingDetails is a class that captures the description of drilling methods and hole diameters down the drilling path. Properties that apply to the Borehole as a whole are managed in BoreholeDetails.</p>\n"
+						},
+						{
+							"propertyType": "? extends AbstractMemberType",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The property intervalEnd (SWE::Quantity) contains a measurement (a value and a unit of measurement) of the measured distance of the end of the interval along the path of the borehole. The measured value must be greater than or equal to the intervalBegin value.</p>\n"
+						},
+						{
+							"propertyType": "Quantity",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>Scalar component with decimal representation and a unit of measure used to store value of a continuous quantity</p>\n"
+						},
+						{
+							"propertyType": "double",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>Value is optional, to enable structure to act as a schema for values provided using other encodings</p>\n"
+						}
+					],
+					"shortName": "value",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+						},
+						"path": [
+							{
+								"localName": "downholeDrillingDetails",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "DrillingDetails",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "intervalEnd",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "Quantity",
+								"namespace": "http://www.opengis.net/swe/2.0"
+							},
+							{
+								"localName": "value",
+								"namespace": "http://www.opengis.net/swe/2.0"
+							}
+						]
+					}
+				}
+			],
+			"explanation": "<p>For each value in <em>total_depth_bho</em> adds the same value to the <em>value</em> property. If necessary a conversion is applied.</p>\n",
+			"cellId": "C6e04dbd1-d5ec-482c-b14f-a86c71a337ae",
+			"parentCells": [
+				"Cb92b3edd-86f6-4b63-bfe7-f02acdb7989c"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Formatted string",
+			"functionId": "eu.esdihumboldt.hale.align.formattedstring",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Format pattern",
+					"paramName": "pattern",
+					"paramValue": "Borehole_{id_bho}",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"borehole",
+						"id_bho"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "serial",
+							"propertyCardinality": "0..1"
+						}
+					],
+					"shortName": "id_bho",
+					"entity": {
+						"type": {
+							"localName": "borehole",
+							"namespace": "jdbc:postgresql:31052023_Dev_db_dump:bdms"
+						},
+						"path": [
+							{
+								"localName": "id_bho",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole",
+						"id"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A Borehole is the generalized term for any narrow shaft drilled in the ground, either vertically, horizontally, or inclined.</p>\n"
+						},
+						{
+							"propertyType": "ID",
+							"propertyCardinality": "0..1"
+						}
+					],
+					"shortName": "id",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+						},
+						"path": [
+							{
+								"localName": "id",
+								"namespace": "http://www.opengis.net/gml/3.2"
+							}
+						]
+					}
+				}
+			],
+			"explanation": "Populates the <em>id</em> property with a string formatted according to this pattern:<br /><pre>Borehole_{id_bho}</pre><br />Source property names in curly braces are replaced by the corresponding property value, if the context condition/index matches, otherwise the value is not set.<br /><br />Replacement table:<br /><table border=\"1\"><tr><th>Variable name</th><th>Value of the following property</th></tr><tr><td>{id_bho}</td><td><em>id_bho</em></td></tr></table>",
+			"cellId": "Cc4f9722d-e1c1-4723-98a7-839b81005e10",
+			"parentCells": [
+				"Cb92b3edd-86f6-4b63-bfe7-f02acdb7989c"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Assign",
+			"functionId": "eu.esdihumboldt.hale.align.assign",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Value",
+					"paramName": "value",
+					"paramValue": "m",
+					"simple": true
+				}
+			],
+			"sources": [],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole",
+						"indexData",
+						"BoreholeDetails",
+						"boreholeLength",
+						"Quantity",
+						"uom",
+						"code"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A Borehole is the generalized term for any narrow shaft drilled in the ground, either vertically, horizontally, or inclined.</p>\n"
+						},
+						{
+							"propertyType": "?",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The property indexData:BoreholeDetails describes metadata about a borehole, such as the operator, the custodian, dates of drilling, etc.</p>\n"
+						},
+						{
+							"propertyType": "BoreholeDetails",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>BoreholeDetails describes borehole-specific index data, often termed \u201cheader information\u201d. It contains metadata about the parties involved in the drilling, the storage of drilled material and other information relevant to the borehole as a whole.  Properties that may vary along the borehole path are managed in DrillingDetails</p>\n"
+						},
+						{
+							"propertyType": "? extends AbstractMemberType",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The property boreholeLength (SWE::Quantity) contains a measurement (a value and a unit of measurement) corresponding to the &ldquo;length&rdquo; of a borehole determined by the data provider (i.e., &ldquo;length&rdquo; can have different sources, like drillers measurement, loggers measurement, survey measurement, etc.).</p>\n"
+						},
+						{
+							"propertyType": "Quantity",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>Scalar component with decimal representation and a unit of measure used to store value of a continuous quantity</p>\n"
+						},
+						{
+							"propertyType": "UnitReference",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>Unit of measure used to express the value of this data component</p>\n"
+						},
+						{
+							"propertyType": "UomSymbol",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>This type specifies a character string of length at least one, and restricted such that it must not contain any of the following characters: &ldquo;:&rdquo; (colon), &quot; &quot; (space), (newline), (carriage return), (tab). This allows values corresponding to familiar abbreviations, such as &ldquo;kg&rdquo;, &ldquo;m/s&rdquo;, etc.<br />\nIt is also required that the symbol be an identifier for a unit of measure as specified in the &ldquo;Unified Code of Units of Measure&rdquo; (UCUM) (<a href=\"http://aurora.regenstrief.org/UCUM\">http://aurora.regenstrief.org/UCUM</a>). This provides a set of symbols and a grammar for constructing identifiers for units of measure that are unique, and may be easily entered with a keyboard supporting the limited character set known as 7-bit ASCII. ISO 2955 formerly provided a specification with this scope, but was withdrawn in 2001. UCUM largely follows ISO 2955 with modifications to remove ambiguities and other problems.</p>\n"
+						}
+					],
+					"shortName": "code",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+						},
+						"path": [
+							{
+								"localName": "indexData",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "BoreholeDetails",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "boreholeLength",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "Quantity",
+								"namespace": "http://www.opengis.net/swe/2.0"
+							},
+							{
+								"localName": "uom",
+								"namespace": "http://www.opengis.net/swe/2.0"
+							},
+							{
+								"localName": "code",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"explanation": "<p>Assigns the value <code>m</code> to the <em>code</em> property.</p>\n",
+			"cellId": "C76a8b8ac-f6d9-4fe9-8727-f616478999f4",
+			"parentCells": [
+				"Cb92b3edd-86f6-4b63-bfe7-f02acdb7989c"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Assign",
+			"functionId": "eu.esdihumboldt.hale.align.assign",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Value",
+					"paramName": "value",
+					"paramValue": "http://www.opengis.net/def/uom/OGC/1.0/metre",
+					"simple": true
+				}
+			],
+			"sources": [],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole",
+						"indexData",
+						"BoreholeDetails",
+						"boreholeLength",
+						"Quantity",
+						"uom",
+						"href"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A Borehole is the generalized term for any narrow shaft drilled in the ground, either vertically, horizontally, or inclined.</p>\n"
+						},
+						{
+							"propertyType": "?",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The property indexData:BoreholeDetails describes metadata about a borehole, such as the operator, the custodian, dates of drilling, etc.</p>\n"
+						},
+						{
+							"propertyType": "BoreholeDetails",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>BoreholeDetails describes borehole-specific index data, often termed \u201cheader information\u201d. It contains metadata about the parties involved in the drilling, the storage of drilled material and other information relevant to the borehole as a whole.  Properties that may vary along the borehole path are managed in DrillingDetails</p>\n"
+						},
+						{
+							"propertyType": "? extends AbstractMemberType",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The property boreholeLength (SWE::Quantity) contains a measurement (a value and a unit of measurement) corresponding to the &ldquo;length&rdquo; of a borehole determined by the data provider (i.e., &ldquo;length&rdquo; can have different sources, like drillers measurement, loggers measurement, survey measurement, etc.).</p>\n"
+						},
+						{
+							"propertyType": "Quantity",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>Scalar component with decimal representation and a unit of measure used to store value of a continuous quantity</p>\n"
+						},
+						{
+							"propertyType": "UnitReference",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>Unit of measure used to express the value of this data component</p>\n"
+						},
+						{
+							"propertyType": "hrefType",
+							"propertyCardinality": "0..1"
+						}
+					],
+					"shortName": "href",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+						},
+						"path": [
+							{
+								"localName": "indexData",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "BoreholeDetails",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "boreholeLength",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "Quantity",
+								"namespace": "http://www.opengis.net/swe/2.0"
+							},
+							{
+								"localName": "uom",
+								"namespace": "http://www.opengis.net/swe/2.0"
+							},
+							{
+								"localName": "href",
+								"namespace": "http://www.w3.org/1999/xlink"
+							}
+						]
+					}
+				}
+			],
+			"explanation": "<p>Assigns the value <code>http://www.opengis.net/def/uom/OGC/1.0/metre</code> to the <em>href</em> property.</p>\n",
+			"cellId": "C4e59959a-a119-4f05-9ec3-bbe0672d3690",
+			"parentCells": [
+				"Cb92b3edd-86f6-4b63-bfe7-f02acdb7989c"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Assign",
+			"functionId": "eu.esdihumboldt.hale.align.assign",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Value",
+					"paramName": "value",
+					"paramValue": "metre",
+					"simple": true
+				}
+			],
+			"sources": [],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole",
+						"indexData",
+						"BoreholeDetails",
+						"boreholeLength",
+						"Quantity",
+						"uom",
+						"title"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A Borehole is the generalized term for any narrow shaft drilled in the ground, either vertically, horizontally, or inclined.</p>\n"
+						},
+						{
+							"propertyType": "?",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The property indexData:BoreholeDetails describes metadata about a borehole, such as the operator, the custodian, dates of drilling, etc.</p>\n"
+						},
+						{
+							"propertyType": "BoreholeDetails",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>BoreholeDetails describes borehole-specific index data, often termed \u201cheader information\u201d. It contains metadata about the parties involved in the drilling, the storage of drilled material and other information relevant to the borehole as a whole.  Properties that may vary along the borehole path are managed in DrillingDetails</p>\n"
+						},
+						{
+							"propertyType": "? extends AbstractMemberType",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The property boreholeLength (SWE::Quantity) contains a measurement (a value and a unit of measurement) corresponding to the &ldquo;length&rdquo; of a borehole determined by the data provider (i.e., &ldquo;length&rdquo; can have different sources, like drillers measurement, loggers measurement, survey measurement, etc.).</p>\n"
+						},
+						{
+							"propertyType": "Quantity",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>Scalar component with decimal representation and a unit of measure used to store value of a continuous quantity</p>\n"
+						},
+						{
+							"propertyType": "UnitReference",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>Unit of measure used to express the value of this data component</p>\n"
+						},
+						{
+							"propertyType": "titleAttrType",
+							"propertyCardinality": "0..1"
+						}
+					],
+					"shortName": "title",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+						},
+						"path": [
+							{
+								"localName": "indexData",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "BoreholeDetails",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "boreholeLength",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "Quantity",
+								"namespace": "http://www.opengis.net/swe/2.0"
+							},
+							{
+								"localName": "uom",
+								"namespace": "http://www.opengis.net/swe/2.0"
+							},
+							{
+								"localName": "title",
+								"namespace": "http://www.w3.org/1999/xlink"
+							}
+						]
+					}
+				}
+			],
+			"explanation": "<p>Assigns the value <code>metre</code> to the <em>title</em> property.</p>\n",
+			"cellId": "C7312dfa6-34f9-4ab4-bfae-7177cd36244e",
+			"parentCells": [
+				"Cb92b3edd-86f6-4b63-bfe7-f02acdb7989c"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Rename",
+			"functionId": "eu.esdihumboldt.hale.align.rename",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Structural rename",
+					"paramName": "structuralRename",
+					"paramValue": "false",
+					"simple": true
+				},
+				{
+					"paramLabel": "Allow ignore namespace",
+					"paramName": "ignoreNamespaces",
+					"paramValue": "false",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"borehole",
+						"total_depth_bho"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "float8",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "total_depth_bho",
+					"entity": {
+						"type": {
+							"localName": "borehole",
+							"namespace": "jdbc:postgresql:31052023_Dev_db_dump:bdms"
+						},
+						"path": [
+							{
+								"localName": "total_depth_bho",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole",
+						"indexData",
+						"BoreholeDetails",
+						"boreholeLength",
+						"Quantity",
+						"value"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A Borehole is the generalized term for any narrow shaft drilled in the ground, either vertically, horizontally, or inclined.</p>\n"
+						},
+						{
+							"propertyType": "?",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The property indexData:BoreholeDetails describes metadata about a borehole, such as the operator, the custodian, dates of drilling, etc.</p>\n"
+						},
+						{
+							"propertyType": "BoreholeDetails",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>BoreholeDetails describes borehole-specific index data, often termed \u201cheader information\u201d. It contains metadata about the parties involved in the drilling, the storage of drilled material and other information relevant to the borehole as a whole.  Properties that may vary along the borehole path are managed in DrillingDetails</p>\n"
+						},
+						{
+							"propertyType": "? extends AbstractMemberType",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The property boreholeLength (SWE::Quantity) contains a measurement (a value and a unit of measurement) corresponding to the &ldquo;length&rdquo; of a borehole determined by the data provider (i.e., &ldquo;length&rdquo; can have different sources, like drillers measurement, loggers measurement, survey measurement, etc.).</p>\n"
+						},
+						{
+							"propertyType": "Quantity",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>Scalar component with decimal representation and a unit of measure used to store value of a continuous quantity</p>\n"
+						},
+						{
+							"propertyType": "double",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>Value is optional, to enable structure to act as a schema for values provided using other encodings</p>\n"
+						}
+					],
+					"shortName": "value",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+						},
+						"path": [
+							{
+								"localName": "indexData",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "BoreholeDetails",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "boreholeLength",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "Quantity",
+								"namespace": "http://www.opengis.net/swe/2.0"
+							},
+							{
+								"localName": "value",
+								"namespace": "http://www.opengis.net/swe/2.0"
+							}
+						]
+					}
+				}
+			],
+			"explanation": "<p>For each value in <em>total_depth_bho</em> adds the same value to the <em>value</em> property. If necessary a conversion is applied.</p>\n",
+			"cellId": "C060a899d-b39a-49da-b663-d68a75973943",
+			"parentCells": [
+				"Cb92b3edd-86f6-4b63-bfe7-f02acdb7989c"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Rename",
+			"functionId": "eu.esdihumboldt.hale.align.rename",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Structural rename",
+					"paramName": "structuralRename",
+					"paramValue": "false",
+					"simple": true
+				},
+				{
+					"paramLabel": "Allow ignore namespace",
+					"paramName": "ignoreNamespaces",
+					"paramValue": "false",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"borehole",
+						"drilling_date_bho"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "timestamptz",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "drilling_date_bho",
+					"entity": {
+						"type": {
+							"localName": "borehole",
+							"namespace": "jdbc:postgresql:31052023_Dev_db_dump:bdms"
+						},
+						"path": [
+							{
+								"localName": "drilling_date_bho",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole",
+						"indexData",
+						"BoreholeDetails",
+						"dateOfDrilling",
+						"TimePeriod",
+						"choice",
+						"beginPosition"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A Borehole is the generalized term for any narrow shaft drilled in the ground, either vertically, horizontally, or inclined.</p>\n"
+						},
+						{
+							"propertyType": "?",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The property indexData:BoreholeDetails describes metadata about a borehole, such as the operator, the custodian, dates of drilling, etc.</p>\n"
+						},
+						{
+							"propertyType": "BoreholeDetails",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>BoreholeDetails describes borehole-specific index data, often termed \u201cheader information\u201d. It contains metadata about the parties involved in the drilling, the storage of drilled material and other information relevant to the borehole as a whole.  Properties that may vary along the borehole path are managed in DrillingDetails</p>\n"
+						},
+						{
+							"propertyType": "TimePeriodPropertyType",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The property dateOfDrilling:TM_Period describes the time period during which drilling of the borehole occurred.</p>\n"
+						},
+						{
+							"propertyType": "TimePeriod",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>gml:TimePeriod acts as a one-dimensional geometric primitive that represents an identifiable extent in time.<br />\nThe location in of a gml:TimePeriod is described by the temporal positions of the instants at which it begins and ends. The length of the period is equal to the temporal distance between the two bounding temporal positions.<br />\nBoth beginning and end may be described in terms of their direct position using gml:TimePositionType which is an XML Schema simple content type, or by reference to an indentifiable time instant using gml:TimeInstantPropertyType.<br />\nAlternatively a limit of a gml:TimePeriod may use the conventional GML property model to make a reference to a time instant described elsewhere, or a limit may be indicated as a direct position.</p>\n"
+						},
+						{
+							"propertyCardinality": "1..1"
+						},
+						{
+							"propertyType": "timePosition",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>The method for identifying a temporal position is specific to each temporal reference system.  gml:TimePositionType supports the description of temporal position according to the subtypes described in ISO 19108.<br />\nValues based on calendars and clocks use lexical formats that are based on ISO 8601, as described in XML Schema Part 2:2001. A decimal value may be used with coordinate systems such as GPS time or UNIX time. A URI may be used to provide a reference to some era in an ordinal reference system .<br />\nIn common with many of the components modelled as data types in the ISO 19100 series of International Standards, the corresponding GML component has simple content. However, the content model gml:TimePositionType is defined in several steps.<br />\nThree XML attributes appear on gml:TimePositionType:<br />\nA time value shall be associated with a temporal reference system through the frame attribute that provides a URI reference that identifies a description of the reference system. Following ISO 19108, the Gregorian calendar with UTC is the default reference system, but others may also be used. Components for describing temporal reference systems are described in 14.4, but it is not required that the reference system be described in this, as the reference may refer to anything that may be indentified with a URI.<br />\nFor time values using a calendar containing more than one era, the (optional) calendarEraName attribute provides the name of the calendar era.<br />\nInexact temporal positions may be expressed using the optional indeterminatePosition attribute.  This takes a value from an enumeration.</p>\n"
+						}
+					],
+					"shortName": "beginPosition",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+						},
+						"path": [
+							{
+								"localName": "indexData",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "BoreholeDetails",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "dateOfDrilling",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "TimePeriod",
+								"namespace": "http://www.opengis.net/gml/3.2"
+							},
+							{
+								"localName": "choice_1",
+								"namespace": "http://www.opengis.net/gml/3.2/TimePeriodType"
+							},
+							{
+								"localName": "beginPosition",
+								"namespace": "http://www.opengis.net/gml/3.2"
+							}
+						]
+					}
+				}
+			],
+			"explanation": "<p>For each value in <em>drilling_date_bho</em> adds the same value to the <em>beginPosition</em> property. If necessary a conversion is applied.</p>\n",
+			"cellId": "C3144fd24-28a7-4b9e-8712-3d637c25cc28",
+			"parentCells": [
+				"Cb92b3edd-86f6-4b63-bfe7-f02acdb7989c"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Rename",
+			"functionId": "eu.esdihumboldt.hale.align.rename",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Structural rename",
+					"paramName": "structuralRename",
+					"paramValue": "false",
+					"simple": true
+				},
+				{
+					"paramLabel": "Allow ignore namespace",
+					"paramName": "ignoreNamespaces",
+					"paramValue": "false",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"borehole",
+						"drilling_date_bho"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "timestamptz",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "drilling_date_bho",
+					"entity": {
+						"type": {
+							"localName": "borehole",
+							"namespace": "jdbc:postgresql:31052023_Dev_db_dump:bdms"
+						},
+						"path": [
+							{
+								"localName": "drilling_date_bho",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole",
+						"indexData",
+						"BoreholeDetails",
+						"dateOfDrilling",
+						"TimePeriod",
+						"choice",
+						"endPosition"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A Borehole is the generalized term for any narrow shaft drilled in the ground, either vertically, horizontally, or inclined.</p>\n"
+						},
+						{
+							"propertyType": "?",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The property indexData:BoreholeDetails describes metadata about a borehole, such as the operator, the custodian, dates of drilling, etc.</p>\n"
+						},
+						{
+							"propertyType": "BoreholeDetails",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>BoreholeDetails describes borehole-specific index data, often termed \u201cheader information\u201d. It contains metadata about the parties involved in the drilling, the storage of drilled material and other information relevant to the borehole as a whole.  Properties that may vary along the borehole path are managed in DrillingDetails</p>\n"
+						},
+						{
+							"propertyType": "TimePeriodPropertyType",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The property dateOfDrilling:TM_Period describes the time period during which drilling of the borehole occurred.</p>\n"
+						},
+						{
+							"propertyType": "TimePeriod",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>gml:TimePeriod acts as a one-dimensional geometric primitive that represents an identifiable extent in time.<br />\nThe location in of a gml:TimePeriod is described by the temporal positions of the instants at which it begins and ends. The length of the period is equal to the temporal distance between the two bounding temporal positions.<br />\nBoth beginning and end may be described in terms of their direct position using gml:TimePositionType which is an XML Schema simple content type, or by reference to an indentifiable time instant using gml:TimeInstantPropertyType.<br />\nAlternatively a limit of a gml:TimePeriod may use the conventional GML property model to make a reference to a time instant described elsewhere, or a limit may be indicated as a direct position.</p>\n"
+						},
+						{
+							"propertyCardinality": "1..1"
+						},
+						{
+							"propertyType": "timePosition",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>The method for identifying a temporal position is specific to each temporal reference system.  gml:TimePositionType supports the description of temporal position according to the subtypes described in ISO 19108.<br />\nValues based on calendars and clocks use lexical formats that are based on ISO 8601, as described in XML Schema Part 2:2001. A decimal value may be used with coordinate systems such as GPS time or UNIX time. A URI may be used to provide a reference to some era in an ordinal reference system .<br />\nIn common with many of the components modelled as data types in the ISO 19100 series of International Standards, the corresponding GML component has simple content. However, the content model gml:TimePositionType is defined in several steps.<br />\nThree XML attributes appear on gml:TimePositionType:<br />\nA time value shall be associated with a temporal reference system through the frame attribute that provides a URI reference that identifies a description of the reference system. Following ISO 19108, the Gregorian calendar with UTC is the default reference system, but others may also be used. Components for describing temporal reference systems are described in 14.4, but it is not required that the reference system be described in this, as the reference may refer to anything that may be indentified with a URI.<br />\nFor time values using a calendar containing more than one era, the (optional) calendarEraName attribute provides the name of the calendar era.<br />\nInexact temporal positions may be expressed using the optional indeterminatePosition attribute.  This takes a value from an enumeration.</p>\n"
+						}
+					],
+					"shortName": "endPosition",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+						},
+						"path": [
+							{
+								"localName": "indexData",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "BoreholeDetails",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "dateOfDrilling",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "TimePeriod",
+								"namespace": "http://www.opengis.net/gml/3.2"
+							},
+							{
+								"localName": "choice_2",
+								"namespace": "http://www.opengis.net/gml/3.2/TimePeriodType"
+							},
+							{
+								"localName": "endPosition",
+								"namespace": "http://www.opengis.net/gml/3.2"
+							}
+						]
+					}
+				}
+			],
+			"explanation": "<p>For each value in <em>drilling_date_bho</em> adds the same value to the <em>endPosition</em> property. If necessary a conversion is applied.</p>\n",
+			"cellId": "Ccb561239-17a0-45c7-8f34-f2f12df56acf",
+			"parentCells": [
+				"Cb92b3edd-86f6-4b63-bfe7-f02acdb7989c"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Groovy script",
+			"functionId": "eu.esdihumboldt.cst.functions.groovy",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Groovy script",
+					"paramName": "script",
+					"paramValue": "if (inclination_bho == 90){\r\n\treturn \"vertical\"\r\n}\r\nelse if (inclination_bho == 0){\r\n\treturn \"horizontal\"\r\n}\r\nelse if (inclination_bho > 0 && inclination_bho < 90){\r\n\treturn \"inclined up\"\r\n}\r\n//\"inclined down\"?",
+					"simple": false
+				},
+				{
+					"paramLabel": "Use instances for variables with child properties",
+					"paramName": "variablesAsInstances",
+					"paramValue": "false",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"borehole",
+						"inclination_bho"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "float8",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "inclination_bho",
+					"entity": {
+						"type": {
+							"localName": "borehole",
+							"namespace": "jdbc:postgresql:31052023_Dev_db_dump:bdms"
+						},
+						"path": [
+							{
+								"localName": "inclination_bho",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole",
+						"indexData",
+						"BoreholeDetails",
+						"inclinationType",
+						"title"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A Borehole is the generalized term for any narrow shaft drilled in the ground, either vertically, horizontally, or inclined.</p>\n"
+						},
+						{
+							"propertyType": "?",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The property indexData:BoreholeDetails describes metadata about a borehole, such as the operator, the custodian, dates of drilling, etc.</p>\n"
+						},
+						{
+							"propertyType": "BoreholeDetails",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>BoreholeDetails describes borehole-specific index data, often termed \u201cheader information\u201d. It contains metadata about the parties involved in the drilling, the storage of drilled material and other information relevant to the borehole as a whole.  Properties that may vary along the borehole path are managed in DrillingDetails</p>\n"
+						},
+						{
+							"propertyType": "ReferenceType",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The property inclinationType:BoreholeInclinationCode contains a term from a controlled vocabulary indicating the inclination type of the borehole. Appropriate terms would include vertical; inclined up; inclined down, horizontal.</p>\n"
+						},
+						{
+							"propertyType": "titleAttrType",
+							"propertyCardinality": "0..1"
+						}
+					],
+					"shortName": "title",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+						},
+						"path": [
+							{
+								"localName": "indexData",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "BoreholeDetails",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "inclinationType",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "title",
+								"namespace": "http://www.w3.org/1999/xlink"
+							}
+						]
+					}
+				}
+			],
+			"explanation": "Populates the <em>title</em> property with the result of the following Groovy script:<br /><br /><pre><code class=\"language-groovy\">if (inclination_bho == 90){\r\n\treturn \"vertical\"\r\n}\r\nelse if (inclination_bho == 0){\r\n\treturn \"horizontal\"\r\n}\r\nelse if (inclination_bho > 0 && inclination_bho < 90){\r\n\treturn \"inclined up\"\r\n}\r\n//\"inclined down\"?</code></pre><br />Source property names are bound to the corresponding value, if the context condition/index matches, otherwise the value is not set.",
+			"cellId": "C8f964346-2922-4e24-b938-ac1218a2af3b",
+			"parentCells": [
+				"Cb92b3edd-86f6-4b63-bfe7-f02acdb7989c"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Classification",
+			"functionId": "eu.esdihumboldt.hale.align.classification",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "If not classified",
+					"paramName": "notClassifiedAction",
+					"paramValue": "null",
+					"simple": true
+				},
+				{
+					"paramLabel": "lookupTableID",
+					"paramName": "lookupTableID",
+					"paramValue": "d75820cb-0451-425a-9273-cea2559363fc",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"borehole",
+						"purpose_id_cli"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "int4",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "purpose_id_cli",
+					"entity": {
+						"type": {
+							"localName": "borehole",
+							"namespace": "jdbc:postgresql:31052023_Dev_db_dump:bdms"
+						},
+						"path": [
+							{
+								"localName": "purpose_id_cli",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole",
+						"indexData",
+						"BoreholeDetails",
+						"purpose",
+						"href"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A Borehole is the generalized term for any narrow shaft drilled in the ground, either vertically, horizontally, or inclined.</p>\n"
+						},
+						{
+							"propertyType": "?",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The property indexData:BoreholeDetails describes metadata about a borehole, such as the operator, the custodian, dates of drilling, etc.</p>\n"
+						},
+						{
+							"propertyType": "BoreholeDetails",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>BoreholeDetails describes borehole-specific index data, often termed \u201cheader information\u201d. It contains metadata about the parties involved in the drilling, the storage of drilled material and other information relevant to the borehole as a whole.  Properties that may vary along the borehole path are managed in DrillingDetails</p>\n"
+						},
+						{
+							"propertyType": "ReferenceType",
+							"propertyCardinality": "0..110",
+							"propertyDescription": "<p>The property purpose:BoreholePurposeCode contains a term from a controlled vocabulary describing the purpose for which the borehole was drilled. e.g., site investigation, mineral exploration, hydrocarbon exploration, water resources.</p>\n"
+						},
+						{
+							"propertyType": "hrefType",
+							"propertyCardinality": "0..1"
+						}
+					],
+					"shortName": "href",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+						},
+						"path": [
+							{
+								"localName": "indexData",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "BoreholeDetails",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "purpose",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "href",
+								"namespace": "http://www.w3.org/1999/xlink"
+							}
+						]
+					}
+				}
+			],
+			"explanation": "Populates the <em>href</em> property from the <em>purpose_id_cli</em> property with values according to the following mapping:<br /><table border=\"1\"><tr><th>Source values</th><th>Target value</th></tr><tr><td><span style=\"font-style: italic;\">30000003</span>, <span style=\"font-style: italic;\">30000004</span>, <span style=\"font-style: italic;\">30000005</span>, <span style=\"font-style: italic;\">22103001</span>, <span style=\"font-style: italic;\">22103003</span>, <span style=\"font-style: italic;\">30000000</span>, <span style=\"font-style: italic;\">30000001</span>, <span style=\"font-style: italic;\">30000002</span>, <span style=\"font-style: italic;\">30000006</span>, <span style=\"font-style: italic;\">22103004</span>, <span style=\"font-style: italic;\">30000007</span>, <span style=\"font-style: italic;\">30000009</span>, <span style=\"font-style: italic;\">22103006</span>, <span style=\"font-style: italic;\">30000010</span>, <span style=\"font-style: italic;\">30000012</span>, <span style=\"font-style: italic;\">22103008</span>, <span style=\"font-style: italic;\">22103009</span>, <span style=\"font-style: italic;\">22103010</span>, <span style=\"font-style: italic;\">22103011</span></td><td><span style=\"font-style: italic;\"></span></td></tr><tr><td><span style=\"font-style: italic;\">22103005</span></td><td><span style=\"font-style: italic;\">http://inspire.ec.europa.eu/codelist/BoreholePurposeValue/drinkingWaterSupply</span></td></tr><tr><td><span style=\"font-style: italic;\">22103007</span></td><td><span style=\"font-style: italic;\">http://inspire.ec.europa.eu/codelist/BoreholePurposeValue/hydrocarbonExploration</span></td></tr><tr><td><span style=\"font-style: italic;\">22103002</span></td><td><span style=\"font-style: italic;\">https://inspire.ec.europa.eu/codelist/BoreholePurposeValue/geothermalEnergy</span></td></tr><tr><td><span style=\"font-style: italic;\">30000008</span></td><td><span style=\"font-style: italic;\">https://inspire.ec.europa.eu/codelist/BoreholePurposeValue/drinkingWaterSupply</span></td></tr><tr><td><span style=\"font-style: italic;\">30000011</span></td><td><span style=\"font-style: italic;\">http://inspire.ec.europa.eu/codelist/BoreholePurposeValue/hydrocarbonProduction</span></td></tr></table><br />Not mapped source values will result in the following target value: null.",
+			"cellId": "C2043bc75-a0b7-4784-b42d-4e2ce615e728",
+			"parentCells": [
+				"Cb92b3edd-86f6-4b63-bfe7-f02acdb7989c"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Rename",
+			"functionId": "eu.esdihumboldt.hale.align.rename",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Structural rename",
+					"paramName": "structuralRename",
+					"paramValue": "false",
+					"simple": true
+				},
+				{
+					"paramLabel": "Allow ignore namespace",
+					"paramName": "ignoreNamespaces",
+					"paramValue": "false",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"borehole",
+						"original_name_bho"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "varchar",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "original_name_bho",
+					"entity": {
+						"type": {
+							"localName": "borehole",
+							"namespace": "jdbc:postgresql:31052023_Dev_db_dump:bdms"
+						},
+						"path": [
+							{
+								"localName": "original_name_bho",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole",
+						"name"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A Borehole is the generalized term for any narrow shaft drilled in the ground, either vertically, horizontally, or inclined.</p>\n"
+						},
+						{
+							"propertyType": "CodeType",
+							"propertyCardinality": "0..110",
+							"propertyDescription": "<p>gml:CodeType is a generalized type to be used for a term, keyword or name.<br />\nIt adds a XML attribute codeSpace to a term, where the value of the codeSpace attribute (if present) shall indicate a dictionary, thesaurus, classification scheme, authority, or pattern for the term.</p>\n"
+						}
+					],
+					"shortName": "name",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+						},
+						"path": [
+							{
+								"localName": "name",
+								"namespace": "http://www.opengis.net/gml/3.2"
+							}
+						]
+					}
+				}
+			],
+			"explanation": "<p>For each value in <em>original_name_bho</em> adds the same value to the <em>name</em> property. If necessary a conversion is applied.</p>\n",
+			"cellId": "Ce9eaac09-bef5-4c8f-a42d-fced19241af5",
+			"parentCells": [
+				"Cb92b3edd-86f6-4b63-bfe7-f02acdb7989c"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Ordinates to Point",
+			"functionId": "eu.esdihumboldt.cst.functions.geometric.ordinates_to_point",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Coordinate Reference System",
+					"paramName": "referenceSystem",
+					"paramValue": "epsg:2056",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"borehole",
+						"location_x_bho"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "float8",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "location_x_bho",
+					"entity": {
+						"type": {
+							"localName": "borehole",
+							"namespace": "jdbc:postgresql:31052023_Dev_db_dump:bdms"
+						},
+						"path": [
+							{
+								"localName": "location_x_bho",
+								"namespace": null
+							}
+						]
+					}
+				},
+				{
+					"propertyPath": [
+						"borehole",
+						"location_y_bho"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "float8",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "location_y_bho",
+					"entity": {
+						"type": {
+							"localName": "borehole",
+							"namespace": "jdbc:postgresql:31052023_Dev_db_dump:bdms"
+						},
+						"path": [
+							{
+								"localName": "location_y_bho",
+								"namespace": null
+							}
+						]
+					}
+				},
+				{
+					"propertyPath": [
+						"borehole",
+						"elevation_z_bho"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "float8",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "elevation_z_bho",
+					"entity": {
+						"type": {
+							"localName": "borehole",
+							"namespace": "jdbc:postgresql:31052023_Dev_db_dump:bdms"
+						},
+						"path": [
+							{
+								"localName": "elevation_z_bho",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole",
+						"referenceLocation",
+						"OriginPosition",
+						"location",
+						"Point"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A Borehole is the generalized term for any narrow shaft drilled in the ground, either vertically, horizontally, or inclined.</p>\n"
+						},
+						{
+							"propertyType": "OriginPositionPropertyType",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The property referenceLocation is an association between a Borehole and an OriginPosition corresponding to the start point of a borehole log.  This may correspond to the borehole collar location (e.g., kelly bush).</p>\n"
+						},
+						{
+							"propertyType": "OriginPosition",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>A borehole OriginPosition is a feature corresponding to the start point of a borehole log.  This may correspond to the borehole collar location (e.g., kelly bush).</p>\n"
+						},
+						{
+							"propertyType": "PointPropertyType",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>The property location contains a geometry corresponding to the location of the borehole collar.</p>\n"
+						},
+						{
+							"propertyType": "Point",
+							"propertyCardinality": "0..1",
+							"propertyDescription": "<p>A Point is defined by a single coordinate tuple. The direct position of a point is specified by the pos element which is of type DirectPositionType.</p>\n"
+						}
+					],
+					"shortName": "Point",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+						},
+						"path": [
+							{
+								"localName": "referenceLocation",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "OriginPosition",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "location",
+								"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+							},
+							{
+								"localName": "Point",
+								"namespace": "http://www.opengis.net/gml/3.2"
+							}
+						]
+					}
+				}
+			],
+			"explanation": "<p>Fills the <em>Point</em> property with point geometries created from source properties, where the <em>location_x_bho</em> property is x, the <em>location_y_bho</em> property is y and the <em>elevation_z_bho</em> property is z.<br />\nThe reference system epsg:2056 is used.</p>\n",
+			"cellId": "C0d7fe456-5328-4961-8fec-2221af39d3ad",
+			"parentCells": [
+				"Cb92b3edd-86f6-4b63-bfe7-f02acdb7989c"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Groovy script",
+			"functionId": "eu.esdihumboldt.cst.functions.groovy",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Groovy script",
+					"paramName": "script",
+					"paramValue": "if (location_x_bho && location_y_bho && elevation_z_bho && total_depth_bho){\r\n\tdef zCoord = elevation_z_bho - total_depth_bho\r\n\treturn [location_x_bho, location_y_bho, elevation_z_bho, location_x_bho, location_y_bho, zCoord]\r\n}",
+					"simple": false
+				},
+				{
+					"paramLabel": "Use instances for variables with child properties",
+					"paramName": "variablesAsInstances",
+					"paramValue": "false",
+					"simple": true
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"borehole",
+						"elevation_z_bho"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "float8",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "elevation_z_bho",
+					"entity": {
+						"type": {
+							"localName": "borehole",
+							"namespace": "jdbc:postgresql:31052023_Dev_db_dump:bdms"
+						},
+						"path": [
+							{
+								"localName": "elevation_z_bho",
+								"namespace": null
+							}
+						]
+					}
+				},
+				{
+					"propertyPath": [
+						"borehole",
+						"location_x_bho"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "float8",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "location_x_bho",
+					"entity": {
+						"type": {
+							"localName": "borehole",
+							"namespace": "jdbc:postgresql:31052023_Dev_db_dump:bdms"
+						},
+						"path": [
+							{
+								"localName": "location_x_bho",
+								"namespace": null
+							}
+						]
+					}
+				},
+				{
+					"propertyPath": [
+						"borehole",
+						"location_y_bho"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "float8",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "location_y_bho",
+					"entity": {
+						"type": {
+							"localName": "borehole",
+							"namespace": "jdbc:postgresql:31052023_Dev_db_dump:bdms"
+						},
+						"path": [
+							{
+								"localName": "location_y_bho",
+								"namespace": null
+							}
+						]
+					}
+				},
+				{
+					"propertyPath": [
+						"borehole",
+						"total_depth_bho"
+					],
+					"propertyDescriptions": [
+						{
+						},
+						{
+							"propertyType": "float8",
+							"propertyCardinality": "1..1"
+						}
+					],
+					"shortName": "total_depth_bho",
+					"entity": {
+						"type": {
+							"localName": "borehole",
+							"namespace": "jdbc:postgresql:31052023_Dev_db_dump:bdms"
+						},
+						"path": [
+							{
+								"localName": "total_depth_bho",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole",
+						"shape",
+						"AbstractGeometry",
+						"LineString",
+						"choice",
+						"posList"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A Borehole is the generalized term for any narrow shaft drilled in the ground, either vertically, horizontally, or inclined.</p>\n"
+						},
+						{
+							"propertyType": "shape",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>The association Geometry shall link a<br />\nSF_SpatialSamplingFeature to a GM_Object that describes its shape.</p>\n"
+						},
+						{
+							"propertyCardinality": "0..1"
+						},
+						{
+							"propertyType": "LineString",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>A LineString is a special curve that consists of a single segment with linear interpolation. It is defined by two or more coordinate tuples, with linear interpolation between them. The number of direct positions in the list shall be at least two.</p>\n"
+						},
+						{
+							"propertyCardinality": "1..1"
+						},
+						{
+							"propertyType": "posList",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>posList instances (and other instances with the content model specified by DirectPositionListType) hold the coordinates for a sequence of direct positions within the same coordinate reference system (CRS).<br />\nif no srsName attribute is given, the CRS shall be specified as part of the larger context this geometry element is part of, typically a geometric object like a point, curve, etc.<br />\nThe optional attribute count specifies the number of direct positions in the list. If the attribute count is present then the attribute srsDimension shall be present, too.<br />\nThe number of entries in the list is equal to the product of the dimensionality of the coordinate reference system (i.e. it is a derived value of the coordinate reference system definition) and the number of direct positions.</p>\n"
+						}
+					],
+					"shortName": "posList",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+						},
+						"path": [
+							{
+								"localName": "shape",
+								"namespace": "http://www.opengis.net/samplingSpatial/2.0"
+							},
+							{
+								"localName": "choice",
+								"namespace": "http://www.opengis.net/gml/3.2/AbstractGeometry"
+							},
+							{
+								"localName": "LineString",
+								"namespace": "http://www.opengis.net/gml/3.2"
+							},
+							{
+								"localName": "choice_1",
+								"namespace": "http://www.opengis.net/gml/3.2/LineStringType"
+							},
+							{
+								"localName": "posList",
+								"namespace": "http://www.opengis.net/gml/3.2"
+							}
+						]
+					}
+				}
+			],
+			"explanation": "Populates the <em>posList</em> property with the result of the following Groovy script:<br /><br /><pre><code class=\"language-groovy\">if (location_x_bho && location_y_bho && elevation_z_bho && total_depth_bho){\r\n\tdef zCoord = elevation_z_bho - total_depth_bho\r\n\treturn [location_x_bho, location_y_bho, elevation_z_bho, location_x_bho, location_y_bho, zCoord]\r\n}</code></pre><br />Source property names are bound to the corresponding value, if the context condition/index matches, otherwise the value is not set.",
+			"cellId": "Cd26028f6-d1f1-4ad4-a8d7-66234e36acf4",
+			"parentCells": [
+				"Cb92b3edd-86f6-4b63-bfe7-f02acdb7989c"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Assign",
+			"functionId": "eu.esdihumboldt.hale.align.assign",
+			"typeRelation": false,
+			"functionParameters": [
+				{
+					"paramLabel": "Value",
+					"paramName": "value",
+					"paramValue": "EPSG:2056",
+					"simple": true
+				}
+			],
+			"sources": [],
+			"targets": [
+				{
+					"propertyPath": [
+						"Borehole",
+						"shape",
+						"AbstractGeometry",
+						"LineString",
+						"srsName"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A Borehole is the generalized term for any narrow shaft drilled in the ground, either vertically, horizontally, or inclined.</p>\n"
+						},
+						{
+							"propertyType": "shape",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>The association Geometry shall link a<br />\nSF_SpatialSamplingFeature to a GM_Object that describes its shape.</p>\n"
+						},
+						{
+							"propertyCardinality": "0..1"
+						},
+						{
+							"propertyType": "LineString",
+							"propertyCardinality": "1..1",
+							"propertyDescription": "<p>A LineString is a special curve that consists of a single segment with linear interpolation. It is defined by two or more coordinate tuples, with linear interpolation between them. The number of direct positions in the list shall be at least two.</p>\n"
+						},
+						{
+							"propertyType": "anyURI",
+							"propertyCardinality": "0..1"
+						}
+					],
+					"shortName": "srsName",
+					"entity": {
+						"type": {
+							"localName": "BoreholeType",
+							"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+						},
+						"path": [
+							{
+								"localName": "shape",
+								"namespace": "http://www.opengis.net/samplingSpatial/2.0"
+							},
+							{
+								"localName": "choice",
+								"namespace": "http://www.opengis.net/gml/3.2/AbstractGeometry"
+							},
+							{
+								"localName": "LineString",
+								"namespace": "http://www.opengis.net/gml/3.2"
+							},
+							{
+								"localName": "srsName",
+								"namespace": null
+							}
+						]
+					}
+				}
+			],
+			"explanation": "<p>Assigns the value <code>EPSG:2056</code> to the <em>srsName</em> property.</p>\n",
+			"cellId": "C26e00ef1-780c-4460-a4de-fdbeb5597aac",
+			"parentCells": [
+				"Cb92b3edd-86f6-4b63-bfe7-f02acdb7989c"
+			],
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Groovy Retype",
+			"functionId": "eu.esdihumboldt.cst.functions.groovy.retype",
+			"typeRelation": true,
+			"functionParameters": [
+				{
+					"paramLabel": "script",
+					"paramName": "script",
+					"paramValue": "import eu.esdihumboldt.hale.common.lookup.*;\r\nimport eu.esdihumboldt.hale.ui.HaleUI;\r\nimport eu.esdihumboldt.hale.common.core.io.*;\r\n\r\ndef lithologyIds\r\ndef lithostratIds\r\ndef chronostratIds\r\n\r\nwithTransformationContext{\r\n\tdef c = _.context.collector(it)\r\n\tlithologyIds = c.lithologyIds.values()\r\n\tlithostratIds = c.lithostratIds.values()\r\n\tchronostratIds = c.chronostratIds.values()\r\n}\r\n\r\n//create GeologicUnits for all existing lithologyIds, lithostratId and chronostratIds\r\ncodelistId = _source.p.id_cli.value()\r\nif(lithologyIds.contains(codelistId)){\r\n\t_target{\r\n\t\tid( \"GeologicUnit_Lithology_${codelistId}\" )\r\n\t\tgeologicUnitType {\r\n\t\t\thref( 'http://resource.geosciml.org/classifier/cgi/geologicunittype/lithologic_unit' )\r\n\t\t\ttitle( 'lithologic unit' )\r\n\t\t}\r\n\t\tcomposition {\r\n\t\t\tCompositionPart {\r\n\t\t\t\tmaterial {\r\n\t\t\t\t\tRockMaterial {\r\n\t\t\t\t\t\tlithology {\r\n\t\t\t\t\t\t\t//get value of lookup table \"layer_lithology\"\r\n\t\t\t\t\t\t\tdef lith = getLookupTableValue(_source.p.id_cli.value(), \"38e8df01-b509-4ab2-8301-27dc95c2f265\") as String\r\n\t\t\t\t\t\t\thref ( lith )\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t}\r\n\t}\r\n}\r\nelse if(lithostratIds.contains(codelistId)){\r\n\t_target{\r\n\t\tid( \"GeologicUnit_Lithostratigraphy_${codelistId}\" )\r\n\t\tgeologicUnitType {\r\n\t\t\thref( 'http://resource.geosciml.org/classifier/cgi/geologicunittype/lithostratigraphic_unit' )\r\n\t\t\ttitle( 'lithostratigraphic unit' )\r\n\t\t}\r\n\t\tname( _source.p.text_cli_de.value() )\r\n\t}\r\n}\r\nelse if(chronostratIds.contains(codelistId)){\r\n\t_target{\r\n\t\tid( \"GeologicUnit_Chronostratigraphy_${codelistId}\" )\r\n\t\tgeologicUnitType {\r\n\t\t\thref( 'http://resource.geosciml.org/classifier/cgi/geologicunittype/chronostratigraphic_unit' )\r\n\t\t\ttitle( 'chronostratigraphic unit' )\r\n\t\t}\r\n\t\tgeologicHistory {\r\n\t\t\tGeologicEvent{\r\n\t\t\t\t\t//get value of lookup table \"layer_chronostratigraphy\"\r\n\t\t\t\t\tdef chrono = getLookupTableValue(_source.p.id_cli.value(), \"213eb5b2-77aa-4a3e-9d2f-34a169c38549\") as String\r\n\t\t\t\tolderNamedAge {\r\n\t\t\t\t\thref ( chrono )\r\n\t\t\t\t}\r\n\t\t\t\tyoungerNamedAge {\r\n\t\t\t\t\thref ( chrono )\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t}\r\n\t}\r\n}\r\n\r\n\r\ndef getLookupTableValue(value, tableId){\r\n\t// retrieve Lookup table\r\n\tLookupService ls = HaleUI.getServiceProvider().getService(LookupService.class);\r\n\tLookupTableInfo tableInfo = ls.getTable(tableId);\r\n\tdef table = tableInfo.getTable();\r\n\t\r\n\t//get value\r\n\tdef result = table.lookup(Value.of(value))\r\n\treturn result\r\n}",
+					"simple": false
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"codelist"
+					],
+					"propertyDescriptions": [
+						{
+						}
+					],
+					"shortName": "codelist",
+					"entity": {
+						"type": {
+							"localName": "codelist",
+							"namespace": "jdbc:postgresql:31052023_Dev_db_dump:bdms"
+						}
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"GeologicUnit"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>Conceptually, a GeologicUnit may represent a body of material in the Earth whose complete and precise extent is inferred to exist (e.g., North American Data Model GeologicUnit, Stratigraphic unit in the sense of NACSN, or International Stratigraphic Code ), or a classifier used to characterize parts of the Earth (e.g. lithologic map unit like &lsquo;granitic rock&rsquo; or &lsquo;alluvial deposit&rsquo;, surficial units like &lsquo;till&rsquo; or &lsquo;old alluvium&rsquo;). It includes both formal units (i.e. formally adopted and named in an official lexicon) and informal units (i.e. named but not promoted to a lexicon) and unnamed units (i.e., recognizable, described and delineable in the field but not otherwise formalised).  In simpler terms, a geologic unit is a package of earth material (generally rock).</p>\n"
+						}
+					],
+					"shortName": "GeologicUnit",
+					"entity": {
+						"type": {
+							"localName": "GeologicUnitType",
+							"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Basic"
+						}
+					}
+				}
+			],
+			"explanation": "<p>Creates a <em>GeologicUnit</em> instance for each <em>codelist</em> instance in the source data set.</p>\n<br />Before the property transformations are run, the target instance is populated by executing the following Groovy script:<br /><br /><pre><code class=\"language-groovy\">import eu.esdihumboldt.hale.common.lookup.*;\r\nimport eu.esdihumboldt.hale.ui.HaleUI;\r\nimport eu.esdihumboldt.hale.common.core.io.*;\r\n\r\ndef lithologyIds\r\ndef lithostratIds\r\ndef chronostratIds\r\n\r\nwithTransformationContext{\r\n\tdef c = _.context.collector(it)\r\n\tlithologyIds = c.lithologyIds.values()\r\n\tlithostratIds = c.lithostratIds.values()\r\n\tchronostratIds = c.chronostratIds.values()\r\n}\r\n\r\n//create GeologicUnits for all existing lithologyIds, lithostratId and chronostratIds\r\ncodelistId = _source.p.id_cli.value()\r\nif(lithologyIds.contains(codelistId)){\r\n\t_target{\r\n\t\tid( \"GeologicUnit_Lithology_${codelistId}\" )\r\n\t\tgeologicUnitType {\r\n\t\t\thref( 'http://resource.geosciml.org/classifier/cgi/geologicunittype/lithologic_unit' )\r\n\t\t\ttitle( 'lithologic unit' )\r\n\t\t}\r\n\t\tcomposition {\r\n\t\t\tCompositionPart {\r\n\t\t\t\tmaterial {\r\n\t\t\t\t\tRockMaterial {\r\n\t\t\t\t\t\tlithology {\r\n\t\t\t\t\t\t\t//get value of lookup table \"layer_lithology\"\r\n\t\t\t\t\t\t\tdef lith = getLookupTableValue(_source.p.id_cli.value(), \"38e8df01-b509-4ab2-8301-27dc95c2f265\") as String\r\n\t\t\t\t\t\t\thref ( lith )\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t}\r\n\t}\r\n}\r\nelse if(lithostratIds.contains(codelistId)){\r\n\t_target{\r\n\t\tid( \"GeologicUnit_Lithostratigraphy_${codelistId}\" )\r\n\t\tgeologicUnitType {\r\n\t\t\thref( 'http://resource.geosciml.org/classifier/cgi/geologicunittype/lithostratigraphic_unit' )\r\n\t\t\ttitle( 'lithostratigraphic unit' )\r\n\t\t}\r\n\t\tname( _source.p.text_cli_de.value() )\r\n\t}\r\n}\r\nelse if(chronostratIds.contains(codelistId)){\r\n\t_target{\r\n\t\tid( \"GeologicUnit_Chronostratigraphy_${codelistId}\" )\r\n\t\tgeologicUnitType {\r\n\t\t\thref( 'http://resource.geosciml.org/classifier/cgi/geologicunittype/chronostratigraphic_unit' )\r\n\t\t\ttitle( 'chronostratigraphic unit' )\r\n\t\t}\r\n\t\tgeologicHistory {\r\n\t\t\tGeologicEvent{\r\n\t\t\t\t\t//get value of lookup table \"layer_chronostratigraphy\"\r\n\t\t\t\t\tdef chrono = getLookupTableValue(_source.p.id_cli.value(), \"213eb5b2-77aa-4a3e-9d2f-34a169c38549\") as String\r\n\t\t\t\tolderNamedAge {\r\n\t\t\t\t\thref ( chrono )\r\n\t\t\t\t}\r\n\t\t\t\tyoungerNamedAge {\r\n\t\t\t\t\thref ( chrono )\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t}\r\n\t}\r\n}\r\n\r\n\r\ndef getLookupTableValue(value, tableId){\r\n\t// retrieve Lookup table\r\n\tLookupService ls = HaleUI.getServiceProvider().getService(LookupService.class);\r\n\tLookupTableInfo tableInfo = ls.getTable(tableId);\r\n\tdef table = tableInfo.getTable();\r\n\t\r\n\t//get value\r\n\tdef result = table.lookup(Value.of(value))\r\n\treturn result\r\n}</code></pre>",
+			"cellId": "Ca625a811-1ecd-46cb-94e9-6bfb06777fd0",
+			"mode": "active",
+			"priority": "normal",
+			"configurable": true
+		},
+		{
+			"functionName": "Groovy Join",
+			"functionId": "eu.esdihumboldt.cst.functions.groovy.join",
+			"typeRelation": true,
+			"functionParameters": [
+				{
+					"paramLabel": "script",
+					"paramName": "script",
+					"paramValue": "//create a BoreholeInterval only if stratigraphy.kind_id_cli = \"Geology\"/\"3000\"\r\nif (_source.links.stratigraphy.p.kind_id_cli.value() == 3000) {\r\n\t\r\n\t//collect different ids\r\n\tdef boreholeId = _source.links.stratigraphy.borehole.p.id_bho.value()\r\n\tdef layerId = _source.p.id_lay.value()\r\n\t\r\n\tdef lithologyId = _source.p.lithology_id_cli.value()\r\n\tdef lithostratId = _source.p.lithostratigraphy_id_cli.value()\r\n\tdef chronostratId = _source.p.chronostratigraphy_id_cli.value()\r\n\t\r\n\twithTransformationContext {\r\n\t\tdef c = _.context.collector(it)\t\r\n\t\t//collect layer and borehole id\r\n\t\tc.geologyLayers[boreholeId] << layerId\r\n\t\t\r\n\t\t//collect lithologyId, lithotraigraphyId and chronostraigraphy of the layer \r\n\t\t//only if the id is not yet collected\r\n\t\tif(! c.lithologyIds.values().contains(lithologyId) ){\r\n\t\t\tc.lithologyIds << lithologyId\r\n\t\t}\r\n\t\t\r\n\t\tif(! c.lithostratIds.values().contains(lithostratId) ){\r\n\t\t\tc.lithostratIds << lithostratId\r\n\t\t}\r\n\t\t\r\n\t\tif(! c.chronostratIds.values().contains(chronostratId) ){\r\n\t\t\tc.chronostratIds << chronostratId\r\n\t\t}\r\n\t}\r\n\t\r\n\t//create the boreholeInterval for lithology, lithostratigraphy and chronostratigraphy\r\n\t//and set the attribute collectionIdentifier\r\n\tdef stratigraphyId = _source.links.stratigraphy.p.id_sty.value()\r\n\tif (lithologyId){\r\n\t\t_target{\r\n\t\t\tid ( \"BoreholeInterval_Lithology_${layerId}\" )\r\n\t\t\tcollectionIdentifier( \"Collection_Lithology_${stratigraphyId}\" ){\r\n\t\t\t\tcodeSpace( _project.vars.CollectionId_CodeSpace )\r\n\t\t\t}\r\n\t\t\tspecification {\r\n\t\t\t\thref ( \"#GeologicUnit_Lithology_${lithologyId}\" )\r\n\t\t\t}\r\n\t\t}\t\r\n\t}\r\n\t\r\n\tif (lithostratId){\r\n\t\t_target{\r\n\t\t\tid ( \"BoreholeInterval_Lithostratigraphy_${layerId}\" )\r\n\t\t\tcollectionIdentifier( \"Collection_Lithostratigraphy_${stratigraphyId}\" ){\r\n\t\t\t\tcodeSpace( _project.vars.CollectionId_CodeSpace )\r\n\t\t\t}\r\n\t\t\tspecification {\r\n\t\t\t\thref (\"#GeologicUnit_Lithostratigraphy_${lithostratId}\" )\r\n\t\t\t}\r\n\t\t}\t\r\n\t}\r\n\t\r\n\tif (chronostratId){\r\n\t\t_target{\r\n\t\t\tid ( \"BoreholeInterval_Chronostratigraphy_${layerId}\" )\r\n\t\t\tcollectionIdentifier( \"Collection_Chronostratigraphy_${stratigraphyId}\" ){\r\n\t\t\t\tcodeSpace( _project.vars.CollectionId_CodeSpace )\r\n\t\t\t}\r\n\t\t\tspecification {\r\n\t\t\t\thref ( \"#GeologicUnit_Chronostratigraphy_${chronostratId}\" )\r\n\t\t\t}\r\n\t\t}\t\r\n\t}\r\n}",
+					"simple": false
+				},
+				{
+					"paramLabel": "Join definition",
+					"paramName": "join",
+					"paramValue": {
+						"jp:join-parameter": {"@xmlns:jp":"http://www.esdi-humboldt.eu/hale/join","class":[{"@xmlns:xmlns":"http://www.esdi-humboldt.eu/hale/alignment","type":{"@name":"layer","@ns":"jdbc:postgresql:31052023_Dev_db_dump:bdms"}},{"@xmlns:xmlns":"http://www.esdi-humboldt.eu/hale/alignment","type":{"@name":"stratigraphy","@ns":"jdbc:postgresql:31052023_Dev_db_dump:bdms"}},{"@xmlns:xmlns":"http://www.esdi-humboldt.eu/hale/alignment","type":{"@name":"borehole","@ns":"jdbc:postgresql:31052023_Dev_db_dump:bdms"}}],"jp:condition":[{"property":[{"@xmlns:xmlns":"http://www.esdi-humboldt.eu/hale/alignment","type":{"@name":"layer","@ns":"jdbc:postgresql:31052023_Dev_db_dump:bdms"},"child":{"@name":"id_sty_fk"}},{"@xmlns:xmlns":"http://www.esdi-humboldt.eu/hale/alignment","type":{"@name":"stratigraphy","@ns":"jdbc:postgresql:31052023_Dev_db_dump:bdms"},"child":{"@name":"id_sty"}}]},{"property":[{"@xmlns:xmlns":"http://www.esdi-humboldt.eu/hale/alignment","type":{"@name":"stratigraphy","@ns":"jdbc:postgresql:31052023_Dev_db_dump:bdms"},"child":{"@name":"id_bho_fk"}},{"@xmlns:xmlns":"http://www.esdi-humboldt.eu/hale/alignment","type":{"@name":"borehole","@ns":"jdbc:postgresql:31052023_Dev_db_dump:bdms"},"child":{"@name":"id_bho"}}]}]}
+
+					},
+					"simple": false
+				}
+			],
+			"sources": [
+				{
+					"propertyPath": [
+						"layer"
+					],
+					"propertyDescriptions": [
+						{
+						}
+					],
+					"shortName": "layer",
+					"entity": {
+						"type": {
+							"localName": "layer",
+							"namespace": "jdbc:postgresql:31052023_Dev_db_dump:bdms"
+						}
+					}
+				},
+				{
+					"propertyPath": [
+						"stratigraphy"
+					],
+					"propertyDescriptions": [
+						{
+						}
+					],
+					"shortName": "stratigraphy",
+					"entity": {
+						"type": {
+							"localName": "stratigraphy",
+							"namespace": "jdbc:postgresql:31052023_Dev_db_dump:bdms"
+						}
+					}
+				},
+				{
+					"propertyPath": [
+						"borehole"
+					],
+					"propertyDescriptions": [
+						{
+						}
+					],
+					"shortName": "borehole",
+					"entity": {
+						"type": {
+							"localName": "borehole",
+							"namespace": "jdbc:postgresql:31052023_Dev_db_dump:bdms"
+						}
+					}
+				}
+			],
+			"targets": [
+				{
+					"propertyPath": [
+						"BoreholeInterval"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>A BoreholeInterval is similar to a MappedFeature  whose shape is 1-D interval and uses the SRS of the containing borehole.  The &ldquo;mappedIntervalBegin&rdquo; and &ldquo;mappedIntervalEnd&rdquo; properties are alternative to the 1D geometry to overcome problems with the delivery and ease of queryability of 1D GML shapes.</p>\n"
+						}
+					],
+					"shortName": "BoreholeInterval",
+					"entity": {
+						"type": {
+							"localName": "BoreholeIntervalType",
+							"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
+						}
+					}
+				}
+			],
+			"explanation": "Joins the types <em>layer</em>, <em>stratigraphy</em>, <em>borehole</em> based on the following conditions:<br /><br /><em>layer</em>.<em>id_sty_fk</em> = <em>stratigraphy</em>.<em>id_sty</em><br /><em>stratigraphy</em>.<em>id_bho_fk</em> = <em>borehole</em>.<em>id_bho</em><br /><br /><br />Before the property transformations are run, the target instance is populated by executing the following Groovy script:<br /><br /><pre><code class=\"language-groovy\">//create a BoreholeInterval only if stratigraphy.kind_id_cli = \"Geology\"/\"3000\"\r\nif (_source.links.stratigraphy.p.kind_id_cli.value() == 3000) {\r\n\t\r\n\t//collect different ids\r\n\tdef boreholeId = _source.links.stratigraphy.borehole.p.id_bho.value()\r\n\tdef layerId = _source.p.id_lay.value()\r\n\t\r\n\tdef lithologyId = _source.p.lithology_id_cli.value()\r\n\tdef lithostratId = _source.p.lithostratigraphy_id_cli.value()\r\n\tdef chronostratId = _source.p.chronostratigraphy_id_cli.value()\r\n\t\r\n\twithTransformationContext {\r\n\t\tdef c = _.context.collector(it)\t\r\n\t\t//collect layer and borehole id\r\n\t\tc.geologyLayers[boreholeId] << layerId\r\n\t\t\r\n\t\t//collect lithologyId, lithotraigraphyId and chronostraigraphy of the layer \r\n\t\t//only if the id is not yet collected\r\n\t\tif(! c.lithologyIds.values().contains(lithologyId) ){\r\n\t\t\tc.lithologyIds << lithologyId\r\n\t\t}\r\n\t\t\r\n\t\tif(! c.lithostratIds.values().contains(lithostratId) ){\r\n\t\t\tc.lithostratIds << lithostratId\r\n\t\t}\r\n\t\t\r\n\t\tif(! c.chronostratIds.values().contains(chronostratId) ){\r\n\t\t\tc.chronostratIds << chronostratId\r\n\t\t}\r\n\t}\r\n\t\r\n\t//create the boreholeInterval for lithology, lithostratigraphy and chronostratigraphy\r\n\t//and set the attribute collectionIdentifier\r\n\tdef stratigraphyId = _source.links.stratigraphy.p.id_sty.value()\r\n\tif (lithologyId){\r\n\t\t_target{\r\n\t\t\tid ( \"BoreholeInterval_Lithology_${layerId}\" )\r\n\t\t\tcollectionIdentifier( \"Collection_Lithology_${stratigraphyId}\" ){\r\n\t\t\t\tcodeSpace( _project.vars.CollectionId_CodeSpace )\r\n\t\t\t}\r\n\t\t\tspecification {\r\n\t\t\t\thref ( \"#GeologicUnit_Lithology_${lithologyId}\" )\r\n\t\t\t}\r\n\t\t}\t\r\n\t}\r\n\t\r\n\tif (lithostratId){\r\n\t\t_target{\r\n\t\t\tid ( \"BoreholeInterval_Lithostratigraphy_${layerId}\" )\r\n\t\t\tcollectionIdentifier( \"Collection_Lithostratigraphy_${stratigraphyId}\" ){\r\n\t\t\t\tcodeSpace( _project.vars.CollectionId_CodeSpace )\r\n\t\t\t}\r\n\t\t\tspecification {\r\n\t\t\t\thref (\"#GeologicUnit_Lithostratigraphy_${lithostratId}\" )\r\n\t\t\t}\r\n\t\t}\t\r\n\t}\r\n\t\r\n\tif (chronostratId){\r\n\t\t_target{\r\n\t\t\tid ( \"BoreholeInterval_Chronostratigraphy_${layerId}\" )\r\n\t\t\tcollectionIdentifier( \"Collection_Chronostratigraphy_${stratigraphyId}\" ){\r\n\t\t\t\tcodeSpace( _project.vars.CollectionId_CodeSpace )\r\n\t\t\t}\r\n\t\t\tspecification {\r\n\t\t\t\thref ( \"#GeologicUnit_Chronostratigraphy_${chronostratId}\" )\r\n\t\t\t}\r\n\t\t}\t\r\n\t}\r\n}</code></pre>",
+			"cellId": "Ce3cfa7ab-d0fa-4640-b793-b507880d4c63",
+			"mode": "active",
+			"priority": "highest",
+			"configurable": true
+		}
+	]
+};
+		});
+	</script>
+</head>
+<body ng-app="hale">
+	<div class="container" ng-controller="alignmentCtrl">
+		<hale-documentation alignment="alignment"></hale-documentation>
+	</div>
+</body>
+</html>

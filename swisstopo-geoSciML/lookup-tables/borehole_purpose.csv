@@ -1,0 +1,25 @@
+id_cli,text_cli_en,text_cli_de,INSPIRE BoreholePurpose
+30000003,CCS exploration,CCS Exploration,
+30000004,CCS injection,CCS Injektion,
+30000005,CCS production,CCS Produktion,
+22103001,geotechnics,Geotechnik,
+22103003,contaminated sites,Belastete Standorte,
+22103002,geothermal exploration,Geothermie Exploration,https://inspire.ec.europa.eu/codelist/BoreholePurposeValue/geothermalEnergy
+30000000,geothermal injection,Geothermie Injektion,
+30000001,geothermal production,Geothermie Produktion,
+30000002,downhole heat exchanger,Erdwärmesonde,
+30000006,tunnel exploration,Tunnel Exploration,
+22103004,hydrology,Hydrogeologie,
+30000007,groundwater,Grundwasser,
+30000008,potable water,Trinkwasser,https://inspire.ec.europa.eu/codelist/BoreholePurposeValue/drinkingWaterSupply
+22103005,mineral water,Mineralwasser,http://inspire.ec.europa.eu/codelist/BoreholePurposeValue/drinkingWaterSupply
+30000009,hotspring,Thermalwasser,
+22103006,mineral resources,Mineralische Rohstoffe,
+22103007,hydrocarbon exploration,Kohlenwasserstoff Exploration,http://inspire.ec.europa.eu/codelist/BoreholePurposeValue/hydrocarbonExploration
+30000010,hydrocarbon injection,Kohlenwasserstoff Injektion,
+30000011,hydrocarbon production,Kohlenwasserstoff Produktion,http://inspire.ec.europa.eu/codelist/BoreholePurposeValue/hydrocarbonProduction
+30000012,scientific exploration,Wissenschaftliche Exploration,
+22103008,natural hazards,Naturgefahren,
+22103009,research,Forschung,
+22103010,other ,anderer,
+22103011,not specified,keine Angaben,
