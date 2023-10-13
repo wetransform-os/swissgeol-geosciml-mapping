@@ -1,0 +1,804 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<alignment xmlns="http://www.esdi-humboldt.eu/hale/alignment">
+    <cell relation="eu.esdihumboldt.cst.functions.groovy.join" id="Ce3cfa7ab-d0fa-4640-b793-b507880d4c63" priority="highest">
+        <source name="types">
+            <class>
+                <type name="layer" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+            </class>
+        </source>
+        <source name="types">
+            <class>
+                <type name="stratigraphy" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+            </class>
+        </source>
+        <source name="types">
+            <class>
+                <type name="borehole" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+            </class>
+        </source>
+        <target>
+            <class>
+                <type name="BoreholeIntervalType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+            </class>
+        </target>
+        <complexParameter name="join">
+            <jp:join-parameter xmlns:jp="http://www.esdi-humboldt.eu/hale/join">
+                <class>
+                    <type name="layer" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+                </class>
+                <class>
+                    <type name="stratigraphy" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+                </class>
+                <class>
+                    <type name="borehole" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+                </class>
+                <jp:condition>
+                    <property>
+                        <type name="layer" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+                        <child name="id_sty_fk"/>
+                    </property>
+                    <property>
+                        <type name="stratigraphy" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+                        <child name="id_sty"/>
+                    </property>
+                </jp:condition>
+                <jp:condition>
+                    <property>
+                        <type name="stratigraphy" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+                        <child name="id_bho_fk"/>
+                    </property>
+                    <property>
+                        <type name="borehole" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+                        <child name="id_bho"/>
+                    </property>
+                </jp:condition>
+            </jp:join-parameter>
+        </complexParameter>
+        <complexParameter name="script">
+            <core:text xmlns:core="http://www.esdi-humboldt.eu/hale/core" xml:space="preserve">
+//create a BoreholeInterval only if stratigraphy.kind_id_cli = "Geology"/"3000"&#13;
+if (_source.links.stratigraphy.p.kind_id_cli.value() == 3000) {&#13;
+	&#13;
+	//collect different ids&#13;
+	def boreholeId = _source.links.stratigraphy.borehole.p.id_bho.value()&#13;
+	def layerId = _source.p.id_lay.value()&#13;
+	&#13;
+	def lithologyId = _source.p.lithology_id_cli.value()&#13;
+	def lithostratId = _source.p.lithostratigraphy_id_cli.value()&#13;
+	def chronostratId = _source.p.chronostratigraphy_id_cli.value()&#13;
+	&#13;
+	withTransformationContext {&#13;
+		def c = _.context.collector(it)	&#13;
+		//collect layer and borehole id&#13;
+		c.geologyLayers[boreholeId] &lt;&lt; layerId&#13;
+		&#13;
+		//collect lithologyId, lithotraigraphyId and chronostraigraphy of the layer &#13;
+		//only if the id is not yet collected&#13;
+		if(! c.lithologyIds.values().contains(lithologyId) ){&#13;
+			c.lithologyIds &lt;&lt; lithologyId&#13;
+		}&#13;
+		&#13;
+		if(! c.lithostratIds.values().contains(lithostratId) ){&#13;
+			c.lithostratIds &lt;&lt; lithostratId&#13;
+		}&#13;
+		&#13;
+		if(! c.chronostratIds.values().contains(chronostratId) ){&#13;
+			c.chronostratIds &lt;&lt; chronostratId&#13;
+		}&#13;
+	}&#13;
+	&#13;
+	//create the boreholeInterval for lithology, lithostratigraphy and chronostratigraphy&#13;
+	//and set the attribute collectionIdentifier&#13;
+	def stratigraphyId = _source.links.stratigraphy.p.id_sty.value()&#13;
+	if (lithologyId){&#13;
+		_target{&#13;
+			id ( "BoreholeInterval_Lithology_${layerId}" )&#13;
+			collectionIdentifier( "Collection_Lithology_${stratigraphyId}" ){&#13;
+				codeSpace( _project.vars.CollectionId_CodeSpace )&#13;
+			}&#13;
+			specification {&#13;
+				href ( "#GeologicUnit_Lithology_${lithologyId}" )&#13;
+			}&#13;
+		}	&#13;
+	}&#13;
+	&#13;
+	if (lithostratId){&#13;
+		_target{&#13;
+			id ( "BoreholeInterval_Lithostratigraphy_${layerId}" )&#13;
+			collectionIdentifier( "Collection_Lithostratigraphy_${stratigraphyId}" ){&#13;
+				codeSpace( _project.vars.CollectionId_CodeSpace )&#13;
+			}&#13;
+			specification {&#13;
+				href ("#GeologicUnit_Lithostratigraphy_${lithostratId}" )&#13;
+			}&#13;
+		}	&#13;
+	}&#13;
+	&#13;
+	if (chronostratId){&#13;
+		_target{&#13;
+			id ( "BoreholeInterval_Chronostratigraphy_${layerId}" )&#13;
+			collectionIdentifier( "Collection_Chronostratigraphy_${stratigraphyId}" ){&#13;
+				codeSpace( _project.vars.CollectionId_CodeSpace )&#13;
+			}&#13;
+			specification {&#13;
+				href ( "#GeologicUnit_Chronostratigraphy_${chronostratId}" )&#13;
+			}&#13;
+		}	&#13;
+	}&#13;
+}
+</core:text>
+        </complexParameter>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="Cfa1c7e80-6c70-4666-994d-dc01677b6212" priority="normal">
+        <source>
+            <property>
+                <type name="stratigraphy" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+                <child name="name_sty"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="BoreholeIntervalType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="description" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="Cdd4cd1d1-7d83-4d98-b8e8-f5255181ba8d" priority="normal">
+        <target>
+            <property>
+                <type name="BoreholeIntervalType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="mappedIntervalBegin" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="Quantity" ns="http://www.opengis.net/swe/2.0"/>
+                <child name="uom" ns="http://www.opengis.net/swe/2.0"/>
+                <child name="code"/>
+            </property>
+        </target>
+        <parameter value="m" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="Cf478c59a-366f-4bf7-b70b-cd775b8484c8" priority="normal">
+        <target>
+            <property>
+                <type name="BoreholeIntervalType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="mappedIntervalBegin" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="Quantity" ns="http://www.opengis.net/swe/2.0"/>
+                <child name="uom" ns="http://www.opengis.net/swe/2.0"/>
+                <child name="href" ns="http://www.w3.org/1999/xlink"/>
+            </property>
+        </target>
+        <parameter value="http://www.opengis.net/def/uom/OGC/1.0/metre" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="C6ac1dad0-ed56-481c-a2a2-03442302a1c2" priority="normal">
+        <target>
+            <property>
+                <type name="BoreholeIntervalType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="mappedIntervalBegin" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="Quantity" ns="http://www.opengis.net/swe/2.0"/>
+                <child name="uom" ns="http://www.opengis.net/swe/2.0"/>
+                <child name="title" ns="http://www.w3.org/1999/xlink"/>
+            </property>
+        </target>
+        <parameter value="metre" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="Cb158a578-30de-4d76-82b4-959cb5cc6564" priority="normal">
+        <source>
+            <property>
+                <type name="layer" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+                <child name="depth_from_lay"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="BoreholeIntervalType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="mappedIntervalBegin" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="Quantity" ns="http://www.opengis.net/swe/2.0"/>
+                <child name="value" ns="http://www.opengis.net/swe/2.0"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="C0573f912-c42c-4c3c-96eb-3f6152271dc4" priority="normal">
+        <target>
+            <property>
+                <type name="BoreholeIntervalType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="mappedIntervalEnd" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="Quantity" ns="http://www.opengis.net/swe/2.0"/>
+                <child name="uom" ns="http://www.opengis.net/swe/2.0"/>
+                <child name="code"/>
+            </property>
+        </target>
+        <parameter value="m" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="C6b054605-f6b4-486f-a7e5-d313a86aa301" priority="normal">
+        <target>
+            <property>
+                <type name="BoreholeIntervalType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="mappedIntervalEnd" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="Quantity" ns="http://www.opengis.net/swe/2.0"/>
+                <child name="uom" ns="http://www.opengis.net/swe/2.0"/>
+                <child name="href" ns="http://www.w3.org/1999/xlink"/>
+            </property>
+        </target>
+        <parameter value="http://www.opengis.net/def/uom/OGC/1.0/metre" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="Ced5d82c6-6234-47d1-9a7e-9d5f85962c15" priority="normal">
+        <target>
+            <property>
+                <type name="BoreholeIntervalType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="mappedIntervalEnd" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="Quantity" ns="http://www.opengis.net/swe/2.0"/>
+                <child name="uom" ns="http://www.opengis.net/swe/2.0"/>
+                <child name="title" ns="http://www.w3.org/1999/xlink"/>
+            </property>
+        </target>
+        <parameter value="metre" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="C603cff18-f00e-49d6-9486-3150748a964f" priority="normal">
+        <source>
+            <property>
+                <type name="layer" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+                <child name="depth_to_lay"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="BoreholeIntervalType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="mappedIntervalEnd" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="Quantity" ns="http://www.opengis.net/swe/2.0"/>
+                <child name="value" ns="http://www.opengis.net/swe/2.0"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.formattedstring" id="C68bde8d4-2aa9-4eb1-92bc-c2dd36f12e6c" priority="normal">
+        <source name="var">
+            <property>
+                <type name="borehole" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+                <child name="id_bho"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="BoreholeIntervalType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="parentBorehole" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="href" ns="http://www.w3.org/1999/xlink"/>
+            </property>
+        </target>
+        <parameter value="#Borehole_{id_bho}" name="pattern"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.groovy.retype" id="Cb92b3edd-86f6-4b63-bfe7-f02acdb7989c" priority="normal">
+        <source>
+            <class>
+                <type name="borehole" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+            </class>
+        </source>
+        <target>
+            <class>
+                <type name="BoreholeType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+            </class>
+        </target>
+        <complexParameter name="script">
+            <core:text xmlns:core="http://www.esdi-humboldt.eu/hale/core" xml:space="preserve">
+//assign all collected 'BoreholeInterval'-Ids for each borehole&#13;
+def layers&#13;
+withTransformationContext{&#13;
+	def c = _.context.collector(it)&#13;
+	layers = c.geologyLayers[_source.p.id_bho.value()].values()&#13;
+}&#13;
+&#13;
+_target {&#13;
+	layers.each {lay -&gt; &#13;
+		logElement {&#13;
+			href( "#BoreholeInterval_${lay}" )&#13;
+		}&#13;
+	}&#13;
+}&#13;
+
+</core:text>
+        </complexParameter>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="C79bd4136-3314-4e8b-a5ad-fe77e48f7874" priority="normal">
+        <source>
+            <property>
+                <type name="borehole" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+                <child name="project_name_bho"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="description" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="Cc0fde7ba-0117-458a-b6df-f5e9cb1ce4de" priority="normal">
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="downholeDrillingDetails" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="DrillingDetails" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="boreholeDiameter" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="Quantity" ns="http://www.opengis.net/swe/2.0"/>
+                <child name="uom" ns="http://www.opengis.net/swe/2.0"/>
+                <child name="code"/>
+            </property>
+        </target>
+        <parameter value="mm" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="C28277000-6ea2-402b-86b0-9e2ff4978a1a" priority="normal">
+        <source>
+            <property>
+                <type name="borehole" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+                <child name="drilling_diameter_bho"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="downholeDrillingDetails" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="DrillingDetails" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="boreholeDiameter" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="Quantity" ns="http://www.opengis.net/swe/2.0"/>
+                <child name="value" ns="http://www.opengis.net/swe/2.0"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.classification" id="C31291f0d-571f-49e8-8a6c-4f1137f67ec4" priority="normal">
+        <source>
+            <property>
+                <type name="borehole" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+                <child name="drilling_method_id_cli"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="downholeDrillingDetails" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="DrillingDetails" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="drillingMethod" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="href" ns="http://www.w3.org/1999/xlink"/>
+            </property>
+        </target>
+        <parameter value="ddfdb8f8-f484-4801-b0cc-ca7b2115c89a" name="lookupTableID"/>
+        <parameter value="null" name="notClassifiedAction"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="C7282fcc0-ec0a-4a31-ad95-ea44eda12465" priority="normal">
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="downholeDrillingDetails" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="DrillingDetails" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="intervalBegin" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="Quantity" ns="http://www.opengis.net/swe/2.0"/>
+                <child name="uom" ns="http://www.opengis.net/swe/2.0"/>
+                <child name="code"/>
+            </property>
+        </target>
+        <parameter value="m" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="C662c898d-4128-4c85-ab72-30291288bea0" priority="normal">
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="downholeDrillingDetails" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="DrillingDetails" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="intervalBegin" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="Quantity" ns="http://www.opengis.net/swe/2.0"/>
+                <child name="value" ns="http://www.opengis.net/swe/2.0"/>
+            </property>
+        </target>
+        <parameter value="0.0" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="C8be901bb-c2bb-481d-9441-63fed65ddce0" priority="normal">
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="downholeDrillingDetails" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="DrillingDetails" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="intervalEnd" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="Quantity" ns="http://www.opengis.net/swe/2.0"/>
+                <child name="uom" ns="http://www.opengis.net/swe/2.0"/>
+                <child name="code"/>
+            </property>
+        </target>
+        <parameter value="m" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="C6e04dbd1-d5ec-482c-b14f-a86c71a337ae" priority="normal">
+        <source>
+            <property>
+                <type name="borehole" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+                <child name="total_depth_bho"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="downholeDrillingDetails" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="DrillingDetails" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="intervalEnd" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="Quantity" ns="http://www.opengis.net/swe/2.0"/>
+                <child name="value" ns="http://www.opengis.net/swe/2.0"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.formattedstring" id="Cc4f9722d-e1c1-4723-98a7-839b81005e10" priority="normal">
+        <source name="var">
+            <property>
+                <type name="borehole" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+                <child name="id_bho"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="id" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="Borehole_{id_bho}" name="pattern"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="C76a8b8ac-f6d9-4fe9-8727-f616478999f4" priority="normal">
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="indexData" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="BoreholeDetails" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="boreholeLength" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="Quantity" ns="http://www.opengis.net/swe/2.0"/>
+                <child name="uom" ns="http://www.opengis.net/swe/2.0"/>
+                <child name="code"/>
+            </property>
+        </target>
+        <parameter value="m" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="C4e59959a-a119-4f05-9ec3-bbe0672d3690" priority="normal">
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="indexData" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="BoreholeDetails" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="boreholeLength" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="Quantity" ns="http://www.opengis.net/swe/2.0"/>
+                <child name="uom" ns="http://www.opengis.net/swe/2.0"/>
+                <child name="href" ns="http://www.w3.org/1999/xlink"/>
+            </property>
+        </target>
+        <parameter value="http://www.opengis.net/def/uom/OGC/1.0/metre" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="C7312dfa6-34f9-4ab4-bfae-7177cd36244e" priority="normal">
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="indexData" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="BoreholeDetails" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="boreholeLength" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="Quantity" ns="http://www.opengis.net/swe/2.0"/>
+                <child name="uom" ns="http://www.opengis.net/swe/2.0"/>
+                <child name="title" ns="http://www.w3.org/1999/xlink"/>
+            </property>
+        </target>
+        <parameter value="metre" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="C060a899d-b39a-49da-b663-d68a75973943" priority="normal">
+        <source>
+            <property>
+                <type name="borehole" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+                <child name="total_depth_bho"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="indexData" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="BoreholeDetails" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="boreholeLength" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="Quantity" ns="http://www.opengis.net/swe/2.0"/>
+                <child name="value" ns="http://www.opengis.net/swe/2.0"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="C3144fd24-28a7-4b9e-8712-3d637c25cc28" priority="normal">
+        <source>
+            <property>
+                <type name="borehole" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+                <child name="drilling_date_bho"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="indexData" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="BoreholeDetails" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="dateOfDrilling" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="TimePeriod" ns="http://www.opengis.net/gml/3.2"/>
+                <child name="choice_1" ns="http://www.opengis.net/gml/3.2/TimePeriodType"/>
+                <child name="beginPosition" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="Ccb561239-17a0-45c7-8f34-f2f12df56acf" priority="normal">
+        <source>
+            <property>
+                <type name="borehole" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+                <child name="drilling_date_bho"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="indexData" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="BoreholeDetails" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="dateOfDrilling" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="TimePeriod" ns="http://www.opengis.net/gml/3.2"/>
+                <child name="choice_2" ns="http://www.opengis.net/gml/3.2/TimePeriodType"/>
+                <child name="endPosition" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.groovy" id="C8f964346-2922-4e24-b938-ac1218a2af3b" priority="normal">
+        <source name="var">
+            <property>
+                <type name="borehole" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+                <child name="inclination_bho"/>
+            </property>
+        </source>
+        <target name="result">
+            <property>
+                <type name="BoreholeType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="indexData" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="BoreholeDetails" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="inclinationType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="title" ns="http://www.w3.org/1999/xlink"/>
+            </property>
+        </target>
+        <complexParameter name="script">
+            <core:text xmlns:core="http://www.esdi-humboldt.eu/hale/core" xml:space="preserve">
+if (inclination_bho == 90){&#13;
+	return "vertical"&#13;
+}&#13;
+else if (inclination_bho == 0){&#13;
+	return "horizontal"&#13;
+}&#13;
+else if (inclination_bho &gt; 0 &amp;&amp; inclination_bho &lt; 90){&#13;
+	return "inclined up"&#13;
+}&#13;
+//"inclined down"?
+</core:text>
+        </complexParameter>
+        <parameter value="false" name="variablesAsInstances"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.classification" id="C2043bc75-a0b7-4784-b42d-4e2ce615e728" priority="normal">
+        <source>
+            <property>
+                <type name="borehole" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+                <child name="purpose_id_cli"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="indexData" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="BoreholeDetails" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="purpose" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="href" ns="http://www.w3.org/1999/xlink"/>
+            </property>
+        </target>
+        <parameter value="d75820cb-0451-425a-9273-cea2559363fc" name="lookupTableID"/>
+        <parameter value="null" name="notClassifiedAction"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="Ce9eaac09-bef5-4c8f-a42d-fced19241af5" priority="normal">
+        <source>
+            <property>
+                <type name="borehole" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+                <child name="original_name_bho"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="name" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.geometric.ordinates_to_point" id="C0d7fe456-5328-4961-8fec-2221af39d3ad" priority="normal">
+        <source name="x">
+            <property>
+                <type name="borehole" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+                <child name="location_x_bho"/>
+            </property>
+        </source>
+        <source name="y">
+            <property>
+                <type name="borehole" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+                <child name="location_y_bho"/>
+            </property>
+        </source>
+        <source name="z">
+            <property>
+                <type name="borehole" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+                <child name="elevation_z_bho"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="referenceLocation" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="OriginPosition" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="location" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="Point" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="epsg:2056" name="referenceSystem"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.groovy" id="Cd26028f6-d1f1-4ad4-a8d7-66234e36acf4" priority="normal">
+        <source name="var">
+            <property>
+                <type name="borehole" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+                <child name="elevation_z_bho"/>
+            </property>
+        </source>
+        <source name="var">
+            <property>
+                <type name="borehole" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+                <child name="location_x_bho"/>
+            </property>
+        </source>
+        <source name="var">
+            <property>
+                <type name="borehole" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+                <child name="location_y_bho"/>
+            </property>
+        </source>
+        <source name="var">
+            <property>
+                <type name="borehole" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+                <child name="total_depth_bho"/>
+            </property>
+        </source>
+        <target name="result">
+            <property>
+                <type name="BoreholeType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="shape" ns="http://www.opengis.net/samplingSpatial/2.0"/>
+                <child name="choice" ns="http://www.opengis.net/gml/3.2/AbstractGeometry"/>
+                <child name="LineString" ns="http://www.opengis.net/gml/3.2"/>
+                <child name="choice_1" ns="http://www.opengis.net/gml/3.2/LineStringType"/>
+                <child name="posList" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <complexParameter name="script">
+            <core:text xmlns:core="http://www.esdi-humboldt.eu/hale/core" xml:space="preserve">
+if (location_x_bho &amp;&amp; location_y_bho &amp;&amp; elevation_z_bho &amp;&amp; total_depth_bho){&#13;
+	def zCoord = elevation_z_bho - total_depth_bho&#13;
+	return [location_x_bho, location_y_bho, elevation_z_bho, location_x_bho, location_y_bho, zCoord]&#13;
+}
+</core:text>
+        </complexParameter>
+        <parameter value="false" name="variablesAsInstances"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="C26e00ef1-780c-4460-a4de-fdbeb5597aac" priority="normal">
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+                <child name="shape" ns="http://www.opengis.net/samplingSpatial/2.0"/>
+                <child name="choice" ns="http://www.opengis.net/gml/3.2/AbstractGeometry"/>
+                <child name="LineString" ns="http://www.opengis.net/gml/3.2"/>
+                <child name="srsName"/>
+            </property>
+        </target>
+        <parameter value="EPSG:2056" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.groovy.retype" id="Ca625a811-1ecd-46cb-94e9-6bfb06777fd0" priority="normal">
+        <source>
+            <class>
+                <type name="codelist" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+            </class>
+        </source>
+        <target>
+            <class>
+                <type name="GeologicUnitType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+            </class>
+        </target>
+        <complexParameter name="script">
+            <core:text xmlns:core="http://www.esdi-humboldt.eu/hale/core" xml:space="preserve">
+import eu.esdihumboldt.hale.common.lookup.*;&#13;
+import eu.esdihumboldt.hale.ui.HaleUI;&#13;
+import eu.esdihumboldt.hale.common.core.io.*;&#13;
+&#13;
+def lithologyIds&#13;
+def lithostratIds&#13;
+def chronostratIds&#13;
+&#13;
+withTransformationContext{&#13;
+	def c = _.context.collector(it)&#13;
+	lithologyIds = c.lithologyIds.values()&#13;
+	lithostratIds = c.lithostratIds.values()&#13;
+	chronostratIds = c.chronostratIds.values()&#13;
+}&#13;
+&#13;
+//create GeologicUnits for all existing lithologyIds, lithostratId and chronostratIds&#13;
+codelistId = _source.p.id_cli.value()&#13;
+if(lithologyIds.contains(codelistId)){&#13;
+	_target{&#13;
+		id( "GeologicUnit_Lithology_${codelistId}" )&#13;
+		geologicUnitType {&#13;
+			href( 'http://resource.geosciml.org/classifier/cgi/geologicunittype/lithologic_unit' )&#13;
+			title( 'lithologic unit' )&#13;
+		}&#13;
+		composition {&#13;
+			CompositionPart {&#13;
+				material {&#13;
+					RockMaterial {&#13;
+						lithology {&#13;
+							//get value of lookup table "layer_lithology"&#13;
+							def lith = getLookupTableValue(_source.p.id_cli.value(), "38e8df01-b509-4ab2-8301-27dc95c2f265") as String&#13;
+							href ( lith )&#13;
+						}&#13;
+					}&#13;
+				}&#13;
+			}&#13;
+		}&#13;
+	}&#13;
+}&#13;
+else if(lithostratIds.contains(codelistId)){&#13;
+	_target{&#13;
+		id( "GeologicUnit_Lithostratigraphy_${codelistId}" )&#13;
+		geologicUnitType {&#13;
+			href( 'http://resource.geosciml.org/classifier/cgi/geologicunittype/lithostratigraphic_unit' )&#13;
+			title( 'lithostratigraphic unit' )&#13;
+		}&#13;
+		name( _source.p.text_cli_de.value() )&#13;
+	}&#13;
+}&#13;
+else if(chronostratIds.contains(codelistId)){&#13;
+	_target{&#13;
+		id( "GeologicUnit_Chronostratigraphy_${codelistId}" )&#13;
+		geologicUnitType {&#13;
+			href( 'http://resource.geosciml.org/classifier/cgi/geologicunittype/chronostratigraphic_unit' )&#13;
+			title( 'chronostratigraphic unit' )&#13;
+		}&#13;
+		geologicHistory {&#13;
+			GeologicEvent{&#13;
+					//get value of lookup table "layer_chronostratigraphy"&#13;
+					def chrono = getLookupTableValue(_source.p.id_cli.value(), "213eb5b2-77aa-4a3e-9d2f-34a169c38549") as String&#13;
+				olderNamedAge {&#13;
+					href ( chrono )&#13;
+				}&#13;
+				youngerNamedAge {&#13;
+					href ( chrono )&#13;
+				}&#13;
+			}&#13;
+		}&#13;
+	}&#13;
+}&#13;
+&#13;
+&#13;
+def getLookupTableValue(value, tableId){&#13;
+	// retrieve Lookup table&#13;
+	LookupService ls = HaleUI.getServiceProvider().getService(LookupService.class);&#13;
+	LookupTableInfo tableInfo = ls.getTable(tableId);&#13;
+	def table = tableInfo.getTable();&#13;
+	&#13;
+	//get value&#13;
+	def result = table.lookup(Value.of(value))&#13;
+	return result&#13;
+}
+</core:text>
+        </complexParameter>
+    </cell>
+</alignment>
