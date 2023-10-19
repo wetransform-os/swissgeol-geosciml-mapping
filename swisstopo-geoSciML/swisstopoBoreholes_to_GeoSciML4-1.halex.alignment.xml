@@ -63,7 +63,6 @@ if (_source.links.stratigraphy.p.kind_id_cli.value() == 3000) {&#13;
 	def boreholeId = _source.links.stratigraphy.borehole.p.id_bho.value()&#13;
 	def layerId = _source.p.id_lay.value()&#13;
 	&#13;
-	def lithologyId = _source.p.lithology_id_cli.value()&#13;
 	def lithostratId = _source.p.lithostratigraphy_id_cli.value()&#13;
 	def chronostratId = _source.p.chronostratigraphy_id_cli.value()&#13;
 	&#13;
@@ -72,12 +71,8 @@ if (_source.links.stratigraphy.p.kind_id_cli.value() == 3000) {&#13;
 		//collect layer and borehole id&#13;
 		c.geologyLayers[boreholeId] &lt;&lt; layerId&#13;
 		&#13;
-		//collect lithologyId, lithotraigraphyId and chronostraigraphy of the layer &#13;
+		//collect lithotraigraphyId and chronostraigraphy of the layer &#13;
 		//only if the id is not yet collected&#13;
-		if(! c.lithologyIds.values().contains(lithologyId) ){&#13;
-			c.lithologyIds &lt;&lt; lithologyId&#13;
-		}&#13;
-		&#13;
 		if(! c.lithostratIds.values().contains(lithostratId) ){&#13;
 			c.lithostratIds &lt;&lt; lithostratId&#13;
 		}&#13;
@@ -90,17 +85,15 @@ if (_source.links.stratigraphy.p.kind_id_cli.value() == 3000) {&#13;
 	//create the boreholeInterval for lithology, lithostratigraphy and chronostratigraphy&#13;
 	//and set the attribute collectionIdentifier&#13;
 	def stratigraphyId = _source.links.stratigraphy.p.id_sty.value()&#13;
-	if (lithologyId){&#13;
-		_target{&#13;
-			id ( "BoreholeInterval_Lithology_${layerId}" )&#13;
-			collectionIdentifier( "Collection_Lithology_${stratigraphyId}" ){&#13;
-				codeSpace( _project.vars.CollectionId_CodeSpace )&#13;
-			}&#13;
-			specification {&#13;
-				href ( "#GeologicUnit_Lithology_${lithologyId}" )&#13;
-			}&#13;
-		}	&#13;
-	}&#13;
+	_target{&#13;
+		id ( "BoreholeInterval_Lithology_${layerId}" )&#13;
+		collectionIdentifier( "Collection_Lithology_${stratigraphyId}" ){&#13;
+			codeSpace( _project.vars.CollectionId_CodeSpace )&#13;
+		}&#13;
+		specification {&#13;
+			href ( "#GeologicUnit_Lithology_${layerId}" )&#13;
+		}&#13;
+	}	&#13;
 	&#13;
 	if (lithostratId){&#13;
 		_target{&#13;
@@ -720,42 +713,18 @@ import eu.esdihumboldt.hale.common.lookup.*;&#13;
 import eu.esdihumboldt.hale.ui.HaleUI;&#13;
 import eu.esdihumboldt.hale.common.core.io.*;&#13;
 &#13;
-def lithologyIds&#13;
 def lithostratIds&#13;
 def chronostratIds&#13;
 &#13;
 withTransformationContext{&#13;
 	def c = _.context.collector(it)&#13;
-	lithologyIds = c.lithologyIds.values()&#13;
 	lithostratIds = c.lithostratIds.values()&#13;
 	chronostratIds = c.chronostratIds.values()&#13;
 }&#13;
 &#13;
-//create GeologicUnits for all existing lithologyIds, lithostratId and chronostratIds&#13;
+//create GeologicUnits for all existing lithostratId and chronostratIds&#13;
 codelistId = _source.p.id_cli.value()&#13;
-if(lithologyIds.contains(codelistId)){&#13;
-	_target{&#13;
-		id( "GeologicUnit_Lithology_${codelistId}" )&#13;
-		geologicUnitType {&#13;
-			href( 'http://resource.geosciml.org/classifier/cgi/geologicunittype/lithologic_unit' )&#13;
-			title( 'lithologic unit' )&#13;
-		}&#13;
-		composition {&#13;
-			CompositionPart {&#13;
-				material {&#13;
-					RockMaterial {&#13;
-						lithology {&#13;
-							//get value of lookup table "layer_lithology"&#13;
-							def lith = getLookupTableValue(_source.p.id_cli.value(), "38e8df01-b509-4ab2-8301-27dc95c2f265") as String&#13;
-							href ( lith )&#13;
-						}&#13;
-					}&#13;
-				}&#13;
-			}&#13;
-		}&#13;
-	}&#13;
-}&#13;
-else if(lithostratIds.contains(codelistId)){&#13;
+if(lithostratIds.contains(codelistId)){&#13;
 	_target{&#13;
 		id( "GeologicUnit_Lithostratigraphy_${codelistId}" )&#13;
 		geologicUnitType {&#13;
@@ -781,6 +750,123 @@ else if(chronostratIds.contains(codelistId)){&#13;
 				}&#13;
 				youngerNamedAge {&#13;
 					href ( chrono )&#13;
+				}&#13;
+			}&#13;
+		}&#13;
+	}&#13;
+}&#13;
+&#13;
+&#13;
+def getLookupTableValue(value, tableId){&#13;
+	// retrieve Lookup table&#13;
+	LookupService ls = HaleUI.getServiceProvider().getService(LookupService.class);&#13;
+	LookupTableInfo tableInfo = ls.getTable(tableId);&#13;
+	def table = tableInfo.getTable();&#13;
+	&#13;
+	//get value&#13;
+	def result = table.lookup(Value.of(value))&#13;
+	return result&#13;
+}
+</core:text>
+        </complexParameter>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.groovy.join" id="Cfe876657-08ab-428a-a283-210051be7720" priority="normal">
+        <source name="types">
+            <class>
+                <type name="layer" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+            </class>
+        </source>
+        <source name="types">
+            <class>
+                <type name="layer_codelist" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+            </class>
+        </source>
+        <source name="types">
+            <class>
+                <type name="codelist" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+            </class>
+        </source>
+        <target>
+            <class>
+                <type name="GeologicUnitType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+            </class>
+        </target>
+        <complexParameter name="join">
+            <jp:join-parameter xmlns:jp="http://www.esdi-humboldt.eu/hale/join">
+                <class>
+                    <type name="layer" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+                </class>
+                <class>
+                    <type name="layer_codelist" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+                </class>
+                <class>
+                    <type name="codelist" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+                </class>
+                <jp:condition>
+                    <property>
+                        <type name="layer" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+                        <child name="id_lay"/>
+                    </property>
+                    <property>
+                        <type name="layer_codelist" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+                        <child name="id_lay_fk"/>
+                    </property>
+                </jp:condition>
+                <jp:condition>
+                    <property>
+                        <type name="layer_codelist" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+                        <child name="id_cli_fk"/>
+                    </property>
+                    <property>
+                        <type name="codelist" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+                        <child name="id_cli"/>
+                    </property>
+                </jp:condition>
+            </jp:join-parameter>
+        </complexParameter>
+        <complexParameter name="script">
+            <core:text xmlns:core="http://www.esdi-humboldt.eu/hale/core" xml:space="preserve">
+import eu.esdihumboldt.hale.common.lookup.*;&#13;
+import eu.esdihumboldt.hale.ui.HaleUI;&#13;
+import eu.esdihumboldt.hale.common.core.io.*;&#13;
+&#13;
+&#13;
+//create a GeologicUnit for each lithology of a layer&#13;
+_target{&#13;
+	id( "GeologicUnit_Lithology_${_source.p.id_lay.value()}" )&#13;
+	geologicUnitType {&#13;
+		href( 'http://resource.geosciml.org/classifier/cgi/geologicunittype/lithologic_unit' )&#13;
+		title( 'lithologic unit' )&#13;
+	}&#13;
+	composition {&#13;
+		CompositionPart {&#13;
+			material {&#13;
+				RockMaterial {&#13;
+					lithology {&#13;
+						//get value of lookup table "layer_lithology"&#13;
+						def lith = getLookupTableValue(_source.p.lithology_id_cli.value(), "38e8df01-b509-4ab2-8301-27dc95c2f265") as String&#13;
+						href ( lith )&#13;
+					}&#13;
+					//loop through all colors						&#13;
+						_source.links.layer_codelist.each { cl -&gt;&#13;
+							codeText = cl.p.code_cli.value()&#13;
+							_log.info("CodeText: " + codeText)&#13;
+							if (codeText == "mlpr112"){&#13;
+								color {&#13;
+									Category {&#13;
+										label( cl.links.codelist.p.text_cli_en.value() )&#13;
+										&#13;
+										/*&#13;
+										To Do: &#13;
+										identifier( 'some value' )&#13;
+										&#13;
+										codeSpace {&#13;
+											href( 'some value' )&#13;
+										}*/&#13;
+									}&#13;
+								}&#13;
+							}&#13;
+						}&#13;
 				}&#13;
 			}&#13;
 		}&#13;
