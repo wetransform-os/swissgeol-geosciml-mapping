@@ -11,11 +11,6 @@
                 <type name="stratigraphy" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
             </class>
         </source>
-        <source name="types">
-            <class>
-                <type name="borehole" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
-            </class>
-        </source>
         <target>
             <class>
                 <type name="BoreholeIntervalType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
@@ -29,9 +24,6 @@
                 <class>
                     <type name="stratigraphy" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
                 </class>
-                <class>
-                    <type name="borehole" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
-                </class>
                 <jp:condition>
                     <property>
                         <type name="layer" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
@@ -42,16 +34,6 @@
                         <child name="id_sty"/>
                     </property>
                 </jp:condition>
-                <jp:condition>
-                    <property>
-                        <type name="stratigraphy" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
-                        <child name="id_bho_fk"/>
-                    </property>
-                    <property>
-                        <type name="borehole" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
-                        <child name="id_bho"/>
-                    </property>
-                </jp:condition>
             </jp:join-parameter>
         </complexParameter>
         <complexParameter name="script">
@@ -60,7 +42,7 @@
 if (_source.links.stratigraphy.p.kind_id_cli.value() == 3000) {&#13;
 	&#13;
 	//collect different ids&#13;
-	def boreholeId = _source.links.stratigraphy.borehole.p.id_bho.value()&#13;
+	def boreholeId = _source.links.stratigraphy.p.id_bho_fk.value()&#13;
 	def layerId = _source.p.id_lay.value()&#13;
 	&#13;
 	def lithostratId = _source.p.lithostratigraphy_id_cli.value()&#13;
@@ -249,8 +231,8 @@ if (_source.links.stratigraphy.p.kind_id_cli.value() == 3000) {&#13;
     <cell relation="eu.esdihumboldt.hale.align.formattedstring" id="C68bde8d4-2aa9-4eb1-92bc-c2dd36f12e6c" priority="normal">
         <source name="var">
             <property>
-                <type name="borehole" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
-                <child name="id_bho"/>
+                <type name="stratigraphy" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+                <child name="id_bho_fk"/>
             </property>
         </source>
         <target>
@@ -260,7 +242,7 @@ if (_source.links.stratigraphy.p.kind_id_cli.value() == 3000) {&#13;
                 <child name="href" ns="http://www.w3.org/1999/xlink"/>
             </property>
         </target>
-        <parameter value="#Borehole_{id_bho}" name="pattern"/>
+        <parameter value="#Borehole_{id_bho_fk}" name="pattern"/>
     </cell>
     <cell relation="eu.esdihumboldt.cst.functions.groovy.retype" id="Cb92b3edd-86f6-4b63-bfe7-f02acdb7989c" priority="normal">
         <source>
