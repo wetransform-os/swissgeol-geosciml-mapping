@@ -1,5 +1,93 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <alignment xmlns="http://www.esdi-humboldt.eu/hale/alignment">
+    <cell relation="eu.esdihumboldt.cst.functions.groovy.join" id="C0213f77f-11c9-4b26-a6d8-b57589f0b51c" priority="highest">
+        <source name="types">
+            <class>
+                <type name="layer" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+            </class>
+        </source>
+        <source name="types">
+            <class>
+                <type name="stratigraphy" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+            </class>
+        </source>
+        <source name="types">
+            <class>
+                <type name="borehole" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+            </class>
+        </source>
+        <target>
+            <class>
+                <type name="BoreholeIntervalType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+            </class>
+        </target>
+        <complexParameter name="join">
+            <jp:join-parameter xmlns:jp="http://www.esdi-humboldt.eu/hale/join">
+                <class>
+                    <type name="layer" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+                </class>
+                <class>
+                    <type name="stratigraphy" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+                </class>
+                <class>
+                    <type name="borehole" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+                </class>
+                <jp:condition>
+                    <property>
+                        <type name="layer" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+                        <child name="id_sty_fk"/>
+                    </property>
+                    <property>
+                        <type name="stratigraphy" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+                        <child name="id_sty"/>
+                    </property>
+                </jp:condition>
+                <jp:condition>
+                    <property>
+                        <type name="stratigraphy" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+                        <child name="id_bho_fk"/>
+                    </property>
+                    <property>
+                        <type name="borehole" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+                        <child name="id_bho"/>
+                    </property>
+                </jp:condition>
+            </jp:join-parameter>
+        </complexParameter>
+        <complexParameter name="script">
+            <core:text xmlns:core="http://www.esdi-humboldt.eu/hale/core" xml:space="preserve">
+//This groovy script collects necessary IDs, no target instance is created&#13;
+&#13;
+withTransformationContext {&#13;
+	def c = _.context.collector(it)	&#13;
+	&#13;
+	//collect layer and borehole id&#13;
+	def layerId = _source.p.id_lay.value()&#13;
+	def boreholeId = _source.links.stratigraphy.borehole.p.id_bho.value()&#13;
+	c.geologyLayers[boreholeId] &lt;&lt; layerId&#13;
+	&#13;
+	//collect stratigraphy if stratiraphy_kind_id = 3000 ('Geology')&#13;
+	def stratigraphyId = _source.links.stratigraphy.p.id_sty.value()&#13;
+	if (_source.links.stratigraphy.p.kind_id_cli.value() == 3000){&#13;
+		c.geologyStratigraphies &lt;&lt; stratigraphyId&#13;
+	}&#13;
+	&#13;
+	//collect lithotraigraphyId and chronostraigraphyId&#13;
+	//only if the id is not yet collected&#13;
+	def lithostratId = _source.p.lithostratigraphy_id_cli.value()&#13;
+	def chronostratId = _source.p.chronostratigraphy_id_cli.value()&#13;
+	if(! c.lithostratIds.values().contains(lithostratId) ){&#13;
+		c.lithostratIds &lt;&lt; lithostratId&#13;
+	}&#13;
+		&#13;
+	if(! c.chronostratIds.values().contains(chronostratId) ){&#13;
+		c.chronostratIds &lt;&lt; chronostratId&#13;
+	}&#13;
+&#13;
+}
+</core:text>
+        </complexParameter>
+    </cell>
     <cell relation="eu.esdihumboldt.cst.functions.groovy.merge" id="C77dfa250-449a-45d7-8f86-4a5156a13020" priority="normal">
         <source>
             <class>
@@ -190,15 +278,10 @@ if ( geolStratigraphies.contains( stratigraphyId ) &amp;&amp; chronostratigraphy
 </core:text>
         </complexParameter>
     </cell>
-    <cell relation="eu.esdihumboldt.cst.functions.groovy.join" id="Ce3cfa7ab-d0fa-4640-b793-b507880d4c63" priority="highest">
-        <source name="types">
+    <cell relation="eu.esdihumboldt.cst.functions.groovy.retype" id="Ce3cfa7ab-d0fa-4640-b793-b507880d4c63" priority="normal">
+        <source>
             <class>
                 <type name="layer" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
-            </class>
-        </source>
-        <source name="types">
-            <class>
-                <type name="stratigraphy" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
             </class>
         </source>
         <target>
@@ -206,61 +289,35 @@ if ( geolStratigraphies.contains( stratigraphyId ) &amp;&amp; chronostratigraphy
                 <type name="BoreholeIntervalType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
             </class>
         </target>
-        <complexParameter name="join">
-            <jp:join-parameter xmlns:jp="http://www.esdi-humboldt.eu/hale/join">
-                <class>
-                    <type name="layer" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
-                </class>
-                <class>
-                    <type name="stratigraphy" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
-                </class>
-                <jp:condition>
-                    <property>
-                        <type name="layer" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
-                        <child name="id_sty_fk"/>
-                    </property>
-                    <property>
-                        <type name="stratigraphy" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
-                        <child name="id_sty"/>
-                    </property>
-                </jp:condition>
-            </jp:join-parameter>
-        </complexParameter>
         <complexParameter name="script">
             <core:text xmlns:core="http://www.esdi-humboldt.eu/hale/core" xml:space="preserve">
-//create a BoreholeInterval only if stratigraphy.kind_id_cli = "Geology"/"3000"&#13;
-if (_source.links.stratigraphy.p.kind_id_cli.value() == 3000) {&#13;
+// This groovy script creates a boreholeInterval if "lithology" is present in the source layer&#13;
+&#13;
+def stratigraphyId = _source.p.id_sty_fk.value()&#13;
+def lithologyId = _source.p.lithology_id_cli.value()&#13;
+def geolStratigraphies&#13;
+withTransformationContext{&#13;
+	def c = _.context.collector(it)&#13;
+	geolStratigraphies = c.geologyStratigraphies.values()&#13;
+}&#13;
+&#13;
+// check that the given stratigraphy is a geologic stratigraphy&#13;
+if ( geolStratigraphies.contains( stratigraphyId ) &amp;&amp; lithologyId) {&#13;
 	&#13;
-	//collect different ids&#13;
-	def boreholeId = _source.links.stratigraphy.p.id_bho_fk.value()&#13;
+	_log.info("Layer ID: " + _source.p.id_lay.value())&#13;
+	&#13;
 	def layerId = _source.p.id_lay.value()&#13;
-	def stratigraphyId = _source.links.stratigraphy.p.id_sty.value()&#13;
+	def intervalId = "BoreholeInterval_Lithology_${layerId}"&#13;
 	&#13;
-	def lithostratId = _source.p.lithostratigraphy_id_cli.value()&#13;
-	def chronostratId = _source.p.chronostratigraphy_id_cli.value()&#13;
-	&#13;
+	//collect new intervalId and stratigraphyId to be able to link the interval borehole.logElement&#13;
 	withTransformationContext {&#13;
 		def c = _.context.collector(it)	&#13;
-		//collect layer and borehole id&#13;
-		c.geologyLayers[boreholeId] &lt;&lt; layerId&#13;
-		&#13;
-		//collect stratigraphy &#13;
-		c.geologyStratigraphies &lt;&lt; stratigraphyId&#13;
-		&#13;
-		//collect lithotraigraphyId and chronostraigraphy of the layer &#13;
-		//only if the id is not yet collected&#13;
-		if(! c.lithostratIds.values().contains(lithostratId) ){&#13;
-			c.lithostratIds &lt;&lt; lithostratId&#13;
-		}&#13;
-		&#13;
-		if(! c.chronostratIds.values().contains(chronostratId) ){&#13;
-			c.chronostratIds &lt;&lt; chronostratId&#13;
-		}&#13;
+		c.intervals[stratigraphyId] &lt;&lt; intervalId&#13;
 	}&#13;
 	&#13;
 	//create the boreholeInterval for lithology&#13;
 	_target{&#13;
-		id ( "BoreholeInterval_Lithology_${layerId}" )&#13;
+		id ( intervalId )&#13;
 		collectionIdentifier( "Collection_Lithology_${stratigraphyId}" ){&#13;
 			codeSpace( _project.vars.CollectionId_CodeSpace )&#13;
 		}&#13;
