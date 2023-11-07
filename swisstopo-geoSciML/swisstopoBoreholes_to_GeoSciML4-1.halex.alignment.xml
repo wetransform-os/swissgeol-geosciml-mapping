@@ -61,15 +61,15 @@
 withTransformationContext {&#13;
 	def c = _.context.collector(it)	&#13;
 	&#13;
-	//collect layer and borehole id&#13;
-	def layerId = _source.p.id_lay.value()&#13;
-	def boreholeId = _source.links.stratigraphy.borehole.p.id_bho.value()&#13;
-	c.geologyLayers[boreholeId] &lt;&lt; layerId&#13;
-	&#13;
-	//collect stratigraphy if stratiraphy_kind_id = 3000 ('Geology')&#13;
+	//collect stratigraphyId and layerId if stratiraphy_kind_id = 3000 ('Geology')&#13;
 	def stratigraphyId = _source.links.stratigraphy.p.id_sty.value()&#13;
 	if (_source.links.stratigraphy.p.kind_id_cli.value() == 3000){&#13;
 		c.geologyStratigraphies &lt;&lt; stratigraphyId&#13;
+		&#13;
+		def layerId = _source.p.id_lay.value()&#13;
+		def boreholeId = _source.links.stratigraphy.borehole.p.id_bho.value()&#13;
+		c.geologyLayers[boreholeId] &lt;&lt; layerId&#13;
+		c.borehole[layerId] &lt;&lt; boreholeId&#13;
 	}&#13;
 	&#13;
 	//collect lithotraigraphyId and chronostraigraphyId&#13;
@@ -108,9 +108,13 @@ withTransformationContext {&#13;
 // all adjacent layers with the same lithostratigraphy are merged to one boreholeInterval&#13;
 &#13;
 def geolStratigraphies&#13;
+def layerId = _source.p.id_lay.value()&#13;
+def boreholeId &#13;
+&#13;
 withTransformationContext{&#13;
 	def c = _.context.collector(it)&#13;
 	geolStratigraphies = c.geologyStratigraphies.values()&#13;
+	boreholeId = c.borehole[layerId].value()&#13;
 }&#13;
 &#13;
 def stratigraphyId = _source.p.id_sty_fk.value()&#13;
@@ -141,14 +145,19 @@ if ( geolStratigraphies.contains( stratigraphyId ) &amp;&amp; lithostratigraphyI
 	for (int i = 0; i &lt; targetFroms.size(); i++) {&#13;
 		&#13;
 		//collect new intervalId and stratigraphyId to be able to link the interval borehole.logElement&#13;
-		def intervalId = "BoreholeInterval_Lithostratigraphy_${_source.p.id_lay.value()}_${i}"&#13;
+		def intervalId = "BoreholeInterval_Lithostratigraphy_${layerId}_${i}"&#13;
 		withTransformationContext{&#13;
 			def c = _.context.collector(it)&#13;
-			c.intervals[stratigraphyId] &lt;&lt; intervalId&#13;
+			c.intervals[layerId] &lt;&lt; intervalId&#13;
 		}&#13;
 		&#13;
 		_target{&#13;
 			id ( intervalId )&#13;
+			&#13;
+			parentBorehole {&#13;
+				href( "#Borehole_${boreholeId}" )&#13;
+			}&#13;
+			&#13;
 			collectionIdentifier( "Collection_Lithostratigraphy_${stratigraphyId}" ){&#13;
 				codeSpace( _project.vars.CollectionId_CodeSpace )&#13;
 			}&#13;
@@ -203,9 +212,13 @@ if ( geolStratigraphies.contains( stratigraphyId ) &amp;&amp; lithostratigraphyI
 // all adjacent layers with the same chronostratigraphy are merged to one boreholeInterval&#13;
 &#13;
 def geolStratigraphies&#13;
+def boreholeId&#13;
+def layerId = _source.p.id_lay.value()&#13;
+&#13;
 withTransformationContext{&#13;
 	def c = _.context.collector(it)&#13;
 	geolStratigraphies = c.geologyStratigraphies.values()&#13;
+	boreholeId = c.borehole[layerId].value()&#13;
 }&#13;
 &#13;
 def stratigraphyId = _source.p.id_sty_fk.value()&#13;
@@ -236,14 +249,19 @@ if ( geolStratigraphies.contains( stratigraphyId ) &amp;&amp; chronostratigraphy
 	for (int i = 0; i &lt; targetFroms.size(); i++) {&#13;
 		&#13;
 		//collect new intervalId and stratigraphyId to be able to link the interval borehole.logElement&#13;
-		def intervalId = "BoreholeInterval_Chronostratigraphy_${_source.p.id_lay.value()}_${i}"&#13;
+		def intervalId = "BoreholeInterval_Chronostratigraphy_${layerId}_${i}"&#13;
 		withTransformationContext{&#13;
 			def c = _.context.collector(it)&#13;
-			c.intervals[stratigraphyId] &lt;&lt; intervalId&#13;
+			c.intervals[layerId] &lt;&lt; intervalId&#13;
 		}&#13;
 		&#13;
 		_target{&#13;
 			id ( intervalId )&#13;
+			&#13;
+			parentBorehole {&#13;
+				href( "#Borehole_${boreholeId}" )&#13;
+			}&#13;
+			&#13;
 			collectionIdentifier( "Collection_Chronostratigraphy_${stratigraphyId}" ){&#13;
 				codeSpace( _project.vars.CollectionId_CodeSpace )&#13;
 			}&#13;
@@ -295,29 +313,35 @@ if ( geolStratigraphies.contains( stratigraphyId ) &amp;&amp; chronostratigraphy
 &#13;
 def stratigraphyId = _source.p.id_sty_fk.value()&#13;
 def lithologyId = _source.p.lithology_id_cli.value()&#13;
+def layerId = _source.p.id_lay.value()&#13;
 def geolStratigraphies&#13;
+def boreholeId&#13;
+&#13;
 withTransformationContext{&#13;
 	def c = _.context.collector(it)&#13;
 	geolStratigraphies = c.geologyStratigraphies.values()&#13;
+	boreholeId = c.borehole[layerId].value()&#13;
 }&#13;
 &#13;
 // check that the given stratigraphy is a geologic stratigraphy&#13;
 if ( geolStratigraphies.contains( stratigraphyId ) &amp;&amp; lithologyId) {&#13;
 	&#13;
-	_log.info("Layer ID: " + _source.p.id_lay.value())&#13;
-	&#13;
-	def layerId = _source.p.id_lay.value()&#13;
 	def intervalId = "BoreholeInterval_Lithology_${layerId}"&#13;
 	&#13;
 	//collect new intervalId and stratigraphyId to be able to link the interval borehole.logElement&#13;
 	withTransformationContext {&#13;
 		def c = _.context.collector(it)	&#13;
-		c.intervals[stratigraphyId] &lt;&lt; intervalId&#13;
+		c.intervals[layerId] &lt;&lt; intervalId&#13;
 	}&#13;
 	&#13;
 	//create the boreholeInterval for lithology&#13;
 	_target{&#13;
 		id ( intervalId )&#13;
+		&#13;
+		parentBorehole {&#13;
+			href( "#Borehole_${boreholeId}" )&#13;
+		}&#13;
+		&#13;
 		collectionIdentifier( "Collection_Lithology_${stratigraphyId}" ){&#13;
 			codeSpace( _project.vars.CollectionId_CodeSpace )&#13;
 		}&#13;
@@ -351,22 +375,6 @@ if ( geolStratigraphies.contains( stratigraphyId ) &amp;&amp; lithologyId) {&#13
 </core:text>
         </complexParameter>
     </cell>
-    <cell relation="eu.esdihumboldt.hale.align.formattedstring" id="C68bde8d4-2aa9-4eb1-92bc-c2dd36f12e6c" priority="normal">
-        <source name="var">
-            <property>
-                <type name="stratigraphy" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
-                <child name="id_bho_fk"/>
-            </property>
-        </source>
-        <target>
-            <property>
-                <type name="BoreholeIntervalType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
-                <child name="parentBorehole" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
-                <child name="href" ns="http://www.w3.org/1999/xlink"/>
-            </property>
-        </target>
-        <parameter value="#Borehole_{id_bho_fk}" name="pattern"/>
-    </cell>
     <cell relation="eu.esdihumboldt.cst.functions.groovy.retype" id="Cb92b3edd-86f6-4b63-bfe7-f02acdb7989c" priority="normal">
         <source>
             <class>
@@ -380,17 +388,25 @@ if ( geolStratigraphies.contains( stratigraphyId ) &amp;&amp; lithologyId) {&#13
         </target>
         <complexParameter name="script">
             <core:text xmlns:core="http://www.esdi-humboldt.eu/hale/core" xml:space="preserve">
-//assign all collected 'BoreholeInterval'-Ids for each borehole&#13;
-def layers&#13;
+// This groovy script creates a borehole instance and assigns &#13;
+// all collected 'BoreholeInterval'-Ids to 'logElement'&#13;
+def intervals = []&#13;
 withTransformationContext{&#13;
 	def c = _.context.collector(it)&#13;
-	layers = c.geologyLayers[_source.p.id_bho.value()].values()&#13;
+	def layers = c.geologyLayers[_source.p.id_bho.value()].values()&#13;
+	&#13;
+	layers.each { lay -&gt;&#13;
+		temp = c.intervals[lay].values()&#13;
+		temp.each{ t -&gt;&#13;
+			intervals.add(t)&#13;
+		}&#13;
+	}&#13;
 }&#13;
 &#13;
 _target {&#13;
-	layers.each {lay -&gt; &#13;
+	intervals.each { interval -&gt; &#13;
 		logElement {&#13;
-			href( "#BoreholeInterval_${lay}" )&#13;
+			href( "#${interval}" )&#13;
 		}&#13;
 	}&#13;
 }&#13;
