@@ -104,8 +104,8 @@ withTransformationContext {&#13;
         <parameter value="lithostratigraphy_id_cli" name="property"/>
         <complexParameter name="script">
             <core:text xmlns:core="http://www.esdi-humboldt.eu/hale/core" xml:space="preserve">
-// This groovy script creates a boreholeInterval if "lithostratigraphy" is present in the source layer&#13;
-// all adjacent layers with the same lithostratigraphy are merged to one boreholeInterval&#13;
+// This groovy script creates a boreholeInterval for layers with a value for 'lithostratigraphy_id_cli'&#13;
+// all adjacent layers with the same chronostratigraphy are merged to one boreholeInterval&#13;
 &#13;
 def geolStratigraphies&#13;
 def layerId = _source.p.id_lay.value()&#13;
@@ -208,7 +208,7 @@ if ( geolStratigraphies.contains( stratigraphyId ) &amp;&amp; lithostratigraphyI
         <parameter value="chronostratigraphy_id_cli" name="property"/>
         <complexParameter name="script">
             <core:text xmlns:core="http://www.esdi-humboldt.eu/hale/core" xml:space="preserve">
-// This groovy script creates a boreholeInterval if "chronostratigraphy" is present in the source layer&#13;
+// This groovy script creates a boreholeInterval for layers with a value for 'chronostratigraphy_id_cli'&#13;
 // all adjacent layers with the same chronostratigraphy are merged to one boreholeInterval&#13;
 &#13;
 def geolStratigraphies&#13;
@@ -309,7 +309,7 @@ if ( geolStratigraphies.contains( stratigraphyId ) &amp;&amp; chronostratigraphy
         </target>
         <complexParameter name="script">
             <core:text xmlns:core="http://www.esdi-humboldt.eu/hale/core" xml:space="preserve">
-// This groovy script creates a boreholeInterval if "lithology" is present in the source layer&#13;
+// This groovy script creates a boreholeInterval for layers with a value for 'lithology_id_cli'&#13;
 &#13;
 def stratigraphyId = _source.p.id_sty_fk.value()&#13;
 def lithologyId = _source.p.lithology_id_cli.value()&#13;
@@ -830,6 +830,9 @@ if (location_x_bho &amp;&amp; location_y_bho &amp;&amp; elevation_z_bho &amp;&am
         </target>
         <complexParameter name="script">
             <core:text xmlns:core="http://www.esdi-humboldt.eu/hale/core" xml:space="preserve">
+// This groovy script creates a lithostratigraphic and chronostratigraphic 'GeologicUnit' for all &#13;
+// occuring Lithostratigraphies and Chronostratigraphies&#13;
+&#13;
 import eu.esdihumboldt.hale.common.lookup.*;&#13;
 import eu.esdihumboldt.hale.ui.HaleUI;&#13;
 import eu.esdihumboldt.hale.common.core.io.*;&#13;
@@ -843,7 +846,6 @@ withTransformationContext{&#13;
 	chronostratIds = c.chronostratIds.values()&#13;
 }&#13;
 &#13;
-//create GeologicUnits for all existing lithostratId and chronostratIds&#13;
 codelistId = _source.p.id_cli.value()&#13;
 if(lithostratIds.contains(codelistId)){&#13;
 	_target{&#13;
