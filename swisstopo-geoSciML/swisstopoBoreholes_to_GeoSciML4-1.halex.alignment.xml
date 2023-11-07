@@ -1,5 +1,195 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <alignment xmlns="http://www.esdi-humboldt.eu/hale/alignment">
+    <cell relation="eu.esdihumboldt.cst.functions.groovy.merge" id="C77dfa250-449a-45d7-8f86-4a5156a13020" priority="normal">
+        <source>
+            <class>
+                <type name="layer" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+            </class>
+        </source>
+        <target>
+            <class>
+                <type name="BoreholeIntervalType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+            </class>
+        </target>
+        <parameter value="false" name="auto_detect"/>
+        <parameter value="id_sty_fk" name="property"/>
+        <parameter value="lithostratigraphy_id_cli" name="property"/>
+        <complexParameter name="script">
+            <core:text xmlns:core="http://www.esdi-humboldt.eu/hale/core" xml:space="preserve">
+// This groovy script creates a boreholeInterval if "lithostratigraphy" is present in the source layer&#13;
+// all adjacent layers with the same lithostratigraphy are merged to one boreholeInterval&#13;
+&#13;
+def geolStratigraphies&#13;
+withTransformationContext{&#13;
+	def c = _.context.collector(it)&#13;
+	geolStratigraphies = c.geologyStratigraphies.values()&#13;
+}&#13;
+&#13;
+def stratigraphyId = _source.p.id_sty_fk.value()&#13;
+def lithostratigraphyId = _source.p.lithostratigraphy_id_cli.value()&#13;
+&#13;
+// check that the given stratigraphy is a geologic stratigraphy and a lithostratigraphyId is present&#13;
+if ( geolStratigraphies.contains( stratigraphyId ) &amp;&amp; lithostratigraphyId ) {&#13;
+	def froms = _source.p.depth_from_lay.values()&#13;
+	def tos = _source.p.depth_to_lay.values()&#13;
+	&#13;
+	def targetFroms = []&#13;
+	froms.each {from -&gt;&#13;
+		if(! tos.contains(from)){&#13;
+			targetFroms.add(from)&#13;
+		}&#13;
+	}&#13;
+	targetFroms = targetFroms.sort()&#13;
+	&#13;
+	def targetTos = []&#13;
+	tos.each {to -&gt;&#13;
+		if(! froms.contains(to)){&#13;
+			targetTos.add(to)&#13;
+		}&#13;
+	}&#13;
+	targetTos = targetTos.sort()&#13;
+	&#13;
+	//create boreholeInterval for all adjacent layers&#13;
+	for (int i = 0; i &lt; targetFroms.size(); i++) {&#13;
+		&#13;
+		//collect new intervalId and stratigraphyId to be able to link the interval borehole.logElement&#13;
+		def intervalId = "BoreholeInterval_Lithostratigraphy_${_source.p.id_lay.value()}_${i}"&#13;
+		withTransformationContext{&#13;
+			def c = _.context.collector(it)&#13;
+			c.intervals[stratigraphyId] &lt;&lt; intervalId&#13;
+		}&#13;
+		&#13;
+		_target{&#13;
+			id ( intervalId )&#13;
+			collectionIdentifier( "Collection_Lithostratigraphy_${stratigraphyId}" ){&#13;
+				codeSpace( _project.vars.CollectionId_CodeSpace )&#13;
+			}&#13;
+			specification {&#13;
+				href ( "#GeologicUnit_Lithostratigraphy_${lithostratigraphyId}" )&#13;
+			}&#13;
+			&#13;
+			mappedIntervalBegin {&#13;
+				Quantity {&#13;
+					value( targetFroms[i] )&#13;
+					uom {&#13;
+						code( 'm' )&#13;
+						href( 'http://www.opengis.net/def/uom/OGC/1.0/metre' )&#13;
+						title( 'metre' )&#13;
+					}&#13;
+				}&#13;
+			}&#13;
+			&#13;
+			mappedIntervalEnd {&#13;
+				Quantity {&#13;
+					value( targetTos[i] )&#13;
+					uom {&#13;
+						code( 'm' )&#13;
+						href( 'http://www.opengis.net/def/uom/OGC/1.0/metre' )&#13;
+						title( 'metre' )&#13;
+					}&#13;
+				}&#13;
+			}&#13;
+		}&#13;
+	}&#13;
+}
+</core:text>
+        </complexParameter>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.groovy.merge" id="Ca81224cf-e702-4c4c-a467-1d970b5b732b" priority="normal">
+        <source>
+            <class>
+                <type name="layer" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+            </class>
+        </source>
+        <target>
+            <class>
+                <type name="BoreholeIntervalType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+            </class>
+        </target>
+        <parameter value="false" name="auto_detect"/>
+        <parameter value="id_sty_fk" name="property"/>
+        <parameter value="chronostratigraphy_id_cli" name="property"/>
+        <complexParameter name="script">
+            <core:text xmlns:core="http://www.esdi-humboldt.eu/hale/core" xml:space="preserve">
+// This groovy script creates a boreholeInterval if "chronostratigraphy" is present in the source layer&#13;
+// all adjacent layers with the same chronostratigraphy are merged to one boreholeInterval&#13;
+&#13;
+def geolStratigraphies&#13;
+withTransformationContext{&#13;
+	def c = _.context.collector(it)&#13;
+	geolStratigraphies = c.geologyStratigraphies.values()&#13;
+}&#13;
+&#13;
+def stratigraphyId = _source.p.id_sty_fk.value()&#13;
+def chronostratigraphyId = _source.p.chronostratigraphy_id_cli.value()&#13;
+&#13;
+// check that the given stratigraphy is a geologic stratigraphy and a chronostratigraphyId is present&#13;
+if ( geolStratigraphies.contains( stratigraphyId ) &amp;&amp; chronostratigraphyId ) {&#13;
+	def froms = _source.p.depth_from_lay.values()&#13;
+	def tos = _source.p.depth_to_lay.values()&#13;
+	&#13;
+	def targetFroms = []&#13;
+	froms.each {from -&gt;&#13;
+		if(! tos.contains(from)){&#13;
+			targetFroms.add(from)&#13;
+		}&#13;
+	}&#13;
+	targetFroms = targetFroms.sort()&#13;
+	&#13;
+	def targetTos = []&#13;
+	tos.each {to -&gt;&#13;
+		if(! froms.contains(to)){&#13;
+			targetTos.add(to)&#13;
+		}&#13;
+	}&#13;
+	targetTos = targetTos.sort()&#13;
+	&#13;
+	//create boreholeInterval for all adjacent layers&#13;
+	for (int i = 0; i &lt; targetFroms.size(); i++) {&#13;
+		&#13;
+		//collect new intervalId and stratigraphyId to be able to link the interval borehole.logElement&#13;
+		def intervalId = "BoreholeInterval_Chronostratigraphy_${_source.p.id_lay.value()}_${i}"&#13;
+		withTransformationContext{&#13;
+			def c = _.context.collector(it)&#13;
+			c.intervals[stratigraphyId] &lt;&lt; intervalId&#13;
+		}&#13;
+		&#13;
+		_target{&#13;
+			id ( intervalId )&#13;
+			collectionIdentifier( "Collection_Chronostratigraphy_${stratigraphyId}" ){&#13;
+				codeSpace( _project.vars.CollectionId_CodeSpace )&#13;
+			}&#13;
+			specification {&#13;
+				href ( "#GeologicUnit_Chronostratigraphy_${chronostratigraphyId}" )&#13;
+			}&#13;
+			&#13;
+			mappedIntervalBegin {&#13;
+				Quantity {&#13;
+					value( targetFroms[i] )&#13;
+					uom {&#13;
+						code( 'm' )&#13;
+						href( 'http://www.opengis.net/def/uom/OGC/1.0/metre' )&#13;
+						title( 'metre' )&#13;
+					}&#13;
+				}&#13;
+			}&#13;
+			&#13;
+			mappedIntervalEnd {&#13;
+				Quantity {&#13;
+					value( targetTos[i] )&#13;
+					uom {&#13;
+						code( 'm' )&#13;
+						href( 'http://www.opengis.net/def/uom/OGC/1.0/metre' )&#13;
+						title( 'metre' )&#13;
+					}&#13;
+				}&#13;
+			}&#13;
+		}&#13;
+	}&#13;
+}
+</core:text>
+        </complexParameter>
+    </cell>
     <cell relation="eu.esdihumboldt.cst.functions.groovy.join" id="Ce3cfa7ab-d0fa-4640-b793-b507880d4c63" priority="highest">
         <source name="types">
             <class>
@@ -44,6 +234,7 @@ if (_source.links.stratigraphy.p.kind_id_cli.value() == 3000) {&#13;
 	//collect different ids&#13;
 	def boreholeId = _source.links.stratigraphy.p.id_bho_fk.value()&#13;
 	def layerId = _source.p.id_lay.value()&#13;
+	def stratigraphyId = _source.links.stratigraphy.p.id_sty.value()&#13;
 	&#13;
 	def lithostratId = _source.p.lithostratigraphy_id_cli.value()&#13;
 	def chronostratId = _source.p.chronostratigraphy_id_cli.value()&#13;
@@ -52,6 +243,9 @@ if (_source.links.stratigraphy.p.kind_id_cli.value() == 3000) {&#13;
 		def c = _.context.collector(it)	&#13;
 		//collect layer and borehole id&#13;
 		c.geologyLayers[boreholeId] &lt;&lt; layerId&#13;
+		&#13;
+		//collect stratigraphy &#13;
+		c.geologyStratigraphies &lt;&lt; stratigraphyId&#13;
 		&#13;
 		//collect lithotraigraphyId and chronostraigraphy of the layer &#13;
 		//only if the id is not yet collected&#13;
@@ -64,9 +258,8 @@ if (_source.links.stratigraphy.p.kind_id_cli.value() == 3000) {&#13;
 		}&#13;
 	}&#13;
 	&#13;
-	//create the boreholeInterval for lithology, lithostratigraphy and chronostratigraphy&#13;
+	//create the boreholeInterval for lithology&#13;
 	//and set the attribute collectionIdentifier&#13;
-	def stratigraphyId = _source.links.stratigraphy.p.id_sty.value()&#13;
 	_target{&#13;
 		id ( "BoreholeInterval_Lithology_${layerId}" )&#13;
 		collectionIdentifier( "Collection_Lithology_${stratigraphyId}" ){&#13;
@@ -76,30 +269,6 @@ if (_source.links.stratigraphy.p.kind_id_cli.value() == 3000) {&#13;
 			href ( "#GeologicUnit_Lithology_${layerId}" )&#13;
 		}&#13;
 	}	&#13;
-	&#13;
-	if (lithostratId){&#13;
-		_target{&#13;
-			id ( "BoreholeInterval_Lithostratigraphy_${layerId}" )&#13;
-			collectionIdentifier( "Collection_Lithostratigraphy_${stratigraphyId}" ){&#13;
-				codeSpace( _project.vars.CollectionId_CodeSpace )&#13;
-			}&#13;
-			specification {&#13;
-				href ("#GeologicUnit_Lithostratigraphy_${lithostratId}" )&#13;
-			}&#13;
-		}	&#13;
-	}&#13;
-	&#13;
-	if (chronostratId){&#13;
-		_target{&#13;
-			id ( "BoreholeInterval_Chronostratigraphy_${layerId}" )&#13;
-			collectionIdentifier( "Collection_Chronostratigraphy_${stratigraphyId}" ){&#13;
-				codeSpace( _project.vars.CollectionId_CodeSpace )&#13;
-			}&#13;
-			specification {&#13;
-				href ( "#GeologicUnit_Chronostratigraphy_${chronostratId}" )&#13;
-			}&#13;
-		}	&#13;
-	}&#13;
 }
 </core:text>
         </complexParameter>
