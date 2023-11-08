@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <alignment xmlns="http://www.esdi-humboldt.eu/hale/alignment">
-    <cell relation="eu.esdihumboldt.cst.functions.groovy.join" id="Ce3cfa7ab-d0fa-4640-b793-b507880d4c63" priority="highest">
+    <cell relation="eu.esdihumboldt.cst.functions.groovy.join" id="C0213f77f-11c9-4b26-a6d8-b57589f0b51c" priority="highest">
         <source name="types">
             <class>
                 <type name="layer" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
@@ -56,218 +56,324 @@
         </complexParameter>
         <complexParameter name="script">
             <core:text xmlns:core="http://www.esdi-humboldt.eu/hale/core" xml:space="preserve">
-//create a BoreholeInterval only if stratigraphy.kind_id_cli = "Geology"/"3000"&#13;
-if (_source.links.stratigraphy.p.kind_id_cli.value() == 3000) {&#13;
+//This groovy script collects necessary IDs, no target instance is created&#13;
+&#13;
+withTransformationContext {&#13;
+	def c = _.context.collector(it)	&#13;
 	&#13;
-	//collect different ids&#13;
-	def boreholeId = _source.links.stratigraphy.borehole.p.id_bho.value()&#13;
-	def layerId = _source.p.id_lay.value()&#13;
+	//collect stratigraphyId and layerId if stratiraphy_kind_id = 3000 ('Geology')&#13;
+	def stratigraphyId = _source.links.stratigraphy.p.id_sty.value()&#13;
+	if (_source.links.stratigraphy.p.kind_id_cli.value() == 3000){&#13;
+		c.geologyStratigraphies &lt;&lt; stratigraphyId&#13;
+		&#13;
+		def layerId = _source.p.id_lay.value()&#13;
+		def boreholeId = _source.links.stratigraphy.borehole.p.id_bho.value()&#13;
+		c.geologyLayers[boreholeId] &lt;&lt; layerId&#13;
+		c.borehole[layerId] &lt;&lt; boreholeId&#13;
+	}&#13;
 	&#13;
-	def lithologyId = _source.p.lithology_id_cli.value()&#13;
+	//collect lithotraigraphyId and chronostraigraphyId&#13;
+	//only if the id is not yet collected&#13;
 	def lithostratId = _source.p.lithostratigraphy_id_cli.value()&#13;
 	def chronostratId = _source.p.chronostratigraphy_id_cli.value()&#13;
+	if(! c.lithostratIds.values().contains(lithostratId) ){&#13;
+		c.lithostratIds &lt;&lt; lithostratId&#13;
+	}&#13;
+		&#13;
+	if(! c.chronostratIds.values().contains(chronostratId) ){&#13;
+		c.chronostratIds &lt;&lt; chronostratId&#13;
+	}&#13;
+&#13;
+}
+</core:text>
+        </complexParameter>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.groovy.merge" id="C77dfa250-449a-45d7-8f86-4a5156a13020" priority="normal">
+        <source>
+            <class>
+                <type name="layer" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+            </class>
+        </source>
+        <target>
+            <class>
+                <type name="BoreholeIntervalType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
+            </class>
+        </target>
+        <parameter value="false" name="auto_detect"/>
+        <parameter value="id_sty_fk" name="property"/>
+        <parameter value="lithostratigraphy_id_cli" name="property"/>
+        <complexParameter name="script">
+            <core:text xmlns:core="http://www.esdi-humboldt.eu/hale/core" xml:space="preserve">
+// This groovy script creates a boreholeInterval for layers with a value for 'lithostratigraphy_id_cli'&#13;
+// all adjacent layers with the same chronostratigraphy are merged to one boreholeInterval&#13;
+&#13;
+def geolStratigraphies&#13;
+def layerId = _source.p.id_lay.value()&#13;
+def boreholeId &#13;
+&#13;
+withTransformationContext{&#13;
+	def c = _.context.collector(it)&#13;
+	geolStratigraphies = c.geologyStratigraphies.values()&#13;
+	boreholeId = c.borehole[layerId].value()&#13;
+}&#13;
+&#13;
+def stratigraphyId = _source.p.id_sty_fk.value()&#13;
+def lithostratigraphyId = _source.p.lithostratigraphy_id_cli.value()&#13;
+&#13;
+// check that the given stratigraphy is a geologic stratigraphy and a lithostratigraphyId is present&#13;
+if ( geolStratigraphies.contains( stratigraphyId ) &amp;&amp; lithostratigraphyId ) {&#13;
+	def froms = _source.p.depth_from_lay.values()&#13;
+	def tos = _source.p.depth_to_lay.values()&#13;
 	&#13;
-	withTransformationContext {&#13;
-		def c = _.context.collector(it)	&#13;
-		//collect layer and borehole id&#13;
-		c.geologyLayers[boreholeId] &lt;&lt; layerId&#13;
-		&#13;
-		//collect lithologyId, lithotraigraphyId and chronostraigraphy of the layer &#13;
-		//only if the id is not yet collected&#13;
-		if(! c.lithologyIds.values().contains(lithologyId) ){&#13;
-			c.lithologyIds &lt;&lt; lithologyId&#13;
-		}&#13;
-		&#13;
-		if(! c.lithostratIds.values().contains(lithostratId) ){&#13;
-			c.lithostratIds &lt;&lt; lithostratId&#13;
-		}&#13;
-		&#13;
-		if(! c.chronostratIds.values().contains(chronostratId) ){&#13;
-			c.chronostratIds &lt;&lt; chronostratId&#13;
+	def targetFroms = []&#13;
+	froms.each {from -&gt;&#13;
+		if(! tos.contains(from)){&#13;
+			targetFroms.add(from)&#13;
 		}&#13;
 	}&#13;
+	targetFroms = targetFroms.sort()&#13;
 	&#13;
-	//create the boreholeInterval for lithology, lithostratigraphy and chronostratigraphy&#13;
-	//and set the attribute collectionIdentifier&#13;
-	def stratigraphyId = _source.links.stratigraphy.p.id_sty.value()&#13;
-	if (lithologyId){&#13;
-		_target{&#13;
-			id ( "BoreholeInterval_Lithology_${layerId}" )&#13;
-			collectionIdentifier( "Collection_Lithology_${stratigraphyId}" ){&#13;
-				codeSpace( _project.vars.CollectionId_CodeSpace )&#13;
-			}&#13;
-			specification {&#13;
-				href ( "#GeologicUnit_Lithology_${lithologyId}" )&#13;
-			}&#13;
-		}	&#13;
+	def targetTos = []&#13;
+	tos.each {to -&gt;&#13;
+		if(! froms.contains(to)){&#13;
+			targetTos.add(to)&#13;
+		}&#13;
 	}&#13;
+	targetTos = targetTos.sort()&#13;
 	&#13;
-	if (lithostratId){&#13;
+	//create boreholeInterval for all adjacent layers&#13;
+	for (int i = 0; i &lt; targetFroms.size(); i++) {&#13;
+		&#13;
+		//collect new intervalId and stratigraphyId to be able to link the interval borehole.logElement&#13;
+		def intervalId = "BoreholeInterval_Lithostratigraphy_${layerId}_${i}"&#13;
+		withTransformationContext{&#13;
+			def c = _.context.collector(it)&#13;
+			c.intervals[layerId] &lt;&lt; intervalId&#13;
+		}&#13;
+		&#13;
 		_target{&#13;
-			id ( "BoreholeInterval_Lithostratigraphy_${layerId}" )&#13;
+			id ( intervalId )&#13;
+			&#13;
+			parentBorehole {&#13;
+				href( "#Borehole_${boreholeId}" )&#13;
+			}&#13;
+			&#13;
 			collectionIdentifier( "Collection_Lithostratigraphy_${stratigraphyId}" ){&#13;
 				codeSpace( _project.vars.CollectionId_CodeSpace )&#13;
 			}&#13;
 			specification {&#13;
-				href ("#GeologicUnit_Lithostratigraphy_${lithostratId}" )&#13;
+				href ( "#GeologicUnit_Lithostratigraphy_${lithostratigraphyId}" )&#13;
 			}&#13;
-		}	&#13;
-	}&#13;
-	&#13;
-	if (chronostratId){&#13;
-		_target{&#13;
-			id ( "BoreholeInterval_Chronostratigraphy_${layerId}" )&#13;
-			collectionIdentifier( "Collection_Chronostratigraphy_${stratigraphyId}" ){&#13;
-				codeSpace( _project.vars.CollectionId_CodeSpace )&#13;
+			&#13;
+			mappedIntervalBegin {&#13;
+				Quantity {&#13;
+					value( targetFroms[i] )&#13;
+					uom {&#13;
+						code( 'm' )&#13;
+						href( 'http://www.opengis.net/def/uom/OGC/1.0/metre' )&#13;
+						title( 'metre' )&#13;
+					}&#13;
+				}&#13;
 			}&#13;
-			specification {&#13;
-				href ( "#GeologicUnit_Chronostratigraphy_${chronostratId}" )&#13;
+			&#13;
+			mappedIntervalEnd {&#13;
+				Quantity {&#13;
+					value( targetTos[i] )&#13;
+					uom {&#13;
+						code( 'm' )&#13;
+						href( 'http://www.opengis.net/def/uom/OGC/1.0/metre' )&#13;
+						title( 'metre' )&#13;
+					}&#13;
+				}&#13;
 			}&#13;
-		}	&#13;
+		}&#13;
 	}&#13;
 }
 </core:text>
         </complexParameter>
     </cell>
-    <cell relation="eu.esdihumboldt.hale.align.rename" id="Cfa1c7e80-6c70-4666-994d-dc01677b6212" priority="normal">
+    <cell relation="eu.esdihumboldt.cst.functions.groovy.merge" id="Ca81224cf-e702-4c4c-a467-1d970b5b732b" priority="normal">
         <source>
-            <property>
-                <type name="stratigraphy" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
-                <child name="name_sty"/>
-            </property>
-        </source>
-        <target>
-            <property>
-                <type name="BoreholeIntervalType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
-                <child name="description" ns="http://www.opengis.net/gml/3.2"/>
-            </property>
-        </target>
-        <parameter value="false" name="ignoreNamespaces"/>
-        <parameter value="false" name="structuralRename"/>
-    </cell>
-    <cell relation="eu.esdihumboldt.hale.align.assign" id="Cdd4cd1d1-7d83-4d98-b8e8-f5255181ba8d" priority="normal">
-        <target>
-            <property>
-                <type name="BoreholeIntervalType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
-                <child name="mappedIntervalBegin" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
-                <child name="Quantity" ns="http://www.opengis.net/swe/2.0"/>
-                <child name="uom" ns="http://www.opengis.net/swe/2.0"/>
-                <child name="code"/>
-            </property>
-        </target>
-        <parameter value="m" name="value"/>
-    </cell>
-    <cell relation="eu.esdihumboldt.hale.align.assign" id="Cf478c59a-366f-4bf7-b70b-cd775b8484c8" priority="normal">
-        <target>
-            <property>
-                <type name="BoreholeIntervalType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
-                <child name="mappedIntervalBegin" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
-                <child name="Quantity" ns="http://www.opengis.net/swe/2.0"/>
-                <child name="uom" ns="http://www.opengis.net/swe/2.0"/>
-                <child name="href" ns="http://www.w3.org/1999/xlink"/>
-            </property>
-        </target>
-        <parameter value="http://www.opengis.net/def/uom/OGC/1.0/metre" name="value"/>
-    </cell>
-    <cell relation="eu.esdihumboldt.hale.align.assign" id="C6ac1dad0-ed56-481c-a2a2-03442302a1c2" priority="normal">
-        <target>
-            <property>
-                <type name="BoreholeIntervalType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
-                <child name="mappedIntervalBegin" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
-                <child name="Quantity" ns="http://www.opengis.net/swe/2.0"/>
-                <child name="uom" ns="http://www.opengis.net/swe/2.0"/>
-                <child name="title" ns="http://www.w3.org/1999/xlink"/>
-            </property>
-        </target>
-        <parameter value="metre" name="value"/>
-    </cell>
-    <cell relation="eu.esdihumboldt.hale.align.rename" id="Cb158a578-30de-4d76-82b4-959cb5cc6564" priority="normal">
-        <source>
-            <property>
+            <class>
                 <type name="layer" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
-                <child name="depth_from_lay"/>
-            </property>
+            </class>
         </source>
         <target>
-            <property>
+            <class>
                 <type name="BoreholeIntervalType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
-                <child name="mappedIntervalBegin" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
-                <child name="Quantity" ns="http://www.opengis.net/swe/2.0"/>
-                <child name="value" ns="http://www.opengis.net/swe/2.0"/>
-            </property>
+            </class>
         </target>
-        <parameter value="false" name="ignoreNamespaces"/>
-        <parameter value="false" name="structuralRename"/>
+        <parameter value="false" name="auto_detect"/>
+        <parameter value="id_sty_fk" name="property"/>
+        <parameter value="chronostratigraphy_id_cli" name="property"/>
+        <complexParameter name="script">
+            <core:text xmlns:core="http://www.esdi-humboldt.eu/hale/core" xml:space="preserve">
+// This groovy script creates a boreholeInterval for layers with a value for 'chronostratigraphy_id_cli'&#13;
+// all adjacent layers with the same chronostratigraphy are merged to one boreholeInterval&#13;
+&#13;
+def geolStratigraphies&#13;
+def boreholeId&#13;
+def layerId = _source.p.id_lay.value()&#13;
+&#13;
+withTransformationContext{&#13;
+	def c = _.context.collector(it)&#13;
+	geolStratigraphies = c.geologyStratigraphies.values()&#13;
+	boreholeId = c.borehole[layerId].value()&#13;
+}&#13;
+&#13;
+def stratigraphyId = _source.p.id_sty_fk.value()&#13;
+def chronostratigraphyId = _source.p.chronostratigraphy_id_cli.value()&#13;
+&#13;
+// check that the given stratigraphy is a geologic stratigraphy and a chronostratigraphyId is present&#13;
+if ( geolStratigraphies.contains( stratigraphyId ) &amp;&amp; chronostratigraphyId ) {&#13;
+	def froms = _source.p.depth_from_lay.values()&#13;
+	def tos = _source.p.depth_to_lay.values()&#13;
+	&#13;
+	def targetFroms = []&#13;
+	froms.each {from -&gt;&#13;
+		if(! tos.contains(from)){&#13;
+			targetFroms.add(from)&#13;
+		}&#13;
+	}&#13;
+	targetFroms = targetFroms.sort()&#13;
+	&#13;
+	def targetTos = []&#13;
+	tos.each {to -&gt;&#13;
+		if(! froms.contains(to)){&#13;
+			targetTos.add(to)&#13;
+		}&#13;
+	}&#13;
+	targetTos = targetTos.sort()&#13;
+	&#13;
+	//create boreholeInterval for all adjacent layers&#13;
+	for (int i = 0; i &lt; targetFroms.size(); i++) {&#13;
+		&#13;
+		//collect new intervalId and stratigraphyId to be able to link the interval borehole.logElement&#13;
+		def intervalId = "BoreholeInterval_Chronostratigraphy_${layerId}_${i}"&#13;
+		withTransformationContext{&#13;
+			def c = _.context.collector(it)&#13;
+			c.intervals[layerId] &lt;&lt; intervalId&#13;
+		}&#13;
+		&#13;
+		_target{&#13;
+			id ( intervalId )&#13;
+			&#13;
+			parentBorehole {&#13;
+				href( "#Borehole_${boreholeId}" )&#13;
+			}&#13;
+			&#13;
+			collectionIdentifier( "Collection_Chronostratigraphy_${stratigraphyId}" ){&#13;
+				codeSpace( _project.vars.CollectionId_CodeSpace )&#13;
+			}&#13;
+			specification {&#13;
+				href ( "#GeologicUnit_Chronostratigraphy_${chronostratigraphyId}" )&#13;
+			}&#13;
+			&#13;
+			mappedIntervalBegin {&#13;
+				Quantity {&#13;
+					value( targetFroms[i] )&#13;
+					uom {&#13;
+						code( 'm' )&#13;
+						href( 'http://www.opengis.net/def/uom/OGC/1.0/metre' )&#13;
+						title( 'metre' )&#13;
+					}&#13;
+				}&#13;
+			}&#13;
+			&#13;
+			mappedIntervalEnd {&#13;
+				Quantity {&#13;
+					value( targetTos[i] )&#13;
+					uom {&#13;
+						code( 'm' )&#13;
+						href( 'http://www.opengis.net/def/uom/OGC/1.0/metre' )&#13;
+						title( 'metre' )&#13;
+					}&#13;
+				}&#13;
+			}&#13;
+		}&#13;
+	}&#13;
+}
+</core:text>
+        </complexParameter>
     </cell>
-    <cell relation="eu.esdihumboldt.hale.align.assign" id="C0573f912-c42c-4c3c-96eb-3f6152271dc4" priority="normal">
-        <target>
-            <property>
-                <type name="BoreholeIntervalType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
-                <child name="mappedIntervalEnd" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
-                <child name="Quantity" ns="http://www.opengis.net/swe/2.0"/>
-                <child name="uom" ns="http://www.opengis.net/swe/2.0"/>
-                <child name="code"/>
-            </property>
-        </target>
-        <parameter value="m" name="value"/>
-    </cell>
-    <cell relation="eu.esdihumboldt.hale.align.assign" id="C6b054605-f6b4-486f-a7e5-d313a86aa301" priority="normal">
-        <target>
-            <property>
-                <type name="BoreholeIntervalType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
-                <child name="mappedIntervalEnd" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
-                <child name="Quantity" ns="http://www.opengis.net/swe/2.0"/>
-                <child name="uom" ns="http://www.opengis.net/swe/2.0"/>
-                <child name="href" ns="http://www.w3.org/1999/xlink"/>
-            </property>
-        </target>
-        <parameter value="http://www.opengis.net/def/uom/OGC/1.0/metre" name="value"/>
-    </cell>
-    <cell relation="eu.esdihumboldt.hale.align.assign" id="Ced5d82c6-6234-47d1-9a7e-9d5f85962c15" priority="normal">
-        <target>
-            <property>
-                <type name="BoreholeIntervalType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
-                <child name="mappedIntervalEnd" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
-                <child name="Quantity" ns="http://www.opengis.net/swe/2.0"/>
-                <child name="uom" ns="http://www.opengis.net/swe/2.0"/>
-                <child name="title" ns="http://www.w3.org/1999/xlink"/>
-            </property>
-        </target>
-        <parameter value="metre" name="value"/>
-    </cell>
-    <cell relation="eu.esdihumboldt.hale.align.rename" id="C603cff18-f00e-49d6-9486-3150748a964f" priority="normal">
+    <cell relation="eu.esdihumboldt.cst.functions.groovy.retype" id="Ce3cfa7ab-d0fa-4640-b793-b507880d4c63" priority="normal">
         <source>
-            <property>
+            <class>
                 <type name="layer" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
-                <child name="depth_to_lay"/>
-            </property>
+            </class>
         </source>
         <target>
-            <property>
+            <class>
                 <type name="BoreholeIntervalType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
-                <child name="mappedIntervalEnd" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
-                <child name="Quantity" ns="http://www.opengis.net/swe/2.0"/>
-                <child name="value" ns="http://www.opengis.net/swe/2.0"/>
-            </property>
+            </class>
         </target>
-        <parameter value="false" name="ignoreNamespaces"/>
-        <parameter value="false" name="structuralRename"/>
-    </cell>
-    <cell relation="eu.esdihumboldt.hale.align.formattedstring" id="C68bde8d4-2aa9-4eb1-92bc-c2dd36f12e6c" priority="normal">
-        <source name="var">
-            <property>
-                <type name="borehole" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
-                <child name="id_bho"/>
-            </property>
-        </source>
-        <target>
-            <property>
-                <type name="BoreholeIntervalType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
-                <child name="parentBorehole" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
-                <child name="href" ns="http://www.w3.org/1999/xlink"/>
-            </property>
-        </target>
-        <parameter value="#Borehole_{id_bho}" name="pattern"/>
+        <complexParameter name="script">
+            <core:text xmlns:core="http://www.esdi-humboldt.eu/hale/core" xml:space="preserve">
+// This groovy script creates a boreholeInterval for layers with a value for 'lithology_id_cli'&#13;
+&#13;
+def stratigraphyId = _source.p.id_sty_fk.value()&#13;
+def lithologyId = _source.p.lithology_id_cli.value()&#13;
+def layerId = _source.p.id_lay.value()&#13;
+def geolStratigraphies&#13;
+def boreholeId&#13;
+&#13;
+withTransformationContext{&#13;
+	def c = _.context.collector(it)&#13;
+	geolStratigraphies = c.geologyStratigraphies.values()&#13;
+	boreholeId = c.borehole[layerId].value()&#13;
+}&#13;
+&#13;
+// check that the given stratigraphy is a geologic stratigraphy&#13;
+if ( geolStratigraphies.contains( stratigraphyId ) &amp;&amp; lithologyId) {&#13;
+	&#13;
+	def intervalId = "BoreholeInterval_Lithology_${layerId}"&#13;
+	&#13;
+	//collect new intervalId and stratigraphyId to be able to link the interval borehole.logElement&#13;
+	withTransformationContext {&#13;
+		def c = _.context.collector(it)	&#13;
+		c.intervals[layerId] &lt;&lt; intervalId&#13;
+	}&#13;
+	&#13;
+	//create the boreholeInterval for lithology&#13;
+	_target{&#13;
+		id ( intervalId )&#13;
+		&#13;
+		parentBorehole {&#13;
+			href( "#Borehole_${boreholeId}" )&#13;
+		}&#13;
+		&#13;
+		collectionIdentifier( "Collection_Lithology_${stratigraphyId}" ){&#13;
+			codeSpace( _project.vars.CollectionId_CodeSpace )&#13;
+		}&#13;
+		specification {&#13;
+			href ( "#GeologicUnit_Lithology_${layerId}" )&#13;
+		}&#13;
+		&#13;
+		mappedIntervalBegin {&#13;
+				Quantity {&#13;
+					value( _source.p.depth_from_lay.value() )&#13;
+					uom {&#13;
+						code( 'm' )&#13;
+						href( 'http://www.opengis.net/def/uom/OGC/1.0/metre' )&#13;
+						title( 'metre' )&#13;
+					}&#13;
+				}&#13;
+			}&#13;
+			&#13;
+			mappedIntervalEnd {&#13;
+				Quantity {&#13;
+					value( _source.p.depth_to_lay.value() )&#13;
+					uom {&#13;
+						code( 'm' )&#13;
+						href( 'http://www.opengis.net/def/uom/OGC/1.0/metre' )&#13;
+						title( 'metre' )&#13;
+					}&#13;
+				}&#13;
+			}&#13;
+	}	&#13;
+}
+</core:text>
+        </complexParameter>
     </cell>
     <cell relation="eu.esdihumboldt.cst.functions.groovy.retype" id="Cb92b3edd-86f6-4b63-bfe7-f02acdb7989c" priority="normal">
         <source>
@@ -282,17 +388,25 @@ if (_source.links.stratigraphy.p.kind_id_cli.value() == 3000) {&#13;
         </target>
         <complexParameter name="script">
             <core:text xmlns:core="http://www.esdi-humboldt.eu/hale/core" xml:space="preserve">
-//assign all collected 'BoreholeInterval'-Ids for each borehole&#13;
-def layers&#13;
+// This groovy script creates a borehole instance and assigns &#13;
+// all collected 'BoreholeInterval'-Ids to 'logElement'&#13;
+def intervals = []&#13;
 withTransformationContext{&#13;
 	def c = _.context.collector(it)&#13;
-	layers = c.geologyLayers[_source.p.id_bho.value()].values()&#13;
+	def layers = c.geologyLayers[_source.p.id_bho.value()].values()&#13;
+	&#13;
+	layers.each { lay -&gt;&#13;
+		temp = c.intervals[lay].values()&#13;
+		temp.each{ t -&gt;&#13;
+			intervals.add(t)&#13;
+		}&#13;
+	}&#13;
 }&#13;
 &#13;
 _target {&#13;
-	layers.each {lay -&gt; &#13;
+	intervals.each { interval -&gt; &#13;
 		logElement {&#13;
-			href( "#BoreholeInterval_${lay}" )&#13;
+			href( "#${interval}" )&#13;
 		}&#13;
 	}&#13;
 }&#13;
@@ -716,46 +830,24 @@ if (location_x_bho &amp;&amp; location_y_bho &amp;&amp; elevation_z_bho &amp;&am
         </target>
         <complexParameter name="script">
             <core:text xmlns:core="http://www.esdi-humboldt.eu/hale/core" xml:space="preserve">
+// This groovy script creates a lithostratigraphic and chronostratigraphic 'GeologicUnit' for all &#13;
+// occuring Lithostratigraphies and Chronostratigraphies&#13;
+&#13;
 import eu.esdihumboldt.hale.common.lookup.*;&#13;
 import eu.esdihumboldt.hale.ui.HaleUI;&#13;
 import eu.esdihumboldt.hale.common.core.io.*;&#13;
 &#13;
-def lithologyIds&#13;
 def lithostratIds&#13;
 def chronostratIds&#13;
 &#13;
 withTransformationContext{&#13;
 	def c = _.context.collector(it)&#13;
-	lithologyIds = c.lithologyIds.values()&#13;
 	lithostratIds = c.lithostratIds.values()&#13;
 	chronostratIds = c.chronostratIds.values()&#13;
 }&#13;
 &#13;
-//create GeologicUnits for all existing lithologyIds, lithostratId and chronostratIds&#13;
 codelistId = _source.p.id_cli.value()&#13;
-if(lithologyIds.contains(codelistId)){&#13;
-	_target{&#13;
-		id( "GeologicUnit_Lithology_${codelistId}" )&#13;
-		geologicUnitType {&#13;
-			href( 'http://resource.geosciml.org/classifier/cgi/geologicunittype/lithologic_unit' )&#13;
-			title( 'lithologic unit' )&#13;
-		}&#13;
-		composition {&#13;
-			CompositionPart {&#13;
-				material {&#13;
-					RockMaterial {&#13;
-						lithology {&#13;
-							//get value of lookup table "layer_lithology"&#13;
-							def lith = getLookupTableValue(_source.p.id_cli.value(), "38e8df01-b509-4ab2-8301-27dc95c2f265") as String&#13;
-							href ( lith )&#13;
-						}&#13;
-					}&#13;
-				}&#13;
-			}&#13;
-		}&#13;
-	}&#13;
-}&#13;
-else if(lithostratIds.contains(codelistId)){&#13;
+if(lithostratIds.contains(codelistId)){&#13;
 	_target{&#13;
 		id( "GeologicUnit_Lithostratigraphy_${codelistId}" )&#13;
 		geologicUnitType {&#13;
@@ -787,6 +879,135 @@ else if(chronostratIds.contains(codelistId)){&#13;
 	}&#13;
 }&#13;
 &#13;
+&#13;
+def getLookupTableValue(value, tableId){&#13;
+	// retrieve Lookup table&#13;
+	LookupService ls = HaleUI.getServiceProvider().getService(LookupService.class);&#13;
+	LookupTableInfo tableInfo = ls.getTable(tableId);&#13;
+	def table = tableInfo.getTable();&#13;
+	&#13;
+	//get value&#13;
+	def result = table.lookup(Value.of(value))&#13;
+	return result&#13;
+}
+</core:text>
+        </complexParameter>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.groovy.join" id="Cfe876657-08ab-428a-a283-210051be7720" priority="normal">
+        <source name="types">
+            <class>
+                <type name="layer" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+            </class>
+        </source>
+        <source name="types">
+            <class>
+                <type name="layer_codelist" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+            </class>
+        </source>
+        <source name="types">
+            <class>
+                <type name="codelist" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+            </class>
+        </source>
+        <target>
+            <class>
+                <type name="GeologicUnitType" ns="http://www.opengis.net/gsml/4.1/GeoSciML-Basic"/>
+            </class>
+        </target>
+        <complexParameter name="join">
+            <jp:join-parameter xmlns:jp="http://www.esdi-humboldt.eu/hale/join">
+                <class>
+                    <type name="layer" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+                </class>
+                <class>
+                    <type name="layer_codelist" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+                </class>
+                <class>
+                    <type name="codelist" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+                </class>
+                <jp:condition>
+                    <property>
+                        <type name="layer" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+                        <child name="id_lay"/>
+                    </property>
+                    <property>
+                        <type name="layer_codelist" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+                        <child name="id_lay_fk"/>
+                    </property>
+                </jp:condition>
+                <jp:condition>
+                    <property>
+                        <type name="layer_codelist" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+                        <child name="id_cli_fk"/>
+                    </property>
+                    <property>
+                        <type name="codelist" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
+                        <child name="id_cli"/>
+                    </property>
+                </jp:condition>
+            </jp:join-parameter>
+        </complexParameter>
+        <complexParameter name="script">
+            <core:text xmlns:core="http://www.esdi-humboldt.eu/hale/core" xml:space="preserve">
+// This groovy script creates a lithologic 'GeologicUnit' for each source layer if the related &#13;
+// stratigraphy is a geologic stratigraphy and if a lithologyId is given&#13;
+&#13;
+import eu.esdihumboldt.hale.common.lookup.*;&#13;
+import eu.esdihumboldt.hale.ui.HaleUI;&#13;
+import eu.esdihumboldt.hale.common.core.io.*;&#13;
+&#13;
+def geolStratigraphies&#13;
+def stratigraphyId = _source.p.id_sty_fk.value()&#13;
+def lithologyId = _source.p.lithology_id_cli.value()&#13;
+&#13;
+withTransformationContext{&#13;
+	def c = _.context.collector(it)&#13;
+	geolStratigraphies = c.geologyStratigraphies.values()&#13;
+}&#13;
+&#13;
+// check that the given stratigraphy is a geologic stratigraphy and that a lithologyId is given&#13;
+if ( geolStratigraphies.contains( stratigraphyId ) &amp;&amp; lithologyId) {&#13;
+	_target{&#13;
+		id( "GeologicUnit_Lithology_${_source.p.id_lay.value()}" )&#13;
+		geologicUnitType {&#13;
+			href( 'http://resource.geosciml.org/classifier/cgi/geologicunittype/lithologic_unit' )&#13;
+			title( 'lithologic unit' )&#13;
+		}&#13;
+		composition {&#13;
+			CompositionPart {&#13;
+				material {&#13;
+					RockMaterial {&#13;
+						lithology {&#13;
+							//get value of lookup table "layer_lithology"&#13;
+							def lith = getLookupTableValue(_source.p.lithology_id_cli.value(), "38e8df01-b509-4ab2-8301-27dc95c2f265") as String&#13;
+							href ( lith )&#13;
+						}&#13;
+						//loop through all colors						&#13;
+						_source.links.layer_codelist.each { cl -&gt;&#13;
+							codeText = cl.p.code_cli.value()&#13;
+							_log.info("CodeText: " + codeText)&#13;
+							if (codeText == "mlpr112"){&#13;
+								color {&#13;
+									Category {&#13;
+										label( cl.links.codelist.p.text_cli_en.value() )&#13;
+										&#13;
+										/*&#13;
+										To Do: &#13;
+										identifier( 'some value' )&#13;
+										&#13;
+										codeSpace {&#13;
+											href( 'some value' )&#13;
+										}*/&#13;
+									}&#13;
+								}&#13;
+							}&#13;
+						}&#13;
+					}&#13;
+				}&#13;
+			}&#13;
+		}&#13;
+	}&#13;
+}&#13;
 &#13;
 def getLookupTableValue(value, tableId){&#13;
 	// retrieve Lookup table&#13;

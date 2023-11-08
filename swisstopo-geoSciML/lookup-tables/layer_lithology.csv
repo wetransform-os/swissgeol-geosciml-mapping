@@ -1,8 +1,8 @@
 id_cli,text_cli_en,text_cli_de,URI
 15103001,igneous rock,Magmatit,http://inspire.ec.europa.eu/codelist/LithologyValue/peridotite
-15103003,intrusive rock,Intrusivgestein,
+15103003,intrusive rock,Intrusivgestein,http://inspire.ec.europa.eu/codelist/LithologyValue/igneousRock
 4000,Unknown,Unbekannt,
-15101005,fall deposit,Sturzablagerung,
+15101005,fall deposit,Sturzablagerung,http://inspire.ec.europa.eu/codelist/LithologyValue/sediment
 15101006,rock avalanche deposit,Bergsturzablagerung,http://inspire.ec.europa.eu/codelist/LithologyValue/sediment
 15101007,rock fall deposit,Felssturzablagerung,http://inspire.ec.europa.eu/codelist/LithologyValue/sediment
 15101008,avalanche debris,Lawinenschutt,http://inspire.ec.europa.eu/codelist/LithologyValue/sediment
@@ -12,32 +12,32 @@ id_cli,text_cli_en,text_cli_de,URI
 15101013,loam deposit on plateau,Plateaulehm,http://inspire.ec.europa.eu/codelist/LithologyValue/sediment
 15101014,colluvium,"Hanglehm, Schwemmlehm",http://inspire.ec.europa.eu/codelist/LithologyValue/sediment
 15101015,rock glacier,Blockgletscher,http://inspire.ec.europa.eu/codelist/LithologyValue/sediment
-15101016,strongly shattered sagging mass,zerrüttete Sackungsmasse ,
+15101016,strongly shattered sagging mass,zerrüttete Sackungsmasse ,http://inspire.ec.europa.eu/codelist/LithologyValue/materialFormedInSurficialEnvironment
 15101017,slide deposit,Rutschmasse,http://inspire.ec.europa.eu/codelist/LithologyValue/sediment
-15101019,glacial deposit,glazigenes Sediment,
-15101021,till,Moräne (Till),
-15101024,glacier or dead iche covered by till,Moräne auf Gletscher oder Toteis ,
-15101026,fluvial deposit,fluviatiles Sediment,
-15101028,glaciofluvial deposit,glazifluviatiles Sediment,
+15101019,glacial deposit,glazigenes Sediment,http://inspire.ec.europa.eu/codelist/LithologyValue/peat
+15101021,till,Moräne (Till),http://inspire.ec.europa.eu/codelist/LithologyValue/lignite
+15101024,glacier or dead iche covered by till,Moräne auf Gletscher oder Toteis ,http://inspire.ec.europa.eu/codelist/LithologyValue/lignite
+15101026,fluvial deposit,fluviatiles Sediment,http://inspire.ec.europa.eu/codelist/LithologyValue/travertine
+15101028,glaciofluvial deposit,glazifluviatiles Sediment,http://inspire.ec.europa.eu/codelist/LithologyValue/sediment
 15101029,kame terrace deposit,Kameterrassensediment,http://inspire.ec.europa.eu/codelist/LithologyValue/sandSizeSediment
 15101030,ice-marginal gravel,randglazialer Schotter,http://inspire.ec.europa.eu/codelist/LithologyValue/silt
 15101031,gaciofluvial gravel,glazifluviatiler Schotter,http://inspire.ec.europa.eu/codelist/LithologyValue/ashAndLapilli
 15101032,gravel of glacial advance,Vorstossschotter,http://inspire.ec.europa.eu/codelist/LithologyValue/anthropogenicMaterial
 15101033,gravel of glacial retreat,Rückzugsschotter,http://inspire.ec.europa.eu/codelist/LithologyValue/anthropogenicMaterial
 15101034,dammed deposit,Stauschotter,http://inspire.ec.europa.eu/codelist/AnthropogenicGeomorphologicFeatureTypeValue/artificialLevee
-15101036,mixed deposit,gemischter Schutt,
+15101036,mixed deposit,gemischter Schutt,http://inspire.ec.europa.eu/codelist/AnthropogenicGeomorphologicFeatureTypeValue/fill
 15101037,debris flow deposit,Murgangablagerung,http://inspire.ec.europa.eu/codelist/AnthropogenicGeomorphologicFeatureTypeValue/landfillSite
-15101039,alluvial deposit,Alluvion,
+15101039,alluvial deposit,Alluvion,http://inspire.ec.europa.eu/codelist/AnthropogenicGeomorphologicFeatureTypeValue/landfillSite
 15101040,fluvial gravel,fluviatiler Schotter,http://inspire.ec.europa.eu/codelist/AnthropogenicGeomorphologicFeatureTypeValue/artificialDrainage
 15101041,river gravel,Bachschutt,http://inspire.ec.europa.eu/codelist/LithologyValue/unconsolidatedMaterial
 15101042,flood plain deposit,Überschwemmungssediment,http://inspire.ec.europa.eu/codelist/LithologyValue/unconsolidatedMaterial
-15101044,lacustrine deposit,lakustrisches Sediment,
-15101046,glaciolacustrine deposit,glazilakustrisches Sediment,
+15101044,lacustrine deposit,lakustrisches Sediment,http://inspire.ec.europa.eu/codelist/LithologyValue/unconsolidatedMaterial
+15101046,glaciolacustrine deposit,glazilakustrisches Sediment,http://inspire.ec.europa.eu/codelist/LithologyValue/rock
 15101047,glaciolacustrine deltaic deposit,glazilakustrisches Deltasediment,http://inspire.ec.europa.eu/codelist/LithologyValue/sedimentaryRock
 15101048,waterllaid till,subaquatisch abgelagerte Moräne (Waterlaid Till),http://inspire.ec.europa.eu/codelist/LithologyValue/clasticSedimentaryRock
 15101049,aggradation deposit,detritische Verlandungsbildung,http://inspire.ec.europa.eu/codelist/LithologyValue/conglomerate
-15101051,palustric deposit,palustrisches Sediment,
-15101052,marsh,Sumpf,
+15101051,palustric deposit,palustrisches Sediment,http://inspire.ec.europa.eu/codelist/LithologyValue/conglomerate
+15101052,marsh,Sumpf,http://inspire.ec.europa.eu/codelist/LithologyValue/conglomerate
 15101053,"peat bog, peat","Torfmoor, Torf",http://inspire.ec.europa.eu/codelist/LithologyValue/conglomerate
 15101054,palustric lignite,palustrischer Lignit,
 15101055,ice-dammed lake deposit,Rückstausediment,http://inspire.ec.europa.eu/codelist/LithologyValue/breccia
@@ -45,31 +45,31 @@ id_cli,text_cli_en,text_cli_de,URI
 15101057,lacustrine deltaic deposit,lakustrisches Deltasediment,http://inspire.ec.europa.eu/codelist/LithologyValue/breccia
 15101058,lake bed deposit,Seebodensediment,http://inspire.ec.europa.eu/codelist/LithologyValue/conglomerate
 15101059,lake marl,Seekreide,http://inspire.ec.europa.eu/codelist/LithologyValue/conglomerate
-15101061,aeolian deposit,äolisches Sediment,
+15101061,aeolian deposit,äolisches Sediment,http://inspire.ec.europa.eu/codelist/LithologyValue/sandstone
 15101062,"aeolian sand, driftsand","äolischer Sand, Flugsand",http://inspire.ec.europa.eu/codelist/LithologyValue/sandstone
 15101063,"loess, loess loam","Löss, Lösslehm",http://inspire.ec.europa.eu/codelist/LithologyValue/sandstone
 15101065,volcanic ash,vulkanische Asche,http://inspire.ec.europa.eu/codelist/LithologyValue/sandstone
-15101067,anthropogenic features,anthropogene Elemente,
-15101069,artificial deposit,künstliche Ablagerung,
+15101067,anthropogenic features,anthropogene Elemente,http://inspire.ec.europa.eu/codelist/LithologyValue/sandstone
+15101069,artificial deposit,künstliche Ablagerung,http://inspire.ec.europa.eu/codelist/LithologyValue/wacke
 15101070,"made ground, embankment","Aufschüttung, Damm",http://inspire.ec.europa.eu/codelist/LithologyValue/sandstone
 15101071,infilled ground,Auffüllung,http://inspire.ec.europa.eu/codelist/LithologyValue/sandstone
 15101072,landfill,Deponie,http://inspire.ec.europa.eu/codelist/LithologyValue/sandstone
 15101073,spoil heap,Halde,http://inspire.ec.europa.eu/codelist/LithologyValue/sandstone
-15101076,thin unconsolidated sediment cover,dünne Lockermaterialbedeckung,
+15101076,thin unconsolidated sediment cover,dünne Lockermaterialbedeckung,http://inspire.ec.europa.eu/codelist/LithologyValue/sandstone
 15102028,argillaceous marlstone,Tonmergelstein,http://inspire.ec.europa.eu/codelist/LithologyValue/anthrazit
 15101077,thin unconsolidated deposit cover,geringmächtige Lockergesteinsbedeckung,http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock
 15101078,in situ alteration or weahtering cover,tiefgründige Verwitterungsdecke,http://inspire.ec.europa.eu/codelist/LithologyValue/siltstone
 15101079,gyttja,Gyttja,http://inspire.ec.europa.eu/codelist/LithologyValue/conglomerate
-15101080,calcareous tuff,Quelltuff,
-15101081,hydrochemical deposit (calc-sinter),hydrochemische Bildungen (Kalksinter),
+15101080,calcareous tuff,Quelltuff,http://inspire.ec.europa.eu/codelist/LithologyValue/sandstone
+15101081,hydrochemical deposit (calc-sinter),hydrochemische Bildungen (Kalksinter),http://inspire.ec.europa.eu/codelist/LithologyValue/sandstone
 15101082,travertine,Travertin,http://inspire.ec.europa.eu/codelist/LithologyValue/sandstone
-15101083,in situ weathering debris,Insitu Verwitterungsschutt,
+15101083,in situ weathering debris,Insitu Verwitterungsschutt,http://inspire.ec.europa.eu/codelist/LithologyValue/sediment
 15102001,sedimentary rock,Sedimentgestein,http://inspire.ec.europa.eu/codelist/LithologyValue/mudstone
-15102003,clastic sedimentary rock,klastisches Sedimentgestein,
-15102005,"conglomerate, breccia (psephite: grain size: gravel, boulder and block)","Konglomerat, Brekzie (Psephit: Korngrösse: Kies, Steine und Blöcke)",
+15102003,clastic sedimentary rock,klastisches Sedimentgestein,http://inspire.ec.europa.eu/codelist/LithologyValue/carbonateMudstone
+15102005,"conglomerate, breccia (psephite: grain size: gravel, boulder and block)","Konglomerat, Brekzie (Psephit: Korngrösse: Kies, Steine und Blöcke)",http://inspire.ec.europa.eu/codelist/LithologyValue/carbonateMudstone
 15102006,breccia,Brekzie,http://inspire.ec.europa.eu/codelist/LithologyValue/carbonateMudstone
-15102007,conglomerate,Konglomerat,
-15102009,sandstone (psammite: sand grain size),Sandstein (Psammit: Sandkorngrösse),
+15102007,conglomerate,Konglomerat,http://inspire.ec.europa.eu/codelist/LithologyValue/limestone
+15102009,sandstone (psammite: sand grain size),Sandstein (Psammit: Sandkorngrösse),http://inspire.ec.europa.eu/codelist/LithologyValue/carbonateSedimentaryRock
 15102010,quartzitic sandstone,Quarzsandstein,http://inspire.ec.europa.eu/codelist/LithologyValue/calcareousCarbonateSedimentaryRock
 15102011,calcareous sandstone,Kalksandstein,http://inspire.ec.europa.eu/codelist/LithologyValue/calcareousCarbonateSedimentaryRock
 15102012,dolomitic sandstone,Dolomitsandstein,http://inspire.ec.europa.eu/codelist/LithologyValue/calcareousCarbonateSedimentaryRock
@@ -83,7 +83,7 @@ id_cli,text_cli_en,text_cli_de,URI
 15102020,glauconite sandstone,Glaukonitsandstein,http://inspire.ec.europa.eu/codelist/LithologyValue/calcareousCarbonateSedimentaryRock
 15102021,nummulite sandstone,Nummulitensandstein,http://inspire.ec.europa.eu/codelist/LithologyValue/calcareousCarbonateSedimentaryRock
 15102022,shelly sandstone,Muschelsandstein,http://inspire.ec.europa.eu/codelist/LithologyValue/dolomite
-15102063,phosphate-rich rock,phosphoritreiches Gestein,
+15102063,phosphate-rich rock,phosphoritreiches Gestein,http://inspire.ec.europa.eu/codelist/LithologyValue/granitoid
 15102024,"siltstone, claystone, marlstone (pelite: grain size: silt and clay)","Silt-, Tonstein, Mergel (Pelit: Silt- u. Tonkorngrösse)",
 15102025,siltstone,Siltstein,http://inspire.ec.europa.eu/codelist/LithologyValue/biogenicSilicaSedimentaryRock
 15102026,claystone,Tonstein,http://inspire.ec.europa.eu/codelist/LithologyValue/biogenicSilicaSedimentaryRock
@@ -91,8 +91,8 @@ id_cli,text_cli_en,text_cli_de,URI
 15103007,granite,Granit,http://inspire.ec.europa.eu/codelist/LithologyValue/aplite
 15102029,calcareous marlstone,Kalkmergelstein,http://inspire.ec.europa.eu/codelist/LithologyValue/ironRichSedimentaryRock
 15102030,mudstone,Schlammstein,http://inspire.ec.europa.eu/codelist/LithologyValue/coal
-15102032,"biogenic, biochemical, organic sedimentary rock","biogenes, biochemisches, organisches Sedimentgestein",
-15102034,limestone,Kalkstein,
+15102032,"biogenic, biochemical, organic sedimentary rock","biogenes, biochemisches, organisches Sedimentgestein",http://inspire.ec.europa.eu/codelist/LithologyValue/ironRichSedimentaryRock
+15102034,limestone,Kalkstein,http://inspire.ec.europa.eu/codelist/LithologyValue/ironRichSedimentaryRock
 15102035,siliceous limestone,Kieselkalk,http://inspire.ec.europa.eu/codelist/LithologyValue/phosphateRichSediment
 15102036,sparite,Spatkalk,http://inspire.ec.europa.eu/codelist/LithologyValue/phosphateRichSediment
 15102037,micrite,Mikrit,http://inspire.ec.europa.eu/codelist/LithologyValue/phosphateRichSediment
@@ -103,16 +103,16 @@ id_cli,text_cli_en,text_cli_de,URI
 15102042,oolithic limestone,Kalkoolith,http://inspire.ec.europa.eu/codelist/LithologyValue/rockSalt
 15102043,nummulite limestone,Nummulitenkalk,http://inspire.ec.europa.eu/codelist/LithologyValue/carbonateSedimentaryRock
 15102044,aptychus limestone,Aptychenkalk,http://inspire.ec.europa.eu/codelist/LithologyValue/dolomiticOrMagnesianSedimentaryRock
-15102045,biogenic limestone,biogener Kalkstein,
+15102045,biogenic limestone,biogener Kalkstein,http://inspire.ec.europa.eu/codelist/LithologyValue/calcareousCarbonateSedimentaryRock
 15102046,detritic limestone,detritischer Kalk,http://inspire.ec.europa.eu/codelist/LithologyValue/travertine
 15102047,freshwater limestone,Süsswasserkalk,http://inspire.ec.europa.eu/codelist/LithologyValue/residualMaterial
 15102049,Dolomit,Dolomit,http://inspire.ec.europa.eu/codelist/LithologyValue/rock
-15102051,siliceous rock,kieseliges Gestein,
+15102051,siliceous rock,kieseliges Gestein,http://inspire.ec.europa.eu/codelist/LithologyValue/calcareousCarbonateSedimentaryMaterial
 15102052,radiolarite,Radiolarit,http://inspire.ec.europa.eu/codelist/LithologyValue/calcareousCarbonateSedimentaryRock
 15102053,spiculite,Spiculit,http://inspire.ec.europa.eu/codelist/LithologyValue/calcareousCarbonateSedimentaryRock
 15102054,chert,"Hornstein, Chert",http://inspire.ec.europa.eu/codelist/LithologyValue/calcareousCarbonateSedimentaryRock
-15102056,coal,Kohle,
-15102057,sub-bituminous coal,sedimentärer Lignit,
+15102056,coal,Kohle,http://inspire.ec.europa.eu/codelist/LithologyValue/calcareousCarbonateSedimentaryRock
+15102057,sub-bituminous coal,sedimentärer Lignit,http://inspire.ec.europa.eu/codelist/LithologyValue/rock
 15102058,bituminous coal,Steinkohle,http://inspire.ec.europa.eu/codelist/LithologyValue/igneousRock
 15102059,anthracite,Anthrazit,http://inspire.ec.europa.eu/codelist/LithologyValue/igneousRock
 15102060,ferriferous rock,eisenreiches Gestein,
@@ -120,37 +120,37 @@ id_cli,text_cli_en,text_cli_de,URI
 15102064,phosphate-rich sandstone,phosphoritreicher Sandstein,http://inspire.ec.europa.eu/codelist/LithologyValue/granite
 15102065,phosphate-rich limestone,phosphoritreicher Kalkstein,http://inspire.ec.europa.eu/codelist/LithologyValue/granite
 15102066,phosphate-rich marlstone,phosphoritreicher Mergelstein,http://inspire.ec.europa.eu/codelist/LithologyValue/alkaliFeldsparGranite
-15102068,chemical sedimentary rock,chemisches Sedimentgestein,
-15102070,evaporite,Evaporit,
+15102068,chemical sedimentary rock,chemisches Sedimentgestein,http://inspire.ec.europa.eu/codelist/LithologyValue/granite
+15102070,evaporite,Evaporit,http://inspire.ec.europa.eu/codelist/LithologyValue/igneousRock
 15102071,anhydrite,Anhydrit,http://inspire.ec.europa.eu/codelist/LithologyValue/granite
 15102072,gypsum,Gips,http://inspire.ec.europa.eu/codelist/LithologyValue/granite
 15102073,rock salt,Steinsalz,http://inspire.ec.europa.eu/codelist/LithologyValue/granodiorite
-15102075,carbonate,Karbonat,
+15102075,carbonate,Karbonat,http://inspire.ec.europa.eu/codelist/LithologyValue/sandSizeSediment
 15102076,sedimentary cellular dolomite,sedimentäre Rauwacke,
-15102077,sedimentary calcareous tufa,sedimentärer Quelltuff,
-15102078,sedimentary travertine,sedimentärer Travertin,
-15102080,residual and pedogenetically altered deposits,"Residualgestein, pedogen überprägtes Gestein",
+15102077,sedimentary calcareous tufa,sedimentärer Quelltuff,http://inspire.ec.europa.eu/codelist/LithologyValue/syenite
+15102078,sedimentary travertine,sedimentärer Travertin,http://inspire.ec.europa.eu/codelist/LithologyValue/sandstone
+15102080,residual and pedogenetically altered deposits,"Residualgestein, pedogen überprägtes Gestein",http://inspire.ec.europa.eu/codelist/LithologyValue/syeniticRock
 15102082,pisolitic ironstone,Bohnerz,http://inspire.ec.europa.eu/codelist/LithologyValue/monzonite
-15102084,weathering deposits (siderolithic deposits),Verwitterungsbildungen (Siderolithische Bildungen),
-15102086,silicate deposits,silikatreiches Gestein,
+15102084,weathering deposits (siderolithic deposits),Verwitterungsbildungen (Siderolithische Bildungen),http://inspire.ec.europa.eu/codelist/LithologyValue/basicIgneousRock
+15102086,silicate deposits,silikatreiches Gestein,http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock
 15102087,bolus clay,Boluston,http://inspire.ec.europa.eu/codelist/LithologyValue/diorite
 15102088,hupper,Huppererde,http://inspire.ec.europa.eu/codelist/LithologyValue/monzodiorite
 15102089,quartzitic sand,Quarzsand,http://inspire.ec.europa.eu/codelist/LithologyValue/quartzDiorite
 15102090,silcrete,Silcrete,http://inspire.ec.europa.eu/codelist/LithologyValue/gabbro
-15102092,pedogenic carbonate,pedogenes Karbonat,
+15102092,pedogenic carbonate,pedogenes Karbonat,http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock
 15102093,caliche,Caliche,http://inspire.ec.europa.eu/codelist/LithologyValue/gabbroicRock
 15102094,calcrete,Krustenkalk,https://inspire.ec.europa.eu/codelist/LithologyValue/quartzGabbro
 15102100,echinodermsata limestone,Echinodermenkalk,http://inspire.ec.europa.eu/codelist/LithologyValue/ironRichSedimentaryMaterial
-15102101,glauconitic limestone,glaukonitischer Kalkstein,
+15102101,glauconitic limestone,glaukonitischer Kalkstein,http://inspire.ec.europa.eu/codelist/LithologyValue/rock
 15102102,lithothamnion sandstone,Lithothamniensandstein,
 15102103,ferrouginous sandstone,Eisensandstein,http://inspire.ec.europa.eu/codelist/LithologyValue/igneousRock
-15102104,glauconitic marl,glaukonitischer Mergel,
+15102104,glauconitic marl,glaukonitischer Mergel,http://inspire.ec.europa.eu/codelist/LithologyValue/bituminousCoal
 15102105,chalky limestone,kreidiger Kalk,http://inspire.ec.europa.eu/codelist/LithologyValue/ironRichSedimentaryRock
 15102106,bioclastic limestone,bioklastischer Kalk,http://inspire.ec.europa.eu/codelist/LithologyValue/ironRichSedimentaryRock
 15102107,marly limestone,Mergelkalk,http://inspire.ec.europa.eu/codelist/LithologyValue/sand
 15102108,ferrouginous limestone,eisenschüssiger Kalk,http://inspire.ec.europa.eu/codelist/LithologyValue/granitoid
 15103005,plutonic rock,Plutonit,
-15103006,alkali granite,Alkalogranit,
+15103006,alkali granite,Alkalogranit,http://inspire.ec.europa.eu/codelist/LithologyValue/dioriticRock
 15103008,granodiorite,Granodiorit,http://inspire.ec.europa.eu/codelist/LithologyValue/igneousRock
 15103009,quartz diorite,Quarzdiorit,http://inspire.ec.europa.eu/codelist/LithologyValue/alkaliFeldsparTrachyte
 15103010,tonalite,Tonalit,http://inspire.ec.europa.eu/codelist/LithologyValue/igneousRock
@@ -163,23 +163,23 @@ id_cli,text_cli_en,text_cli_de,URI
 15103017,monzodiorite,Monzodiorit,http://inspire.ec.europa.eu/codelist/LithologyValue/andesite
 15103018,monzogabbro,Monzogabbro,http://inspire.ec.europa.eu/codelist/LithologyValue/basalt
 15103019,monzonite,Monzonit,http://inspire.ec.europa.eu/codelist/LithologyValue/dacite
-15103020,pyroxenite,"Pyroxenit, Intrusivgestein",
-15103021,peridotite,"Peridotit, Intrusivgestein",
+15103020,pyroxenite,"Pyroxenit, Intrusivgestein",http://inspire.ec.europa.eu/codelist/LithologyValue/pyroclasticRock
+15103021,peridotite,"Peridotit, Intrusivgestein",http://inspire.ec.europa.eu/codelist/LithologyValue/tuffBrecciaAgglomerateOrPyroclasticBreccia
 15103022,nephelinitic syenite,nephelinitischer Syenit,http://inspire.ec.europa.eu/codelist/LithologyValue/alkaliFeldsparRhyolite
 15103023,essexite,Essexit,http://inspire.ec.europa.eu/codelist/LithologyValue/igneousRock
 15103024,granophyre,Granophyr,http://inspire.ec.europa.eu/codelist/LithologyValue/rhyolite
-15103026,dyke rock,Ganggestein,
+15103026,dyke rock,Ganggestein,http://inspire.ec.europa.eu/codelist/LithologyValue/trachyte
 15103027,microgranite,Mikrogranit,http://inspire.ec.europa.eu/codelist/LithologyValue/tuffBrecciaAgglomerateOrPyroclasticBreccia
-15103028,«rhyolite-porphyry»,Rhyolithporphyr,
+15103028,«rhyolite-porphyry»,Rhyolithporphyr,http://inspire.ec.europa.eu/codelist/LithologyValue/tuffite
 15103029,pegmatite,Pegmatit,http://inspire.ec.europa.eu/codelist/LithologyValue/tuffite
 15103030,aplite,Aplit,http://inspire.ec.europa.eu/codelist/LithologyValue/tuffite
 15103031,microdiorite,Mikrodiorit,http://inspire.ec.europa.eu/codelist/LithologyValue/tuffite
 15103032,microgabbro,Mikrogabbro,http://inspire.ec.europa.eu/codelist/LithologyValue/tuffite
 15103033,lamprophyre,Lamprophyr,http://inspire.ec.europa.eu/codelist/LithologyValue/tuffite
-15103034,picrite,Pikrit,
+15103034,picrite,Pikrit,http://inspire.ec.europa.eu/codelist/LithologyValue/myloniticRock
 15103035,dolerite,Dolerit,http://inspire.ec.europa.eu/codelist/LithologyValue/faultRelatedMaterial
-15103037,extrusive rock,Extrusivgestein,
-15103039,effusive rock,Ergussgestein,
+15103037,extrusive rock,Extrusivgestein,http://inspire.ec.europa.eu/codelist/LithologyValue/granite
+15103039,effusive rock,Ergussgestein,http://inspire.ec.europa.eu/codelist/LithologyValue/quartzite
 15103040,alkali rhyolite,Alkalirhyolith,http://inspire.ec.europa.eu/codelist/LithologyValue/brecciaGougeSeries
 15103041,rhyolite,Rhyolith,http://inspire.ec.europa.eu/codelist/LithologyValue/cataclasiteSeries
 15103042,rhyodacite,Rhyodazit,http://inspire.ec.europa.eu/codelist/LithologyValue/brecciaGougeSeries
@@ -189,16 +189,16 @@ id_cli,text_cli_en,text_cli_de,URI
 15103046,alkali trachyte,Alkalitrachyt,http://inspire.ec.europa.eu/codelist/LithologyValue/cataclasiteSeries
 15103047,trachyte,Trachyt,http://inspire.ec.europa.eu/codelist/LithologyValue/myloniticRock
 15103048,basalt,Basalt,http://inspire.ec.europa.eu/codelist/LithologyValue/myloniticRock
-15103049,picrite,"Pikrit, Intrusivgestein",
+15103049,picrite,"Pikrit, Intrusivgestein",http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock
 15103050,phonolite,Phonolith,http://inspire.ec.europa.eu/codelist/LithologyValue/myloniticRock
 15103051,carbonatite,Karbonatit,http://inspire.ec.europa.eu/codelist/LithologyValue/phyllonite
-15103053,"pyroclastic rock (volcanic tuff, >75% pyroclastic components)","Pyroklasitsches Gestein (vulkanischer Tuff, >75% pyroklast. Komp.)",
+15103053,"pyroclastic rock (volcanic tuff, >75% pyroclastic components)","Pyroklasitsches Gestein (vulkanischer Tuff, >75% pyroklast. Komp.)",http://inspire.ec.europa.eu/codelist/LithologyValue/faultRelatedMaterial
 15103054,ignimbrite,Ignimbrit,http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock
 15103055,pyroclastic breccia,Pyroklastische Brekzie,http://inspire.ec.europa.eu/codelist/LithologyValue/phyllite
 15103056,lapilli tuff,Lapillituff,http://inspire.ec.europa.eu/codelist/LithologyValue/schist
 15103057,crystal tuff,Kristalltuff,http://inspire.ec.europa.eu/codelist/LithologyValue/shale
 15103058,ash tuff,Aschentuff,http://inspire.ec.europa.eu/codelist/LithologyValue/schist
-15103060,"tuffite (pyroclastic and non-volcanic sediments, 75-25% pyroclastic components)","Tuffit (pyroklast. + nicht-vulkan. Sedimente, 75-25% pyroklast. Komp.)",
+15103060,"tuffite (pyroclastic and non-volcanic sediments, 75-25% pyroclastic components)","Tuffit (pyroklast. + nicht-vulkan. Sedimente, 75-25% pyroklast. Komp.)",http://inspire.ec.europa.eu/codelist/LithologyValue/schist
 15103061,tuff breccia,tuffitische Brekzie,http://inspire.ec.europa.eu/codelist/LithologyValue/schist
 15103062,tuffitic conglomerate,tuffitisches Konglomerat,http://inspire.ec.europa.eu/codelist/LithologyValue/schist
 15103063,tuffitic sandstone,tuffitischer Sandstein,http://inspire.ec.europa.eu/codelist/LithologyValue/glaukophanschiefer
@@ -207,7 +207,7 @@ id_cli,text_cli_en,text_cli_de,URI
 15103066,bentonite,Bentonit,http://inspire.ec.europa.eu/codelist/LithologyValue/schist
 15104001,metamorphic rock,Metamorphit,http://inspire.ec.europa.eu/codelist/LithologyValue/schist
 15104003,fault zone rock,Gestein der Störungszone/Tektonit,
-15104005,"kakirite (strongly shattered and sliced, ± without cohesion)","Kakirit (stark zerrüttet und zerschert, ± kohäsionslos)",
+15104005,"kakirite (strongly shattered and sliced, ± without cohesion)","Kakirit (stark zerrüttet und zerschert, ± kohäsionslos)",http://inspire.ec.europa.eu/codelist/LithologyValue/gneiss
 15104006,fault gouge,Gesteinsmehl,http://inspire.ec.europa.eu/codelist/LithologyValue/gneiss
 15104007,clay smear,Kluftletten,http://inspire.ec.europa.eu/codelist/LithologyValue/gneiss
 15104008,fault breccia (without cohesion),tektonische Brekzie (kohäsionslos),http://inspire.ec.europa.eu/codelist/LithologyValue/gneiss
@@ -219,15 +219,15 @@ id_cli,text_cli_en,text_cli_de,URI
 15104015,(meso)cataclasite,(Meso)Kataklasit,https://inspire.ec.europa.eu/codelist/LithologyValue/orthogneiss
 15104016,ultracataclasite,Ultrakataklasit,http://inspire.ec.europa.eu/codelist/LithologyValue/gneiss
 15104055,marble,Marmor,
-15104018,"mylonite undifferenciated (dynamic recristallisation, banded, ductile deformation)","Mylonit undifferenziert (dynamisch rekristallisiert, gebändert, duktil deformiert)",
+15104018,"mylonite undifferenciated (dynamic recristallisation, banded, ductile deformation)","Mylonit undifferenziert (dynamisch rekristallisiert, gebändert, duktil deformiert)",http://inspire.ec.europa.eu/codelist/LithologyValue/calcareousCarbonateSedimentaryRock
 15104019,protomylonite,Protomylonit,http://inspire.ec.europa.eu/codelist/LithologyValue/rock
 15104020,mylonite,Mylonit,http://inspire.ec.europa.eu/codelist/LithologyValue/calcareousCarbonateSedimentaryRock
 15104021,ultramylonite,Ultramylonit,http://inspire.ec.europa.eu/codelist/LithologyValue/marble
 15104023,phyllonite (ductile deformation),Phyllonit (duktil deformiert),http://inspire.ec.europa.eu/codelist/LithologyValue/rock
 15104025,pseudotachylite (melted by frictional heat),Pseudotachylit (durch Reibungswärme aufgeschmolzen),http://inspire.ec.europa.eu/codelist/LithologyValue/calcareousCarbonateSedimentaryRock
-15104027,rock resulting from regional- or contact metamorphism,Gestein der Regional- und Kontaktmetamorphose,
+15104027,rock resulting from regional- or contact metamorphism,Gestein der Regional- und Kontaktmetamorphose,http://inspire.ec.europa.eu/codelist/LithologyValue/calcareousCarbonateSedimentaryRock
 15104029,"phyllite (very thin foliation, flaky)",Phyllit (sehr dünnschiefrig-blättrig),http://inspire.ec.europa.eu/codelist/LithologyValue/metasomaticRock
-15104031,schist (splitting in 0.1 - 1 cm thin plates),Schiefer (in 0.1 bis 1 cm-dicke Platten spaltend),
+15104031,schist (splitting in 0.1 - 1 cm thin plates),Schiefer (in 0.1 bis 1 cm-dicke Platten spaltend),http://inspire.ec.europa.eu/codelist/LithologyValue/amphibolite
 15104032,shale,Tonschiefer,http://inspire.ec.europa.eu/codelist/LithologyValue/amphibolite
 15104033,sericite schist,Serizitschiefer,http://inspire.ec.europa.eu/codelist/LithologyValue/eclogite
 15104034,chlorite schist,Chloritschiefer,http://inspire.ec.europa.eu/codelist/LithologyValue/peridotite
@@ -236,21 +236,21 @@ id_cli,text_cli_en,text_cli_de,URI
 15104037,calcareous schist,Kalkschiefer,http://inspire.ec.europa.eu/codelist/LithologyValue/gneiss
 15104038,prasinite,Prasinit,http://inspire.ec.europa.eu/codelist/LithologyValue/migmatite
 15104039,talc schist,Talkschiefer,http://inspire.ec.europa.eu/codelist/LithologyValue/migmatite
-15104041,gneiss (splitting in cm- or dm sized plates),Gneis (in cm- bis dm-dicke Platten spaltend),
+15104041,gneiss (splitting in cm- or dm sized plates),Gneis (in cm- bis dm-dicke Platten spaltend),http://inspire.ec.europa.eu/codelist/LithologyValue/migmatite
 15104042,augen gneiss,Augengneis,http://inspire.ec.europa.eu/codelist/LithologyValue/migmatite
 15104043,banded gneiss,Bändergneis,http://inspire.ec.europa.eu/codelist/LithologyValue/migmatite
 15104044,veined gneiss,Adergneis,http://inspire.ec.europa.eu/codelist/LithologyValue/migmatite
 15104045,two-mica gneiss,Zweiglimmergneis,http://inspire.ec.europa.eu/codelist/LithologyValue/migmatite
-15104046,agmatic gneiss,agmatitischer Gneis,
+15104046,agmatic gneiss,agmatitischer Gneis,http://inspire.ec.europa.eu/codelist/LithologyValue/rock
 15104047,amphibolite gneiss,Leptinit,http://inspire.ec.europa.eu/codelist/LithologyValue/hornblendite
 15104048,banded amphibolite,Paragneis,http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock
 15104049,leptinite,Orthogneis,http://inspire.ec.europa.eu/codelist/LithologyValue/pyroxenite
 15104050,paragneiss,Stronalit,http://inspire.ec.europa.eu/codelist/LithologyValue/foliatedMetamorphicRock
 15104051,orthogneiss,Kinzigit,http://inspire.ec.europa.eu/codelist/LithologyValue/serpentinite
-15104053,fels (with granoblastic texture),Fels (mit granoblastischer Textur),
+15104053,fels (with granoblastic texture),Fels (mit granoblastischer Textur),http://inspire.ec.europa.eu/codelist/LithologyValue/serpentinite
 15104054,calcsilicate rock,Kalksilikatfels,http://inspire.ec.europa.eu/codelist/LithologyValue/quartzite
 15104056,carbonate- and silicate-bearing rock,Karbonat- und Silikat führendes Gestein,
-15104057,cipolin,silikatreicher Marmor,
+15104057,cipolin,silikatreicher Marmor,http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock
 15104058,granulite,Granulit,http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock
 15104059,rodingite,Rodingit,http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock
 15104060,amphibolite,Amphibolit,http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock
@@ -260,7 +260,7 @@ id_cli,text_cli_en,text_cli_de,URI
 15104064,eclogite,Eklogit,http://inspire.ec.europa.eu/codelist/LithologyValue/quartzite
 15104065,metamorphic peridodite ,metamorpher Peridotit,
 15104067,hornfels,Hornfels,http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock
-15104069,metasomatite,Metasomatit,
+15104069,metasomatite,Metasomatit,http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock
 15104070,skarn,Skarn,http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock
 15104071,greisen,Greisen,http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock
 15104072,gneiss with feldsparblasts,Gneis mit Feldspatblasten,http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock
@@ -273,14 +273,14 @@ id_cli,text_cli_en,text_cli_de,URI
 15104080,diatexite with schlieren structure,Diatexit mit Schlierentextur,
 15104081,diatexite with schollen structure,Diatexit mit Schollentextur,http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock
 15104083,specific name,spezifischer Name,http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock
-15104084,monomineralic rock,monomineralisches Gestein,
+15104084,monomineralic rock,monomineralisches Gestein,http://inspire.ec.europa.eu/codelist/LithologyValue/tuffBrecciaAgglomerateOrPyroclasticBreccia
 15104085,biotitite,Biotitit,http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock
-15104086,hornblendite,Hornblenditit,
+15104086,hornblendite,Hornblenditit,http://inspire.ec.europa.eu/codelist/LithologyValue/hornblendite
 15104087,albitite,Albitit,http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock
-15104088,monomineralic pyroxenite,monomineralischer Pyroxenit ,
+15104088,monomineralic pyroxenite,monomineralischer Pyroxenit ,http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock
 15104089,chloritite,Chloritit,http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock
 15104090,serpentinite,Serpentinit,http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock
-15104091,monomineralic quartzite,monomineralischer Quarzit ,
+15104091,monomineralic quartzite,monomineralischer Quarzit ,http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock
 15104092,protolite recognisable,Protolith erkennbar,http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock
 15104093,sedimentary protolite recognisable,sedimentärer Protolith erkennbar,http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock
 15104095,igneous protolite recognisable,magmatischer Protolith erkennbar,http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock
@@ -307,7 +307,7 @@ id_cli,text_cli_en,text_cli_de,URI
 15104217,metaradiolarite,Metaradiolarit,http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock
 15104218,metacarbonate ,Metakarbonat,http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock
 15104401,metaigneous rock,Metamagmatit,http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock
-15104402,meta-intrusive rock,metamorph überprägtes Intrusivgestein,
+15104402,meta-intrusive rock,metamorph überprägtes Intrusivgestein,http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock
 15104403,metaplutonite,Metaplutonit,http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock
 15104404,meta-alkali granite,Metaalkalogranit,http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock
 15104405,metagranite,Metagranit,http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock
@@ -352,4 +352,4 @@ id_cli,text_cli_en,text_cli_de,URI
 15104446,meta-ignimbrite,Metavulkanit,
 15104447,metavulcanite,Metapillowlawa,
 15101001,unconsolidated deposits,Lockergestein,http://inspire.ec.europa.eu/codelist/LithologyValue/sediment
-15101003,gravitative sediments and residual deposits,gravitative Sedimente und Verwitterungsbildungen,
+15101003,gravitative sediments and residual deposits,gravitative Sedimente und Verwitterungsbildungen,http://inspire.ec.europa.eu/codelist/LithologyValue/metamorphicRock
