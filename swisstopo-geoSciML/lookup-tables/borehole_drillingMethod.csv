@@ -7,7 +7,7 @@ id_cli,text_cli_en,text_cli_de,cgi-Codelist - boreholedrillingmethod
 22107003,dynamic probing,Rammsondierung,
 22107011,direct push soil sampling,Rammkernsondierung,
 22107013,percussion drilling,Immlochhammer-Bohrung,http://resource.geosciml.org/classifier/cgi/boreholedrillingmethod/percussion_drilling
-22107008,rotary drilling,Rotary Bohrung,
+22107008,rotary drilling,Rotary Bohrung,http://resource.geosciml.org/classifier/cgi/boreholedrillingmethod/rotary_drilling
 22107015,reverse circulation drilling,Rotary Bohrung Lufthebend,
 22107004,rotary coring,Rotary Kernbohrung,
 22107016,wireline core drilling,Rotary Seilkernbohrung,

@@ -12,7 +12,7 @@ id_cli,text_cli_en,text_cli_de,URI
 15001025,Burdigalian,Burdigalien,http://resource.geosciml.org/classifier/ics/ischart/Burdigalian
 15001026,Late Burdigalian,Spätes Burdigalien,http://resource.geosciml.org/classifier/ics/ischart/Burdigalian
 15001028,Aquitanian,Aquitanien,http://resource.geosciml.org/classifier/ics/ischart/Aquitanian 
-15001029,Palaeogene,Paläogen,
+15001029,Palaeogene,Paläogen,http://resource.geosciml.org/classifier/ics/ischart/Paleogene
 15001030,Oligocene,Oligozän,http://resource.geosciml.org/classifier/ics/ischart/Oligocene
 15001031,Chattian,Chattien,http://resource.geosciml.org/classifier/ics/ischart/Chattian
 15001035,Eocene,Eozän,http://resource.geosciml.org/classifier/ics/ischart/Eocene
@@ -23,7 +23,7 @@ id_cli,text_cli_en,text_cli_de,URI
 15001042,Lutetian,Lutétien,http://resource.geosciml.org/classifier/ics/ischart/Lutetian
 15001045,Paleocene,Paleozän,http://resource.geosciml.org/classifier/ics/ischart/Paleocene
 15001049,Mesozoic,Mesozoikum,http://resource.geosciml.org/classifier/ics/ischart/Mesozoic
-15001050,Cretaceaous,Kreide,
+15001050,Cretaceaous,Kreide,http://resource.geosciml.org/classifier/ics/ischart/Cretaceous
 15001051,Late Cretaceous,Späte Kreide,http://resource.geosciml.org/classifier/ics/ischart/UpperCretaceous
 15001053,Campanian,Campanien,http://resource.geosciml.org/classifier/ics/ischart/Campanian
 15001055,Coniacian,Coniacien,http://resource.geosciml.org/classifier/ics/ischart/Coniacian
@@ -63,7 +63,7 @@ id_cli,text_cli_en,text_cli_de,URI
 15001093,Permian,Perm,http://resource.geosciml.org/classifier/ics/ischart/Permian
 15001108,Roadian,Roadien,http://resource.geosciml.org/classifier/ics/ischart/Roadian
 15001117,Asselian,Asselien,http://resource.geosciml.org/classifier/ics/ischart/Asselian
-15001119,Carboniferours,Karbon,
+15001119,Carboniferours,Karbon,http://resource.geosciml.org/classifier/ics/ischart/Carboniferous
 15001125,Late Mississippian,Spätes Mississippien,http://resource.geosciml.org/classifier/ics/ischart/UpperMississippian
 15001168,Middle Jurassic undifferenciated,Mittlerer Jura undifferenziert,
 15001034,Rupelian,Rupélien,http://resource.geosciml.org/classifier/ics/ischart/Rupelian
@@ -71,7 +71,7 @@ id_cli,text_cli_en,text_cli_de,URI
 15001128,Devonian,Devon,http://resource.geosciml.org/classifier/ics/ischart/Devonian
 15001136,Proterozoic,Proterozoikum,http://resource.geosciml.org/classifier/ics/ischart/Proterozoic
 15001001,Phanerozoic,Phanerozoikum,http://resource.geosciml.org/classifier/ics/ischart/Phanerozoic
-15001006,Late Pleisteocene,Spätes Pleistozän,
+15001006,Late Pleisteocene,Spätes Pleistozän,http://resource.geosciml.org/classifier/ics/ischart/UpperPleistocene
 15001007,Middle Pleistocene,Mittleres Pleistozän,http://resource.geosciml.org/classifier/ics/ischart/MiddlePleistocene
 15001010,Calabrian,Calabrien,http://resource.geosciml.org/classifier/ics/ischart/Calabrian
 15001011,Gelasian,Gélasien,http://resource.geosciml.org/classifier/ics/ischart/Gelasian
@@ -92,7 +92,7 @@ id_cli,text_cli_en,text_cli_de,URI
 15001046,Thanetian,Thanétien,http://resource.geosciml.org/classifier/ics/ischart/Thanetian
 15001047,Selandian,Sélandien,http://resource.geosciml.org/classifier/ics/ischart/Selandian
 15001048,Danian,Danien,http://resource.geosciml.org/classifier/ics/ischart/Danian
-15001052,Masstrichtian,Maastrichtien,
+15001052,Masstrichtian,Maastrichtien,http://resource.geosciml.org/classifier/ics/ischart/Maastrichtian
 15001054,Santonian,Santonien,http://resource.geosciml.org/classifier/ics/ischart/Santonian
 15001056,Turonian,Turonien,http://resource.geosciml.org/classifier/ics/ischart/Turonian
 15001090,Induan,Induen,http://resource.geosciml.org/classifier/ics/ischart/Induan
@@ -115,7 +115,7 @@ id_cli,text_cli_en,text_cli_de,URI
 15001137,Gzhelian,Gzhélien,http://resource.geosciml.org/classifier/ics/ischart/Gzhelian
 15001138,Kasimovian,Kasimovien,http://resource.geosciml.org/classifier/ics/ischart/Kasimovian
 15001139,Moscovian,Moscovien,http://resource.geosciml.org/classifier/ics/ischart/Moscovian
-15001140,Bashkirien,Bashkirien,
+15001140,Bashkirien,Bashkirien,http://resource.geosciml.org/classifier/ics/ischart/Bashkirian
 15001141,Serpukhovian,Serpukhovien,http://resource.geosciml.org/classifier/ics/ischart/Serpukhovian
 15001143,Tournaisian,Tournaisien,http://resource.geosciml.org/classifier/ics/ischart/Tournaisian
 15001145,Ludlow,Ludlowien,http://resource.geosciml.org/classifier/ics/ischart/Ludlow
