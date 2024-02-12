@@ -802,31 +802,22 @@ else if (inclination_bho &gt; 0 &amp;&amp; inclination_bho &lt; 90){&#13;
                 <child name="shape" ns="http://www.opengis.net/samplingSpatial/2.0"/>
                 <child name="choice" ns="http://www.opengis.net/gml/3.2/AbstractGeometry"/>
                 <child name="LineString" ns="http://www.opengis.net/gml/3.2"/>
-                <child name="choice_1" ns="http://www.opengis.net/gml/3.2/LineStringType"/>
-                <child name="posList" ns="http://www.opengis.net/gml/3.2"/>
             </property>
         </target>
         <complexParameter name="script">
             <core:text xmlns:core="http://www.esdi-humboldt.eu/hale/core" xml:space="preserve">
 if (location_x_bho &amp;&amp; location_y_bho &amp;&amp; elevation_z_bho &amp;&amp; total_depth_bho){&#13;
 	def zCoord = elevation_z_bho - total_depth_bho&#13;
-	return [location_x_bho, location_y_bho, elevation_z_bho, location_x_bho, location_y_bho, zCoord]&#13;
+	def coordList = [location_x_bho, location_y_bho, elevation_z_bho, location_x_bho, location_y_bho, zCoord]&#13;
+	&#13;
+	_target {&#13;
+		posList( coordList )&#13;
+		srsName( 'EPSG:2056' )&#13;
+	}&#13;
 }
 </core:text>
         </complexParameter>
         <parameter value="false" name="variablesAsInstances"/>
-    </cell>
-    <cell relation="eu.esdihumboldt.hale.align.assign" id="C26e00ef1-780c-4460-a4de-fdbeb5597aac" priority="normal">
-        <target>
-            <property>
-                <type name="BoreholeType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
-                <child name="shape" ns="http://www.opengis.net/samplingSpatial/2.0"/>
-                <child name="choice" ns="http://www.opengis.net/gml/3.2/AbstractGeometry"/>
-                <child name="LineString" ns="http://www.opengis.net/gml/3.2"/>
-                <child name="srsName"/>
-            </property>
-        </target>
-        <parameter value="EPSG:2056" name="value"/>
     </cell>
     <cell relation="eu.esdihumboldt.cst.functions.groovy.retype" id="Ca625a811-1ecd-46cb-94e9-6bfb06777fd0" priority="normal">
         <source>
