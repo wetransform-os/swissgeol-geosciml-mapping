@@ -940,53 +940,52 @@ if (location_x_bho &amp;&amp; location_y_bho &amp;&amp; elevation_z_bho &amp;&am
         <parameter value="false" name="ignoreNamespaces"/>
         <parameter value="false" name="structuralRename"/>
     </cell>
-    <cell relation="eu.esdihumboldt.hale.align.assign" id="C4b35fcc2-e90f-4c83-894d-0f4d862c244e" priority="normal">
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="C36b81556-bad7-405f-a069-5c8da8c0b760" priority="normal">
         <target>
             <property>
                 <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
                 <child name="organisation" ns="http://www.infogeo.de/boreholeml/3.0"/>
                 <child name="BoreholeProvider" ns="http://www.infogeo.de/boreholeml/3.0"/>
                 <child name="contactInfo" ns="http://www.isotc211.org/2005/gmd"/>
-                <child name="nilReason" ns="http://www.isotc211.org/2005/gco"/>
+                <child name="CI_Contact" ns="http://www.isotc211.org/2005/gmd"/>
+                <child name="address" ns="http://www.isotc211.org/2005/gmd"/>
+                <child name="CI_Address" ns="http://www.isotc211.org/2005/gmd"/>
+                <child name="administrativeArea" ns="http://www.isotc211.org/2005/gmd"/>
+                <child name="choice" ns="http://www.isotc211.org/2005/gco/CharacterString"/>
+                <child name="CharacterString" ns="http://www.isotc211.org/2005/gco"/>
             </property>
         </target>
-        <parameter value="withheld" name="value"/>
+        <parameter value="unbekannt" name="value"/>
     </cell>
-    <cell relation="eu.esdihumboldt.hale.align.assign" id="Cb6cfe6d7-f93d-4daf-8b47-4dbed30f9a39" priority="normal">
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="C0f70c480-41ce-488b-b816-2d7fdd206bbb" priority="normal">
         <target>
             <property>
                 <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
                 <child name="organisation" ns="http://www.infogeo.de/boreholeml/3.0"/>
                 <child name="BoreholeProvider" ns="http://www.infogeo.de/boreholeml/3.0"/>
-                <child name="individualName" ns="http://www.isotc211.org/2005/gmd"/>
-                <child name="nilReason" ns="http://www.isotc211.org/2005/gco"/>
+                <child name="contactInfo" ns="http://www.isotc211.org/2005/gmd"/>
+                <child name="CI_Contact" ns="http://www.isotc211.org/2005/gmd"/>
+                <child name="address" ns="http://www.isotc211.org/2005/gmd"/>
+                <child name="CI_Address" ns="http://www.isotc211.org/2005/gmd"/>
+                <child name="country" ns="http://www.isotc211.org/2005/gmd"/>
+                <child name="choice" ns="http://www.isotc211.org/2005/gco/CharacterString"/>
+                <child name="CharacterString" ns="http://www.isotc211.org/2005/gco"/>
             </property>
         </target>
-        <parameter value="withheld" name="value"/>
+        <parameter value="unbekannt" name="value"/>
     </cell>
-    <cell relation="eu.esdihumboldt.hale.align.assign" id="Ca9caafac-a12d-4ff9-8d13-d7abb117eac0" priority="normal">
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="C68b26b30-089d-4680-9b49-469cdd680c64" priority="normal">
         <target>
             <property>
                 <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
                 <child name="organisation" ns="http://www.infogeo.de/boreholeml/3.0"/>
                 <child name="BoreholeProvider" ns="http://www.infogeo.de/boreholeml/3.0"/>
                 <child name="organisationName" ns="http://www.isotc211.org/2005/gmd"/>
-                <child name="nilReason" ns="http://www.isotc211.org/2005/gco"/>
+                <child name="choice" ns="http://www.isotc211.org/2005/gco/CharacterString"/>
+                <child name="CharacterString" ns="http://www.isotc211.org/2005/gco"/>
             </property>
         </target>
-        <parameter value="withheld" name="value"/>
-    </cell>
-    <cell relation="eu.esdihumboldt.hale.align.assign" id="Caebff0b4-5909-44ff-b958-8bd448e319de" priority="normal">
-        <target>
-            <property>
-                <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
-                <child name="organisation" ns="http://www.infogeo.de/boreholeml/3.0"/>
-                <child name="BoreholeProvider" ns="http://www.infogeo.de/boreholeml/3.0"/>
-                <child name="positionName" ns="http://www.isotc211.org/2005/gmd"/>
-                <child name="nilReason" ns="http://www.isotc211.org/2005/gco"/>
-            </property>
-        </target>
-        <parameter value="withheld" name="value"/>
+        <parameter value="unbekannt" name="value"/>
     </cell>
     <cell relation="eu.esdihumboldt.hale.align.assign" id="C10ae6b1e-81b2-4d60-8b32-f7d3cf606740" priority="normal">
         <target>
