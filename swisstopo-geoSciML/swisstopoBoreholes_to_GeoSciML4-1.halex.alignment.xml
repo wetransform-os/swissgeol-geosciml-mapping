@@ -621,14 +621,14 @@ _target {&#13;
         <parameter value="false" name="ignoreNamespaces"/>
         <parameter value="false" name="structuralRename"/>
     </cell>
-    <cell relation="eu.esdihumboldt.hale.align.rename" id="C3144fd24-28a7-4b9e-8712-3d637c25cc28" priority="normal">
-        <source>
+    <cell relation="eu.esdihumboldt.cst.functions.groovy" id="C3144fd24-28a7-4b9e-8712-3d637c25cc28" priority="normal">
+        <source name="var">
             <property>
                 <type name="borehole" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
                 <child name="drilling_date_bho"/>
             </property>
         </source>
-        <target>
+        <target name="result">
             <property>
                 <type name="BoreholeType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
                 <child name="indexData" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
@@ -639,17 +639,23 @@ _target {&#13;
                 <child name="beginPosition" ns="http://www.opengis.net/gml/3.2"/>
             </property>
         </target>
-        <parameter value="false" name="ignoreNamespaces"/>
-        <parameter value="false" name="structuralRename"/>
+        <complexParameter name="script">
+            <core:text xmlns:core="http://www.esdi-humboldt.eu/hale/core" xml:space="preserve">
+def inputDate = drilling_date_bho.toString()&#13;
+&#13;
+inputDate.replace(" ", "T")
+</core:text>
+        </complexParameter>
+        <parameter value="false" name="variablesAsInstances"/>
     </cell>
-    <cell relation="eu.esdihumboldt.hale.align.rename" id="Ccb561239-17a0-45c7-8f34-f2f12df56acf" priority="normal">
-        <source>
+    <cell relation="eu.esdihumboldt.cst.functions.groovy" id="Ccb561239-17a0-45c7-8f34-f2f12df56acf" priority="normal">
+        <source name="var">
             <property>
                 <type name="borehole" ns="jdbc:postgresql:31052023_Dev_db_dump:bdms"/>
                 <child name="drilling_date_bho"/>
             </property>
         </source>
-        <target>
+        <target name="result">
             <property>
                 <type name="BoreholeType" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
                 <child name="indexData" ns="http://www.opengis.net/gsml/4.1/Borehole"/>
@@ -660,8 +666,13 @@ _target {&#13;
                 <child name="endPosition" ns="http://www.opengis.net/gml/3.2"/>
             </property>
         </target>
-        <parameter value="false" name="ignoreNamespaces"/>
-        <parameter value="false" name="structuralRename"/>
+        <complexParameter name="script">
+            <core:text xmlns:core="http://www.esdi-humboldt.eu/hale/core" xml:space="preserve">
+def inputDate = drilling_date_bho.toString()&#13;
+inputDate.replace(" ", "T")
+</core:text>
+        </complexParameter>
+        <parameter value="false" name="variablesAsInstances"/>
     </cell>
     <cell relation="eu.esdihumboldt.cst.functions.groovy" id="C8f964346-2922-4e24-b938-ac1218a2af3b" priority="normal">
         <source name="var">
