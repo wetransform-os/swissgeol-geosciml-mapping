@@ -14,7 +14,7 @@
 		angular.module('hale', ['halejs']).controller('alignmentCtrl', function($scope) {
 			$scope.alignment = {
 	"export": {
-		"timestamp": "2023-11-08T10:04:41.561517800Z",
+		"timestamp": "2024-02-12T09:09:07.115104900Z",
 		"haleVersion": "5.1.0.SNAPSHOT"
 	},
 	"project": {
@@ -22,12 +22,11 @@
 		"author": "AnnaTamm",
 		"haleVersion": "5.1.0.SNAPSHOT",
 		"created": "2023-09-27T07:52:19.153Z",
-		"modified": "2023-11-08T08:31:39.654Z"
+		"modified": "2024-02-12T09:05:37.786Z"
 	},
 	"sourceSchemas": [
 		{
-			"namespace": "jdbc:postgresql:31052023_Dev_db_dump",
-			"location": "jdbc:postgresql://localhost:5432/31052023_Dev_db_dump"
+			"namespace": "jdbc:postgresql:31052023_Dev_db_dump"
 		}
 	],
 	"targetSchemas": [
@@ -127,7 +126,7 @@
 					}
 				}
 			],
-			"explanation": "Joins the types <em>layer</em>, <em>stratigraphy</em>, <em>borehole</em> based on the following conditions:<br /><br /><em>layer</em>.<em>id_sty_fk</em> = <em>stratigraphy</em>.<em>id_sty</em><br /><em>stratigraphy</em>.<em>id_bho_fk</em> = <em>borehole</em>.<em>id_bho</em><br /><br /><br />Before the property transformations are run, the target instance is populated by executing the following Groovy script:<br /><br /><pre><code class=\"language-groovy\">//This groovy script collects necessary IDs, no target instance is created\r\n\r\nwithTransformationContext {\r\n\tdef c = _.context.collector(it)\t\r\n\t\r\n\t//collect stratigraphyId and layerId if stratiraphy_kind_id = 3000 ('Geology')\r\n\tdef stratigraphyId = _source.links.stratigraphy.p.id_sty.value()\r\n\tif (_source.links.stratigraphy.p.kind_id_cli.value() == 3000){\r\n\t\tc.geologyStratigraphies << stratigraphyId\r\n\t\t\r\n\t\tdef layerId = _source.p.id_lay.value()\r\n\t\tdef boreholeId = _source.links.stratigraphy.borehole.p.id_bho.value()\r\n\t\tc.geologyLayers[boreholeId] << layerId\r\n\t\tc.borehole[layerId] << boreholeId\r\n\t}\r\n\t\r\n\t//collect lithotraigraphyId and chronostraigraphyId\r\n\t//only if the id is not yet collected\r\n\tdef lithostratId = _source.p.lithostratigraphy_id_cli.value()\r\n\tdef chronostratId = _source.p.chronostratigraphy_id_cli.value()\r\n\tif(! c.lithostratIds.values().contains(lithostratId) ){\r\n\t\tc.lithostratIds << lithostratId\r\n\t}\r\n\t\t\r\n\tif(! c.chronostratIds.values().contains(chronostratId) ){\r\n\t\tc.chronostratIds << chronostratId\r\n\t}\r\n\r\n}</code></pre>",
+			"explanation": "Joins the types <em>layer</em>, <em>stratigraphy</em>, <em>borehole</em> based on the following conditions:<br /><br /><em>stratigraphy</em>.<em>id_bho_fk</em> = <em>borehole</em>.<em>id_bho</em><br /><em>layer</em>.<em>id_sty_fk</em> = <em>stratigraphy</em>.<em>id_sty</em><br /><br /><br />Before the property transformations are run, the target instance is populated by executing the following Groovy script:<br /><br /><pre><code class=\"language-groovy\">//This groovy script collects necessary IDs, no target instance is created\r\n\r\nwithTransformationContext {\r\n\tdef c = _.context.collector(it)\t\r\n\t\r\n\t//collect stratigraphyId and layerId if stratiraphy_kind_id = 3000 ('Geology')\r\n\tdef stratigraphyId = _source.links.stratigraphy.p.id_sty.value()\r\n\tif (_source.links.stratigraphy.p.kind_id_cli.value() == 3000){\r\n\t\tc.geologyStratigraphies << stratigraphyId\r\n\t\t\r\n\t\tdef layerId = _source.p.id_lay.value()\r\n\t\tdef boreholeId = _source.links.stratigraphy.borehole.p.id_bho.value()\r\n\t\tc.geologyLayers[boreholeId] << layerId\r\n\t\tc.borehole[layerId] << boreholeId\r\n\t}\r\n\t\r\n\t//collect lithotraigraphyId and chronostraigraphyId\r\n\t//only if the id is not yet collected\r\n\tdef lithostratId = _source.p.lithostratigraphy_id_cli.value()\r\n\tdef chronostratId = _source.p.chronostratigraphy_id_cli.value()\r\n\tif(! c.lithostratIds.values().contains(lithostratId) ){\r\n\t\tc.lithostratIds << lithostratId\r\n\t}\r\n\t\t\r\n\tif(! c.chronostratIds.values().contains(chronostratId) ){\r\n\t\tc.chronostratIds << chronostratId\r\n\t}\r\n\r\n}</code></pre>",
 			"cellId": "C0213f77f-11c9-4b26-a6d8-b57589f0b51c",
 			"mode": "active",
 			"priority": "highest",
@@ -809,7 +808,7 @@
 					}
 				}
 			],
-			"explanation": "Populates the <em>href</em> property from the <em>drilling_method_id_cli</em> property with values according to the following mapping:<br /><table border=\"1\"><tr><th>Source values</th><th>Target value</th></tr><tr><td><span style=\"font-style: italic;\">22107018</span>, <span style=\"font-style: italic;\">22107014</span>, <span style=\"font-style: italic;\">22107006</span>, <span style=\"font-style: italic;\">22107019</span>, <span style=\"font-style: italic;\">22107003</span>, <span style=\"font-style: italic;\">22107011</span>, <span style=\"font-style: italic;\">22107008</span>, <span style=\"font-style: italic;\">22107015</span>, <span style=\"font-style: italic;\">22107004</span>, <span style=\"font-style: italic;\">22107016</span>, <span style=\"font-style: italic;\">22107007</span>, <span style=\"font-style: italic;\">22107009</span>, <span style=\"font-style: italic;\">22107012</span></td><td><span style=\"font-style: italic;\"></span></td></tr><tr><td><span style=\"font-style: italic;\">22107017</span></td><td><span style=\"font-style: italic;\">http://resource.geosciml.org/classifier/cgi/boreholedrillingmethod/auger</span></td></tr><tr><td><span style=\"font-style: italic;\">22107013</span></td><td><span style=\"font-style: italic;\">http://resource.geosciml.org/classifier/cgi/boreholedrillingmethod/percussion_drilling</span></td></tr></table><br />Not mapped source values will result in the following target value: null.",
+			"explanation": "Populates the <em>href</em> property from the <em>drilling_method_id_cli</em> property with values according to the following mapping:<br /><table border=\"1\"><tr><th>Source values</th><th>Target value</th></tr><tr><td><span style=\"font-style: italic;\">22107018</span>, <span style=\"font-style: italic;\">22107014</span>, <span style=\"font-style: italic;\">22107006</span>, <span style=\"font-style: italic;\">22107019</span>, <span style=\"font-style: italic;\">22107003</span>, <span style=\"font-style: italic;\">22107011</span>, <span style=\"font-style: italic;\">22107015</span>, <span style=\"font-style: italic;\">22107004</span>, <span style=\"font-style: italic;\">22107016</span>, <span style=\"font-style: italic;\">22107007</span>, <span style=\"font-style: italic;\">22107009</span>, <span style=\"font-style: italic;\">22107012</span></td><td><span style=\"font-style: italic;\"></span></td></tr><tr><td><span style=\"font-style: italic;\">22107017</span></td><td><span style=\"font-style: italic;\">http://resource.geosciml.org/classifier/cgi/boreholedrillingmethod/auger</span></td></tr><tr><td><span style=\"font-style: italic;\">22107008</span></td><td><span style=\"font-style: italic;\">http://resource.geosciml.org/classifier/cgi/boreholedrillingmethod/rotary_drilling</span></td></tr><tr><td><span style=\"font-style: italic;\">22107013</span></td><td><span style=\"font-style: italic;\">http://resource.geosciml.org/classifier/cgi/boreholedrillingmethod/percussion_drilling</span></td></tr></table><br />Not mapped source values will result in the following target value: null.",
 			"cellId": "C31291f0d-571f-49e8-8a6c-4f1137f67ec4",
 			"parentCells": [
 				"Cb92b3edd-86f6-4b63-bfe7-f02acdb7989c"
@@ -1749,19 +1748,19 @@
 			"configurable": true
 		},
 		{
-			"functionName": "Rename",
-			"functionId": "eu.esdihumboldt.hale.align.rename",
+			"functionName": "Groovy script",
+			"functionId": "eu.esdihumboldt.cst.functions.groovy",
 			"typeRelation": false,
 			"functionParameters": [
 				{
-					"paramLabel": "Structural rename",
-					"paramName": "structuralRename",
-					"paramValue": "false",
-					"simple": true
+					"paramLabel": "Groovy script",
+					"paramName": "script",
+					"paramValue": "def inputDate = drilling_date_bho.toString()\r\n\r\ninputDate.replace(\" \", \"T\")",
+					"simple": false
 				},
 				{
-					"paramLabel": "Allow ignore namespace",
-					"paramName": "ignoreNamespaces",
+					"paramLabel": "Use instances for variables with child properties",
+					"paramName": "variablesAsInstances",
 					"paramValue": "false",
 					"simple": true
 				}
@@ -1874,7 +1873,7 @@
 					}
 				}
 			],
-			"explanation": "<p>For each value in <em>drilling_date_bho</em> adds the same value to the <em>beginPosition</em> property. If necessary a conversion is applied.</p>\n",
+			"explanation": "Populates the <em>beginPosition</em> property with the result of the following Groovy script:<br /><br /><pre><code class=\"language-groovy\">def inputDate = drilling_date_bho.toString()\r\n\r\ninputDate.replace(\" \", \"T\")</code></pre><br />Source property names are bound to the corresponding value, if the context condition/index matches, otherwise the value is not set.",
 			"cellId": "C3144fd24-28a7-4b9e-8712-3d637c25cc28",
 			"parentCells": [
 				"Cb92b3edd-86f6-4b63-bfe7-f02acdb7989c"
@@ -1883,19 +1882,19 @@
 			"configurable": true
 		},
 		{
-			"functionName": "Rename",
-			"functionId": "eu.esdihumboldt.hale.align.rename",
+			"functionName": "Groovy script",
+			"functionId": "eu.esdihumboldt.cst.functions.groovy",
 			"typeRelation": false,
 			"functionParameters": [
 				{
-					"paramLabel": "Structural rename",
-					"paramName": "structuralRename",
-					"paramValue": "false",
-					"simple": true
+					"paramLabel": "Groovy script",
+					"paramName": "script",
+					"paramValue": "def inputDate = drilling_date_bho.toString()\r\ninputDate.replace(\" \", \"T\")",
+					"simple": false
 				},
 				{
-					"paramLabel": "Allow ignore namespace",
-					"paramName": "ignoreNamespaces",
+					"paramLabel": "Use instances for variables with child properties",
+					"paramName": "variablesAsInstances",
 					"paramValue": "false",
 					"simple": true
 				}
@@ -2008,7 +2007,7 @@
 					}
 				}
 			],
-			"explanation": "<p>For each value in <em>drilling_date_bho</em> adds the same value to the <em>endPosition</em> property. If necessary a conversion is applied.</p>\n",
+			"explanation": "Populates the <em>endPosition</em> property with the result of the following Groovy script:<br /><br /><pre><code class=\"language-groovy\">def inputDate = drilling_date_bho.toString()\r\ninputDate.replace(\" \", \"T\")</code></pre><br />Source property names are bound to the corresponding value, if the context condition/index matches, otherwise the value is not set.",
 			"cellId": "Ccb561239-17a0-45c7-8f34-f2f12df56acf",
 			"parentCells": [
 				"Cb92b3edd-86f6-4b63-bfe7-f02acdb7989c"
@@ -2238,7 +2237,7 @@
 					}
 				}
 			],
-			"explanation": "Populates the <em>href</em> property from the <em>purpose_id_cli</em> property with values according to the following mapping:<br /><table border=\"1\"><tr><th>Source values</th><th>Target value</th></tr><tr><td><span style=\"font-style: italic;\">30000003</span>, <span style=\"font-style: italic;\">30000004</span>, <span style=\"font-style: italic;\">30000005</span>, <span style=\"font-style: italic;\">22103001</span>, <span style=\"font-style: italic;\">22103003</span>, <span style=\"font-style: italic;\">30000000</span>, <span style=\"font-style: italic;\">30000001</span>, <span style=\"font-style: italic;\">30000002</span>, <span style=\"font-style: italic;\">30000006</span>, <span style=\"font-style: italic;\">22103004</span>, <span style=\"font-style: italic;\">30000007</span>, <span style=\"font-style: italic;\">30000009</span>, <span style=\"font-style: italic;\">22103006</span>, <span style=\"font-style: italic;\">30000010</span>, <span style=\"font-style: italic;\">30000012</span>, <span style=\"font-style: italic;\">22103008</span>, <span style=\"font-style: italic;\">22103009</span>, <span style=\"font-style: italic;\">22103010</span>, <span style=\"font-style: italic;\">22103011</span></td><td><span style=\"font-style: italic;\"></span></td></tr><tr><td><span style=\"font-style: italic;\">22103005</span></td><td><span style=\"font-style: italic;\">http://inspire.ec.europa.eu/codelist/BoreholePurposeValue/drinkingWaterSupply</span></td></tr><tr><td><span style=\"font-style: italic;\">22103007</span></td><td><span style=\"font-style: italic;\">http://inspire.ec.europa.eu/codelist/BoreholePurposeValue/hydrocarbonExploration</span></td></tr><tr><td><span style=\"font-style: italic;\">22103002</span></td><td><span style=\"font-style: italic;\">https://inspire.ec.europa.eu/codelist/BoreholePurposeValue/geothermalEnergy</span></td></tr><tr><td><span style=\"font-style: italic;\">30000008</span></td><td><span style=\"font-style: italic;\">https://inspire.ec.europa.eu/codelist/BoreholePurposeValue/drinkingWaterSupply</span></td></tr><tr><td><span style=\"font-style: italic;\">30000011</span></td><td><span style=\"font-style: italic;\">http://inspire.ec.europa.eu/codelist/BoreholePurposeValue/hydrocarbonProduction</span></td></tr></table><br />Not mapped source values will result in the following target value: null.",
+			"explanation": "Populates the <em>href</em> property from the <em>purpose_id_cli</em> property with values according to the following mapping:<br /><table border=\"1\"><tr><th>Source values</th><th>Target value</th></tr><tr><td><span style=\"font-style: italic;\">30000003</span>, <span style=\"font-style: italic;\">30000004</span>, <span style=\"font-style: italic;\">30000005</span>, <span style=\"font-style: italic;\">30000006</span>, <span style=\"font-style: italic;\">30000010</span>, <span style=\"font-style: italic;\">22103008</span>, <span style=\"font-style: italic;\">22103010</span>, <span style=\"font-style: italic;\">22103011</span></td><td><span style=\"font-style: italic;\"></span></td></tr><tr><td><span style=\"font-style: italic;\">22103005</span></td><td><span style=\"font-style: italic;\">http://inspire.ec.europa.eu/codelist/BoreholePurposeValue/drinkingWaterSupply</span></td></tr><tr><td><span style=\"font-style: italic;\">22103007</span></td><td><span style=\"font-style: italic;\">http://inspire.ec.europa.eu/codelist/BoreholePurposeValue/hydrocarbonExploration</span></td></tr><tr><td><span style=\"font-style: italic;\">22103006</span></td><td><span style=\"font-style: italic;\">http://inspire.ec.europa.eu/codelist/BoreholePurposeValue/explorationExploitationRawMaterial</span></td></tr><tr><td><span style=\"font-style: italic;\">22103003</span></td><td><span style=\"font-style: italic;\">http://inspire.ec.europa.eu/codelist/BoreholePurposeValue/pollutionMonitoring</span></td></tr><tr><td><span style=\"font-style: italic;\">22103002</span></td><td><span style=\"font-style: italic;\">https://inspire.ec.europa.eu/codelist/BoreholePurposeValue/geothermalEnergy</span></td></tr><tr><td><span style=\"font-style: italic;\">22103001</span></td><td><span style=\"font-style: italic;\">http://inspire.ec.europa.eu/codelist/BoreholePurposeValue/geotechnicalSurvey</span></td></tr><tr><td><span style=\"font-style: italic;\">30000008</span></td><td><span style=\"font-style: italic;\">https://inspire.ec.europa.eu/codelist/BoreholePurposeValue/drinkingWaterSupply</span></td></tr><tr><td><span style=\"font-style: italic;\">30000011</span></td><td><span style=\"font-style: italic;\">http://inspire.ec.europa.eu/codelist/BoreholePurposeValue/hydrocarbonProduction</span></td></tr><tr><td><span style=\"font-style: italic;\">30000012</span>, <span style=\"font-style: italic;\">22103009</span></td><td><span style=\"font-style: italic;\">http://inspire.ec.europa.eu/codelist/BoreholePurposeValue/geologicalSurvey</span></td></tr><tr><td><span style=\"font-style: italic;\">30000000</span>, <span style=\"font-style: italic;\">30000001</span>, <span style=\"font-style: italic;\">30000002</span></td><td><span style=\"font-style: italic;\">http://inspire.ec.europa.eu/codelist/BoreholePurposeValue/geothermalEnergy</span></td></tr><tr><td><span style=\"font-style: italic;\">22103004</span>, <span style=\"font-style: italic;\">30000007</span>, <span style=\"font-style: italic;\">30000009</span></td><td><span style=\"font-style: italic;\">http://inspire.ec.europa.eu/codelist/BoreholePurposeValue/hydrogeologicalSurvey</span></td></tr></table><br />Not mapped source values will result in the following target value: null.",
 			"cellId": "C2043bc75-a0b7-4784-b42d-4e2ce615e728",
 			"parentCells": [
 				"Cb92b3edd-86f6-4b63-bfe7-f02acdb7989c"
@@ -2504,7 +2503,7 @@
 				{
 					"paramLabel": "Groovy script",
 					"paramName": "script",
-					"paramValue": "if (location_x_bho && location_y_bho && elevation_z_bho && total_depth_bho){\r\n\tdef zCoord = elevation_z_bho - total_depth_bho\r\n\treturn [location_x_bho, location_y_bho, elevation_z_bho, location_x_bho, location_y_bho, zCoord]\r\n}",
+					"paramValue": "if (location_x_bho && location_y_bho && elevation_z_bho && total_depth_bho){\r\n\tdef zCoord = elevation_z_bho - total_depth_bho\r\n\tdef coordList = [location_x_bho, location_y_bho, elevation_z_bho, location_x_bho, location_y_bho, zCoord]\r\n\t\r\n\t_target {\r\n\t\tposList( coordList )\r\n\t\tsrsName( 'EPSG:2056' )\r\n\t}\r\n}",
 					"simple": false
 				},
 				{
@@ -2630,9 +2629,7 @@
 						"Borehole",
 						"shape",
 						"AbstractGeometry",
-						"LineString",
-						"choice",
-						"posList"
+						"LineString"
 					],
 					"propertyDescriptions": [
 						{
@@ -2650,17 +2647,9 @@
 							"propertyType": "LineString",
 							"propertyCardinality": "1..1",
 							"propertyDescription": "<p>A LineString is a special curve that consists of a single segment with linear interpolation. It is defined by two or more coordinate tuples, with linear interpolation between them. The number of direct positions in the list shall be at least two.</p>\n"
-						},
-						{
-							"propertyCardinality": "1..1"
-						},
-						{
-							"propertyType": "posList",
-							"propertyCardinality": "1..1",
-							"propertyDescription": "<p>posList instances (and other instances with the content model specified by DirectPositionListType) hold the coordinates for a sequence of direct positions within the same coordinate reference system (CRS).<br />\nif no srsName attribute is given, the CRS shall be specified as part of the larger context this geometry element is part of, typically a geometric object like a point, curve, etc.<br />\nThe optional attribute count specifies the number of direct positions in the list. If the attribute count is present then the attribute srsDimension shall be present, too.<br />\nThe number of entries in the list is equal to the product of the dimensionality of the coordinate reference system (i.e. it is a derived value of the coordinate reference system definition) and the number of direct positions.</p>\n"
 						}
 					],
-					"shortName": "posList",
+					"shortName": "LineString",
 					"entity": {
 						"type": {
 							"localName": "BoreholeType",
@@ -2678,20 +2667,12 @@
 							{
 								"localName": "LineString",
 								"namespace": "http://www.opengis.net/gml/3.2"
-							},
-							{
-								"localName": "choice_1",
-								"namespace": "http://www.opengis.net/gml/3.2/LineStringType"
-							},
-							{
-								"localName": "posList",
-								"namespace": "http://www.opengis.net/gml/3.2"
 							}
 						]
 					}
 				}
 			],
-			"explanation": "Populates the <em>posList</em> property with the result of the following Groovy script:<br /><br /><pre><code class=\"language-groovy\">if (location_x_bho && location_y_bho && elevation_z_bho && total_depth_bho){\r\n\tdef zCoord = elevation_z_bho - total_depth_bho\r\n\treturn [location_x_bho, location_y_bho, elevation_z_bho, location_x_bho, location_y_bho, zCoord]\r\n}</code></pre><br />Source property names are bound to the corresponding value, if the context condition/index matches, otherwise the value is not set.",
+			"explanation": "Populates the <em>LineString</em> property with the result of the following Groovy script:<br /><br /><pre><code class=\"language-groovy\">if (location_x_bho && location_y_bho && elevation_z_bho && total_depth_bho){\r\n\tdef zCoord = elevation_z_bho - total_depth_bho\r\n\tdef coordList = [location_x_bho, location_y_bho, elevation_z_bho, location_x_bho, location_y_bho, zCoord]\r\n\t\r\n\t_target {\r\n\t\tposList( coordList )\r\n\t\tsrsName( 'EPSG:2056' )\r\n\t}\r\n}</code></pre><br />Source property names are bound to the corresponding value, if the context condition/index matches, otherwise the value is not set.",
 			"cellId": "Cd26028f6-d1f1-4ad4-a8d7-66234e36acf4",
 			"parentCells": [
 				"Cb92b3edd-86f6-4b63-bfe7-f02acdb7989c"
@@ -2700,81 +2681,57 @@
 			"configurable": true
 		},
 		{
-			"functionName": "Assign",
-			"functionId": "eu.esdihumboldt.hale.align.assign",
-			"typeRelation": false,
+			"functionName": "Groovy Retype",
+			"functionId": "eu.esdihumboldt.cst.functions.groovy.retype",
+			"typeRelation": true,
 			"functionParameters": [
 				{
-					"paramLabel": "Value",
-					"paramName": "value",
-					"paramValue": "EPSG:2056",
-					"simple": true
+					"paramLabel": "script",
+					"paramName": "script",
+					"paramValue": "// This groovy script creates a lithostratigraphic and chronostratigraphic 'GeologicUnit' for all \r\n// occuring Lithostratigraphies and Chronostratigraphies\r\n\r\nimport eu.esdihumboldt.hale.common.lookup.*;\r\nimport eu.esdihumboldt.hale.ui.HaleUI;\r\nimport eu.esdihumboldt.hale.common.core.io.*;\r\n\r\ndef lithostratIds\r\ndef chronostratIds\r\n\r\nwithTransformationContext{\r\n\tdef c = _.context.collector(it)\r\n\tlithostratIds = c.lithostratIds.values()\r\n\tchronostratIds = c.chronostratIds.values()\r\n}\r\n\r\ncodelistId = _source.p.id_cli.value()\r\nif(lithostratIds.contains(codelistId)){\r\n\t_target{\r\n\t\tid( \"GeologicUnit_Lithostratigraphy_${codelistId}\" )\r\n\t\tgeologicUnitType {\r\n\t\t\thref( 'http://resource.geosciml.org/classifier/cgi/geologicunittype/lithostratigraphic_unit' )\r\n\t\t\ttitle( 'lithostratigraphic unit' )\r\n\t\t}\r\n\t\tname( _source.p.text_cli_de.value() )\r\n\t}\r\n}\r\nelse if(chronostratIds.contains(codelistId)){\r\n\t_target{\r\n\t\tid( \"GeologicUnit_Chronostratigraphy_${codelistId}\" )\r\n\t\tgeologicUnitType {\r\n\t\t\thref( 'http://resource.geosciml.org/classifier/cgi/geologicunittype/chronostratigraphic_unit' )\r\n\t\t\ttitle( 'chronostratigraphic unit' )\r\n\t\t}\r\n\t\tgeologicHistory {\r\n\t\t\tGeologicEvent{\r\n\t\t\t\t\t//get value of lookup table \"layer_chronostratigraphy\"\r\n\t\t\t\t\tdef chrono = getLookupTableValue(_source.p.id_cli.value(), \"213eb5b2-77aa-4a3e-9d2f-34a169c38549\") as String\r\n\t\t\t\tolderNamedAge {\r\n\t\t\t\t\thref ( chrono )\r\n\t\t\t\t}\r\n\t\t\t\tyoungerNamedAge {\r\n\t\t\t\t\thref ( chrono )\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t}\r\n\t}\r\n}\r\n\r\n\r\ndef getLookupTableValue(value, tableId){\r\n\t// retrieve Lookup table\r\n\tLookupService ls = HaleUI.getServiceProvider().getService(LookupService.class);\r\n\tLookupTableInfo tableInfo = ls.getTable(tableId);\r\n\tdef table = tableInfo.getTable();\r\n\t\r\n\t//get value\r\n\tdef result = table.lookup(Value.of(value))\r\n\treturn result\r\n}",
+					"simple": false
 				}
 			],
-			"sources": [],
-			"targets": [
+			"sources": [
 				{
 					"propertyPath": [
-						"Borehole",
-						"shape",
-						"AbstractGeometry",
-						"LineString",
-						"srsName"
+						"codelist"
 					],
 					"propertyDescriptions": [
 						{
-							"typeDescription": "<p>A Borehole is the generalized term for any narrow shaft drilled in the ground, either vertically, horizontally, or inclined.</p>\n"
-						},
-						{
-							"propertyType": "shape",
-							"propertyCardinality": "1..1",
-							"propertyDescription": "<p>The association Geometry shall link a<br />\nSF_SpatialSamplingFeature to a GM_Object that describes its shape.</p>\n"
-						},
-						{
-							"propertyCardinality": "0..1"
-						},
-						{
-							"propertyType": "LineString",
-							"propertyCardinality": "1..1",
-							"propertyDescription": "<p>A LineString is a special curve that consists of a single segment with linear interpolation. It is defined by two or more coordinate tuples, with linear interpolation between them. The number of direct positions in the list shall be at least two.</p>\n"
-						},
-						{
-							"propertyType": "anyURI",
-							"propertyCardinality": "0..1"
 						}
 					],
-					"shortName": "srsName",
+					"shortName": "codelist",
 					"entity": {
 						"type": {
-							"localName": "BoreholeType",
-							"namespace": "http://www.opengis.net/gsml/4.1/Borehole"
-						},
-						"path": [
-							{
-								"localName": "shape",
-								"namespace": "http://www.opengis.net/samplingSpatial/2.0"
-							},
-							{
-								"localName": "choice",
-								"namespace": "http://www.opengis.net/gml/3.2/AbstractGeometry"
-							},
-							{
-								"localName": "LineString",
-								"namespace": "http://www.opengis.net/gml/3.2"
-							},
-							{
-								"localName": "srsName",
-								"namespace": null
-							}
-						]
+							"localName": "codelist",
+							"namespace": "jdbc:postgresql:31052023_Dev_db_dump:bdms"
+						}
 					}
 				}
 			],
-			"explanation": "<p>Assigns the value <code>EPSG:2056</code> to the <em>srsName</em> property.</p>\n",
-			"cellId": "C26e00ef1-780c-4460-a4de-fdbeb5597aac",
-			"parentCells": [
-				"Cb92b3edd-86f6-4b63-bfe7-f02acdb7989c"
+			"targets": [
+				{
+					"propertyPath": [
+						"GeologicUnit"
+					],
+					"propertyDescriptions": [
+						{
+							"typeDescription": "<p>Conceptually, a GeologicUnit may represent a body of material in the Earth whose complete and precise extent is inferred to exist (e.g., North American Data Model GeologicUnit, Stratigraphic unit in the sense of NACSN, or International Stratigraphic Code ), or a classifier used to characterize parts of the Earth (e.g. lithologic map unit like &lsquo;granitic rock&rsquo; or &lsquo;alluvial deposit&rsquo;, surficial units like &lsquo;till&rsquo; or &lsquo;old alluvium&rsquo;). It includes both formal units (i.e. formally adopted and named in an official lexicon) and informal units (i.e. named but not promoted to a lexicon) and unnamed units (i.e., recognizable, described and delineable in the field but not otherwise formalised).  In simpler terms, a geologic unit is a package of earth material (generally rock).</p>\n"
+						}
+					],
+					"shortName": "GeologicUnit",
+					"entity": {
+						"type": {
+							"localName": "GeologicUnitType",
+							"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Basic"
+						}
+					}
+				}
 			],
+			"explanation": "<p>Creates a <em>GeologicUnit</em> instance for each <em>codelist</em> instance in the source data set.</p>\n<br />Before the property transformations are run, the target instance is populated by executing the following Groovy script:<br /><br /><pre><code class=\"language-groovy\">// This groovy script creates a lithostratigraphic and chronostratigraphic 'GeologicUnit' for all \r\n// occuring Lithostratigraphies and Chronostratigraphies\r\n\r\nimport eu.esdihumboldt.hale.common.lookup.*;\r\nimport eu.esdihumboldt.hale.ui.HaleUI;\r\nimport eu.esdihumboldt.hale.common.core.io.*;\r\n\r\ndef lithostratIds\r\ndef chronostratIds\r\n\r\nwithTransformationContext{\r\n\tdef c = _.context.collector(it)\r\n\tlithostratIds = c.lithostratIds.values()\r\n\tchronostratIds = c.chronostratIds.values()\r\n}\r\n\r\ncodelistId = _source.p.id_cli.value()\r\nif(lithostratIds.contains(codelistId)){\r\n\t_target{\r\n\t\tid( \"GeologicUnit_Lithostratigraphy_${codelistId}\" )\r\n\t\tgeologicUnitType {\r\n\t\t\thref( 'http://resource.geosciml.org/classifier/cgi/geologicunittype/lithostratigraphic_unit' )\r\n\t\t\ttitle( 'lithostratigraphic unit' )\r\n\t\t}\r\n\t\tname( _source.p.text_cli_de.value() )\r\n\t}\r\n}\r\nelse if(chronostratIds.contains(codelistId)){\r\n\t_target{\r\n\t\tid( \"GeologicUnit_Chronostratigraphy_${codelistId}\" )\r\n\t\tgeologicUnitType {\r\n\t\t\thref( 'http://resource.geosciml.org/classifier/cgi/geologicunittype/chronostratigraphic_unit' )\r\n\t\t\ttitle( 'chronostratigraphic unit' )\r\n\t\t}\r\n\t\tgeologicHistory {\r\n\t\t\tGeologicEvent{\r\n\t\t\t\t\t//get value of lookup table \"layer_chronostratigraphy\"\r\n\t\t\t\t\tdef chrono = getLookupTableValue(_source.p.id_cli.value(), \"213eb5b2-77aa-4a3e-9d2f-34a169c38549\") as String\r\n\t\t\t\tolderNamedAge {\r\n\t\t\t\t\thref ( chrono )\r\n\t\t\t\t}\r\n\t\t\t\tyoungerNamedAge {\r\n\t\t\t\t\thref ( chrono )\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t}\r\n\t}\r\n}\r\n\r\n\r\ndef getLookupTableValue(value, tableId){\r\n\t// retrieve Lookup table\r\n\tLookupService ls = HaleUI.getServiceProvider().getService(LookupService.class);\r\n\tLookupTableInfo tableInfo = ls.getTable(tableId);\r\n\tdef table = tableInfo.getTable();\r\n\t\r\n\t//get value\r\n\tdef result = table.lookup(Value.of(value))\r\n\treturn result\r\n}</code></pre>",
+			"cellId": "Ca625a811-1ecd-46cb-94e9-6bfb06777fd0",
+			"mode": "active",
 			"priority": "normal",
 			"configurable": true
 		},
@@ -2868,63 +2825,8 @@
 					}
 				}
 			],
-			"explanation": "Joins the types <em>layer</em>, <em>layer_codelist</em>, <em>codelist</em> based on the following conditions:<br /><br /><em>layer</em>.<em>id_lay</em> = <em>layer_codelist</em>.<em>id_lay_fk</em><br /><em>layer_codelist</em>.<em>id_cli_fk</em> = <em>codelist</em>.<em>id_cli</em><br /><br /><br />Before the property transformations are run, the target instance is populated by executing the following Groovy script:<br /><br /><pre><code class=\"language-groovy\">// This groovy script creates a lithologic 'GeologicUnit' for each source layer if the related \r\n// stratigraphy is a geologic stratigraphy and if a lithologyId is given\r\n\r\nimport eu.esdihumboldt.hale.common.lookup.*;\r\nimport eu.esdihumboldt.hale.ui.HaleUI;\r\nimport eu.esdihumboldt.hale.common.core.io.*;\r\n\r\ndef geolStratigraphies\r\ndef stratigraphyId = _source.p.id_sty_fk.value()\r\ndef lithologyId = _source.p.lithology_id_cli.value()\r\n\r\nwithTransformationContext{\r\n\tdef c = _.context.collector(it)\r\n\tgeolStratigraphies = c.geologyStratigraphies.values()\r\n}\r\n\r\n// check that the given stratigraphy is a geologic stratigraphy and that a lithologyId is given\r\nif ( geolStratigraphies.contains( stratigraphyId ) && lithologyId) {\r\n\t_target{\r\n\t\tid( \"GeologicUnit_Lithology_${_source.p.id_lay.value()}\" )\r\n\t\tgeologicUnitType {\r\n\t\t\thref( 'http://resource.geosciml.org/classifier/cgi/geologicunittype/lithologic_unit' )\r\n\t\t\ttitle( 'lithologic unit' )\r\n\t\t}\r\n\t\tcomposition {\r\n\t\t\tCompositionPart {\r\n\t\t\t\tmaterial {\r\n\t\t\t\t\tRockMaterial {\r\n\t\t\t\t\t\tlithology {\r\n\t\t\t\t\t\t\t//get value of lookup table \"layer_lithology\"\r\n\t\t\t\t\t\t\tdef lith = getLookupTableValue(_source.p.lithology_id_cli.value(), \"38e8df01-b509-4ab2-8301-27dc95c2f265\") as String\r\n\t\t\t\t\t\t\thref ( lith )\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t\t//loop through all colors\t\t\t\t\t\t\r\n\t\t\t\t\t\t_source.links.layer_codelist.each { cl ->\r\n\t\t\t\t\t\t\tcodeText = cl.p.code_cli.value()\r\n\t\t\t\t\t\t\t_log.info(\"CodeText: \" + codeText)\r\n\t\t\t\t\t\t\tif (codeText == \"mlpr112\"){\r\n\t\t\t\t\t\t\t\tcolor {\r\n\t\t\t\t\t\t\t\t\tCategory {\r\n\t\t\t\t\t\t\t\t\t\tlabel( cl.links.codelist.p.text_cli_en.value() )\r\n\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\t/*\r\n\t\t\t\t\t\t\t\t\t\tTo Do: \r\n\t\t\t\t\t\t\t\t\t\tidentifier( 'some value' )\r\n\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\tcodeSpace {\r\n\t\t\t\t\t\t\t\t\t\t\thref( 'some value' )\r\n\t\t\t\t\t\t\t\t\t\t}*/\r\n\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t}\r\n\t}\r\n}\r\n\r\ndef getLookupTableValue(value, tableId){\r\n\t// retrieve Lookup table\r\n\tLookupService ls = HaleUI.getServiceProvider().getService(LookupService.class);\r\n\tLookupTableInfo tableInfo = ls.getTable(tableId);\r\n\tdef table = tableInfo.getTable();\r\n\t\r\n\t//get value\r\n\tdef result = table.lookup(Value.of(value))\r\n\treturn result\r\n}</code></pre>",
+			"explanation": "Joins the types <em>layer</em>, <em>layer_codelist</em>, <em>codelist</em> based on the following conditions:<br /><br /><em>layer_codelist</em>.<em>id_cli_fk</em> = <em>codelist</em>.<em>id_cli</em><br /><em>layer</em>.<em>id_lay</em> = <em>layer_codelist</em>.<em>id_lay_fk</em><br /><br /><br />Before the property transformations are run, the target instance is populated by executing the following Groovy script:<br /><br /><pre><code class=\"language-groovy\">// This groovy script creates a lithologic 'GeologicUnit' for each source layer if the related \r\n// stratigraphy is a geologic stratigraphy and if a lithologyId is given\r\n\r\nimport eu.esdihumboldt.hale.common.lookup.*;\r\nimport eu.esdihumboldt.hale.ui.HaleUI;\r\nimport eu.esdihumboldt.hale.common.core.io.*;\r\n\r\ndef geolStratigraphies\r\ndef stratigraphyId = _source.p.id_sty_fk.value()\r\ndef lithologyId = _source.p.lithology_id_cli.value()\r\n\r\nwithTransformationContext{\r\n\tdef c = _.context.collector(it)\r\n\tgeolStratigraphies = c.geologyStratigraphies.values()\r\n}\r\n\r\n// check that the given stratigraphy is a geologic stratigraphy and that a lithologyId is given\r\nif ( geolStratigraphies.contains( stratigraphyId ) && lithologyId) {\r\n\t_target{\r\n\t\tid( \"GeologicUnit_Lithology_${_source.p.id_lay.value()}\" )\r\n\t\tgeologicUnitType {\r\n\t\t\thref( 'http://resource.geosciml.org/classifier/cgi/geologicunittype/lithologic_unit' )\r\n\t\t\ttitle( 'lithologic unit' )\r\n\t\t}\r\n\t\tcomposition {\r\n\t\t\tCompositionPart {\r\n\t\t\t\tmaterial {\r\n\t\t\t\t\tRockMaterial {\r\n\t\t\t\t\t\tlithology {\r\n\t\t\t\t\t\t\t//get value of lookup table \"layer_lithology\"\r\n\t\t\t\t\t\t\tdef lith = getLookupTableValue(_source.p.lithology_id_cli.value(), \"38e8df01-b509-4ab2-8301-27dc95c2f265\") as String\r\n\t\t\t\t\t\t\thref ( lith )\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t\t//loop through all colors\t\t\t\t\t\t\r\n\t\t\t\t\t\t_source.links.layer_codelist.each { cl ->\r\n\t\t\t\t\t\t\tcodeText = cl.p.code_cli.value()\r\n\t\t\t\t\t\t\t_log.info(\"CodeText: \" + codeText)\r\n\t\t\t\t\t\t\tif (codeText == \"mlpr112\"){\r\n\t\t\t\t\t\t\t\tcolor {\r\n\t\t\t\t\t\t\t\t\tCategory {\r\n\t\t\t\t\t\t\t\t\t\tlabel( cl.links.codelist.p.text_cli_en.value() )\r\n\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\t/*\r\n\t\t\t\t\t\t\t\t\t\tTo Do: \r\n\t\t\t\t\t\t\t\t\t\tidentifier( 'some value' )\r\n\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\tcodeSpace {\r\n\t\t\t\t\t\t\t\t\t\t\thref( 'some value' )\r\n\t\t\t\t\t\t\t\t\t\t}*/\r\n\t\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t}\r\n\t}\r\n}\r\n\r\ndef getLookupTableValue(value, tableId){\r\n\t// retrieve Lookup table\r\n\tLookupService ls = HaleUI.getServiceProvider().getService(LookupService.class);\r\n\tLookupTableInfo tableInfo = ls.getTable(tableId);\r\n\tdef table = tableInfo.getTable();\r\n\t\r\n\t//get value\r\n\tdef result = table.lookup(Value.of(value))\r\n\treturn result\r\n}</code></pre>",
 			"cellId": "Cfe876657-08ab-428a-a283-210051be7720",
-			"mode": "active",
-			"priority": "normal",
-			"configurable": true
-		},
-		{
-			"functionName": "Groovy Retype",
-			"functionId": "eu.esdihumboldt.cst.functions.groovy.retype",
-			"typeRelation": true,
-			"functionParameters": [
-				{
-					"paramLabel": "script",
-					"paramName": "script",
-					"paramValue": "// This groovy script creates a lithostratigraphic and chronostratigraphic 'GeologicUnit' for all \r\n// occuring Lithostratigraphies and Chronostratigraphies\r\n\r\nimport eu.esdihumboldt.hale.common.lookup.*;\r\nimport eu.esdihumboldt.hale.ui.HaleUI;\r\nimport eu.esdihumboldt.hale.common.core.io.*;\r\n\r\ndef lithostratIds\r\ndef chronostratIds\r\n\r\nwithTransformationContext{\r\n\tdef c = _.context.collector(it)\r\n\tlithostratIds = c.lithostratIds.values()\r\n\tchronostratIds = c.chronostratIds.values()\r\n}\r\n\r\ncodelistId = _source.p.id_cli.value()\r\nif(lithostratIds.contains(codelistId)){\r\n\t_target{\r\n\t\tid( \"GeologicUnit_Lithostratigraphy_${codelistId}\" )\r\n\t\tgeologicUnitType {\r\n\t\t\thref( 'http://resource.geosciml.org/classifier/cgi/geologicunittype/lithostratigraphic_unit' )\r\n\t\t\ttitle( 'lithostratigraphic unit' )\r\n\t\t}\r\n\t\tname( _source.p.text_cli_de.value() )\r\n\t}\r\n}\r\nelse if(chronostratIds.contains(codelistId)){\r\n\t_target{\r\n\t\tid( \"GeologicUnit_Chronostratigraphy_${codelistId}\" )\r\n\t\tgeologicUnitType {\r\n\t\t\thref( 'http://resource.geosciml.org/classifier/cgi/geologicunittype/chronostratigraphic_unit' )\r\n\t\t\ttitle( 'chronostratigraphic unit' )\r\n\t\t}\r\n\t\tgeologicHistory {\r\n\t\t\tGeologicEvent{\r\n\t\t\t\t\t//get value of lookup table \"layer_chronostratigraphy\"\r\n\t\t\t\t\tdef chrono = getLookupTableValue(_source.p.id_cli.value(), \"213eb5b2-77aa-4a3e-9d2f-34a169c38549\") as String\r\n\t\t\t\tolderNamedAge {\r\n\t\t\t\t\thref ( chrono )\r\n\t\t\t\t}\r\n\t\t\t\tyoungerNamedAge {\r\n\t\t\t\t\thref ( chrono )\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t}\r\n\t}\r\n}\r\n\r\n\r\ndef getLookupTableValue(value, tableId){\r\n\t// retrieve Lookup table\r\n\tLookupService ls = HaleUI.getServiceProvider().getService(LookupService.class);\r\n\tLookupTableInfo tableInfo = ls.getTable(tableId);\r\n\tdef table = tableInfo.getTable();\r\n\t\r\n\t//get value\r\n\tdef result = table.lookup(Value.of(value))\r\n\treturn result\r\n}",
-					"simple": false
-				}
-			],
-			"sources": [
-				{
-					"propertyPath": [
-						"codelist"
-					],
-					"propertyDescriptions": [
-						{
-						}
-					],
-					"shortName": "codelist",
-					"entity": {
-						"type": {
-							"localName": "codelist",
-							"namespace": "jdbc:postgresql:31052023_Dev_db_dump:bdms"
-						}
-					}
-				}
-			],
-			"targets": [
-				{
-					"propertyPath": [
-						"GeologicUnit"
-					],
-					"propertyDescriptions": [
-						{
-							"typeDescription": "<p>Conceptually, a GeologicUnit may represent a body of material in the Earth whose complete and precise extent is inferred to exist (e.g., North American Data Model GeologicUnit, Stratigraphic unit in the sense of NACSN, or International Stratigraphic Code ), or a classifier used to characterize parts of the Earth (e.g. lithologic map unit like &lsquo;granitic rock&rsquo; or &lsquo;alluvial deposit&rsquo;, surficial units like &lsquo;till&rsquo; or &lsquo;old alluvium&rsquo;). It includes both formal units (i.e. formally adopted and named in an official lexicon) and informal units (i.e. named but not promoted to a lexicon) and unnamed units (i.e., recognizable, described and delineable in the field but not otherwise formalised).  In simpler terms, a geologic unit is a package of earth material (generally rock).</p>\n"
-						}
-					],
-					"shortName": "GeologicUnit",
-					"entity": {
-						"type": {
-							"localName": "GeologicUnitType",
-							"namespace": "http://www.opengis.net/gsml/4.1/GeoSciML-Basic"
-						}
-					}
-				}
-			],
-			"explanation": "<p>Creates a <em>GeologicUnit</em> instance for each <em>codelist</em> instance in the source data set.</p>\n<br />Before the property transformations are run, the target instance is populated by executing the following Groovy script:<br /><br /><pre><code class=\"language-groovy\">// This groovy script creates a lithostratigraphic and chronostratigraphic 'GeologicUnit' for all \r\n// occuring Lithostratigraphies and Chronostratigraphies\r\n\r\nimport eu.esdihumboldt.hale.common.lookup.*;\r\nimport eu.esdihumboldt.hale.ui.HaleUI;\r\nimport eu.esdihumboldt.hale.common.core.io.*;\r\n\r\ndef lithostratIds\r\ndef chronostratIds\r\n\r\nwithTransformationContext{\r\n\tdef c = _.context.collector(it)\r\n\tlithostratIds = c.lithostratIds.values()\r\n\tchronostratIds = c.chronostratIds.values()\r\n}\r\n\r\ncodelistId = _source.p.id_cli.value()\r\nif(lithostratIds.contains(codelistId)){\r\n\t_target{\r\n\t\tid( \"GeologicUnit_Lithostratigraphy_${codelistId}\" )\r\n\t\tgeologicUnitType {\r\n\t\t\thref( 'http://resource.geosciml.org/classifier/cgi/geologicunittype/lithostratigraphic_unit' )\r\n\t\t\ttitle( 'lithostratigraphic unit' )\r\n\t\t}\r\n\t\tname( _source.p.text_cli_de.value() )\r\n\t}\r\n}\r\nelse if(chronostratIds.contains(codelistId)){\r\n\t_target{\r\n\t\tid( \"GeologicUnit_Chronostratigraphy_${codelistId}\" )\r\n\t\tgeologicUnitType {\r\n\t\t\thref( 'http://resource.geosciml.org/classifier/cgi/geologicunittype/chronostratigraphic_unit' )\r\n\t\t\ttitle( 'chronostratigraphic unit' )\r\n\t\t}\r\n\t\tgeologicHistory {\r\n\t\t\tGeologicEvent{\r\n\t\t\t\t\t//get value of lookup table \"layer_chronostratigraphy\"\r\n\t\t\t\t\tdef chrono = getLookupTableValue(_source.p.id_cli.value(), \"213eb5b2-77aa-4a3e-9d2f-34a169c38549\") as String\r\n\t\t\t\tolderNamedAge {\r\n\t\t\t\t\thref ( chrono )\r\n\t\t\t\t}\r\n\t\t\t\tyoungerNamedAge {\r\n\t\t\t\t\thref ( chrono )\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t}\r\n\t}\r\n}\r\n\r\n\r\ndef getLookupTableValue(value, tableId){\r\n\t// retrieve Lookup table\r\n\tLookupService ls = HaleUI.getServiceProvider().getService(LookupService.class);\r\n\tLookupTableInfo tableInfo = ls.getTable(tableId);\r\n\tdef table = tableInfo.getTable();\r\n\t\r\n\t//get value\r\n\tdef result = table.lookup(Value.of(value))\r\n\treturn result\r\n}</code></pre>",
-			"cellId": "Ca625a811-1ecd-46cb-94e9-6bfb06777fd0",
 			"mode": "active",
 			"priority": "normal",
 			"configurable": true
