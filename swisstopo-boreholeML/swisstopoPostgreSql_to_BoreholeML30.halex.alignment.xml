@@ -890,6 +890,23 @@ if (location_x_bho &amp;&amp; location_y_bho &amp;&amp; elevation_z_bho &amp;&am
         </target>
         <parameter value="epsg:2056" name="referenceSystem"/>
     </cell>
+    <cell relation="eu.esdihumboldt.hale.align.formattedstring" id="C0c63a7bf-9214-4e90-893b-c1a239b7bcf0" priority="normal">
+        <source name="var">
+            <property>
+                <type name="borehole" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
+                <child name="id_bho"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="location" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="Point" ns="http://www.opengis.net/gml/3.2"/>
+                <child name="id" ns="http://www.opengis.net/gml/3.2"/>
+            </property>
+        </target>
+        <parameter value="{{project:databaseName}}_{id_bho}" name="pattern"/>
+    </cell>
     <cell relation="eu.esdihumboldt.hale.align.assign" id="C89d59470-70da-432d-9c99-ee8e982a2c0a" priority="normal">
         <target>
             <property>
