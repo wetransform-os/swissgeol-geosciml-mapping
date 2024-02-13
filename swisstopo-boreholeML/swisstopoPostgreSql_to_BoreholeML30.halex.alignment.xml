@@ -740,6 +740,16 @@ if (location_x_bho &amp;&amp; location_y_bho &amp;&amp; elevation_z_bho &amp;&am
         </target>
         <parameter value="https://www.infogeo.de/boreholeml/3.0/codelists/DrillingMethodList.xml" name="value"/>
     </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="C93318591-5e39-49b4-be0e-6ab5928bf75e" priority="normal">
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="drillingProcess" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="nilReason"/>
+            </property>
+        </target>
+        <parameter value="unknown" name="value"/>
+    </cell>
     <cell relation="eu.esdihumboldt.hale.align.classification" id="C3d497b8a-6ee7-4491-867d-57d1c398ad7e" priority="normal">
         <source>
             <property>
@@ -1121,6 +1131,16 @@ if (location_x_bho &amp;&amp; location_y_bho) {&#13;
 </core:text>
         </complexParameter>
         <parameter value="false" name="variablesAsInstances"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="C385740c0-b8e4-4382-a838-ce8615287723" priority="normal">
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="owner" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="nilReason"/>
+            </property>
+        </target>
+        <parameter value="withheld" name="value"/>
     </cell>
     <cell relation="eu.esdihumboldt.hale.align.rename" id="C823c21e5-c241-48d3-915d-9300950a3872" priority="normal">
         <source>
