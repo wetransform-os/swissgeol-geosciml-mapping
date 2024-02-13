@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<hale-project version="5.0.0.release">
+<hale-project version="5.1.0.SNAPSHOT">
     <name>swisstopoPostgreSql_to_BoreholeML30</name>
     <author>AnnaTamm</author>
     <created>2023-03-07T15:07:48.355+01:00</created>
-    <modified>2023-06-02T08:35:03.002+02:00</modified>
+    <modified>2024-02-13T10:11:32.063+01:00</modified>
     <save-config action-id="project.save" provider-id="eu.esdihumboldt.hale.io.project.hale25.xml.writer">
         <setting name="charset">UTF-8</setting>
         <setting name="projectFiles.separate">false</setting>
