@@ -1025,6 +1025,103 @@ if (location_x_bho &amp;&amp; location_y_bho &amp;&amp; elevation_z_bho &amp;&am
         </target>
         <parameter value="resourceProvider" name="value"/>
     </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="C1c230e39-413b-41d9-9113-f6234c4afb55" priority="normal">
+        <source>
+            <property>
+                <type name="borehole" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
+                <child name="elevation_z_bho"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="origin" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="Origin" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="elevation" ns="http://www.infogeo.de/boreholeml/3.0"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign.bound" id="Ce43b9bb7-26f0-4c8e-bec1-255b242878f9" priority="normal">
+        <source name="anchor">
+            <property>
+                <type name="borehole" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
+                <child name="elevation_z_bho"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="origin" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="Origin" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="elevation" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="srsName"/>
+            </property>
+        </target>
+        <parameter value="5728" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.groovy" id="C232457e5-6376-44fb-94d1-b8b9a72d081a" priority="normal">
+        <source name="var">
+            <property>
+                <type name="borehole" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
+                <child name="location_y_bho"/>
+            </property>
+        </source>
+        <source name="var">
+            <property>
+                <type name="borehole" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
+                <child name="location_x_bho"/>
+            </property>
+        </source>
+        <target name="result">
+            <property>
+                <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="origin" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="Origin" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="originalLocation" ns="http://www.infogeo.de/boreholeml/3.0"/>
+            </property>
+        </target>
+        <complexParameter name="script">
+            <core:text xmlns:core="http://www.esdi-humboldt.eu/hale/core" xml:space="preserve">
+if (location_x_bho &amp;&amp; location_y_bho) {&#13;
+	[location_x_bho, location_y_bho]&#13;
+}
+</core:text>
+        </complexParameter>
+        <parameter value="false" name="variablesAsInstances"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.groovy" id="C6179557d-4962-49e9-aa0d-4f136e8ffdc7" priority="normal">
+        <source name="var">
+            <property>
+                <type name="borehole" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
+                <child name="location_x_bho"/>
+            </property>
+        </source>
+        <source name="var">
+            <property>
+                <type name="borehole" ns="jdbc:postgresql:bdms-prod-20230213:bdms"/>
+                <child name="location_y_bho"/>
+            </property>
+        </source>
+        <target name="result">
+            <property>
+                <type name="BoreholeType" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="origin" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="Origin" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="originalLocation" ns="http://www.infogeo.de/boreholeml/3.0"/>
+                <child name="srsName"/>
+            </property>
+        </target>
+        <complexParameter name="script">
+            <core:text xmlns:core="http://www.esdi-humboldt.eu/hale/core" xml:space="preserve">
+if (location_x_bho &amp;&amp; location_y_bho) {&#13;
+	"2056"&#13;
+}
+</core:text>
+        </complexParameter>
+        <parameter value="false" name="variablesAsInstances"/>
+    </cell>
     <cell relation="eu.esdihumboldt.hale.align.rename" id="C823c21e5-c241-48d3-915d-9300950a3872" priority="normal">
         <source>
             <property>
